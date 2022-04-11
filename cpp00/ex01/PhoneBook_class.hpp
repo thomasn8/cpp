@@ -2,6 +2,7 @@
 # define PhoneBook_class_hpp
 
 #include <iostream>
+#include "Contact_class.hpp"
 
 class PhoneBook
 {
@@ -9,6 +10,7 @@ class PhoneBook
 
 	PhoneBook(void);
 	~PhoneBook(void);
+	Contact tab[8];
 };
 
 PhoneBook::PhoneBook(void)

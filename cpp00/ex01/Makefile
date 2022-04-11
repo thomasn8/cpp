@@ -1,6 +1,6 @@
 SRCS		=		main.cpp \
 
-OBJS		= ${SRCS:.c=.o}
+OBJS		= ${SRCS:.cpp=.o}
 CC			= c++
 CFLAGS		= -std=c++98 -Wall -Wextra -Werror
 NAME		= contacts
@@ -9,7 +9,7 @@ RM			= rm -f
 all:		${NAME}
 
 .c.o:
-			${CC} ${CFLAGS} -c $< -o ${<:.c=.o}
+			${CC} ${CFLAGS} -c $< -o ${<:.cpp=.o}
 
 ${NAME}:	${OBJS}
 			$(CC) $(CFLAGS) -o $(NAME) ${OBJS}

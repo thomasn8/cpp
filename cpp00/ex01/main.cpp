@@ -4,13 +4,14 @@
 int	main(void)
 {
 	std::string cmd;
+	PhoneBook contacts;
 
 	while (1)
 	{
 		std::cout << "Type your command: ";
 		std::getline(std::cin, cmd);
 		if (cmd == "EXIT")
-			exit(0);
+			break;
 		// else if (cmd == "ADD")
 			// ...
 		// else if (cmd == "SEARCH")
