@@ -11,6 +11,7 @@ class PhoneBook
 	PhoneBook(void);
 	~PhoneBook(void);
 	Contact tab[8];
+	int	get_first_empty(void);
 };
 
 #endif

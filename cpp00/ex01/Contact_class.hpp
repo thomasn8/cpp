@@ -2,12 +2,14 @@
 # define Contact_class_hpp
 
 #include <iostream>
+# define BLANK '.'
 
 class Contact
 {
 	public :
 	Contact(void);
 	~Contact(void);
+	int		empty;
 	int		i;
 	char	index[11];
 	char	fname[11];
@@ -16,7 +18,7 @@ class Contact
 	char	number[11];
 	char	secret[11];
 
-	private :
+	// private :
 	void	init_tab(char *tab);
 	void	print_data(void);
 };
