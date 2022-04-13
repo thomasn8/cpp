@@ -6,4 +6,7 @@
 #include <iostream>
 #include <sstream>
 
+void	save_data(std::string tmp, const char *info, char *placeholder);
+void	save_index(char *placeholder, int index);
+
 #endif
