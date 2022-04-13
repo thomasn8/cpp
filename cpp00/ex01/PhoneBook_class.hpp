@@ -13,16 +13,4 @@ class PhoneBook
 	Contact tab[8];
 };
 
-PhoneBook::PhoneBook(void)
-{
-	std::cout << "Constructor PhoneBook" << std::endl;
-	return;
-}
-
-PhoneBook::~PhoneBook(void)
-{
-	std::cout << "Destructor PhoneBook" << std::endl;
-	return;
-}
-
 #endif
