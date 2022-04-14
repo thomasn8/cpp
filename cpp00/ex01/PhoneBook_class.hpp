@@ -11,9 +11,11 @@ class PhoneBook
 	PhoneBook(void);
 	~PhoneBook(void);
 	Contact	tab[8];
+	Contact tmp;
 	int		get_first_empty(void);
 	void	shift_contacts(void);
 	void	print_all(void);
+	void	clown_contact(Contact contact);
 };
 
 #endif

@@ -26,7 +26,7 @@ Contact::Contact(void)
 	static int	i = 0;
 
 	this->i = ++i;
-	this->empty = 0;
+	this->empty = 1;
 	init_placeholder(this->index);
 	init_placeholder(this->fname);
 	init_placeholder(this->lname);
