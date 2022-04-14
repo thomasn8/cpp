@@ -1,34 +1,33 @@
 #include "main.hpp"
+#include <stdio.h>
 
 // fonction pour décaler un contact de -1 dans l'annuaire
-void PhoneBook::shift_contact(Contact current)
+// enregistre le 2 en 1, le 3 en 2, ..., le 8 en 7
+void PhoneBook::shift_contacts(void)
 {
-	Contact	prev;
+	Contact		prev;
+	Contact 	current;
 	std::string	tmp;
+	int			i;
 
-	prev = this->tab[current.i - 1];
-	// copier le current en prev
-	tmp = current.index;
-	tmp.copy(prev.index, 10, 0);
-	tmp = current.fname;
-	tmp.copy(prev.fname, 10, 0);
-	tmp = current.lname;
-	tmp.copy(prev.lname, 10, 0);
-	tmp = current.nname;
-	tmp.copy(prev.nname, 10, 0);
-	tmp = current.number;
-	tmp.copy(prev.number, 10, 0);
-	tmp = current.secret;
-	tmp.copy(prev.secret, 10, 0);
-	prev.empty = 0;
-	// clean le current
-	current.init_placeholder(current.index);
-	current.init_placeholder(current.fname);
-	current.init_placeholder(current.lname);
-	current.init_placeholder(current.nname);
-	current.init_placeholder(current.number);
-	current.init_placeholder(current.secret);
-	current.empty = 1;
+	i = 0;
+	while (++i < 8)
+	{
+		current = this->tab[i];
+		prev = this->tab[i - 1];
+
+		tmp = current.fname;
+		printf("COPY %s -> %s\n", current.fname, prev.fname);
+		tmp.copy(prev.fname, 10, 0);								// copy marche pas
+		tmp = current.lname;
+		tmp.copy(prev.lname, 10, 0);
+		tmp = current.nname;
+		tmp.copy(prev.nname, 10, 0);
+		tmp = current.number;
+		tmp.copy(prev.number, 10, 0);
+		tmp = current.secret;
+		tmp.copy(prev.secret, 10, 0);
+	}
 }
 
 int	PhoneBook::get_first_empty(void)
@@ -44,9 +43,7 @@ int	PhoneBook::get_first_empty(void)
 	}
 	// si on atteint cette ligne : décaler tous les contacts de -1 pour libérer le 8
 	// enregistre le 2 en 1, le 3 en 2, ..., le 8 en 7
-	i = 1;
-	while (++i < 8)
-		this->shift_contact(this->tab[i]);
+	this->shift_contacts();
 	return (7);
 }
 

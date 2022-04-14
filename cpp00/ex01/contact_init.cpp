@@ -25,8 +25,8 @@ Contact::Contact(void)
 {
 	static int	i = 0;
 
-	this->empty = 1;
 	this->i = ++i;
+	this->empty = 0;
 	init_placeholder(this->index);
 	init_placeholder(this->fname);
 	init_placeholder(this->lname);
@@ -39,5 +39,5 @@ Contact::Contact(void)
 Contact::~Contact(void)
 {
 	std::cout << "Destructor Contact" << std::endl;
-	print_data();
+	// print_data();
 }

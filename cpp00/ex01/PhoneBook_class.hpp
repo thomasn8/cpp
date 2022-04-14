@@ -12,7 +12,7 @@ class PhoneBook
 	~PhoneBook(void);
 	Contact	tab[8];
 	int		get_first_empty(void);
-	void	shift_contact(Contact current);
+	void	shift_contacts(void);
 	void	print_all(void);
 };
 
