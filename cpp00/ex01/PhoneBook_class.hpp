@@ -10,8 +10,10 @@ class PhoneBook
 
 	PhoneBook(void);
 	~PhoneBook(void);
-	Contact tab[8];
-	int	get_first_empty(void);
+	Contact	tab[8];
+	int		get_first_empty(void);
+	void	shift_contact(Contact current);
+	void	print_all(void);
 };
 
 #endif

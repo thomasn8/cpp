@@ -1,5 +1,4 @@
 #include "main.hpp"
-// #include <stdio.h>
 
 int	main(void)
 {
@@ -14,6 +13,8 @@ int	main(void)
 		std::getline(std::cin, cmd);
 		if (cmd == "EXIT")
 			break;
+		else if (cmd == "VIEW")
+			contacts.print_all();
 		else if (cmd == "ADD")
 		{
 			empty = contacts.get_first_empty();
@@ -35,8 +36,8 @@ int	main(void)
 			save_index(contacts.tab[empty].index, empty);
 			contacts.tab[empty].empty = 0;
 		}
-		// else if (cmd == "SEARCH")
-			// ...
+		else if (cmd == "SEARCH")
+			break;
 	}
-	return 0;
+	return (0);
 }

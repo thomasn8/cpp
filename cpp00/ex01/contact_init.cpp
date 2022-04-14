@@ -1,6 +1,6 @@
 #include "Contact_class.hpp"
 
-void	Contact::init_tab(char *tab)
+void	Contact::init_placeholder(char *tab)
 {
 	int	i;
 
@@ -19,7 +19,6 @@ void	Contact::print_data(void)
 	std::cout << "Nickname:	" << this->nname << std::endl;
 	std::cout << "Phone number:	" << this->number << std::endl;
 	std::cout << "Secret:		" << this->secret << std::endl;
-	return;
 }
 
 Contact::Contact(void)
@@ -28,19 +27,17 @@ Contact::Contact(void)
 
 	this->empty = 1;
 	this->i = ++i;
-	init_tab(this->index);
-	init_tab(this->fname);
-	init_tab(this->lname);
-	init_tab(this->nname);
-	init_tab(this->number);
-	init_tab(this->secret);
-	print_data();
-	return;
+	init_placeholder(this->index);
+	init_placeholder(this->fname);
+	init_placeholder(this->lname);
+	init_placeholder(this->nname);
+	init_placeholder(this->number);
+	init_placeholder(this->secret);
+	// print_data();
 }
 
 Contact::~Contact(void)
 {
 	std::cout << "Destructor Contact" << std::endl;
 	print_data();
-	return;
 }
