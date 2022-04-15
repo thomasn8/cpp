@@ -14,7 +14,6 @@ void PhoneBook::shift_contacts(void)
 {
 	Contact		old;
 	Contact 	current;
-	std::string	tmp;
 	int			i;
 
 	current.init_placeholder(current.fname);

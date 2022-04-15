@@ -21,7 +21,6 @@ class Contact
 	// private :
 	void	init_placeholder(char *tab);
 	void	print_data(void);
-	void	copy_contact(Contact src, Contact dst);
 };
 
 #endif
