@@ -45,7 +45,8 @@ int	PhoneBook::get_first_empty(void)
 	return (7);
 }
 
-void	PhoneBook::save_data(std::string tmp, const char *info, char *placeholder)
+void	PhoneBook::save_data(std::string tmp, std::string *s,
+	const char *info, char *placeholder)
 {
 	int	len;
 
@@ -55,8 +56,12 @@ void	PhoneBook::save_data(std::string tmp, const char *info, char *placeholder)
 		std::cout << info << ": ";
 		std::getline(std::cin, tmp);
 	}
+	*s = tmp;
 	if (tmp.size() > 10)
-		tmp.erase(10, tmp.npos);
+	{
+		tmp.erase(9, tmp.npos);
+		tmp.append(".");
+	}
 	if (tmp.size() < 10)
 	{
 		len = 10 - tmp.size();
@@ -91,19 +96,19 @@ void	PhoneBook::add_contact(void)
 	empty = this->get_first_empty();
 	std::cout << "Firstname: ";
 	std::getline(std::cin, tmp);
-	this->save_data(tmp, "Firstname", this->tab[empty].fname);
+	this->save_data(tmp, &this->tab[empty].s_fname, "Firstname", this->tab[empty].fname);
 	std::cout << "Lastname: ";
 	std::getline(std::cin, tmp);
-	this->save_data(tmp, "Lastname", this->tab[empty].lname);
+	this->save_data(tmp, &this->tab[empty].s_lname, "Lastname", this->tab[empty].lname);
 	std::cout << "Nickname: ";
 	std::getline(std::cin, tmp);
-	this->save_data(tmp, "Nickname", this->tab[empty].nname);
+	this->save_data(tmp, &this->tab[empty].s_nname, "Nickname", this->tab[empty].nname);
 	std::cout << "Phone number: ";
 	std::getline(std::cin, tmp);
-	this->save_data(tmp, "Phone number", this->tab[empty].number);
+	this->save_data(tmp, &this->tab[empty].s_number, "Phone number", this->tab[empty].number);
 	std::cout << "Darkest secret: ";
 	std::getline(std::cin, tmp);
-	this->save_data(tmp, "Darkest secret", this->tab[empty].secret);
+	this->save_data(tmp, &this->tab[empty].s_secret, "Darkest secret", this->tab[empty].secret);
 	this->save_index(this->tab[empty].index, empty);
 	this->tab[empty].empty = 0;
 	std::cout << std::endl;

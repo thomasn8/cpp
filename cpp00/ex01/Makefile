@@ -1,6 +1,7 @@
 SRCS		=		main.cpp	\
 					init.cpp	\
 					add.cpp		\
+					search.cpp	\
 
 OBJS		= ${SRCS:.cpp=.o}
 CC			= c++
