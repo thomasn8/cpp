@@ -1,71 +1,36 @@
 #include "main.hpp"
 #include <stdio.h>
 
-void	PhoneBook::clown_contact(Contact contact)
+void	copy_contact(Contact *src, Contact *dst)
 {
-	// copier contact sur tmp
-
+	strcpy(dst->fname, src->fname);
+	strcpy(dst->lname, src->lname);
+	strcpy(dst->nname, src->nname);
+	strcpy(dst->number, src->number);
+	strcpy(dst->secret, src->secret);
 }
 
-
-// fonction pour décaler un contact de -1 dans l'annuaire
-// enregistre le 2 en 1, le 3 en 2, ..., le 8 en 7
 void PhoneBook::shift_contacts(void)
 {
+	Contact		old;
+	Contact 	current;
+	std::string	tmp;
 	int			i;
 
+	current.init_placeholder(current.fname);
+	current.init_placeholder(current.lname);
+	current.init_placeholder(current.nname);
+	current.init_placeholder(current.number);
+	current.init_placeholder(current.secret);
+	current.empty = 1;
 	i = 8;
-	while (--i)
+	while (--i > -1)
 	{
-		this->clown_contact(this->tab[i - 1]);	// clown prev
-		// ...									// copy current sur prev
-
-
-		// current = this->tab[i];
-		// prev = this->tab[i - 1];
-
-		// tmp = current.fname;
-		// printf("COPY %s -> %s\n", current.fname, prev.fname);
-		// tmp.copy(prev.fname, 10, 0);
-		// tmp = current.lname;
-		// tmp.copy(prev.lname, 10, 0);
-		// tmp = current.nname;
-		// tmp.copy(prev.nname, 10, 0);
-		// tmp = current.number;
-		// tmp.copy(prev.number, 10, 0);
-		// tmp = current.secret;
-		// tmp.copy(prev.secret, 10, 0);
-		// if(i == 7)
-		// 	current.empty = 1;
+		copy_contact(&this->tab[i], &old);
+		copy_contact(&current, &this->tab[i]);
+		copy_contact(&old, &current);
 	}
 }
-
-// void PhoneBook::shift_contacts(void)
-// {
-// 	Contact		prev;
-// 	Contact 	current;
-// 	std::string	tmp;
-// 	int			i;
-
-// 	i = 0;
-// 	while (++i < 8)
-// 	{
-// 		current = this->tab[i];
-// 		prev = this->tab[i - 1];
-
-// 		tmp = current.fname;
-// 		printf("COPY %s -> %s\n", current.fname, prev.fname);
-// 		tmp.copy(prev.fname, 10, 0);								// copy marche pas
-// 		tmp = current.lname;
-// 		tmp.copy(prev.lname, 10, 0);
-// 		tmp = current.nname;
-// 		tmp.copy(prev.nname, 10, 0);
-// 		tmp = current.number;
-// 		tmp.copy(prev.number, 10, 0);
-// 		tmp = current.secret;
-// 		tmp.copy(prev.secret, 10, 0);
-// 	}
-// }
 
 int	PhoneBook::get_first_empty(void)
 {
@@ -78,8 +43,6 @@ int	PhoneBook::get_first_empty(void)
 			return (i);
 		i++;
 	}
-	// si on atteint cette ligne : décaler tous les contacts de -1 pour libérer le 8
-	// enregistre le 2 en 1, le 3 en 2, ..., le 8 en 7
 	this->shift_contacts();
 	return (7);
 }

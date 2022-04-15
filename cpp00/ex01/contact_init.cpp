@@ -33,11 +33,12 @@ Contact::Contact(void)
 	init_placeholder(this->nname);
 	init_placeholder(this->number);
 	init_placeholder(this->secret);
-	// print_data();
+	std::cout << "Constructor Contact" << std::endl;
+	return ;
 }
 
 Contact::~Contact(void)
 {
 	std::cout << "Destructor Contact" << std::endl;
-	// print_data();
+	return ;
 }
