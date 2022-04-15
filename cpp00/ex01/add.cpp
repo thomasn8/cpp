@@ -1,7 +1,6 @@
 #include "main.hpp"
-#include <stdio.h>
 
-void	copy_contact(Contact *src, Contact *dst)
+void	PhoneBook::copy_contact(Contact *src, Contact *dst)
 {
 	strcpy(dst->fname, src->fname);
 	strcpy(dst->lname, src->lname);
@@ -10,7 +9,7 @@ void	copy_contact(Contact *src, Contact *dst)
 	strcpy(dst->secret, src->secret);
 }
 
-void PhoneBook::shift_contacts(void)
+void	PhoneBook::shift_contacts(void)
 {
 	Contact		old;
 	Contact 	current;
@@ -25,9 +24,9 @@ void PhoneBook::shift_contacts(void)
 	i = 8;
 	while (--i > -1)
 	{
-		copy_contact(&this->tab[i], &old);
-		copy_contact(&current, &this->tab[i]);
-		copy_contact(&old, &current);
+		this->copy_contact(&this->tab[i], &old);
+		this->copy_contact(&current, &this->tab[i]);
+		this->copy_contact(&old, &current);
 	}
 }
 
@@ -46,9 +45,9 @@ int	PhoneBook::get_first_empty(void)
 	return (7);
 }
 
-void	save_data(std::string tmp, const char *info, char *placeholder)
+void	PhoneBook::save_data(std::string tmp, const char *info, char *placeholder)
 {
-	int		len;
+	int	len;
 
 	while (tmp.empty())
 	{
@@ -66,11 +65,11 @@ void	save_data(std::string tmp, const char *info, char *placeholder)
 	tmp.copy(placeholder, 10, 0);
 }
 
-void	save_index(char *placeholder, int index)
+void	PhoneBook::save_index(char *placeholder, int index)
 {
-	int		len;
-	std::string tmp;
-	std::stringstream out;
+	int					len;
+	std::string			tmp;
+	std::stringstream	out;
 
 	out << (index + 1);
 	tmp = out.str();
@@ -82,4 +81,30 @@ void	save_index(char *placeholder, int index)
 		tmp.insert(tmp.begin(), len, BLANK);
 	}
 	tmp.copy(placeholder, 10, 0);
+}
+
+void	PhoneBook::add_contact(void)
+{
+	int			empty;
+	std::string	tmp;
+
+	empty = this->get_first_empty();
+	std::cout << "Firstname: ";
+	std::getline(std::cin, tmp);
+	this->save_data(tmp, "Firstname", this->tab[empty].fname);
+	std::cout << "Lastname: ";
+	std::getline(std::cin, tmp);
+	this->save_data(tmp, "Lastname", this->tab[empty].lname);
+	std::cout << "Nickname: ";
+	std::getline(std::cin, tmp);
+	this->save_data(tmp, "Nickname", this->tab[empty].nname);
+	std::cout << "Phone number: ";
+	std::getline(std::cin, tmp);
+	this->save_data(tmp, "Phone number", this->tab[empty].number);
+	std::cout << "Darkest secret: ";
+	std::getline(std::cin, tmp);
+	this->save_data(tmp, "Darkest secret", this->tab[empty].secret);
+	this->save_index(this->tab[empty].index, empty);
+	this->tab[empty].empty = 0;
+	std::cout << std::endl;
 }

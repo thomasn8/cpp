@@ -1,7 +1,6 @@
-SRCS		=		main.cpp \
-					contact_init.cpp \
-					phonebook_init.cpp \
-					add.cpp \
+SRCS		=		main.cpp	\
+					init.cpp	\
+					add.cpp		\
 
 OBJS		= ${SRCS:.cpp=.o}
 CC			= c++
