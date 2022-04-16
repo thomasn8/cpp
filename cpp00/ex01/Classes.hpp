@@ -26,9 +26,7 @@ class Contact
 	std::string	s_nname;
 	char		nname[11];
 	std::string	s_number;
-	char		number[11];
 	std::string	s_secret;
-	char		secret[11];
 	void		init_placeholder(char *tab);
 };
 
@@ -49,6 +47,7 @@ class PhoneBook
 	void	save_index(char *placeholder, int index);
 	void	print_contacts(int empty);
 	int		ask_index(int empty);
+	void	print_contact(int index);
 };
 
 #endif

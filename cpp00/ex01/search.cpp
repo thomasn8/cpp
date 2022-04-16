@@ -1,5 +1,17 @@
 #include "main.hpp"
 
+void	PhoneBook::print_contact(int index)
+{
+	if (index > -1)
+	{
+		std::cout << "First name:	" << this->tab[index].s_fname << std::endl;
+		std::cout << "Last name:	" << this->tab[index].s_lname << std::endl;
+		std::cout << "Nickname:	" << this->tab[index].s_nname << std::endl;
+		std::cout << "Number:		" << this->tab[index].s_number << std::endl;
+		std::cout << "Darkest secret:	" << this->tab[index].s_secret << std::endl << std::endl;
+	}
+}
+
 void	PhoneBook::print_contacts(int empty)
 {
 	int	i;
@@ -62,12 +74,5 @@ void	PhoneBook::search_contact(void)
 	}
 	this->print_contacts(empty);
 	index = this->ask_index(empty);
-	if (index > -1)
-	{
-		std::cout << "First name:	" << this->tab[index].s_fname << std::endl;
-		std::cout << "Last name:	" << this->tab[index].s_lname << std::endl;
-		std::cout << "Nickname:	" << this->tab[index].s_nname << std::endl;
-		std::cout << "Number:		" << this->tab[index].s_number << std::endl;
-		std::cout << "Darkest secret:	" << this->tab[index].s_secret << std::endl << std::endl;
-	}
+	this->print_contact(index);
 }

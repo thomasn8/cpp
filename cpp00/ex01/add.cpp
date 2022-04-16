@@ -5,8 +5,11 @@ void	PhoneBook::copy_contact(Contact *src, Contact *dst)
 	strcpy(dst->fname, src->fname);
 	strcpy(dst->lname, src->lname);
 	strcpy(dst->nname, src->nname);
-	strcpy(dst->number, src->number);
-	strcpy(dst->secret, src->secret);
+	dst->s_fname = src->s_fname;
+	dst->s_lname = src->s_lname;
+	dst->s_nname = src->s_nname;
+	dst->s_number = src->s_number;
+	dst->s_secret = src->s_secret;
 }
 
 void	PhoneBook::shift_contacts(void)
@@ -18,8 +21,6 @@ void	PhoneBook::shift_contacts(void)
 	current.init_placeholder(current.fname);
 	current.init_placeholder(current.lname);
 	current.init_placeholder(current.nname);
-	current.init_placeholder(current.number);
-	current.init_placeholder(current.secret);
 	current.empty = 1;
 	i = 8;
 	while (--i > -1)
@@ -57,6 +58,8 @@ void	PhoneBook::save_data(std::string tmp, std::string *s,
 		std::getline(std::cin, tmp);
 	}
 	*s = tmp;
+	if (!placeholder)
+		return ;
 	if (tmp.size() > 10)
 	{
 		tmp.erase(9, tmp.npos);
@@ -105,10 +108,10 @@ void	PhoneBook::add_contact(void)
 	this->save_data(tmp, &this->tab[empty].s_nname, "Nickname", this->tab[empty].nname);
 	std::cout << "Phone number: ";
 	std::getline(std::cin, tmp);
-	this->save_data(tmp, &this->tab[empty].s_number, "Phone number", this->tab[empty].number);
+	this->save_data(tmp, &this->tab[empty].s_number, "Phone number", NULL);
 	std::cout << "Darkest secret: ";
 	std::getline(std::cin, tmp);
-	this->save_data(tmp, &this->tab[empty].s_secret, "Darkest secret", this->tab[empty].secret);
+	this->save_data(tmp, &this->tab[empty].s_secret, "Darkest secret", NULL);
 	this->save_index(this->tab[empty].index, empty);
 	this->tab[empty].empty = 0;
 	std::cout << std::endl;

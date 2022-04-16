@@ -1,6 +1,5 @@
 #include "Classes.hpp"
 
-// Initialize a contact datas
 void	Contact::init_placeholder(char *tab)
 {
 	int	i;
@@ -22,8 +21,6 @@ Contact::Contact(void)
 	init_placeholder(this->fname);
 	init_placeholder(this->lname);
 	init_placeholder(this->nname);
-	init_placeholder(this->number);
-	init_placeholder(this->secret);
 	return ;
 }
 Contact::~Contact(void)
