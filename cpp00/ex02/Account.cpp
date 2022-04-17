@@ -103,6 +103,14 @@ Account::Account(int initial_deposit)
 
 Account::~Account(void)
 {
+	// attributs de class
+	Account::_totalAmount -= _amount;
 	Account::_nbAccounts -= 1;
+
+	// logs
+	Account::_displayTimestamp();
+	std::cout << "index:" << Account::_accountIndex;
+	std::cout << ";amount:" << Account::_amount;
+	std::cout << "closed" << std::endl;
 	return;
 }
