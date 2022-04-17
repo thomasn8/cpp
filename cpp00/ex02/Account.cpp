@@ -2,8 +2,34 @@
 #include <iostream>
 #include <time.h> 
 
+// **************** Setter functions **************** //
+void	Account::makeDeposit(int deposit)
+{
 
-// **************** Getter functions **************** //
+}
+
+int		Account::checkAmount(void) const
+{
+
+}
+
+bool	Account::makeWithdrawal(int withdrawal)
+{
+
+}
+
+
+// *********** Instance getter functions *********** //
+void	Account::displayStatus(void) const
+{
+	Account::_displayTimestamp();
+	std::cout << "index:" << Account::_accountIndex << ";";
+	std::cout << "amount:" << Account::_amount << ";";
+	std::cout << "deposits:" << Account::_nbDeposits << ";";
+	std::cout << "withdrawals:" << Account::_nbWithdrawals << std::endl;
+}
+
+// ************* Class getter functions ************ //
 int		Account::getNbAccounts(void)
 {
 	return (Account::_nbAccounts);
