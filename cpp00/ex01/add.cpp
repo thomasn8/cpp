@@ -6,13 +6,13 @@
 /*   By: tnanchen <thomasnanchen@hotmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/16 15:08:53 by tnanchen          #+#    #+#             */
-/*   Updated: 2022/04/16 15:08:54 by tnanchen         ###   ########.fr       */
+/*   Updated: 2022/04/17 13:40:36 by tnanchen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.hpp"
 
-void	PhoneBook::copy_contact(Contact *src, Contact *dst)
+void	PhoneBook::_copy_contact(Contact *src, Contact *dst)
 {
 	strcpy(dst->fname, src->fname);
 	strcpy(dst->lname, src->lname);
@@ -24,7 +24,7 @@ void	PhoneBook::copy_contact(Contact *src, Contact *dst)
 	dst->s_secret = src->s_secret;
 }
 
-void	PhoneBook::shift_contacts(void)
+void	PhoneBook::_shift_contacts(void)
 {
 	Contact		old;
 	Contact 	current;
@@ -37,28 +37,28 @@ void	PhoneBook::shift_contacts(void)
 	i = 8;
 	while (--i > -1)
 	{
-		this->copy_contact(&this->tab[i], &old);
-		this->copy_contact(&current, &this->tab[i]);
-		this->copy_contact(&old, &current);
+		this->_copy_contact(&this->_tab[i], &old);
+		this->_copy_contact(&current, &this->_tab[i]);
+		this->_copy_contact(&old, &current);
 	}
 }
 
-int	PhoneBook::get_first_empty(void)
+int	PhoneBook::_get_first_empty(void)
 {
 	int	i;
 
 	i = 0;
 	while(i < 8)
 	{
-		if (this->tab[i].empty == 1)
+		if (this->_tab[i].empty == 1)
 			return (i);
 		i++;
 	}
-	this->shift_contacts();
+	this->_shift_contacts();
 	return (7);
 }
 
-void	PhoneBook::save_data(std::string tmp, std::string *s,
+void	PhoneBook::_save_data(std::string tmp, std::string *s,
 	const char *info, char *placeholder)
 {
 	int	len;
@@ -85,7 +85,7 @@ void	PhoneBook::save_data(std::string tmp, std::string *s,
 	tmp.copy(placeholder, 10, 0);
 }
 
-void	PhoneBook::save_index(char *placeholder, int index)
+void	PhoneBook::_save_index(char *placeholder, int index)
 {
 	int					len;
 	std::string			tmp;
@@ -108,23 +108,23 @@ void	PhoneBook::add_contact(void)
 	int			empty;
 	std::string	tmp;
 
-	empty = this->get_first_empty();
+	empty = this->_get_first_empty();
 	std::cout << "Firstname: ";
 	std::getline(std::cin, tmp);
-	this->save_data(tmp, &this->tab[empty].s_fname, "Firstname", this->tab[empty].fname);
+	this->_save_data(tmp, &this->_tab[empty].s_fname, "Firstname", this->_tab[empty].fname);
 	std::cout << "Lastname: ";
 	std::getline(std::cin, tmp);
-	this->save_data(tmp, &this->tab[empty].s_lname, "Lastname", this->tab[empty].lname);
+	this->_save_data(tmp, &this->_tab[empty].s_lname, "Lastname", this->_tab[empty].lname);
 	std::cout << "Nickname: ";
 	std::getline(std::cin, tmp);
-	this->save_data(tmp, &this->tab[empty].s_nname, "Nickname", this->tab[empty].nname);
+	this->_save_data(tmp, &this->_tab[empty].s_nname, "Nickname", this->_tab[empty].nname);
 	std::cout << "Phone number: ";
 	std::getline(std::cin, tmp);
-	this->save_data(tmp, &this->tab[empty].s_number, "Phone number", NULL);
+	this->_save_data(tmp, &this->_tab[empty].s_number, "Phone number", NULL);
 	std::cout << "Darkest secret: ";
 	std::getline(std::cin, tmp);
-	this->save_data(tmp, &this->tab[empty].s_secret, "Darkest secret", NULL);
-	this->save_index(this->tab[empty].index, empty);
-	this->tab[empty].empty = 0;
+	this->_save_data(tmp, &this->_tab[empty].s_secret, "Darkest secret", NULL);
+	this->_save_index(this->_tab[empty].index, empty);
+	this->_tab[empty].empty = 0;
 	std::cout << std::endl;
 }

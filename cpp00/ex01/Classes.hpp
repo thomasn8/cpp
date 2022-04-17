@@ -6,7 +6,7 @@
 /*   By: tnanchen <thomasnanchen@hotmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/16 15:08:46 by tnanchen          #+#    #+#             */
-/*   Updated: 2022/04/16 15:08:47 by tnanchen         ###   ########.fr       */
+/*   Updated: 2022/04/17 13:40:02 by tnanchen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,15 +51,15 @@ class PhoneBook
 	void	search_contact(void);
 
 	private :
-	Contact	tab[8];
-	int		get_first_empty(void);
-	void	shift_contacts(void);
-	void	copy_contact(Contact *src, Contact *dst);
-	void	save_data(std::string tmp,  std::string *s, const char *info, char *placeholder);
-	void	save_index(char *placeholder, int index);
-	void	print_contacts(int empty);
-	int		ask_index(int empty);
-	void	print_contact(int index);
+	Contact	_tab[8];
+	int		_get_first_empty(void);
+	void	_shift_contacts(void);
+	void	_copy_contact(Contact *src, Contact *dst);
+	void	_save_data(std::string tmp,  std::string *s, const char *info, char *placeholder);
+	void	_save_index(char *placeholder, int index);
+	void	_print_contacts(int empty);
+	int		_ask_index(int empty);
+	void	_print_contact(int index);
 };
 
 #endif
