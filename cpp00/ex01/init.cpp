@@ -6,11 +6,11 @@
 /*   By: tnanchen <thomasnanchen@hotmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/16 15:08:39 by tnanchen          #+#    #+#             */
-/*   Updated: 2022/04/17 13:40:10 by tnanchen         ###   ########.fr       */
+/*   Updated: 2022/04/17 21:31:20 by tnanchen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Classes.hpp"
+#include "main.hpp"
 
 void	Contact::init_placeholder(char *tab)
 {
