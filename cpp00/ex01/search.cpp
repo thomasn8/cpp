@@ -6,13 +6,13 @@
 /*   By: tnanchen <thomasnanchen@hotmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/16 15:08:08 by tnanchen          #+#    #+#             */
-/*   Updated: 2022/04/17 13:41:51 by tnanchen         ###   ########.fr       */
+/*   Updated: 2022/04/17 14:50:46 by tnanchen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.hpp"
 
-void	PhoneBook::_print_contact(int index)
+void	PhoneBook::_print_contact(int index) const
 {
 	if (index > -1)
 	{
@@ -24,7 +24,7 @@ void	PhoneBook::_print_contact(int index)
 	}
 }
 
-void	PhoneBook::_print_contacts(int empty)
+void	PhoneBook::_print_contacts(int empty) const
 {
 	int	i;
 
@@ -43,7 +43,7 @@ void	PhoneBook::_print_contacts(int empty)
 	}
 }
 
-int	PhoneBook::_ask_index(int empty)
+int	PhoneBook::_ask_index(int empty) const
 {
 	std::string index;
 	int			index2;
@@ -65,7 +65,7 @@ int	PhoneBook::_ask_index(int empty)
 	return (index2);
 }
 
-void	PhoneBook::search_contact(void)
+void	PhoneBook::search_contact(void) const
 {
 	int			i;
 	int			index;
