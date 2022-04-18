@@ -1,8 +1,7 @@
 #include "Account.hpp"
 #include <iostream>
-#include <time.h> 
 
-// **************** Setter functions **************** //
+// **************** Setter functions ****************
 void	Account::makeDeposit(int deposit)
 {
 	Account::_displayTimestamp();
@@ -29,11 +28,11 @@ bool	Account::makeWithdrawal(int withdrawal)
 	std::cout << "p_amount:" << this->_amount << ";";
 	this->_amount -= withdrawal; 
 	this->_nbWithdrawals += 1;
-	if (this->checkAmount() >= 0)
+	if (this->checkAmount() < 0)
 	{
 		this->_amount += withdrawal; 
 		this->_nbWithdrawals -= 1;
-		std::cout << "withdrawal:" << "refused";
+		std::cout << "withdrawal:" << "refused" << std::endl;
 		return (false);
 	}
 	else
@@ -47,7 +46,7 @@ bool	Account::makeWithdrawal(int withdrawal)
 	return (true);
 }
 
-// *********** Instance getter functions *********** //
+// *********** Instance getter functions ***********
 void	Account::displayStatus(void) const
 {
 	Account::_displayTimestamp();
@@ -57,7 +56,7 @@ void	Account::displayStatus(void) const
 	std::cout << "withdrawals:" << this->_nbWithdrawals << std::endl;
 }
 
-// ************* Class getter functions ************ //
+// ************* Class getter functions ************
 int		Account::getNbAccounts(void)
 {
 	return (Account::_nbAccounts);
@@ -87,38 +86,36 @@ void	Account::displayAccountsInfos(void)
 	std::cout << "withdrawals:" << Account::getNbWithdrawals() << std::endl;
 }
 
-// **************** Datetime function **************** //
+// **************** Datetime function ****************
 void	Account::_displayTimestamp(void)
 {
 	time_t		rawtime;
 	struct tm	*timeinfo;
-	char		datetime[15+1];
+	char		datetime[18];
 
 	time (&rawtime);
 	timeinfo = localtime (&rawtime);
-	strftime(datetime,15+1,"[%Y%m%d_%H%M%S]",timeinfo);
+	strftime(datetime,18,"[%Y%m%d_%H%M%S]",timeinfo);
 	std::cout << datetime << " ";
 }
 
-// ***************** Constr./Destr ***************** //
+// ***************** Constr./Destr *****************
 Account::Account(int initial_deposit)
 {
 	// attributs de class
 	Account::_nbAccounts += 1;
 	Account::_totalAmount += initial_deposit;
-	Account::_totalNbDeposits += 1;
-	Account::_totalNbWithdrawals += 0;
 
 	// attributs d'instance
-	Account::_accountIndex += 1;
-	Account::_amount = initial_deposit;
-	Account::_nbDeposits = 1;
-	Account::_nbWithdrawals = 0;
+	this->_accountIndex = Account::_nbAccounts - 1;
+	this->_amount = initial_deposit;
+	this->_nbDeposits = 0;
+	this->_nbWithdrawals = 0;
 
 	// logs
 	Account::_displayTimestamp();
-	std::cout << "index:" << Account::_accountIndex << ";";
-	std::cout << "amount:" << Account::_amount << ";";
+	std::cout << "index:" <<this->_accountIndex << ";";
+	std::cout << "amount:" << this->_amount << ";";
 	std::cout << "created" << std::endl;
 }
 
@@ -127,19 +124,17 @@ Account::Account(void)
 	// attributs de class
 	Account::_nbAccounts += 1;
 	Account::_totalAmount += 0;
-	Account::_totalNbDeposits += 0;
-	Account::_totalNbWithdrawals += 0;
 
 	// attributs d'instance
-	Account::_accountIndex += 1;
-	Account::_amount = 0;
-	Account::_nbDeposits = 1;
-	Account::_nbWithdrawals = 0;
+	this->_accountIndex = Account::_nbAccounts - 1;
+	this->_amount = 0;
+	this->_nbDeposits = 0;
+	this->_nbWithdrawals = 0;
 
 	// logs
 	Account::_displayTimestamp();
-	std::cout << "index:" << Account::_accountIndex << ";";
-	std::cout << "amount:" << Account::_amount << ";";
+	std::cout << "index:" << this->_accountIndex << ";";
+	std::cout << "amount:" << this->_amount << ";";
 	std::cout << "created" << std::endl;
 }
 
@@ -151,8 +146,14 @@ Account::~Account(void)
 
 	// logs
 	Account::_displayTimestamp();
-	std::cout << "index:" << Account::_accountIndex << ";";
-	std::cout << "amount:" << Account::_amount << ";";
+	std::cout << "index:" << this->_accountIndex << ";";
+	std::cout << "amount:" << this->_amount << ";";
 	std::cout << "closed" << std::endl;
 	return;
 }
+
+// initialisations des attributs de class
+int	Account::_nbAccounts = 0;
+int	Account::_totalAmount = 0;
+int	Account::_totalNbDeposits = 0;
+int	Account::_totalNbWithdrawals = 0;

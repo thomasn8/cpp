@@ -1,10 +1,10 @@
 SRCS		=		Account.cpp	\
-					test.cpp	\
+					tests.cpp	\
 
 OBJS		= ${SRCS:.cpp=.o}
 CC			= c++
 CFLAGS		= -std=c++98 -Wall -Wextra -Werror
-NAME		= contacts
+NAME		= accounts
 RM			= rm -f
 
 all:		${NAME}
