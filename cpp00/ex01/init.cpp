@@ -6,7 +6,7 @@
 /*   By: tnanchen <thomasnanchen@hotmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/16 15:08:39 by tnanchen          #+#    #+#             */
-/*   Updated: 2022/04/17 21:31:20 by tnanchen         ###   ########.fr       */
+/*   Updated: 2022/04/18 14:10:37 by tnanchen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,14 +35,17 @@ Contact::Contact(void)
 	init_placeholder(this->nname);
 	return ;
 }
+
 Contact::~Contact(void)
 {
 	return ;
 }
+
 PhoneBook::PhoneBook(void)
 {
 	return ;
 }
+
 PhoneBook::~PhoneBook(void)
 {
 	return ;

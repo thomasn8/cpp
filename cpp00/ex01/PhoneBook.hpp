@@ -6,7 +6,7 @@
 /*   By: tnanchen <thomasnanchen@hotmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/16 15:08:46 by tnanchen          #+#    #+#             */
-/*   Updated: 2022/04/17 21:29:31 by tnanchen         ###   ########.fr       */
+/*   Updated: 2022/04/18 14:10:18 by tnanchen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define PhoneBook_hpp
 
 #include "Contact.hpp"
+#include <iostream>
 
 /* 
 	Contact datas are called by the PhoneBook methods
