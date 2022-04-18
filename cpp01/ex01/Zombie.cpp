@@ -2,7 +2,9 @@
 
 void	Zombie::announce(void)
 {
-	std::cout << this->name << ": BraiiiiiiinnnzzzZ...	(" << this << ")" << std::endl;
+	std::cout << "Zombie " << this->name <<\
+		" is born: Mon sang pour la horde! ("\
+		<< this << ")" << std::endl;
 }
 
 Zombie::Zombie(void)
@@ -12,5 +14,7 @@ Zombie::Zombie(void)
 
 Zombie::~Zombie(void)
 {
-	std::cout << this->name << " is dead.			(" << this << ")" << std::endl;
+	std::cout << "Zombie " << this->name <<\
+		" is dead. ††††††††††††††††††††††† ("\
+		<< this << ")" << std::endl;
 }

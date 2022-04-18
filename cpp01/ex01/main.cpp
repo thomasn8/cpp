@@ -1,19 +1,24 @@
 #include "Zombie.hpp"
 
-/* 
-	It must allocate N Zombie objects in a single allocation. 
-	Then, it has to initialize the zombies, giving each one of them the name passed as parameter. 
-	The function returns a pointer to the first zombie.
-	Implement your own tests to ensure your zombieHorde() function works as expected.
-	Try to call announce() for each one of the zombies.
-	Don’t forget to delete all the zombies and check for memory leaks.
-*/
-
-int	main(void)
+int	main(int ac, char **av)
 {
-	Zombie *first;
+	Zombie		*first;
+	int			n;
+	std::string name;
 
-	first = zombieHorde(6, "JP");
+	if (ac != 3)
+	{
+		std::cout << "Usage: ./zombieHorde number_of_zombies name_of_zombie_species" << std::endl;
+		return 1;
+	}
+	n = atoi(av[1]);
+	if (n <= 0 || n > 250)
+	{
+		std::cout << "number_of_zombies must between 1 and 250" << std::endl;
+		return 1;
+	}
+	name = av[2];
+	first = zombieHorde(n, name);
 	delete [] first; 
 	return 0;
 }
