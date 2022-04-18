@@ -1,12 +1,9 @@
-SRCS		=		main.cpp	\
-					init.cpp	\
-					add.cpp		\
-					search.cpp	\
+SRCS		=		main.cpp
 
 OBJS		= ${SRCS:.cpp=.o}
 CC			= c++
 CFLAGS		= -std=c++98 -Wall -Wextra -Werror
-NAME		= contacts
+NAME		= hit_this_brain
 RM			= rm -f
 
 all:		${NAME}
