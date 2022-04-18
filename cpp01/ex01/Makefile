@@ -1,12 +1,11 @@
-SRCS		=		main.cpp	\
-					init.cpp	\
-					add.cpp		\
-					search.cpp	\
+SRCS		=		main.cpp		\
+					Zombie.cpp		\
+#					zombieHorde.cpp	\
 
 OBJS		= ${SRCS:.cpp=.o}
 CC			= c++
 CFLAGS		= -std=c++98 -Wall -Wextra -Werror
-NAME		= contacts
+NAME		= zombie
 RM			= rm -f
 
 all:		${NAME}
