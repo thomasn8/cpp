@@ -18,6 +18,14 @@ int	main(int ac, char **av)
 		return 1;
 	}
 	name = av[2];
+	for (int j = 0 ; j < name.length() ; j++)
+	{
+		if (name.c_str()[j] < ' ' || name.c_str()[j] > '~')
+		{
+			std::cout << "name_of_zombie_species musts contain only printable characters" << std::endl;
+			return 1;
+		}
+	}
 	first = zombieHorde(n, name);
 	delete [] first; 
 	return 0;
