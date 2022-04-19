@@ -6,7 +6,7 @@
 /*   By: tnanchen <thomasnanchen@hotmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/16 15:08:46 by tnanchen          #+#    #+#             */
-/*   Updated: 2022/04/18 14:10:18 by tnanchen         ###   ########.fr       */
+/*   Updated: 2022/04/19 14:06:11 by tnanchen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,30 +16,27 @@
 #include "Contact.hpp"
 #include <iostream>
 
-/* 
-	Contact datas are called by the PhoneBook methods
-	So they need to be scoped in public access 
-	But only PhoneBook public methods allows modification in the tab of 8 contacts
-*/
-
 class PhoneBook
 {
 	public :
-	PhoneBook(void);
-	~PhoneBook(void);
-	void	add_contact(void);
-	void	search_contact(void) const;
+		PhoneBook(void);
+		~PhoneBook(void);
+		void	addContact(void);
+		void	searchContact(void) const;
 
 	private :
-	Contact	_tab[8];
-	int		_get_first_empty(void);
-	void	_shift_contacts(void);
-	void	_copy_contact(Contact *src, Contact *dst);
-	void	_save_data(std::string tmp,  std::string *s, const char *info, char *placeholder);
-	void	_save_index(char *placeholder, int index);
-	void	_print_contacts(int empty) const;
-	int		_ask_index(int empty) const;
-	void	_print_contact(int index) const;
+		// PhoneBook
+		Contact	_tab[8];
+		// Add
+		int		_getFirstEmpty(void);
+		void	_shiftContacts(void);
+		void	_copyContact(Contact *src, Contact *dst);
+		void	_askData(std::string *tmp, const char *info);
+		// Search
+		void	_printIndexes(int empty) const;
+		void	_printIndex(std::string str) const;
+		int		_askIndex(int empty) const;
+		void	_printContact(int index) const;
 };
 
 #endif

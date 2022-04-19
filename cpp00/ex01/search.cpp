@@ -6,44 +6,25 @@
 /*   By: tnanchen <thomasnanchen@hotmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/16 15:08:08 by tnanchen          #+#    #+#             */
-/*   Updated: 2022/04/17 14:50:46 by tnanchen         ###   ########.fr       */
+/*   Updated: 2022/04/19 14:14:07 by tnanchen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.hpp"
 
-void	PhoneBook::_print_contact(int index) const
+void	PhoneBook::_printContact(int index) const
 {
 	if (index > -1)
 	{
-		std::cout << "First name:	" << this->_tab[index].s_fname << std::endl;
-		std::cout << "Last name:	" << this->_tab[index].s_lname << std::endl;
-		std::cout << "Nickname:	" << this->_tab[index].s_nname << std::endl;
-		std::cout << "Number:		" << this->_tab[index].s_number << std::endl;
-		std::cout << "Darkest secret:	" << this->_tab[index].s_secret << std::endl << std::endl;
+		std::cout << "First name:	" << this->_tab[index].getFirstName() << std::endl;
+		std::cout << "Last name:	" << this->_tab[index].getLastName() << std::endl;
+		std::cout << "Nickname:	" << this->_tab[index].getNickname() << std::endl;
+		std::cout << "Number:		" << this->_tab[index].getNumber() << std::endl;
+		std::cout << "Darkest secret:	" << this->_tab[index].getSecret() << std::endl << std::endl;
 	}
 }
 
-void	PhoneBook::_print_contacts(int empty) const
-{
-	int	i;
-
-	std::cout << std::endl;
-	std::cout << "INDEX     " << "|";
-	std::cout << "FIRST NAME" << "|";
-	std::cout << "LAST NAME " << "|";
-	std::cout << "NICKNAME  " << std::endl;
-	i = -1;
-	while (++i < empty)
-	{
-		std::cout << this->_tab[i].index << "|";
-		std::cout << this->_tab[i].fname << "|";
-		std::cout << this->_tab[i].lname << "|";
-		std::cout << this->_tab[i].nname << std::endl;
-	}
-}
-
-int	PhoneBook::_ask_index(int empty) const
+int	PhoneBook::_askIndex(int empty) const
 {
 	std::string index;
 	int			index2;
@@ -59,32 +40,78 @@ int	PhoneBook::_ask_index(int empty) const
 		std::cout << "Index:	";
 		std::getline(std::cin, index);
 		if (index == "STOP")
+		{
+			std::cout << std::endl;
 			return (-1);
+		}
 		index2 = atoi(index.c_str()) - 1;
 	}
 	return (index2);
 }
 
-void	PhoneBook::search_contact(void) const
+// print str sur 10 caractères, Blank padded, truncated si nécessaire avec un '.'
+void	PhoneBook::_printIndex(std::string str) const
 {
-	int			i;
-	int			index;
-	int			empty;
+	int			len;
+	int			padd;
+	std::string	label;
 
-
-	empty = 0;
-	while (empty < 8)
+	label = str;
+	len = label.length();
+	if (len < 10)
 	{
-		if (this->_tab[empty].empty == 1)
+		padd = 10 - len;
+		label.insert(0, padd, BLANK);
+	}
+	else if (len > 10)
+	{
+		label.erase(9, len);
+		label += ".";
+	}
+	std::cout << label;
+}
+
+void	PhoneBook::_printIndexes(int empty) const
+{
+	int	i;
+
+	std::cout << std::endl;
+	std::cout << "INDEX     " << "|";
+	std::cout << "FIRST NAME" << "|";
+	std::cout << "LAST NAME " << "|";
+	std::cout << "NICKNAME  " << std::endl;
+	i = -1;
+	while (++i < empty)
+	{
+		for (int j = 0; j < 9 ; j++)
+			std::cout << BLANK;
+		std::cout << (i + 1) << "|";
+		this->_printIndex(this->_tab[i].getFirstName());
+		std::cout << "|";
+		this->_printIndex(this->_tab[i].getLastName());
+		std::cout << "|";
+		this->_printIndex(this->_tab[i].getNickname());
+		std::cout << std::endl;
+	}
+}
+
+void	PhoneBook::searchContact(void) const
+{
+	int			empty;
+	int			index;
+
+	empty = -1;
+	while (++empty < 8)
+	{
+		if (this->_tab[empty].isEmpty() == true)
 			break ;
-		empty++;
 	}
 	if (empty == 0)
 	{
 		std::cout << "No recorded contact for now... Use 'ADD' to save a contact" << std::endl << std::endl;
 		return ;
 	}
-	this->_print_contacts(empty);
-	index = this->_ask_index(empty);
-	this->_print_contact(index);
+	this->_printIndexes(empty);
+	index = this->_askIndex(empty);
+	this->_printContact(index);
 }

@@ -6,125 +6,92 @@
 /*   By: tnanchen <thomasnanchen@hotmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/16 15:08:53 by tnanchen          #+#    #+#             */
-/*   Updated: 2022/04/17 13:40:36 by tnanchen         ###   ########.fr       */
+/*   Updated: 2022/04/19 13:22:36 by tnanchen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.hpp"
 
-void	PhoneBook::_copy_contact(Contact *src, Contact *dst)
+void	PhoneBook::_copyContact(Contact *src, Contact *dst)
 {
-	strcpy(dst->fname, src->fname);
-	strcpy(dst->lname, src->lname);
-	strcpy(dst->nname, src->nname);
-	dst->s_fname = src->s_fname;
-	dst->s_lname = src->s_lname;
-	dst->s_nname = src->s_nname;
-	dst->s_number = src->s_number;
-	dst->s_secret = src->s_secret;
+	dst->setFirstName(src->getFirstName());
+	dst->setLastName(src->getLastName());
+	dst->setNickname(src->getNickname());
+	dst->setNumber(src->getNumber());
+	dst->setSecret(src->getSecret());
 }
 
-void	PhoneBook::_shift_contacts(void)
+void	PhoneBook::_shiftContacts(void)
 {
-	Contact		old;
-	Contact 	current;
-	int			i;
+	Contact	old;
+	Contact	current;
+	int		i;
 
-	current.init_placeholder(current.fname);
-	current.init_placeholder(current.lname);
-	current.init_placeholder(current.nname);
-	current.empty = 1;
+	current.setEmpty(true);
 	i = 8;
 	while (--i > -1)
 	{
-		this->_copy_contact(&this->_tab[i], &old);
-		this->_copy_contact(&current, &this->_tab[i]);
-		this->_copy_contact(&old, &current);
+		this->_copyContact(&this->_tab[i], &old);
+		this->_copyContact(&current, &this->_tab[i]);
+		this->_copyContact(&old, &current);
 	}
 }
 
-int	PhoneBook::_get_first_empty(void)
+int	PhoneBook::_getFirstEmpty(void)
 {
 	int	i;
 
 	i = 0;
 	while(i < 8)
 	{
-		if (this->_tab[i].empty == 1)
+		if (this->_tab[i].isEmpty() == true)
 			return (i);
 		i++;
 	}
-	this->_shift_contacts();
+	this->_shiftContacts();
 	return (7);
 }
 
-void	PhoneBook::_save_data(std::string tmp, std::string *s,
-	const char *info, char *placeholder)
+void	PhoneBook::_askData(std::string *tmp, const char *info)
 {
-	int	len;
-
-	while (tmp.empty())
+	while (tmp->empty())
 	{
 		std::cout << "At least one chararacter! Try again..." << std::endl;
 		std::cout << info << ": ";
-		std::getline(std::cin, tmp);
+		std::getline(std::cin, *tmp);
 	}
-	*s = tmp;
-	if (!placeholder)
-		return ;
-	if (tmp.size() > 10)
-	{
-		tmp.erase(9, tmp.npos);
-		tmp.append(".");
-	}
-	if (tmp.size() < 10)
-	{
-		len = 10 - tmp.size();
-		tmp.insert(tmp.begin(), len, BLANK);
-	}
-	tmp.copy(placeholder, 10, 0);
 }
 
-void	PhoneBook::_save_index(char *placeholder, int index)
-{
-	int					len;
-	std::string			tmp;
-	std::stringstream	out;
-
-	out << (index + 1);
-	tmp = out.str();
-	if (tmp.size() > 10)
-		tmp.erase(10, tmp.npos);
-	if (tmp.size() < 10)
-	{
-		len = 10 - tmp.size();
-		tmp.insert(tmp.begin(), len, BLANK);
-	}
-	tmp.copy(placeholder, 10, 0);
-}
-
-void	PhoneBook::add_contact(void)
+void	PhoneBook::addContact(void)
 {
 	int			empty;
-	std::string	tmp;
+	std::string	firstName;
+	std::string	lastName;
+	std::string	nickname;
+	std::string	number;
+	std::string	secret;
 
-	empty = this->_get_first_empty();
+	empty = this->_getFirstEmpty();
 	std::cout << "Firstname: ";
-	std::getline(std::cin, tmp);
-	this->_save_data(tmp, &this->_tab[empty].s_fname, "Firstname", this->_tab[empty].fname);
+	std::getline(std::cin, firstName);
+	this->_askData(&firstName, "Firstname");
 	std::cout << "Lastname: ";
-	std::getline(std::cin, tmp);
-	this->_save_data(tmp, &this->_tab[empty].s_lname, "Lastname", this->_tab[empty].lname);
+	std::getline(std::cin, lastName);
+	this->_askData(&lastName, "Lastname");
 	std::cout << "Nickname: ";
-	std::getline(std::cin, tmp);
-	this->_save_data(tmp, &this->_tab[empty].s_nname, "Nickname", this->_tab[empty].nname);
+	std::getline(std::cin, nickname);
+	this->_askData(&nickname, "Nickname");
 	std::cout << "Phone number: ";
-	std::getline(std::cin, tmp);
-	this->_save_data(tmp, &this->_tab[empty].s_number, "Phone number", NULL);
+	std::getline(std::cin, number);
+	this->_askData(&number, "Phone number");
 	std::cout << "Darkest secret: ";
-	std::getline(std::cin, tmp);
-	this->_save_data(tmp, &this->_tab[empty].s_secret, "Darkest secret", NULL);
-	this->_save_index(this->_tab[empty].index, empty);
-	this->_tab[empty].empty = 0;
+	std::getline(std::cin, secret);
+	this->_askData(&secret, "Darkest secret");
+	this->_tab[empty].setFirstName(firstName);
+	this->_tab[empty].setLastName(lastName);
+	this->_tab[empty].setNickname(nickname);
+	this->_tab[empty].setNumber(number);
+	this->_tab[empty].setSecret(secret);
+	this->_tab[empty].setEmpty(false);
 	std::cout << std::endl;
 }

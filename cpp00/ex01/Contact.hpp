@@ -6,7 +6,7 @@
 /*   By: tnanchen <thomasnanchen@hotmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/16 15:08:46 by tnanchen          #+#    #+#             */
-/*   Updated: 2022/04/18 14:10:15 by tnanchen         ###   ########.fr       */
+/*   Updated: 2022/04/19 13:09:00 by tnanchen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,30 +15,33 @@
 
 #include <iostream>
 
-/* 
-	Contact datas are called by the PhoneBook methods
-	So they need to be scoped in public access 
-	But only PhoneBook public methods allows modification in the tab of 8 contacts
-*/
-
 class Contact
 {
 	public :
-	Contact(void);
-	~Contact(void);
-	int			empty;
-	int			i;
-	std::string	s_index;
-	char		index[11];
-	std::string	s_fname;
-	char		fname[11];
-	std::string	s_lname;
-	char		lname[11];
-	std::string	s_nname;
-	char		nname[11];
-	std::string	s_number;
-	std::string	s_secret;
-	void		init_placeholder(char *tab);
+		Contact(void);
+		~Contact(void);
+		bool		isEmpty(void) const;
+		std::string	getFirstName(void) const;
+		std::string	getLastName(void) const;
+		std::string	getNickname(void) const;
+		std::string	getNumber(void) const;
+		std::string	getSecret(void) const;
+		void		setEmpty(bool value);
+		void		setFirstName(std::string str);
+		void		setLastName(std::string str);
+		void		setNickname(std::string str);
+		void		setNumber(std::string str);
+		void		setSecret(std::string str);
+
+	private:
+		static int	_nbIndex;
+		bool		_empty;
+		int			_index;
+		std::string	_firstName;
+		std::string	_lastName;
+		std::string	_nickname;
+		std::string	_number;
+		std::string	_secret;
 };
 
 #endif

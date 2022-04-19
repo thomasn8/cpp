@@ -6,7 +6,7 @@
 /*   By: tnanchen <thomasnanchen@hotmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/16 15:08:34 by tnanchen          #+#    #+#             */
-/*   Updated: 2022/04/18 13:33:45 by tnanchen         ###   ########.fr       */
+/*   Updated: 2022/04/19 13:22:52 by tnanchen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,9 @@ int	main(void)
 		if (cmd == "EXIT")
 			break;
 		else if (cmd == "ADD")
-			contacts.add_contact();
+			contacts.addContact();
 		else if (cmd == "SEARCH")
-			contacts.search_contact();
+			contacts.searchContact();
 	}
 	return (0);
 }
