@@ -1,27 +1,37 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.cpp                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tnanchen <thomasnanchen@hotmail.com>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/04/19 19:43:27 by tnanchen          #+#    #+#             */
+/*   Updated: 2022/04/19 20:17:14 by tnanchen         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+/* 
+	Try : ./occurences files/testfile "occur" "ence"
+*/
+
 #include <iostream>
 #include <fstream>
 #include <string>
 #include "FileStreams.hpp"
 
-/* 
-	Create a program that takes three parameters in the following order: a filename and
-	two strings, s1 and s2.
-
-	It will open the file <filename> and copies its content into a new file
-	<filename>.replace, replacing every occurrence of s1 with s2.
-*/
-
-static int open_files(FileStreams *streams, int ac, char **av)
+static int setFileStreams(FileStreams *streams, int ac, char **av)
 {
 	if (ac != 4)
 	{
-		std::cout << "Usage: ./replace_words filename string_to_replace string_to_add" << std::endl;
+		std::cout << "Usage: ./occurences filename string_to_replace string_to_add" << std::endl;
 		return 1;
 	}
 	streams->inputFileName = av[1];
 	streams->outputFileName = streams->inputFileName + ".replace";
 	streams->s1 = av[2];
+	streams->l1 = streams->s1.length();
 	streams->s2 = av[3];
+	streams->l2 = streams->s2.length();
 	streams->inputFile.open(streams->inputFileName);
 	if (streams->inputFile.fail() == true)
 	{
@@ -40,16 +50,26 @@ static int open_files(FileStreams *streams, int ac, char **av)
 int	main(int ac, char **av)
 {
 	FileStreams streams;
+	std::size_t	i;
 
-	if (open_files(&streams, ac, av))
+	if (setFileStreams(&streams, ac, av))
 		return (1);
-
-	// travailler avec streams.inputFile - streams.s1 - streams.s2 - streams.outputFile
-	// ...
-	// le principe étant :
-	// on read inputFile tant que pas s1 -> en injectant dans outputFile
-		// si s1, on injecte s2 dans outputFile
-		// on recommence a read inputFile après s1
-
+	while (getline(streams.inputFile, streams.buffer))
+	{
+		i = streams.buffer.find(streams.s1);
+		while (i != streams.buffer.npos)
+		{
+			streams.tmp1 = streams.buffer.substr(0, i);
+			streams.tmp2 = streams.buffer.substr(i + streams.l1);
+			streams.buffer = streams.tmp1 + streams.s2 + streams.tmp2;
+			i = streams.buffer.find(streams.s1);
+		}
+		streams.outputFile << streams.buffer;
+		if (streams.inputFile.eof() == false)
+			streams.outputFile << std::endl;
+		streams.buffer.clear();
+	}
+	streams.inputFile.close();
+	streams.outputFile.close();
 	return 0;
 }

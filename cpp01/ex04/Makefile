@@ -4,7 +4,7 @@ SRCS		=		main.cpp		\
 OBJS		= ${SRCS:.cpp=.o}
 CC			= c++
 CFLAGS		= -std=c++98 -Wall -Wextra -Werror
-NAME		= replace_words
+NAME		= occurences
 RM			= rm -f
 
 all:		${NAME}
@@ -20,6 +20,7 @@ clean:
 
 fclean:		clean
 			${RM} ${NAME}
+			${RM} ./files/*.replace
 
 re:			fclean all
 
