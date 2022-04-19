@@ -1,9 +1,10 @@
-SRCS		=		main.cpp	\
+SRCS		=		main.cpp		\
+					FileStreams.cpp	\
 
 OBJS		= ${SRCS:.cpp=.o}
 CC			= c++
 CFLAGS		= -std=c++98 -Wall -Wextra -Werror
-NAME		= replace
+NAME		= replace_words
 RM			= rm -f
 
 all:		${NAME}
