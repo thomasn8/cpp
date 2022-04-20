@@ -1,12 +1,10 @@
 SRCS		=		main.cpp	\
-					init.cpp	\
-					add.cpp		\
-					search.cpp	\
+					Harl.cpp	\
 
 OBJS		= ${SRCS:.cpp=.o}
 CC			= c++
 CFLAGS		= -std=c++98 -Wall -Wextra -Werror
-NAME		= contacts
+NAME		= harl
 RM			= rm -f
 
 all:		${NAME}
