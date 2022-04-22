@@ -66,7 +66,6 @@ float	bits_to_float(std::string bits, int prec)
 
 std::string	fract_bits(float num, int prec)
 {
-	std::string	s;
 	float		f;
 	std::string bits;
 	float		res;

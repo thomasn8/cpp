@@ -1,71 +1,122 @@
 #include "Fixed.hpp"
 
-// accesseur: retourne la valeur du nombre à virgule fixe sans la convertir
-int Fixed::getRawBits(void) const
+/* **************************************************** */
+/* ******************** CONVERSION ******************** */
+
+float	Fixed::convertFracPart(float const f) const
 {
-	std::cout << "getRawBits member function called" << std::endl;
-	return (this->_fracP);
+	float		r;
+	int			prec = (int)this->_fracBits;
+	std::string bits;
+	float		res;
+
+	r = this->calcFracPart(f);
+	bits = this->calcBits(r, prec);
+	res = this->calcBitsToFloat(bits, prec);
+	return res;
 }
 
-// setter: initialise la valeur du nombre à virgule fixe avec celle passée en paramètre
-void Fixed::setIntPart(int const n)
+// Une fonction membre qui convertit la valeur en virgule fixe en nombre entier.
+int 	Fixed::toInt(void) const
 {
-	std::cout << "set integer decimal part" << std::endl;
-	this->_intP = n;
+	return this->getIntPart();
+}
+
+// Une fonction membre qui convertit la valeur en virgule fixe en nombre à virgule flottante.
+float	Fixed::toFloat(void) const
+{
+	return this->_float;
+}
+
+/* ************************************************ */
+/* ******************** SETTER ******************** */
+
+void Fixed::setIntPart(float const f)
+{
+	this->_intPart = (int)f;
+}
+
+void Fixed::setFracPart(float const f)
+{
+	this->_fracPart = this->convertFracPart(f);
 }
 
 // setter: initialise la valeur du nombre à virgule fixe avec celle passée en paramètre
 void Fixed::setRawBits(int const raw)
 {
-	std::cout << "setRawBits member function called" << std::endl;
-	this->_fracP = raw;
+	// ...
 }
 
-// affecteur (ou assignateur): modifie l'instance
-Fixed	& Fixed::operator=(Fixed const & rhs)
+/* ************************************************ */
+/* ******************** GETTER ******************** */
+
+int		Fixed::getIntPart(void) const
+{
+	return (this->_intPart);
+}
+
+float	Fixed::getFracPart(void) const
+{
+	return (this->_fracPart);
+}
+
+// accesseur: retourne la valeur du nombre à virgule fixe sans la convertir
+int		Fixed::getRawBits(void) const
+{
+	// ...
+	return (this->_intPart + this->_fracPart);
+}
+
+/* *************************************************** */
+/* ******************** SURCHARGE ******************** */
+
+std::ostream	& operator<<(std::ostream & o, Fixed const & i)
+{
+	o << i.getIntPart() + i.getFracPart();
+	return o;
+}
+
+Fixed			& Fixed::operator=(Fixed const & rhs)
 {
 	std::cout << "Copy assignment operator called" << std::endl;
-	this->_fracP = rhs.getRawBits();
+	this->_fracPart = rhs.getFracPart();
+	this->_intPart = rhs.getIntPart();
+	this->_float = rhs._float;
 	return *this;
 }
 
-// constructeur par copie
+/* ****************************************************** */
+/* ******************** CONSTRUCTEUR ******************** */
+
 Fixed::Fixed(Fixed const & src)
 {
 	std::cout << "Copy constructor called" << std::endl;
 	*this = src;
 }
 
-// Un constructeur prenant un flottant constant en paramètre et qui convertit celui-ci en virgule fixe. 
-Fixed::Fixed(float const n)
+Fixed::Fixed(float const f) : _float(f)
 {
-	int	intP;
-	int	fracP;
-
-	intP = this->convertIntPart(n);
-	fracP = this->convertFracPart(n);
-	this->setIntPart(intP);
-	this->setRawBits(fracP);
 	std::cout << "Float constructor called" << std::endl;
+	this->setIntPart(f);
+	this->setFracPart(f);
 }
 
-// Un constructeur prenant un entier constant en paramètre et qui convertit celui-ci en virgule fixe. 
-Fixed::Fixed(int const n) : _fracP(0)
+Fixed::Fixed(int const n) : _float(n), _intPart(n), _fracPart(0)
 {
 	std::cout << "Int constructor called" << std::endl;
 }
 
-// constructeur par défaut
-Fixed::Fixed(void) : _fracP(0)
+Fixed::Fixed(void) : _float(0), _intPart(0), _fracPart(0)
 {
 	std::cout << "Default constructor called" << std::endl;
 }
 
-// destructeur
 Fixed::~Fixed()
 {
 	std::cout << "Destructor called" << std::endl;
 }
 
-// initialisation de la variable de classe constante définissant la précision des nbr a virgule fixe
+/* ************************************************ */
+/* ******************** STATIC ******************** */
+
 const int Fixed::_fracBits = 8;

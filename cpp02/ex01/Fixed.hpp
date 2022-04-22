@@ -2,71 +2,44 @@
 # define FIXED_HPP
 
 #include <iostream>
+#include <math.h>
+#include <sstream>
+#include <stdlib.h>
 
 class Fixed
 {
 	public:
+		void	setRawBits(int const raw);
+		void	setIntPart(float const f);
+		void	setFracPart(float const f);
+		int		getRawBits(void) const;
+		int		getIntPart(void) const;
+		float	getFracPart(void) const;
+
+		float		toFloat(void) const;
+		int 		toInt(void) const;
+		float		convertFracPart(float const f) const;
+		float		calcBitsToFloat(std::string bits, int prec) const;
+		std::string calcBits(float f, int prec) const;
+		float		calcFracPart(float num) const;
+
 		Fixed(void);
 		Fixed(Fixed const & src);
 		Fixed(int const n);
-		Fixed(float const n);
+		Fixed(float const f);
 		~Fixed(void);
-
+		
 		Fixed	& operator=(Fixed const & rhs);
 
-		int		getRawBits(void) const;
-		void	setRawBits(int const raw);
-		void	setIntPart(int const n);
-		float	toFloat(void) const;
-		int 	toInt(void) const;
-
-		int		convertIntPart(float const n);
-		int		convertFracPart(float const n);
-
 	private:
-		int _intP;						// partie intégrale en décimale
-		int	_fracP;						// représentation binaire de la partie fractionnaire
-		
-		static const int _fracBits;		// représentation sur 8 bits. Exemple: 0,8 = 0,11001100
+		int		_rawBits;
+		float	_float;
+		int 	_intPart;
+		float	_fracPart;
+
+		static const int _fracBits;
 };
 
 std::ostream	& operator<<(std::ostream & o, Fixed const & nbr);
-
-/* ***************************************************************** */
-
-std::ostream	& operator<<(std::ostream & o, Fixed const & i)
-{
-	std::cout << "Flux redirection operator called on " << o << ": ";
-	o << i.getRawBits();
-	return o;
-}
-
-int		Fixed::convertIntPart(float const n)
-{
-
-}
-
-int		Fixed::convertFracPart(float const n)
-{
-
-}
-
-
-
-
-
-
-// Une fonction membre qui convertit la valeur en virgule fixe en nombre entier.
-int 	Fixed::toInt(void) const
-{
-	// convertir la valeur virgule fixe -> en nombre entier
-}
-
-// Une fonction membre qui convertit la valeur en virgule fixe en nombre à virgule flottante.
-float	Fixed::toFloat(void) const
-{
-	// convertit la valeur virgule fixe -> en nombre à virgule flottante 
-}
-
 
 #endif
