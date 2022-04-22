@@ -12,7 +12,6 @@ class Fixed
 		void	setRawBits(int const raw);
 		void	setIntPart(float const f);
 		void	setFracPart(float const f);
-		
 		int		getRawBits(void) const;
 		int		getIntPart(void) const;
 		float	getFracPart(void) const;

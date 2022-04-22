@@ -6,19 +6,19 @@
 class Fixed
 {
 	public:
+		int		getRawBits(void) const;
+		void	setRawBits(int const raw);
+
 		Fixed(void);
 		Fixed(Fixed const & src);
 		~Fixed(void);
 
 		Fixed	& operator=(Fixed const & rhs);
 
-		int		getRawBits(void) const;
-		void	setRawBits(int const raw);
-
 	private:
-		int	_nbr;
+		int	_rawBits;
 		
-		static const int _decimal;
+		static const int _prec;
 };
 
 #endif
