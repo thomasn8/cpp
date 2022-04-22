@@ -7,15 +7,16 @@
 #include <stdlib.h>
 
 /* 
-• Les 4 opérateurs d’incrémentation et de décrémentation (pré-incrémentation et
-post-incrémentation, pré-décrémentation et post-décrémentation) qui diminueront
-la valeur du nombre à virgule fixe d’unité
 
 Ajoutez à votre classe ces quatre fonctions membres publiques surchargées :
+
+Min (normal/constant)
 • Une fonction membre statique min prenant en paramètres deux références sur des
 nombres à virgule fixe et qui retourne le plus petit d’entre eux.
 • Une fonction membre statique min prenant en paramètres deux références sur des
 nombres à virgule fixe constants et qui retourne le plus petit d’entre eux.
+
+Max (normal/constant)
 • Une fonction membre statique max prenant en paramètres deux références sur des
 nombres à virgule fixe et qui retourne le plus grand d’entre eux.
 • Une fonction membre statique max prenant en paramètres deux références sur des
@@ -66,6 +67,11 @@ class Fixed
 		Fixed		operator++(int);
 		Fixed		operator--(void);
 		Fixed		operator--(int);
+
+		static Fixed	min(Fixed & lhs, Fixed & rhs);
+		static Fixed	min(Fixed const & lhs, Fixed const & rhs);
+		static Fixed	max(Fixed & lhs, Fixed & rhs);
+		static Fixed	max(Fixed const & lhs, Fixed const & rhs);
 
 	private:
 		int			_rawBits;

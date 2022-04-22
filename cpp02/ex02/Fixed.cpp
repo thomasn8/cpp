@@ -195,6 +195,42 @@ Fixed			 Fixed::operator--(int)
 	return (tmp);
 }
 
+Fixed			Fixed::min(Fixed & lhs, Fixed & rhs)
+{
+	if (lhs < rhs)
+		return Fixed(lhs);
+	else if (lhs > rhs)
+		return Fixed(rhs);
+	return (Fixed());
+}
+
+Fixed			Fixed::min(Fixed const & lhs, Fixed const & rhs)
+{
+	if (lhs < rhs)
+		return Fixed(lhs);
+	else if (lhs > rhs)
+		return Fixed(rhs);
+	return (Fixed());
+}
+
+Fixed			Fixed::max(Fixed & lhs, Fixed & rhs)
+{
+	if (lhs > rhs)
+		return Fixed(lhs);
+	else if (lhs < rhs)
+		return Fixed(rhs);
+	return (Fixed());
+}
+
+Fixed			Fixed::max(Fixed const & lhs, Fixed const & rhs)
+{
+	if (lhs > rhs)
+		return Fixed(lhs);
+	else if (lhs < rhs)
+		return Fixed(rhs);
+	return (Fixed());
+}
+
 
 /* ****************************************************** */
 /* ******************** CONSTRUCTEUR ******************** */

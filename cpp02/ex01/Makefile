@@ -5,7 +5,7 @@ SRCS		=		main.cpp		\
 OBJS		= ${SRCS:.cpp=.o}
 CC			= c++
 CFLAGS		= -std=c++98 -Wall -Wextra -Werror
-NAME		= canon
+NAME		= fixed
 RM			= rm -f
 
 all:		${NAME}
