@@ -1,0 +1,119 @@
+Source : https://www.developpez.net/forums/d1168230/c-cpp/c/debuter/conversion-virgule-fixe-virgule-flottante/
+
+pour la conversion decimal virgule fixe vers binaire virgule flottant type(654,123):
+
+tu prends l entier que tu transformes en binaire par division euclidienne en gardant a chaque etape le restant de l operation:
+
+654:2=327 reste 0
+327:2=163 reste 1
+163:2=81 reste 1
+81:2=40 reste1
+40:2=20 reste 0
+20:2=10 reste 0
+10:2=5 reste 0
+5:2=2 reste1
+2:2=1 reste 0
+1==>reste 1
+
+tu lis ca de bas en haut la representation binaire de 654=1010001110
+
+pour la partie fractionnaire 0.123 tu gardes l entier d une multiplication par 2 (toujours de la partie fractionnaire)de manieres successives
+
+
+0.123*2=0.246 entier=0
+0.246*2=0.492 entier=0
+0.492*2=0.984 entier=0
+0.984*2=1.968 entier=1
+0.968*2=1.936 entier=1
+etc etc etc
+
+tu lis le resultat de haut en bas 0.123=00011....
+tu assembles le tout 1010001110,00011....
+tu decale l ensemble (premier bit significatif) pour que tout a part l entier soit deriere la virgule et tu compte le decalage
+resultat 1,01000111000011 decalage =-9 (attention si 0.00001 alors decalage="+"5)
+
+
+0.42*2=0.84 entier = 0
+0.84*2=1.68 entier = 1
+0.68*2=1.36 entier = 1
+0.36*2=0.72 entier = 0
+0.72*2=1.44 entier = 1
+0.44*2=0.88 entier = 0
+0.88*2=1.76 entier = 1
+0.76*2=1.52 entier = 1
+0.52*2=1.04 entier = 1
+0.04*2=0.08 entier = 0
+0.08*2=0.16 entier = 0
+0.16*2=0.32 entier = 0
+0.32*2=0.64 entier = 0
+0.64*2=1.28 entier = 1
+
+0.42 => 0.0110101110000101001
+0.42 => 0.01101011
+
+/* ************************************************** */
+
+_____________________________________________________________________
+Bit Pattern					Number Represented (n) 				n / 2
+_____________________________________________________________________
+1 	1 	1 .	1 				-1 									-0.5
+1 	1 	1 .	0 				-2 									-1
+1 	1 	0 .	1 				-3 									-1.5
+1 	1 	0 .	0 				-4 									-2
+1 	0 	1 .	1 				-5 									-2.5
+1 	0 	1 .	0 				-6 									-3
+1 	0 	0 .	1 				-7 									-3.5
+1 	0 	0 .	0 				-8 									-4
+0 	1 	1 .	1 				7 									3.5
+0 	1 	1 .	0 				6 									3
+0 	1 	0 .	1 				5 									2.5
+0 	1 	0 .	0 				4 									2
+0 	0 	1 .	1 				3 									1.5
+0 	0 	1 .	0 				2 									1
+0 	0 	0 .	1 				1 									0.5
+0 	0 	0 .	0 				0 									0
+_____________________________________________________________________
+
+Example :
+fixed<8,3> denotes a 8-bit fixed point number, of which 3 right most bits are fractional
+00010.110(2)
+= 1 * 2^1 + 1 * 2^-1 + 1 * 2^-1
+= 2 + 0.5 + 0.25
+= 2.75
+
+Il suffit de définir la position de la virgule et on sait instantanément la valeur du nombre. Par exemple, pour un nombre stocké sur un octet, soit huit bits, 
+si on définit arbitrairement la position de la virgule juste avant après le 4ème bit, alors on sait que 
+0110 1001 = 0110,1001
+après le 8ème bit
+0110 1001 = 011010,01
+
+Si négatif sur 4 bits :
+
+.	|	1	|	1	|	1	|	1	|
+	   0.5	   0.25   0.125   0.0625
+
+6.125		->		6.125
+car
+110.00100000
+
+Exemple de 0,8 en 8 bits après la virgule: -> 0,11001100 
+ce qui équivaut à 0,796875 avec un manque de précision de 0,003125
+
+42,42		->		42.421875
+car 
+ 101010.01101100
+
+0.42 = 0.0110101110000101001
+
+/* ************************************************** */
+
+Conversions en nombre à virgule fixe :
+0		->		1234.43
+10		->		10
+42.42	->		42.4219
+
+Conversions depuis virgule fixe en nombre entier :
+1234.43	->		1234
+10		->		10
+42.4219	->		42
+

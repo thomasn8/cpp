@@ -1,9 +1,10 @@
 SRCS		=		main.cpp		\
+					Fixed.cpp
 
 OBJS		= ${SRCS:.cpp=.o}
 CC			= c++
 CFLAGS		= -std=c++98 -Wall -Wextra -Werror
-NAME		= prog
+NAME		= canon
 RM			= rm -f
 
 all:		${NAME}
