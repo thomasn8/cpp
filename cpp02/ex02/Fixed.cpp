@@ -15,17 +15,16 @@ float	Fixed::convertFracPart(float const f) const
 	return res;
 }
 
-// Une fonction membre qui convertit la valeur en virgule fixe en nombre entier.
 int 	Fixed::toInt(void) const
 {
 	return this->getIntPart();
 }
 
-// Une fonction membre qui convertit la valeur en virgule fixe en nombre à virgule flottante.
 float	Fixed::toFloat(void) const
 {
 	return this->_float;
 }
+
 
 /* ************************************************ */
 /* ******************** SETTER ******************** */
@@ -40,11 +39,12 @@ void Fixed::setFracPart(float const f)
 	this->_fracPart = this->convertFracPart(f);
 }
 
-// setter: initialise la valeur du nombre à virgule fixe avec celle passée en paramètre
 void Fixed::setRawBits(int const raw)
 {
-	// ...
+	(void) raw;
+	this->_fixed = this->_intPart + this->_fracPart;
 }
+
 
 /* ************************************************ */
 /* ******************** GETTER ******************** */
@@ -59,61 +59,170 @@ float	Fixed::getFracPart(void) const
 	return (this->_fracPart);
 }
 
-// accesseur: retourne la valeur du nombre à virgule fixe sans la convertir
 int		Fixed::getRawBits(void) const
 {
-	// ...
-	return (this->_intPart + this->_fracPart);
+	return (this->_fixed);
 }
+
+float	Fixed::getFixed(void) const
+{
+	return (this->_fixed);
+}
+
+float	Fixed::getFloat(void) const
+{
+	return (this->_float);
+}
+
 
 /* *************************************************** */
 /* ******************** SURCHARGE ******************** */
 
 std::ostream	& operator<<(std::ostream & o, Fixed const & i)
 {
-	o << i.getIntPart() + i.getFracPart();
+	o << i.getFixed();
 	return o;
 }
 
 Fixed			& Fixed::operator=(Fixed const & rhs)
 {
-	std::cout << "Copy assignment operator called" << std::endl;
 	this->_fracPart = rhs.getFracPart();
 	this->_intPart = rhs.getIntPart();
 	this->_float = rhs._float;
+	this->_fixed = rhs._fixed;
 	return *this;
 }
+
+Fixed			Fixed::operator+(Fixed const & rhs) const
+{
+	return Fixed(this->_float + rhs.getFloat());
+}
+
+Fixed			Fixed::operator-(Fixed const & rhs) const
+{
+	return Fixed(this->_float - rhs.getFloat());
+}
+
+Fixed			Fixed::operator*(Fixed const & rhs) const
+{
+	return Fixed(this->_float * rhs.getFloat());
+}
+
+Fixed			Fixed::operator/(Fixed const & rhs) const
+{
+	return Fixed(this->_float / rhs.getFloat());
+}
+
+bool			Fixed::operator>(Fixed const & rhs) const
+{
+	if (this->_float > rhs.getFloat())
+		return true;
+	return false;
+}
+
+bool			Fixed::operator>=(Fixed const & rhs) const
+{
+	if (this->_float >= rhs.getFloat())
+		return true;
+	return false;
+}
+
+bool			Fixed::operator<(Fixed const & rhs) const
+{
+	if (this->_float < rhs.getFloat())
+		return true;
+	return false;
+}
+
+bool			Fixed::operator<=(Fixed const & rhs) const
+{
+	if (this->_float <= rhs.getFloat())
+		return true;
+	return false;
+}
+
+bool			Fixed::operator==(Fixed const & rhs) const
+{
+	if (this->_float == rhs.getFloat())
+		return true;
+	return false;
+}
+
+bool			Fixed::operator!=(Fixed const & rhs) const
+{
+	if (this->_float != rhs.getFloat())
+		return true;
+	return false;
+}
+
+Fixed			Fixed::operator++(void)
+{
+	this->setIntPart(this->_intPart++);
+	this->setFracPart(this->_fracPart++);
+	this->setRawBits(0);
+	this->_float++;
+	return *this;
+}
+
+Fixed			Fixed::operator++(int)
+{
+	Fixed	tmp(this->_float - 1);
+
+	this->setIntPart(this->_intPart++);
+	this->setFracPart(this->_fracPart++);
+	this->setRawBits(0);
+	this->_float++;
+	return (tmp);
+}
+
+Fixed			Fixed::operator--(void)
+{
+	this->setIntPart(this->_intPart--);
+	this->setFracPart(this->_fracPart--);
+	this->setRawBits(0);
+	this->_float--;
+	return *this;
+}
+
+Fixed			 Fixed::operator--(int)
+{
+	Fixed	tmp(this->_float + 1);
+
+	this->setIntPart(this->_intPart--);
+	this->setFracPart(this->_fracPart--);
+	this->setRawBits(0);
+	this->_float--;
+	return (tmp);
+}
+
 
 /* ****************************************************** */
 /* ******************** CONSTRUCTEUR ******************** */
 
 Fixed::Fixed(Fixed const & src)
 {
-	std::cout << "Copy constructor called" << std::endl;
 	*this = src;
 }
 
 Fixed::Fixed(float const f) : _float(f)
 {
-	std::cout << "Float constructor called" << std::endl;
 	this->setIntPart(f);
 	this->setFracPart(f);
+	this->setRawBits((int)f);
 }
 
-Fixed::Fixed(int const n) : _float(n), _intPart(n), _fracPart(0)
+Fixed::Fixed(int const n) : _float(n), _intPart(n), _fracPart(0), _fixed(n)
 {
-	std::cout << "Int constructor called" << std::endl;
 }
 
-Fixed::Fixed(void) : _float(0), _intPart(0), _fracPart(0)
+Fixed::Fixed(void) : _float(0), _intPart(0), _fracPart(0), _fixed(0)
 {
-	std::cout << "Default constructor called" << std::endl;
 }
 
-Fixed::~Fixed()
+Fixed::~Fixed(void)
 {
-	std::cout << "Destructor called" << std::endl;
 }
+
 
 /* ************************************************ */
 /* ******************** STATIC ******************** */

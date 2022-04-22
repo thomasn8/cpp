@@ -83,5 +83,6 @@ int main()
 	fract_bits(42.42, 8);
 	// fract_bits(10.1, 8);
 	// fract_bits(6.75, 8);
+	std::cout << "Res2:" << roundf(42.42) << std::endl;
 	return 0;
 }

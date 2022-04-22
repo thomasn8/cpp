@@ -3,19 +3,40 @@
 int main( void ) 
 {
 	Fixed a;
-	Fixed const b( 10 );
-	Fixed const c( 42.42f );
-	Fixed const d( b );
-	a = Fixed( 1234.4321f );
+	Fixed const b( Fixed( 5.05f ) * Fixed( 2 ) );
 
-	std::cout << "a is " << a << std::endl;
-	std::cout << "b is " << b << std::endl;
-	std::cout << "c is " << c << std::endl;
-	std::cout << "d is " << d << std::endl;
+	std::cout << a << std::endl;
+	std::cout << ++a << std::endl;
+	std::cout << a << std::endl;
+	std::cout << a++ << std::endl;
+	std::cout << a << std::endl;
+	
+	std::cout << b << std::endl;
 
-	std::cout << "a is " << a.toInt() << " as integer" << std::endl;
-	std::cout << "b is " << b.toInt() << " as integer" << std::endl;
-	std::cout << "c is " << c.toInt() << " as integer" << std::endl;
-	std::cout << "d is " << d.toInt() << " as integer" << std::endl;
-	return 0;
+	// std::cout << Fixed::max( a, b ) << std::endl;
+
+
+	// std::cout << c << std::endl;
+	// std::cout << c << std::endl;
+	// Fixed c;
+	// std::cout << c.getFixed() << " / " << c.getFloat() << std::endl;
+	// ++c;
+	// std::cout << c.getFixed() << " / " << c.getFloat() << std::endl;
+	// float d;
+	// d = 0.00390625;
+	// d++;
+	// std::cout << "d = " << d << std::endl;
+	// d++;
+	// std::cout << "d = " << d << std::endl;
 }
+
+
+/* 		// a(0)	
+		// a		0				// 
+		// ++a		0.00390625		// 
+		// a		0.00390625		//
+		//			0.00390625		// a++
+		// a		0.0078125		//
+		// b		10.1016			//
+		//			// 10.1016		//
+ */

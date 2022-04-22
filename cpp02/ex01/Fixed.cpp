@@ -40,10 +40,8 @@ void Fixed::setFracPart(float const f)
 	this->_fracPart = this->convertFracPart(f);
 }
 
-// setter: initialise la valeur du nombre à virgule fixe avec celle passée en paramètre
 void Fixed::setRawBits(int const raw)
 {
-	// ...
 }
 
 /* ************************************************ */
@@ -59,10 +57,8 @@ float	Fixed::getFracPart(void) const
 	return (this->_fracPart);
 }
 
-// accesseur: retourne la valeur du nombre à virgule fixe sans la convertir
 int		Fixed::getRawBits(void) const
 {
-	// ...
 	return (this->_intPart + this->_fracPart);
 }
 
