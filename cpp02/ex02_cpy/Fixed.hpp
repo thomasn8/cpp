@@ -22,6 +22,8 @@ class Fixed
 		float		toFloat(void) const;
 		int 		toInt(void) const;
 		
+		bool		isFloat(void) const;
+		float		getTypedValue(void) const;
 		std::string	decToBin(int num) const;
 
 		bool		operator>(Fixed const & rhs) const;
@@ -53,7 +55,6 @@ class Fixed
 		int			floatToRawBits(float const num) const;
 
 		static const int	_prec;
-		static const int	_initValue;
 };
 
 std::ostream	& operator<<(std::ostream & o, Fixed const & num);

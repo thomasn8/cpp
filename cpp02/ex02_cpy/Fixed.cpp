@@ -5,17 +5,7 @@
 
 std::ostream	& operator<<(std::ostream & o, Fixed const & num)
 {
-	std::string rawBits;
-	int			len;
-
-	rawBits = num.decToBin(num.getRawBits());
-	len = rawBits.length();
-	rawBits.erase(0, len - 8);	
-	if (rawBits == "00000000")
-		o << num.toInt();
-		// o << num.toInt() << "-" << num.getRawBits();
-	else
-		o << num.toFloat();
+	o << num.getTypedValue();
 	return o;
 }
 
@@ -53,21 +43,21 @@ Fixed::Fixed(Fixed const & src)
 // convertit le float en virgule fixe. Le nombre de bits de la partie fractionnaire est initialisé à 8
 Fixed::Fixed(float const num)
 {
-	this->setRawBits(Fixed::_initValue);
+	this->setRawBits(0);
 	this->_rawBits = this->floatToRawBits(num);
 }
 
 // convertit l'entier en virgule fixe. Le nombre de bits de la partie fractionnaire est initialisé à 8
 Fixed::Fixed(int const num)
 {
-	this->setRawBits(Fixed::_initValue);
+	this->setRawBits(0);
 	this->_rawBits = this->intToRawBits(num);
 }
 
 // _initValue = 11111111 (8 x 1), considéré comme Null
 Fixed::Fixed(void)
 {
-	this->setRawBits(Fixed::_initValue);
+	this->setRawBits(0);
 }
 
 Fixed::~Fixed(void)
@@ -75,4 +65,3 @@ Fixed::~Fixed(void)
 }
 
 const int Fixed::_prec = 8;
-const int Fixed::_initValue = 11111111;

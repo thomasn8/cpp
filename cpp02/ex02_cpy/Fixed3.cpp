@@ -15,7 +15,16 @@ Fixed			Fixed::operator-(Fixed const & rhs) const
 
 Fixed			Fixed::operator*(Fixed const & rhs) const
 {
-	return Fixed(this->toFloat() * rhs.toFloat());
+	// float is 5.04688
+	// calc is 5.04688*2 = 10.0938
+
+	// float is 5.05078
+	// calc is 5.05078*2 = 10.1016
+
+	float l = this->getTypedValue();
+	float r = rhs.getTypedValue();
+	// std::cout << "calc is " << l << "*" << r << " = " << l * r << std::endl;
+	return Fixed(l * r);
 }
 
 Fixed			Fixed::operator/(Fixed const & rhs) const
@@ -67,8 +76,6 @@ bool			Fixed::operator!=(Fixed const & rhs) const
 
 Fixed			Fixed::operator++(void)
 {
-	if (this->_rawBits == this->_initValue)
-		this->_rawBits = 0;
 	++this->_rawBits;
 	return *this;
 }
@@ -77,15 +84,13 @@ Fixed			Fixed::operator++(int)
 {
 	Fixed	tmp(this->toFloat());
 	
-	if (this->_rawBits == this->_initValue)
-		this->_rawBits = 0;
 	this->_rawBits++;
 	return (tmp);
 }
 
 Fixed			Fixed::operator--(void)
 {
-	this->setRawBits(this->_rawBits--);
+	--this->_rawBits;
 	return *this;
 }
 
@@ -93,7 +98,7 @@ Fixed			 Fixed::operator--(int)
 {
 	Fixed	tmp(this->toFloat());
 
-	this->setRawBits(this->_rawBits--);
+	this->_rawBits--;
 	return (tmp);
 }
 
