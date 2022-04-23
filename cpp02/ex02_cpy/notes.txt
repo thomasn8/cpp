@@ -1,0 +1,25 @@
+Ordinateur utilisent le 
+	-> format IEEE 754
+pour les conversions de décimal à binaire
+
+
+------------------
+En virgule flottant :
+Chaque chiffre (0 ou 1) est considéré comme 1 bit. 
+On utilise 32 bits qui se répartissent de la façon suivante : 
+1 bit pour le signe de la mantisse, 
+8 pour l'exposant 
+et 23 pour la mantisse, 
+ce qui fait bien un total de 32 bits
+
+
+------------------
+85.125
+85 		= integer portion
+0.125 	= decimal portion
+
+
+------------------
+Convertissez la partie entière en système binaire 
+85 en base 2 donne : 
+1010101
