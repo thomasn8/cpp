@@ -5,12 +5,16 @@
 
 Fixed			Fixed::operator+(Fixed const & rhs) const
 {
-	return Fixed(this->toFloat() + rhs.toFloat());
+	float l = this->getTypedValue();
+	float r = rhs.getTypedValue();
+	return Fixed(l + r);
 }
 
 Fixed			Fixed::operator-(Fixed const & rhs) const
 {
-	return Fixed(this->toFloat() - rhs.toFloat());
+	float l = this->getTypedValue();
+	float r = rhs.getTypedValue();
+	return Fixed(l - r);
 }
 
 Fixed			Fixed::operator*(Fixed const & rhs) const
@@ -22,47 +26,61 @@ Fixed			Fixed::operator*(Fixed const & rhs) const
 
 Fixed			Fixed::operator/(Fixed const & rhs) const
 {
-	return Fixed(this->toFloat() / rhs.toFloat());
+	float l = this->getTypedValue();
+	float r = rhs.getTypedValue();
+	return Fixed(l / r);
 }
 
 bool			Fixed::operator>(Fixed const & rhs) const
 {
-	if (this->toFloat() > rhs.toFloat())
+	float l = this->getTypedValue();
+	float r = rhs.getTypedValue();
+	if (l > r)
 		return true;
 	return false;
 }
 
 bool			Fixed::operator>=(Fixed const & rhs) const
 {
-	if (this->toFloat() >= rhs.toFloat())
+	float l = this->getTypedValue();
+	float r = rhs.getTypedValue();
+	if (l >= r)
 		return true;
 	return false;
 }
 
 bool			Fixed::operator<(Fixed const & rhs) const
 {
-	if (this->toFloat() < rhs.toFloat())
+	float l = this->getTypedValue();
+	float r = rhs.getTypedValue();
+	if (l < r)
 		return true;
 	return false;
 }
 
 bool			Fixed::operator<=(Fixed const & rhs) const
 {
-	if (this->toFloat() <= rhs.toFloat())
+	float l = this->getTypedValue();
+	float r = rhs.getTypedValue();
+	if (l <= r)
 		return true;
 	return false;
 }
 
 bool			Fixed::operator==(Fixed const & rhs) const
 {
-	if (this->toFloat() == rhs.toFloat())
+	float l = this->getTypedValue();
+	float r = rhs.getTypedValue();
+	if (l == r)
 		return true;
 	return false;
 }
 
 bool			Fixed::operator!=(Fixed const & rhs) const
 {
-	if (this->toFloat() != rhs.toFloat())
+	float l = this->getTypedValue();
+	float r = rhs.getTypedValue();
+	if (l != r)
 		return true;
 	return false;
 }
@@ -76,7 +94,6 @@ Fixed			Fixed::operator++(void)
 Fixed			Fixed::operator++(int)
 {
 	Fixed	tmp(this->toFloat());
-	
 	this->_rawBits++;
 	return (tmp);
 }
@@ -90,7 +107,6 @@ Fixed			Fixed::operator--(void)
 Fixed			 Fixed::operator--(int)
 {
 	Fixed	tmp(this->toFloat());
-
 	this->_rawBits--;
 	return (tmp);
 }

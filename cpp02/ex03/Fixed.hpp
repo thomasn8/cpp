@@ -9,63 +9,63 @@
 class Fixed
 {
 	public:
-		Fixed(void);
+
+		// CANONICAL
 		Fixed(Fixed const & src);
-		Fixed(int const n);
-		Fixed(float const f);
+		Fixed(float const num);
+		Fixed(int const num);
+		Fixed(void);
 		~Fixed(void);
-
-		void		setRawBits(int const raw);
-		void		setIntPart(float const f);
-		void		setFracPart(float const f);
-		int			getRawBits(void) const;
-		int			getIntPart(void) const;
-		float		getFracPart(void) const;
-		float		getFloat(void) const;
-		float		getFixed(void) const;
-
-		float		toFloat(void) const;
-		int 		toInt(void) const;
-		float		convertFracPart(float const f) const;
-		float		calcBitsToFloat(std::string bits, int prec) const;
-		std::string calcBits(float f, int prec) const;
-		float		calcFracPart(float num) const;
-
-		
 		Fixed		& operator=(Fixed const & rhs);
+
+
+		// SETTER/GETTER/CONVERTERS
+		void		setRawBits(int const raw);
+		int			getRawBits(void) const;
+		float		toFloat(void) const;
+		int 		toInt(void) const;		
+		bool		isFloat(void) const;
+		float		getTypedValue(void) const;
 		
+		// SURCHARGES
 		bool		operator>(Fixed const & rhs) const;
 		bool		operator>=(Fixed const & rhs) const;
 		bool		operator<(Fixed const & rhs) const;
 		bool		operator<=(Fixed const & rhs) const;
 		bool		operator==(Fixed const & rhs) const;
 		bool		operator!=(Fixed const & rhs) const;
-
 		Fixed		operator+(Fixed const & rhs) const;
 		Fixed		operator-(Fixed const & rhs) const;
 		Fixed		operator*(Fixed const & rhs) const;
 		Fixed		operator/(Fixed const & rhs) const;
-
 		Fixed		operator++(void);
 		Fixed		operator++(int);
 		Fixed		operator--(void);
 		Fixed		operator--(int);
-
 		static Fixed	min(Fixed & lhs, Fixed & rhs);
 		static Fixed	min(Fixed const & lhs, Fixed const & rhs);
 		static Fixed	max(Fixed & lhs, Fixed & rhs);
 		static Fixed	max(Fixed const & lhs, Fixed const & rhs);
 
 	private:
-		int			_rawBits;
-		float		_float;
-		int 		_intPart;
-		float		_fracPart;
-		float		_fixed;
 
-		static const int _prec;
+		// DATA/PRECISION
+		int			_rawBits;
+		static const int	_prec;
+
+		// CONVERTERS DANS LES CONSTRUCTEURS
+		int			intToRawBits(int const num) const;
+		int			floatToRawBits(float const num) const;
+
+		// UTILS DANS LES CONVERTERS
+		float		getDecimal(float const num) const;
+		std::string	decToBin(int num) const;
+		std::string decToBinFractPart(float num, int prec) const;
+		float		toFloat(int	const num) const;
+		int 		toInt(int const num) const;
+
 };
 
-std::ostream	& operator<<(std::ostream & o, Fixed const & nbr);
+std::ostream	& operator<<(std::ostream & o, Fixed const & num);
 
 #endif
