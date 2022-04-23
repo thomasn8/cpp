@@ -15,15 +15,8 @@ Fixed			Fixed::operator-(Fixed const & rhs) const
 
 Fixed			Fixed::operator*(Fixed const & rhs) const
 {
-	// float is 5.04688
-	// calc is 5.04688*2 = 10.0938
-
-	// float is 5.05078
-	// calc is 5.05078*2 = 10.1016
-
 	float l = this->getTypedValue();
 	float r = rhs.getTypedValue();
-	// std::cout << "calc is " << l << "*" << r << " = " << l * r << std::endl;
 	return Fixed(l * r);
 }
 
