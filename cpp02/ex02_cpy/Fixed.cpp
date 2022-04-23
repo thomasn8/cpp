@@ -29,7 +29,6 @@ int		Fixed::toRawBits(float const num) const
 /* ******************************************************* */
 /* ******************** DECONVERSIONS ******************** */
 
-// // ENLEVER LES COMMENTAIRES POUR VOIR LES CALCULES ET L'AJUSTEMENT DE L'ERREUR ABSOLUE
 // float		Fixed::bitsToFloat(std::string bits, int prec) const
 // {
 // 	float	res = 0;
@@ -59,6 +58,9 @@ int		Fixed::toRawBits(float const num) const
 // déconvertit _rawBits en nombre entier
 int 	Fixed::toInt(void) const
 {
+	// si rawBits ==  '11111111' -> return 0
+	// si rawBits == '0DDDDDDDD' -> return 0 car correspond à 0.XXXXXX
+
 	// itoa(rawBits)
 	// on retire les 8 derniers char, car pas de decimal
 	// on applique la formule de conversion de binaire à décimal pour int
@@ -67,6 +69,8 @@ int 	Fixed::toInt(void) const
 // déconvertit _rawBits (valeur en virgule fixe) en float (nombre à virgule flottante)
 float	Fixed::toFloat(void) const
 {
+	// si rawBits == '11111111' -> return 0
+
 	// itoa(rawBits)
 	// on split le rawBits en 2: 
 	// 8 derniers char = partie décimal -> formule de conversion de binaire à décimal pour decimal
