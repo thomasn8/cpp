@@ -4,35 +4,53 @@
 /* ******************** CONVERSIONS ******************** */
 
 // convertit un nombre (int ou float) en _rawBits
-int		Fixed::toRawBits(float const num) const
+std::string		toRawBits(float const num) const
 {
 	std::string	int_bits;
 	std::string	dec_bits;
-	std::string	combine;
-	int			rawBits;
+	std::string	rawBits;
 	
 	int_bits = integralToBits((int)num);
 	dec_bits = decimalToBits(this->getDecimal(num), this->_prec);
-	combine = int_bits + dec_bits;
-	// ici on a qqch comme: 10011.11000000
-	// la partie intégrale peut varier en taille: 		IIII.	ou	II.
-	// et la partie décimale est forcément sur 8 bits:	.DDDDDDDD
-	
-	rawBits = atoi(combine.c_str());
-	// au finale on peut avoir qqch comme IIIIDDDDDDDD
-	// on saura que les 8 derniers bits représentent la partie décimale.
-	// tout ce qui est avant représente la partie intégrale
+	rawBits = int_bits + dec_bits;
 	return rawBits;
 }
-
 
 /* ******************************************************* */
 /* ******************** DECONVERSIONS ******************** */
 
+// déconvertit _rawBits en nombre entier
+int 	Fixed::toInt(void) const
+{
+	std::string	bits = this->itoa(this->_rawBits);
+	std::size_t	len = bits.length();
+	char		b;
+	int			bit;
+	int			res = 0;
+	
+	// si rawBits ==  '11111111' -> return 0
+	// si rawBits == '0DDDDDDDD' -> return 0 car correspond à 0.XXXXXX
+	if (bits.length() == 8)
+		return 0;
+
+	// retire les 8 derniers char, car on veut retourner que la partie int part
+	bits.erase (len - 4, len);
+
+	// formule de conversion de binaire à décimal pour int
+	for(size_t e = 0; e < len; e++)
+	{
+		b = bits[e];
+		bit = atoi(&b);
+		res += bit * powf(2, e);
+	}
+	return res;
+}
+
+
 // float		Fixed::bitsToFloat(std::string bits, int prec) const
 // {
 // 	float	res = 0;
-// 	char	c;
+// 	char	b;
 // 	int		bit;
 // 	int		e = 0;					// index dans la partie bits <-> donne l'exposant dans le calcul
 // 	int		len = bits.length();
@@ -40,8 +58,8 @@ int		Fixed::toRawBits(float const num) const
 // 	// std::cout << std::endl <<std::endl << "CALC:" << std::endl;
 // 	while (e < prec && e < len)
 // 	{
-// 		c = bits[e];
-// 		bit = atoi(&c);
+// 		b = bits[e];
+// 		bit = atoi(&b);
 // 		// std::cout << res << " += " << bit << " * 2^" << -(e+1) << std::endl;
 // 		res += bit * powf(2, -(e+1));
 // 		e++;
@@ -55,26 +73,37 @@ int		Fixed::toRawBits(float const num) const
 // 	return res;
 // }
 
-// déconvertit _rawBits en nombre entier
-int 	Fixed::toInt(void) const
-{
-	// si rawBits ==  '11111111' -> return 0
-	// si rawBits == '0DDDDDDDD' -> return 0 car correspond à 0.XXXXXX
-
-	// itoa(rawBits)
-	// on retire les 8 derniers char, car pas de decimal
-	// on applique la formule de conversion de binaire à décimal pour int
-}
-
 // déconvertit _rawBits (valeur en virgule fixe) en float (nombre à virgule flottante)
 float	Fixed::toFloat(void) const
 {
-	// si rawBits == '11111111' -> return 0
+	std::string	bits = this->itoa(this->_rawBits);
+	std::size_t	len = bits.length();
+	char		b;
+	int			bit;
+	int			res_int = 0;
+	float		res_dec = 0;
 
-	// itoa(rawBits)
-	// on split le rawBits en 2: 
-	// 8 derniers char = partie décimal -> formule de conversion de binaire à décimal pour decimal
-	// restant = partie intégrale -> formule de conversion de binaire à décimal pour int
+	// si rawBits == '11111111' -> return 0
+	if (bits.length() == 8)
+		return 0;
+	
+	res_int = this->toInt();
+	
+	// on garde que les 8 derniers chars
+	bits.erase (0, len - 8);
+
+	// formule de conversion de binaire à décimal pour decimal part
+	// while (e < prec && e < len)
+	for(size_t e = 0; e < this->_prec; e++)
+	{
+		b = bits[e];
+		bit = atoi(&b);
+		res_dec += bit * powf(2, -(e + 1));
+	}
+	// ajustement de l'erreur absolue à + 2^(-n)
+	res_dec += 1 * powf(2, -this->_prec);
+
+	return res_int + res_dec;
 }
 
 
@@ -106,14 +135,14 @@ Fixed::Fixed(Fixed const & src)
 Fixed::Fixed(float const num)
 {
 	this->setRawBits(Fixed::_initValue);
-	this->_rawBits = this->toRawBits(num);
+	this->_bits = this->toRawBits(num);
 }
 
 // convertit l'entier en virgule fixe. Le nombre de bits de la partie fractionnaire est initialisé à 8
 Fixed::Fixed(int const num)
 {
 	this->setRawBits(Fixed::_initValue);
-	this->_rawBits = this->toRawBits(num);
+	this->_bits = this->toRawBits(num);
 }
 
 // _initValue = 11111111 (8 x 1), considéré comme Null

@@ -1,13 +1,13 @@
 #include "Fixed.hpp"
 
-std::string	itoa(int num)
+std::string	Fixed::itoa(int const num) const
 {
 	std::stringstream	out;
 	out << num;
 	return out.str();
 }
 
-std::string	itoaf(float num)
+std::string	Fixed::itoaf(float const num) const
 {
 	std::stringstream	out;
 	out << num;
@@ -17,23 +17,22 @@ std::string	itoaf(float num)
 /* ************************************************** */
 /* ******************** INTEGRAL ******************** */
 
-std::string	Fixed::integralToBits(int const num) const
+std::string	Fixed::integralToBits(int num) const
 {
-	int			n;
 	int			r;
 	std::string bits;
 
-	while (n)
+	while (num)
 	{
-		r = n % 2;
+		r = num % 2;
 		if (r == 1)
-			bits += '1';
+			bits = '1' + bits;
 		else
-			bits += '0';
-		n /= 2;
+			bits = '0' + bits;
+		num /= 2;
 	}
-	if (bits.length() == 0)
-		bits += '0';
+	// if (bits.length() == 0)
+	// 	bits += '0';
 	return bits;
 }
 
