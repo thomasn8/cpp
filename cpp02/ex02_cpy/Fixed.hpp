@@ -21,46 +21,36 @@ class Fixed
 		int			getRawBits(void) const;
 		float		toFloat(void) const;
 		int 		toInt(void) const;
-
-		// CONVERSIONS
-		std::string	toRawBits(float const num) const;
-		// CONVERSION PARTIE INTEGRALE
-		std::string	integralToBits(int num) const;
-		float		convertIntPart(float const num) const;
-		// CONVERSION PARTIE DECIMALE
-		float		getDecimal(float const num) const;
-		std::string decimalToBits(float num, int prec) const;
-		// float		bitsToFloat(std::string bits, int prec) const;
 		
-		std::string	itoa(int const num) const;
-		std::string	itoaf(float const num) const;
+		std::string	decToBin(int num) const;
 
-		
-		// bool		operator>(Fixed const & rhs) const;
-		// bool		operator>=(Fixed const & rhs) const;
-		// bool		operator<(Fixed const & rhs) const;
-		// bool		operator<=(Fixed const & rhs) const;
-		// bool		operator==(Fixed const & rhs) const;
-		// bool		operator!=(Fixed const & rhs) const;
+		bool		operator>(Fixed const & rhs) const;
+		bool		operator>=(Fixed const & rhs) const;
+		bool		operator<(Fixed const & rhs) const;
+		bool		operator<=(Fixed const & rhs) const;
+		bool		operator==(Fixed const & rhs) const;
+		bool		operator!=(Fixed const & rhs) const;
 
-		// Fixed		operator+(Fixed const & rhs) const;
-		// Fixed		operator-(Fixed const & rhs) const;
-		// Fixed		operator*(Fixed const & rhs) const;
-		// Fixed		operator/(Fixed const & rhs) const;
+		Fixed		operator+(Fixed const & rhs) const;
+		Fixed		operator-(Fixed const & rhs) const;
+		Fixed		operator*(Fixed const & rhs) const;
+		Fixed		operator/(Fixed const & rhs) const;
 
-		// Fixed		operator++(void);
-		// Fixed		operator++(int);
-		// Fixed		operator--(void);
-		// Fixed		operator--(int);
+		Fixed		operator++(void);
+		Fixed		operator++(int);
+		Fixed		operator--(void);
+		Fixed		operator--(int);
 
-		// static Fixed	min(Fixed & lhs, Fixed & rhs);
-		// static Fixed	min(Fixed const & lhs, Fixed const & rhs);
-		// static Fixed	max(Fixed & lhs, Fixed & rhs);
-		// static Fixed	max(Fixed const & lhs, Fixed const & rhs);
+		static Fixed	min(Fixed & lhs, Fixed & rhs);
+		static Fixed	min(Fixed const & lhs, Fixed const & rhs);
+		static Fixed	max(Fixed & lhs, Fixed & rhs);
+		static Fixed	max(Fixed const & lhs, Fixed const & rhs);
 
 	private:
-		int					_rawBits;
-		std::string			_bits;
+		int			_rawBits;
+
+		int			intToRawBits(int const num) const;
+		int			floatToRawBits(float const num) const;
 
 		static const int	_prec;
 		static const int	_initValue;

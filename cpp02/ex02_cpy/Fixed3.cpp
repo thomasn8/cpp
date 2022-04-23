@@ -2,7 +2,7 @@
 
 /* *************************************************** */
 /* ******************** SURCHARGE ******************** */
-/* 
+
 Fixed			Fixed::operator+(Fixed const & rhs) const
 {
 	return Fixed(this->toFloat() + rhs.toFloat());
@@ -67,15 +67,19 @@ bool			Fixed::operator!=(Fixed const & rhs) const
 
 Fixed			Fixed::operator++(void)
 {
-	this->setRawBits(this->_rawBits++);
+	if (this->_rawBits == this->_initValue)
+		this->_rawBits = 0;
+	++this->_rawBits;
 	return *this;
 }
 
 Fixed			Fixed::operator++(int)
 {
 	Fixed	tmp(this->toFloat());
-
-	this->setRawBits(this->_rawBits++);
+	
+	if (this->_rawBits == this->_initValue)
+		this->_rawBits = 0;
+	this->_rawBits++;
 	return (tmp);
 }
 
@@ -92,11 +96,11 @@ Fixed			 Fixed::operator--(int)
 	this->setRawBits(this->_rawBits--);
 	return (tmp);
 }
-*/
+
 
 /* ************************************************ */
 /* ******************** STATIC ******************** */
-/*
+
 Fixed			Fixed::min(Fixed & lhs, Fixed & rhs)
 {
 	if (lhs < rhs)
@@ -132,6 +136,3 @@ Fixed			Fixed::max(Fixed const & lhs, Fixed const & rhs)
 		return Fixed(rhs);
 	return (Fixed());
 }
-*/
-const int Fixed::_prec = 8;
-const int Fixed::_initValue = 11111111;

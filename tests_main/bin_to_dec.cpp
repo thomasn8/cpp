@@ -137,18 +137,34 @@ float	toFloat(int	const num)
 	float		res;
 
 	bits = decToBin(num);
+// std::cout << "bits: "<< bits << std::endl;
 	if (bits == "11111111")
 		return 0;
-	len = bits.length();
 	res = toInt(num);
-	bits.erase(0, len - 8);
+// if (res)
+// std::cout << "int res: "<< res << std::endl;
+	len = bits.length();
+	if (len > 8)
+		bits.erase(0, len - 8);
+// std::cout << "bits: "<< bits << std::endl;
+	len = bits.length();
+	while (len != 8)
+	{
+		bits = '0' + bits;
+		len = bits.length();
+	}
+// std::cout << "bits: "<< bits << std::endl;
 	for(int e = 0; e < 8; e++)
 	{
 		b = bits[e];
 		bit = atoi(&b);
+// std::cout << bit << " * 2^" << -(e+1);
 		res += bit * powf(2, -(e+1));
+// std::cout << " = " << bit * powf(2, -(e+1)) << std::endl;
 	}
+// std::cout << "+ " << 1 * powf(2, -8) << std::endl;
 	res += 1 * powf(2, -8);	// ajustement de l'erreur absolue à + 2^(-n), possible de ne pas le faire aussi
+// std::cout << "Résultat = ";
 	return res;
 }
 
@@ -164,59 +180,57 @@ float	toFloat(int	const num)
 */
 int main()
 {
+	int  t = -1;
+	while (++t < 5)
+		std::cout << std::endl << "toFloat(" << t << "): " << std::endl << toFloat(t) << std::endl;
+
 	float	n;
 
 	/* ******************** */
 	/* ****** TO INT ****** */
-	std::cout << "****** TO INT ******" << std::endl;
-	n = 42;
-	std::cout << "conversion de " << n << " toRawBits() = " << toRawBits(n) << std::endl;
-	n=toRawBits(n);
-	std::cout << "déconversion de " << n << " toInt() = " << toInt(n) << std::endl;
-	n = toInt(n);
-	std::cout << std::endl;
-	n = 42.42;
-	std::cout << "conversion de " << n << " toRawBits() = " << toRawBits(n) << std::endl;
-	n=toRawBits(n);
-	std::cout << "déconversion de " << n << " toInt() = " << toInt(n) << std::endl;
-	n = toInt(n);
-	std::cout << std::endl;
-	n = 0.42;
-	std::cout << "conversion de " << n << " toRawBits() = " << toRawBits(n) << std::endl;
-	n=toRawBits(n);
-	std::cout << "déconversion de " << n << " toInt() = " << toInt(n) << std::endl;
-	n = toInt(n);
-	std::cout << std::endl;
-	n = 0.78;
-	std::cout << "conversion de " << n << " toRawBits() = " << toRawBits(n) << std::endl;
-	n=toRawBits(n);
-	std::cout << "déconversion de " << n << " toInt() = " << toInt(n) << std::endl;
-	n = toInt(n);
-	std::cout << std::endl;
-	n = 0;
-	std::cout << "conversion de " << n << " toRawBits() = " << toRawBits(n) << std::endl;
-	n=toRawBits(n);
-	std::cout << "déconversion de " << n << " toInt() = " << toInt(n) << std::endl;
-	n = toInt(n);
-	std::cout << std::endl;
-	n = 5.05;
-	std::cout << "conversion de " << n << " toRawBits() = " << toRawBits(n) << std::endl;
-	n=toRawBits(n);
-	std::cout << "déconversion de " << n << " toInt() = " << toInt(n) << std::endl;
-	n = toInt(n);
-	std::cout << std::endl;
-	n = 1234.4321;
-	std::cout << "conversion de " << n << " toRawBits() = " << toRawBits(n) << std::endl;
-	n=toRawBits(n);
-	std::cout << "déconversion de " << n << " toInt() = " << toInt(n) << std::endl;
-	n = toInt(n);
-	std::cout << std::endl;
-	n = 123456;
-	std::cout << "conversion de " << n << " toRawBits() = " << toRawBits(n) << std::endl;
-	n=toRawBits(n);
-	std::cout << "déconversion de " << n << " toInt() = " << toInt(n) << std::endl;
-	n = toInt(n);
-	std::cout << std::endl;
+	// std::cout << "****** TO INT ******" << std::endl;
+	// n = 42;
+	// std::cout << "conversion de " << n << " toRawBits() = " << toRawBits(n) << std::endl;
+	// n=toRawBits(n);
+	// std::cout << "déconversion de " << n << " toInt() = " << toInt(n) << std::endl;
+	// n = toInt(n);
+	// std::cout << std::endl;
+	// n = 42.42;
+	// std::cout << "conversion de " << n << " toRawBits() = " << toRawBits(n) << std::endl;
+	// n=toRawBits(n);
+	// std::cout << "déconversion de " << n << " toInt() = " << toInt(n) << std::endl;
+	// n = toInt(n);
+	// std::cout << std::endl;
+	// n = 0.42;
+	// std::cout << "conversion de " << n << " toRawBits() = " << toRawBits(n) << std::endl;
+	// n=toRawBits(n);
+	// std::cout << "déconversion de " << n << " toInt() = " << toInt(n) << std::endl;
+	// n = toInt(n);
+	// std::cout << std::endl;
+	// n = 0.78;
+	// std::cout << "conversion de " << n << " toRawBits() = " << toRawBits(n) << std::endl;
+	// n=toRawBits(n);
+	// std::cout << "déconversion de " << n << " toInt() = " << toInt(n) << std::endl;
+	// n = toInt(n);
+	// std::cout << std::endl;
+	// n = 0;
+	// std::cout << "conversion de " << n << " toRawBits() = " << toRawBits(n) << std::endl;
+	// n=toRawBits(n);
+	// std::cout << "déconversion de " << n << " toInt() = " << toInt(n) << std::endl;
+	// n = toInt(n);
+	// std::cout << std::endl;
+	// n = 5.05;
+	// std::cout << "conversion de " << n << " toRawBits() = " << toRawBits(n) << std::endl;
+	// n=toRawBits(n);
+	// std::cout << "déconversion de " << n << " toInt() = " << toInt(n) << std::endl;
+	// n = toInt(n);
+	// std::cout << std::endl;
+	// n = 1234.4321;
+	// std::cout << "conversion de " << n << " toRawBits() = " << toRawBits(n) << std::endl;
+	// n=toRawBits(n);
+	// std::cout << "déconversion de " << n << " toInt() = " << toInt(n) << std::endl;
+	// n = toInt(n);
+	// std::cout << std::endl;
 
 	/* ********************** */
 	/* ****** TO FLOAT ****** */
@@ -263,7 +277,13 @@ int main()
 	std::cout << "déconversion de " << n << " toFloat() = " << toFloat(n) << std::endl;
 	n = toFloat(n);
 	std::cout << std::endl;
-	n = 123456;
+	n = 0.00390625;
+	std::cout << "conversion de " << n << " toRawBits() = " << toRawBits(n) << std::endl;
+	n=toRawBits(n);
+	std::cout << "déconversion de " << n << " toFloat() = " << toFloat(n) << std::endl;
+	n = toFloat(n);
+	std::cout << std::endl;
+	n = 0.0078125;
 	std::cout << "conversion de " << n << " toRawBits() = " << toRawBits(n) << std::endl;
 	n=toRawBits(n);
 	std::cout << "déconversion de " << n << " toFloat() = " << toFloat(n) << std::endl;
@@ -314,4 +334,14 @@ int main()
 		// -> 0 -> 0
 		// -> .01101011 -> 0.4219
 		// -> 0.4219
+
+		// Conversion:
+	// 0.00390625-> en bits -> .00000001
+	// 000000001 -> en int -> 1
+		// Déconversion:
+	// 1 -> en bits -> 00000001
+	// 00000001 -> en float -> 0.00000001
+		// -> 0 -> 0
+		// -> 00000001 -> 0.00390625
+		// -> 0.00390625
 */
