@@ -54,8 +54,7 @@ class Fixed
 		static const int	_prec;
 
 		// CONVERTERS DANS LES CONSTRUCTEURS
-		int			intToRawBits(int const num) const;
-		int			floatToRawBits(float const num) const;
+		int			toRawBits(float const num) const;
 
 		// UTILS DANS LES CONVERTERS
 		float		getDecimal(float const num) const;

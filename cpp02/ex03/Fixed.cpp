@@ -43,13 +43,13 @@ Fixed::Fixed(Fixed const & src)
 Fixed::Fixed(float const num)
 {
 	this->setRawBits(0);
-	this->_rawBits = this->floatToRawBits(num);
+	this->_rawBits = this->toRawBits(num);
 }
 
 Fixed::Fixed(int const num)
 {
 	this->setRawBits(0);
-	this->_rawBits = this->intToRawBits(num);
+	this->_rawBits = this->toRawBits(num);
 }
 
 Fixed::Fixed(void)

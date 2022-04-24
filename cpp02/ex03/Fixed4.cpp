@@ -1,7 +1,7 @@
 #include "Fixed.hpp"
 
-/* ************************************************* */
-/* ******************** PRIVATE ******************** */
+/* *********************************************** */
+/* ******************** UTILS ******************** */
 
 std::string	itoa(int const num)
 {
@@ -27,41 +27,6 @@ float		Fixed::getDecimal(float const num) const
 	s = '0' + s;
 	r = std::stof(s, NULL);
 	return r;
-}
-
-std::string	Fixed::decToBin(int num) const
-{
-	int			r;
-	std::string bits;
-
-	while (num)
-	{
-		r = num % 2;
-		if (r == 1)
-			bits = '1' + bits;
-		else
-			bits = '0' + bits;
-		num /= 2;
-	}
-	return bits;
-}
-
-std::string Fixed::decToBinFractPart(float num, int prec) const
-{
-	std::string bits;
-	
-	while (--prec >= 0)
-	{
-		if (num < 1)
-			num *= 2;
-		else
-			num = (num - 1) * 2;
-		if (num < 1)
-			bits += '0';
-		else
-			bits += '1';
-	}
-	return bits;
 }
 
 int 	Fixed::toInt(int const num) const
