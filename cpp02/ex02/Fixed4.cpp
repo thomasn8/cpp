@@ -67,19 +67,21 @@ std::string Fixed::decToBinFractPart(float num, int prec) const
 int 	Fixed::toInt(int const num) const
 {
 	std::string	bits;
-	std::size_t	len = 0;
+	int			len;
 	char		b;
 	int			bit;
 	int			res;
+	int			prec = this->_prec;
 
 	bits = this->decToBin(num);
-	if (bits == "11111111" || bits.length() < 8)
+	len = bits.length();
+	if (num == 0 || len <= prec)
 		return 0;
 	len = bits.length();
-	bits.erase(len - 8, 8);
+	bits.erase(len - prec, prec);
 	len = bits.length();
 	res = 0;
-	for(size_t e = 0; e < len; e++)
+	for (int e = 0; e < len; e++)
 	{
 		b = bits[e];
 		bit = atoi(&b);
@@ -91,26 +93,24 @@ int 	Fixed::toInt(int const num) const
 float	Fixed::toFloat(int	const num) const 
 {
 	std::string	bits;
-	std::string	intBits;
-	std::size_t	len;
+	int			len;
 	char		b;
 	int			bit;
 	float		res;
+	int			prec = this->_prec;
 
 	bits = this->decToBin(num);
-	if (bits == "11111111")
-		return 0;
 	res = this->toInt(num);
 	len = bits.length();
-	if (len > 8)
-		bits.erase(0, len - 8);
+	if (len > prec)
+		bits.erase(0, len - prec);
 	len = bits.length();
-	while (len != 8)
+	while (len != prec)
 	{
 		bits = '0' + bits;
 		len = bits.length();
 	}
-	for(int e = 0; e < 8; e++)
+	for (int e = 0; e < prec; e++)
 	{
 		b = bits[e];
 		bit = atoi(&b);

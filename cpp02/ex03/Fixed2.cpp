@@ -40,15 +40,16 @@ int		Fixed::intToRawBits(int const num) const
 	std::string	rawBits;
 	char		b;
 	int			bit;
-	size_t		len;
+	int			len;
 	int			res;
 	int			prec = this->_prec;
 	
 	rawBits = this->decToBin(num);
-	rawBits += "00000000";
+	for (int i = 0; i < prec; i++)
+		rawBits += '0';
 	len = rawBits.length();
 	res = 0;
-	for(size_t e = 0; e < len; e++)
+	for(int e = 0; e < len; e++)
 	{
 		b = rawBits[e];
 		bit = atoi(&b);
@@ -64,7 +65,7 @@ int		Fixed::floatToRawBits(float const num) const
 	std::string	bits;
 	char		b;
 	int			bit;
-	size_t		len;
+	int			len;
 	int			res;
 	int			prec = this->_prec;
 	float		correction;
@@ -73,7 +74,7 @@ int		Fixed::floatToRawBits(float const num) const
 	bits = bits + this->decToBinFractPart(this->getDecimal(num), prec);
 	len = bits.length();
 	res = 0;
-	for(size_t e = 0; e < len; e++)
+	for (int e = 0; e < len; e++)
 	{
 		b = bits[e];
 		bit = atoi(&b);
@@ -92,20 +93,21 @@ int		Fixed::floatToRawBits(float const num) const
 int 	Fixed::toInt(void) const
 {
 	std::string	bits;
-	std::size_t	len = 0;
+	int			len;
 	char		b;
 	int			bit;
 	int			res;
 	int			prec = this->_prec;
 
 	bits = this->decToBin(this->_rawBits);
-	if (bits.length() < prec || this->_rawBits == 0)
+	len = bits.length();
+	if (this->_rawBits == 0 || len <= prec)
 		return 0;
 	len = bits.length();
 	bits.erase(len - prec, prec);
 	len = bits.length();
 	res = 0;
-	for(size_t e = 0; e < len; e++)
+	for (int e = 0; e < len; e++)
 	{
 		b = bits[e];
 		bit = atoi(&b);
@@ -117,8 +119,7 @@ int 	Fixed::toInt(void) const
 float	Fixed::toFloat(void) const
 {
 	std::string	bits;
-	std::string	intBits;
-	std::size_t	len;
+	int			len;
 	char		b;
 	int			bit;
 	float		res;
@@ -126,8 +127,8 @@ float	Fixed::toFloat(void) const
 
 	if (this->_rawBits == 0)
 		return 0;
-	res = toInt();
 	bits = this->decToBin(this->_rawBits);
+	res = toInt();
 	len = bits.length();
 	if (len > prec)
 		bits.erase(0, len - prec);
@@ -137,7 +138,7 @@ float	Fixed::toFloat(void) const
 		bits = '0' + bits;
 		len = bits.length();
 	}
-	for(int e = 0; e < prec; e++)
+	for (int e = 0; e < prec; e++)
 	{
 		b = bits[e];
 		bit = atoi(&b);

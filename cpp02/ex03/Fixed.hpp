@@ -41,7 +41,7 @@ class Fixed
 		Fixed		operator++(int);
 		Fixed		operator--(void);
 		Fixed		operator--(int);
-
+		
 		static Fixed	min(Fixed & lhs, Fixed & rhs);
 		static Fixed	min(Fixed const & lhs, Fixed const & rhs);
 		static Fixed	max(Fixed & lhs, Fixed & rhs);

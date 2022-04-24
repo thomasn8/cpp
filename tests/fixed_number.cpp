@@ -3,6 +3,13 @@
 #include <cmath>
 #include <cstdlib>
 
+// global var permettant de préciser la précision des calcules binaires
+// pour stocker la partie fractionnaire du float
+int	g_prec = 8;
+
+/* **************************************************** */
+/* *************** CALCULS DE CONVERSION ************** */
+
 std::string	itoa(int const num)
 {
 	std::stringstream	out;
@@ -29,9 +36,6 @@ float		getDecimal(float const num)
 	return r;
 }
 
-/* **************************************************** */
-/* ******************** DEC TO BIN ******************** */
-
 std::string	decToBin(int num)
 {
 	int			r;
@@ -53,7 +57,6 @@ std::string floatDecToBin(float num, int prec)
 {
 	std::string bits;
 	
-	// std::cout << std::endl; 
 	while (--prec >= 0)
 	{
 		if (num < 1)
@@ -64,34 +67,8 @@ std::string floatDecToBin(float num, int prec)
 			bits += '0';
 		else
 			bits += '1';
-		// std::cout << "bits = " << bits << std::endl; 
 	}
-	// std::cout << "bits = " << bits << std::endl; 
 	return bits;
-}
-
-int		toRawBits(float const num)
-{
-	std::string	rawBits;
-	char		b;
-	int			bit;
-	size_t		len;
-	int			res;
-	
-	// std::cout << std::endl; 
-	rawBits = decToBin((int)num);
-	// std::cout << "rawBits1: " << rawBits << std::endl; 
-	rawBits = rawBits + floatDecToBin(getDecimal(num), 8);
-	// std::cout << "rawBits2: " << rawBits << std::endl; 
-	len = rawBits.length();
-	res = 0;
-	for(size_t e = 0; e < len; e++)
-	{
-		b = rawBits[e];
-		bit = atoi(&b);
-		res += bit * powf(2, len-e-1);
-	}
-	return res;
 }
 
 /* **************************************************** */
@@ -100,75 +77,96 @@ int		toRawBits(float const num)
 int 	toInt(int const num)
 {
 	std::string	bits;
-	std::size_t	len = 0;
+	int			len;
 	char		b;
 	int			bit;
 	int			res;
 
-// std::cout << std::endl << std::endl << "toInt()" << std::endl;
-// std::cout << num << std::endl;
 	bits = decToBin(num);
-// std::cout << bits << std::endl;
-	if (bits == "11111111" || bits.length() < 8)
+	len = bits.length();
+	if (num == 0 || len <= g_prec)
 		return 0;
 	len = bits.length();
-	bits.erase(len - 8, 8);
+	bits.erase(len - g_prec, g_prec);
 	len = bits.length();
-// std::cout << bits << std::endl;
 	res = 0;
-	for(size_t e = 0; e < len; e++)
+	for(int e = 0; e < len; e++)
 	{
 		b = bits[e];
 		bit = atoi(&b);
-// std::cout << bit << "* 2^" << len-1-e << std::endl;
 		res += bit * powf(2, len-1-e);
 	}
-// std::cout << res << std::endl;
 	return res;
 }
 
 float	toFloat(int	const num)
 {
 	std::string	bits;
-	std::string	intBits;
-	std::size_t	len;
+	int			len;
 	char		b;
 	int			bit;
 	float		res;
 
 	bits = decToBin(num);
-// std::cout << "bits: "<< bits << std::endl;
-	if (bits == "11111111")
-		return 0;
 	res = toInt(num);
-// if (res)
-// std::cout << "int res: "<< res << std::endl;
 	len = bits.length();
-	if (len > 8)
-		bits.erase(0, len - 8);
-// std::cout << "bits: "<< bits << std::endl;
+	if (len > g_prec)
+		bits.erase(0, len - g_prec);
 	len = bits.length();
-	while (len != 8)
+	while (len != g_prec)
 	{
 		bits = '0' + bits;
 		len = bits.length();
 	}
-// std::cout << "bits: "<< bits << std::endl;
-	for(int e = 0; e < 8; e++)
+	for(int e = 0; e < g_prec; e++)
 	{
 		b = bits[e];
 		bit = atoi(&b);
-// std::cout << bit << " * 2^" << -(e+1);
 		res += bit * powf(2, -(e+1));
-// std::cout << " = " << bit * powf(2, -(e+1)) << std::endl;
 	}
-// std::cout << "+ " << 1 * powf(2, -8) << std::endl;
-	res += 1 * powf(2, -8);	// ajustement de l'erreur absolue à + 2^(-n), possible de ne pas le faire aussi
-// std::cout << "Résultat = ";
 	return res;
 }
 
+
+/* **************************************************** */
+/* ******************** DEC TO BIN ******************** */
+
+// avec correction de +1 sur la valeur binaire 
+// si trop grosse perte de précision par rapport au float initial
+int		toRawBits(float const num)
+{
+	std::string	bits;
+	char		b;
+	int			bit;
+	int			len;
+	int			res;
+	float 		correction;
+
+	bits = decToBin((int)num);
+	bits = bits + floatDecToBin(getDecimal(num), g_prec);
+	len = bits.length();
+	res = 0;
+	for(int e = 0; e < len; e++)
+	{
+		b = bits[e];
+		bit = atoi(&b);
+		res += bit * powf(2, len-e-1);
+	}
+	correction = num - toFloat(res);
+	if (correction > powf(2, -g_prec) / 2)
+		res += 1;
+	return res;
+}
+
+
 /* 
+	// PLUS ON AUGMENTE LA PRECISION, MOINS ON A DE BITS DISPO POUR STOCKER LE NOMBRE
+	// -> exemple: sur 8 bits de précision on peut traiter un float comme 1234.43
+	// mais pas sur 12 bits de précision
+	
+
+	// POUR UNE PRECISION SUR 8 BITS:
+	
 	En 32 bits: max int = 2147483647 = 1111111111111111111111111111111 -> 31 bits (+1 pour le signe)
 	Ici on a 26 bits pour stocker la partie intégrale, 8 réservés au décimale (initialisés à '11111111')
 	
@@ -181,59 +179,69 @@ float	toFloat(int	const num)
 int main()
 {
 	int  t = -1;
+	/* ************************** */
+	/* ****** BIT PAR BIT  ****** */
 	while (++t < 5)
 		std::cout << std::endl << "toFloat(" << t << "): " << std::endl << toFloat(t) << std::endl;
+	std::cout << std::endl;
+
+
 
 	float	n;
-
 	/* ******************** */
 	/* ****** TO INT ****** */
-	// std::cout << "****** TO INT ******" << std::endl;
-	// n = 42;
-	// std::cout << "conversion de " << n << " toRawBits() = " << toRawBits(n) << std::endl;
-	// n=toRawBits(n);
-	// std::cout << "déconversion de " << n << " toInt() = " << toInt(n) << std::endl;
-	// n = toInt(n);
-	// std::cout << std::endl;
-	// n = 42.42;
-	// std::cout << "conversion de " << n << " toRawBits() = " << toRawBits(n) << std::endl;
-	// n=toRawBits(n);
-	// std::cout << "déconversion de " << n << " toInt() = " << toInt(n) << std::endl;
-	// n = toInt(n);
-	// std::cout << std::endl;
-	// n = 0.42;
-	// std::cout << "conversion de " << n << " toRawBits() = " << toRawBits(n) << std::endl;
-	// n=toRawBits(n);
-	// std::cout << "déconversion de " << n << " toInt() = " << toInt(n) << std::endl;
-	// n = toInt(n);
-	// std::cout << std::endl;
-	// n = 0.78;
-	// std::cout << "conversion de " << n << " toRawBits() = " << toRawBits(n) << std::endl;
-	// n=toRawBits(n);
-	// std::cout << "déconversion de " << n << " toInt() = " << toInt(n) << std::endl;
-	// n = toInt(n);
-	// std::cout << std::endl;
-	// n = 0;
-	// std::cout << "conversion de " << n << " toRawBits() = " << toRawBits(n) << std::endl;
-	// n=toRawBits(n);
-	// std::cout << "déconversion de " << n << " toInt() = " << toInt(n) << std::endl;
-	// n = toInt(n);
-	// std::cout << std::endl;
-	// n = 5.05;
-	// std::cout << "conversion de " << n << " toRawBits() = " << toRawBits(n) << std::endl;
-	// n=toRawBits(n);
-	// std::cout << "déconversion de " << n << " toInt() = " << toInt(n) << std::endl;
-	// n = toInt(n);
-	// std::cout << std::endl;
-	// n = 1234.4321;
-	// std::cout << "conversion de " << n << " toRawBits() = " << toRawBits(n) << std::endl;
-	// n=toRawBits(n);
-	// std::cout << "déconversion de " << n << " toInt() = " << toInt(n) << std::endl;
-	// n = toInt(n);
-	// std::cout << std::endl;
+	std::cout << "****** TO INT ******" << std::endl;
+	n = 42;
+	std::cout << "conversion de " << n << " toRawBits() = " << toRawBits(n) << std::endl;
+	n=toRawBits(n);
+	std::cout << "déconversion de " << n << " toInt() = " << toInt(n) << std::endl;
+	n = toInt(n);
+	std::cout << std::endl;
+	n = 42.42;
+	std::cout << "conversion de " << n << " toRawBits() = " << toRawBits(n) << std::endl;
+	n=toRawBits(n);
+	std::cout << "déconversion de " << n << " toInt() = " << toInt(n) << std::endl;
+	n = toInt(n);
+	std::cout << std::endl;
+	n = 0.42;
+	std::cout << "conversion de " << n << " toRawBits() = " << toRawBits(n) << std::endl;
+	n=toRawBits(n);
+	std::cout << "déconversion de " << n << " toInt() = " << toInt(n) << std::endl;
+	n = toInt(n);
+	std::cout << std::endl;
+	n = 0.78;
+	std::cout << "conversion de " << n << " toRawBits() = " << toRawBits(n) << std::endl;
+	n=toRawBits(n);
+	std::cout << "déconversion de " << n << " toInt() = " << toInt(n) << std::endl;
+	n = toInt(n);
+	std::cout << std::endl;
+	n = 0;
+	std::cout << "conversion de " << n << " toRawBits() = " << toRawBits(n) << std::endl;
+	n=toRawBits(n);
+	std::cout << "déconversion de " << n << " toInt() = " << toInt(n) << std::endl;
+	n = toInt(n);
+	std::cout << std::endl;
+	n = 5;
+	std::cout << "conversion de " << n << " toRawBits() = " << toRawBits(n) << std::endl;
+	n=toRawBits(n);
+	std::cout << "déconversion de " << n << " toInt() = " << toInt(n) << std::endl;
+	n = toInt(n);
+	std::cout << std::endl;
+	n = 5.05;
+	std::cout << "conversion de " << n << " toRawBits() = " << toRawBits(n) << std::endl;
+	n=toRawBits(n);
+	std::cout << "déconversion de " << n << " toInt() = " << toInt(n) << std::endl;
+	n = toInt(n);
+	std::cout << std::endl;
+	n = 1234.4321;
+	std::cout << "conversion de " << n << " toRawBits() = " << toRawBits(n) << std::endl;
+	n=toRawBits(n);
+	std::cout << "déconversion de " << n << " toInt() = " << toInt(n) << std::endl;
+	n = toInt(n);
+	std::cout << std::endl;
 
-	/* ********************** */
-	/* ****** TO FLOAT ****** */
+	// /* ********************** */
+	// /* ****** TO FLOAT ****** */
 	std::cout << std::endl << std::endl << "****** TO FLOAT ******" << std::endl;
 	n = 42;
 	std::cout << "conversion de " << n << " toRawBits() = " << toRawBits(n) << std::endl;
@@ -254,6 +262,12 @@ int main()
 	n = toFloat(n);
 	std::cout << std::endl;
 	n = 0.78;
+	std::cout << "conversion de " << n << " toRawBits() = " << toRawBits(n) << std::endl;
+	n=toRawBits(n);
+	std::cout << "déconversion de " << n << " toFloat() = " << toFloat(n) << std::endl;
+	n = toFloat(n);
+	std::cout << std::endl;
+	n = 5;
 	std::cout << "conversion de " << n << " toRawBits() = " << toRawBits(n) << std::endl;
 	n=toRawBits(n);
 	std::cout << "déconversion de " << n << " toFloat() = " << toFloat(n) << std::endl;
