@@ -1,5 +1,9 @@
 #include "Point.hpp"
 
+const int Point::xMax = 10;
+const int Point::yMax = 10;
+
+
 Fixed	Point::getX(void) const
 {
 	return this->_x;
@@ -12,7 +16,7 @@ Fixed	Point::getY(void) const
 
 std::ostream	& operator<<(std::ostream & o, Point const & p)
 {
-	o << "(" << p.getX() << "," << p.getY() << ")";
+	o << "(" << p.getX() << " ; " << p.getY() << ")";
 	return o;
 }
 

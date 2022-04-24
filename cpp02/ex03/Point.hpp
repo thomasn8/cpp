@@ -17,6 +17,9 @@ class Point
 		Point(void);
 		~Point(void);
 
+		static int const xMax;
+		static int const yMax;
+
 	private:
 
 		Fixed const _x;

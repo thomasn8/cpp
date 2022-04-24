@@ -4,6 +4,7 @@ SRCS		=		main.cpp		\
 					Fixed3.cpp		\
 					Fixed4.cpp		\
 					Point.cpp		\
+					bsp.cpp			\
 
 OBJS		= ${SRCS:.cpp=.o}
 CC			= c++

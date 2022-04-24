@@ -1,44 +1,24 @@
 #include "Point.hpp"
 
+/* 
+	Définition des bornes du plan 2D grâce à :
+	static const int xMax = 10;
+	static const int yMax = 10;
+*/
+
 int main( void ) 
 {
-	/* ************************* */
-	/* ******* MAIN EX01 ******* */
-	// Fixed a;					// Default
-	// Fixed const b( 10 );		// Int
-	// Fixed const c( 42.42f );	// Float
-	// Fixed const d( b );			// Copy + Assignement
-	// a = Fixed( 1234.4321f );	// Float + Assignement + Destructor
+	Point a(2.55f, 2.12f);
+	Point b(3.63f, 5.47f);
+	Point c(5.51f, 0.82f);
 
-	// std::cout << "a is " << a << std::endl;		// a is 1234.43
-	// std::cout << "b is " << b << std::endl;		// b is 10
-	// std::cout << "c is " << c << std::endl; 	// c is 42.4219
-	// std::cout << "d is " << d << std::endl;		// d is 10	
+	std::cout << "triangle-a: " << a << std::endl;
+	std::cout << "triangle-b: " << b << std::endl;
+	std::cout << "triangle-c: " << c << std::endl;
 
-	// std::cout << "a is " << a.toInt() << " as integer" << std::endl;	// a is 1234 as integer
-	// std::cout << "b is " << b.toInt() << " as integer" << std::endl;	// b is 10 as integer
-	// std::cout << "c is " << c.toInt() << " as integer" << std::endl;	// c is 42 as integer
-	// std::cout << "d is " << d.toInt() << " as integer" << std::endl;	// d is 10 as integer
+	Point p1(5.97f, 3.78f);
+	Point p2(3.81f, 2.92f);
+	// Point p3(f, f);
 
-	/* ************************* */
-	/* ******* MAIN EX02 ******* */
-	// Fixed a;
-	// Fixed const b( Fixed( 5.05f ) * Fixed( 2 ) );
-
-	// std::cout << a << std::endl;					// 0
-	// std::cout << ++a << std::endl;					// 0.00390625
-	// std::cout << a << std::endl;					// 0.00390625
-	// std::cout << a++ << std::endl;					// 0.00390625
-	// std::cout << a << std::endl;					// 0.0078125
-	
-	// std::cout << b << std::endl;					// 10.1016
-
-	// std::cout << Fixed::max( a, b ) << std::endl;	// 10.1016
-		
-	/* ************************* */
-	/* ******* MAIN EX03 ******* */
-	Point point(3.12f, 10.1f);
-
-	std::cout << point << std::endl;
 	return 0;
 }

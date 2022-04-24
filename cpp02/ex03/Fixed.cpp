@@ -1,5 +1,7 @@
 #include "Fixed.hpp"
 
+const int Fixed::_prec = 8;
+
 /* *************************************************** */
 /* ******************** SURCHARGE ******************** */
 
@@ -60,5 +62,3 @@ Fixed::Fixed(void)
 Fixed::~Fixed(void)
 {
 }
-
-const int Fixed::_prec = 8;
