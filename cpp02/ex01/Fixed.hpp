@@ -2,45 +2,46 @@
 # define FIXED_HPP
 
 #include <iostream>
-#include <math.h>
+#include <cmath>
 #include <sstream>
-#include <stdlib.h>
+#include <cstdlib>
 
 class Fixed
 {
 	public:
-		void	setRawBits(int const raw);
-		void	setIntPart(float const f);
-		void	setFracPart(float const f);
-		
-		int		getRawBits(void) const;
-		int		getIntPart(void) const;
-		float	getFracPart(void) const;
 
+		// CANONICAL
+		Fixed(Fixed const & src);
+		Fixed(float const num);
+		Fixed(int const num);
+		Fixed(void);
+		~Fixed(void);
+		Fixed		& operator=(Fixed const & rhs);
+		// SETTER/GETTER/CONVERTERS
+		void		setRawBits(int const raw);
+		int			getRawBits(void) const;
+		float		getTypedValue(void) const;
+		bool		isFloat(void) const;
 		float		toFloat(void) const;
 		int 		toInt(void) const;
-		float		convertFracPart(float const f) const;
-		float		calcBitsToFloat(std::string bits, int prec) const;
-		std::string calcBits(float f, int prec) const;
-		float		calcFracPart(float num) const;
-
-		Fixed(void);
-		Fixed(Fixed const & src);
-		Fixed(int const n);
-		Fixed(float const f);
-		~Fixed(void);
-		
-		Fixed	& operator=(Fixed const & rhs);
 
 	private:
-		int		_rawBits;
-		float	_float;
-		int 	_intPart;
-		float	_fracPart;
 
-		static const int _prec;
+		// DATA/PRECISION
+		int			_rawBits;
+		static const int	_prec;
+		// CONVERTERS DANS LES CONSTRUCTEURS
+		int			intToRawBits(int const num) const;
+		int			floatToRawBits(float const num) const;
+		// UTILS DANS LES CONVERTERS
+		float		getDecimal(float const num) const;
+		std::string	decToBin(int num) const;
+		std::string decToBinFractPart(float num, int prec) const;
+		float		toFloat(int	const num) const;
+		int 		toInt(int const num) const;
+
 };
 
-std::ostream	& operator<<(std::ostream & o, Fixed const & nbr);
+std::ostream	& operator<<(std::ostream & o, Fixed const & num);
 
 #endif

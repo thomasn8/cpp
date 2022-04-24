@@ -11,7 +11,7 @@ std::ostream	& operator<<(std::ostream & o, Fixed const & num)
 
 Fixed			& Fixed::operator=(Fixed const & rhs)
 {
-	this->_rawBits = rhs._rawBits;
+	this->_rawBits = rhs.getRawBits();
 	return *this;
 }
 

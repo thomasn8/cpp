@@ -2,23 +2,32 @@
 # define FIXED_HPP
 
 #include <iostream>
+#include <cmath>
+#include <sstream>
+#include <cstdlib>
 
 class Fixed
 {
 	public:
-		int		getRawBits(void) const;
-		void	setRawBits(int const raw);
 
-		Fixed(void);
+		// CANONICAL
 		Fixed(Fixed const & src);
+		Fixed(void);
 		~Fixed(void);
+		Fixed		& operator=(Fixed const & rhs);
 
-		Fixed	& operator=(Fixed const & rhs);
+		// SETTER/GETTER/CONVERTERS
+		void		setRawBits(int const raw);
+		int			getRawBits(void) const;
 
 	private:
-		int	_rawBits;
-		
-		static const int _prec;
+
+		// DATA/PRECISION
+		int			_rawBits;
+		static const int	_prec;
+
 };
+
+std::ostream	& operator<<(std::ostream & o, Fixed const & num);
 
 #endif

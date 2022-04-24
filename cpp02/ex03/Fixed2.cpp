@@ -61,7 +61,7 @@ int		Fixed::intToRawBits(int const num) const
 // si trop grosse perte de précision par rapport au float initial
 int		Fixed::floatToRawBits(float const num) const
 {
-	std::string	rawBits;
+	std::string	bits;
 	char		b;
 	int			bit;
 	size_t		len;
@@ -69,13 +69,13 @@ int		Fixed::floatToRawBits(float const num) const
 	int			prec = this->_prec;
 	float		correction;
 	
-	rawBits = this->decToBin((int)num);
-	rawBits = rawBits + this->decToBinFractPart(this->getDecimal(num), prec);
-	len = rawBits.length();
+	bits = this->decToBin((int)num);
+	bits = bits + this->decToBinFractPart(this->getDecimal(num), prec);
+	len = bits.length();
 	res = 0;
 	for(size_t e = 0; e < len; e++)
 	{
-		b = rawBits[e];
+		b = bits[e];
 		bit = atoi(&b);
 		res += bit * powf(2, len-e-1);
 	}

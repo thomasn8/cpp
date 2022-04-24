@@ -18,14 +18,13 @@ class Fixed
 		~Fixed(void);
 		Fixed		& operator=(Fixed const & rhs);
 
-
 		// SETTER/GETTER/CONVERTERS
 		void		setRawBits(int const raw);
 		int			getRawBits(void) const;
-		float		toFloat(void) const;
-		int 		toInt(void) const;		
-		bool		isFloat(void) const;
 		float		getTypedValue(void) const;
+		bool		isFloat(void) const;
+		float		toFloat(void) const;
+		int 		toInt(void) const;
 		
 		// SURCHARGES
 		bool		operator>(Fixed const & rhs) const;
@@ -42,6 +41,7 @@ class Fixed
 		Fixed		operator++(int);
 		Fixed		operator--(void);
 		Fixed		operator--(int);
+
 		static Fixed	min(Fixed & lhs, Fixed & rhs);
 		static Fixed	min(Fixed const & lhs, Fixed const & rhs);
 		static Fixed	max(Fixed & lhs, Fixed & rhs);
