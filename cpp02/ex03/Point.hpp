@@ -19,7 +19,7 @@ class Point
 
 		static int const xMax;
 		static int const yMax;
-
+	
 	private:
 
 		Fixed const _x;
