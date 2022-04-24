@@ -23,18 +23,11 @@ std::ostream	& operator<<(std::ostream & o, Point const & p)
 Point	& Point::operator=(Point const & rhs)
 {
 	(void) rhs;
-
-	// *this = rhs;
-
-	// this->_x = rhs.getX();
-	// this->_y = rhs.getY();
-	// std::cout << "CONSTR ASSIGN"<<std::endl;
 	return *this;
 }
 
-Point::Point(Point const & src)
+Point::Point(Point const & src) : _x(src.getX()), _y(src.getY())
 {
-	*this = src;
 	// std::cout << "CONSTR COPY"<<std::endl;
 }
 
