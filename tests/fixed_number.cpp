@@ -3,7 +3,8 @@
 #include <cmath>
 #include <cstdlib>
 
-// global var permettant de préciser la précision des calcules binaires
+// global var permettant de préciser 
+// la longueur des calcules binaires
 // pour stocker la partie fractionnaire du float
 int	g_prec = 8;
 

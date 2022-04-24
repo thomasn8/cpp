@@ -48,13 +48,15 @@ class Fixed
 		static Fixed	max(Fixed const & lhs, Fixed const & rhs);
 
 	private:
+		
+		// CONVERTIT UN NOMBRE SUR _RAWBITS 
+		// EN RESERVANT LES _PREC PREMIERS BITS 
+		// POUR LA PRECISION DE LA PARTIE FRACTIONNAIRE DU NOMBRE
+		int			toRawBits(float const num) const;
 
 		// DATA/PRECISION
-		int			_rawBits;
+		int					_rawBits;
 		static const int	_prec;
-
-		// CONVERTERS DANS LES CONSTRUCTEURS
-		int			toRawBits(float const num) const;
 
 		// UTILS DANS LES CONVERTERS
 		float		getDecimal(float const num) const;
