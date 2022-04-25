@@ -4,14 +4,14 @@
 // et qu'on connait une des 2 coordonnées de ce point
 Fixed	missingY(Point const p1, Point const p2, Fixed xV)
 {
+	float 	y;
+	float	m;
+	float	b;
 	float 	p1X = p1.getX().toFloat();
 	float 	p1Y = p1.getY().toFloat();
 	float 	p2X = p2.getX().toFloat();
 	float 	p2Y = p2.getY().toFloat();
 	float 	x = xV.toFloat();
-	float 	y;
-	float	m;
-	float	b;
 
 	m = (p2Y - p1Y) / (p2X - p1X);
 	b = p1Y - m * p1X;
@@ -42,8 +42,8 @@ bool	castRayS(Point const a, Point const b, Point const c, Point const point)
 		if (vY < point.getY())
 			crossing++;
 	}
-	if (crossing > 1)
-		return false;
+	// if (crossing > 1)
+	// 	return false;
 	if ( (point.getX() > b.getX() && point.getX() < c.getX()) ||
 		 (point.getX() < b.getX() && point.getX() > c.getX()) )
 	{
