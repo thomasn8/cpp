@@ -16,9 +16,6 @@ class Point
 		Point(float const x, float const y);
 		Point(void);
 		~Point(void);
-
-		static int const xMax;
-		static int const yMax;
 	
 	private:
 
