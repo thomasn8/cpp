@@ -13,7 +13,11 @@ int main( void )
 	Point const c(5.51f, 0.82f);
 	Point const p1(5.97f, 3.78f);
 	Point const p2(3.81f, 2.92f);
-	bsp(a, b, c, p2);
+	std::cout << std::endl << std::endl;
+	std::cout << "P1 (hors du triangle):" << std::endl;
 	bsp(a, b, c, p1);
+	std::cout << std::endl << std::endl;
+	std::cout << "P2 (dans le triangle):" << std::endl;
+	bsp(a, b, c, p2);
 	return 0;
 }
