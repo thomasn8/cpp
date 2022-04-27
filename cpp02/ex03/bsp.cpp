@@ -1,4 +1,20 @@
 #include "Point.hpp"
+#include <stdio.h>
+
+char	ft_putchar(int num)
+{
+	return (num + '0' + 49);
+}
+
+bool	crossing_check(int crossing)
+{
+	if (crossing != 1)
+	{
+		std::cout << "FALSE -> point outside of triangle" <<std::endl;
+		return false;
+	}
+	return true;
+}
 
 /* ******************************************************* */
 /* ******************** VERTICAL RAYS ******************** */
@@ -18,51 +34,39 @@ Fixed	missingY(Point const p1, Point const p2, Fixed xV)
 	m = (p2Y - p1Y) / (p2X - p1X);
 	b = p1Y - m * p1X;
 	y = m * x + b;
-
 	return Fixed(y);
 }
 
+// rayons S et N pour détecter des intersections avec les côtés du triangle
 bool	verticalRay(Point const a, Point const b, Point const c, Point const point, char dir)
 {
+	Point	triangle[3] = {a, b, c};
+	int		i = 0;
+	int		j = 1;
 	int		crossing = 0;
 	Fixed	vY;
 
-	if ( (point.getX() > a.getX() && point.getX() < b.getX()) ||
-		 (point.getX() < a.getX() && point.getX() > b.getX()) )
+	for (int s = 0; s < 3; s++)
 	{
-		vY = missingY(a, b, point.getX());
-		if ((dir == 'S' && vY < point.getY()) || (dir == 'N' && vY > point.getY()))
+		if ( (point.getX() > triangle[i].getX() && point.getX() < triangle[i + j].getX()) ||
+			 (point.getX() < triangle[i].getX() && point.getX() > triangle[i + j].getX()) )
 		{
-			crossing++;
-			std::cout << "RAY-" << dir << ": a-b crossed in (" << point.getX().toFloat() << " ; " << vY.toFloat() << ")" << std::endl;
+			vY = missingY(triangle[i], triangle[i + j], point.getX());
+			if ((dir == 'S' && vY < point.getY()) || (dir == 'N' && vY > point.getY()))
+			{
+				crossing++;
+				std::cout << "RAY-" << dir << ": " <<  ft_putchar(i) << "-" << ft_putchar(i+j) << " crossed in (";
+				std::cout << point.getX().toFloat() << " ; " << vY.toFloat() << ")" << std::endl;
+			}
 		}
+		if (s != 0)
+			i++;
+		if (i != 1)
+			j++;
+		else
+			j--;
 	}
-	if ( (point.getX() > a.getX() && point.getX() < c.getX()) ||
-		 (point.getX() < a.getX() && point.getX() > c.getX()) )
-	{
-		vY = missingY(a, c, point.getX());
-		if ((dir == 'S' && vY < point.getY()) || (dir == 'N' && vY > point.getY()))
-		{
-			crossing++;
-			std::cout << "RAY-" << dir << ": a-b crossed in (" << point.getX().toFloat() << " ; " << vY.toFloat() << ")" << std::endl;
-		}
-	}
-	if ( (point.getX() > b.getX() && point.getX() < c.getX()) ||
-		 (point.getX() < b.getX() && point.getX() > c.getX()) )
-	{
-		vY = missingY(b, c, point.getX());
-		if ((dir == 'S' && vY < point.getY()) || (dir == 'N' && vY > point.getY()))
-		{
-			crossing++;
-			std::cout << "RAY-" << dir << ": a-b crossed in (" << point.getX().toFloat() << " ; " << vY.toFloat() << ")" << std::endl;
-		}
-	}
-	if (crossing != 1)
-	{
-		std::cout << "FALSE -> point outside of triangle" <<std::endl;
-		return false;
-	}
-	return true;
+	return crossing_check(crossing);
 }
 
 /* ********************************************************* */
@@ -87,47 +91,37 @@ Fixed	missingX(Point const p1, Point const p2, Fixed yV)
 	return Fixed(x);
 }
 
+// rayons W et E pour détecter des intersections avec les côtés du triangle
 bool	horizontalRay(Point const a, Point const b, Point const c, Point const point, char dir)
 {
+	Point	triangle[3] = {a, b, c};
+	int		i = 0;
+	int		j = 1;
 	int		crossing = 0;
 	Fixed	vX;
 
-	if ( (point.getY() > a.getY() && point.getY() < b.getY()) ||
-		 (point.getY() < a.getY() && point.getY() > b.getY()) )
-	{
-		vX = missingX(a, b, point.getY());
-		if ((dir == 'W' && vX < point.getX()) || (dir == 'E' && vX > point.getX()))
+
+	for (int s = 0; s < 3; s++)
+	{		
+		if ( (point.getY() > triangle[i].getY() && point.getY() < triangle[i + j].getY()) ||
+			 (point.getY() < triangle[i].getY() && point.getY() > triangle[i + j].getY()) )
 		{
-			crossing++;
-			std::cout << "RAY-" << dir << ": a-b crossed in (" << vX.toFloat() << " ; " << point.getY().toFloat() << ")" << std::endl;
+			vX = missingX(triangle[i], triangle[i + j], point.getY());
+			if ((dir == 'W' && vX < point.getX()) || (dir == 'E' && vX > point.getX()))
+			{
+				crossing++;
+				std::cout << "RAY-" << dir << ": " <<  ft_putchar(i) << "-" << ft_putchar(i+j) << " crossed in (";
+				std::cout << vX.toFloat() << " ; " << point.getY().toFloat() << ")" << std::endl;
+			}
 		}
+		if (s != 0)
+			i++;
+		if (i != 1)
+			j++;
+		else
+			j--;
 	}
-	if ( (point.getY() > a.getY() && point.getY() < c.getY()) ||
-		 (point.getY() < a.getY() && point.getY() > c.getY()) )
-	{
-		vX = missingX(a, c, point.getY());
-		if ((dir == 'W' && vX < point.getX()) || (dir == 'E' && vX > point.getX()))
-		{
-			crossing++;
-			std::cout << "RAY-" << dir << ": a-b crossed in (" << vX.toFloat() << " ; " << point.getY().toFloat() << ")" << std::endl;
-		}
-	}
-	if ( (point.getY() > b.getY() && point.getY() < c.getY()) ||
-		 (point.getY() < b.getY() && point.getY() > c.getY()) )
-	{
-		vX = missingX(b, c, point.getY());
-		if ((dir == 'W' && vX < point.getX()) || (dir == 'E' && vX > point.getX()))
-		{
-			crossing++;
-			std::cout << "RAY-" << dir << ": a-b crossed in (" << vX.toFloat() << " ; " << point.getY().toFloat() << ")" << std::endl;
-		}
-	}
-	if (crossing != 1)
-	{
-		std::cout << "FALSE -> point outside of triangle" <<std::endl;
-		return false;
-	}
-	return true;
+	return crossing_check(crossing);
 }
 
 /* ********************************************************* */
