@@ -87,7 +87,6 @@ Fixed	missingX(Point const p1, Point const p2, Fixed yV)
 	m = (p2Y - p1Y) / (p2X - p1X);
 	b = p1Y - m * p1X;
 	x = (y - b) / m;
-
 	return Fixed(x);
 }
 
