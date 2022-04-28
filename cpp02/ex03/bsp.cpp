@@ -11,7 +11,7 @@ void	compare_sides(int *s, int *i, int *j)
 		(*j)--;
 }
 
-char	ft_putchar(int num)
+char	angle_name(int num)
 {
 	return (num + '0' + 49);
 }
@@ -66,7 +66,7 @@ bool	verticalRay(Point const a, Point const b, Point const c, Point const point,
 			if ((dir == 'S' && vY < point.getY()) || (dir == 'N' && vY > point.getY()))
 			{
 				crossing++;
-				std::cout << "RAY-" << dir << ": " <<  ft_putchar(i) << "-" << ft_putchar(i+j) << " crossed in (";
+				std::cout << "RAY-" << dir << ": " <<  angle_name(i) << "-" << angle_name(i+j) << " crossed in (";
 				std::cout << point.getX().toFloat() << " ; " << vY.toFloat() << ")" << std::endl;
 			}
 		}
@@ -116,7 +116,7 @@ bool	horizontalRay(Point const a, Point const b, Point const c, Point const poin
 			if ((dir == 'W' && vX < point.getX()) || (dir == 'E' && vX > point.getX()))
 			{
 				crossing++;
-				std::cout << "RAY-" << dir << ": " <<  ft_putchar(i) << "-" << ft_putchar(i+j) << " crossed in (";
+				std::cout << "RAY-" << dir << ": " <<  angle_name(i) << "-" << angle_name(i+j) << " crossed in (";
 				std::cout << vX.toFloat() << " ; " << point.getY().toFloat() << ")" << std::endl;
 			}
 		}

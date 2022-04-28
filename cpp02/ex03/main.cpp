@@ -16,7 +16,7 @@ int main( void )
 	Point const p5(5.00f, 1.50f);			// dans le triangle
 	Point const p6(2.77f, 7.26f);			// hors du triangle
 	
-	// BSP DES POINTS ISOLÉS PAR RAPPORT AU TRIANGLE
+	// BSP DES POINTS PAR RAPPORT AU TRIANGLE
 	std::cout << std::endl;
 	std::cout << "P1 :" << std::endl;
 	bsp(a, b, c, p1);
