@@ -1,6 +1,16 @@
 #include "Point.hpp"
 #include <stdio.h>
 
+void	compare_sides(int *s, int *i, int *j)
+{
+	if (*s != 0)
+		(*i)++;
+	if (*i != 1)
+		(*j)++;
+	else
+		(*j)--;
+}
+
 char	ft_putchar(int num)
 {
 	return (num + '0' + 49);
@@ -19,7 +29,8 @@ bool	crossing_check(int crossing)
 /* ******************************************************* */
 /* ******************** VERTICAL RAYS ******************** */
 
-// calcule la coordonnée manquante du point lorsque que le rayon croise un côté
+// calcule la coordonnée manquante du point d'intersection entre le côté et le ray 
+// utilise à la fonction linéaire de la droite p1-p2, = côté du triangle
 Fixed	missingY(Point const p1, Point const p2, Fixed xV)
 {
 	float 	y;
@@ -37,7 +48,7 @@ Fixed	missingY(Point const p1, Point const p2, Fixed xV)
 	return Fixed(y);
 }
 
-// rayons S et N pour détecter des intersections avec les côtés du triangle
+// rayons S et N pour détecter des possibles intersections avec les côtés du triangle
 bool	verticalRay(Point const a, Point const b, Point const c, Point const point, char dir)
 {
 	Point	triangle[3] = {a, b, c};
@@ -59,12 +70,7 @@ bool	verticalRay(Point const a, Point const b, Point const c, Point const point,
 				std::cout << point.getX().toFloat() << " ; " << vY.toFloat() << ")" << std::endl;
 			}
 		}
-		if (s != 0)
-			i++;
-		if (i != 1)
-			j++;
-		else
-			j--;
+		compare_sides(&s, &i, &j);
 	}
 	return crossing_check(crossing);
 }
@@ -72,7 +78,8 @@ bool	verticalRay(Point const a, Point const b, Point const c, Point const point,
 /* ********************************************************* */
 /* ******************** HORIZONTAL RAYS ******************** */
 
-// calcule la coordonnée manquante du point lorsque que le rayon croise un côté
+// calcule la coordonnée manquante du point d'intersection entre le côté et le ray 
+// utilise à la fonction linéaire de la droite p1-p2, = côté du triangle
 Fixed	missingX(Point const p1, Point const p2, Fixed yV)
 {
 	float 	x;
@@ -90,7 +97,7 @@ Fixed	missingX(Point const p1, Point const p2, Fixed yV)
 	return Fixed(x);
 }
 
-// rayons W et E pour détecter des intersections avec les côtés du triangle
+// rayons W et E pour détecter des possibles intersections avec les côtés du triangle
 bool	horizontalRay(Point const a, Point const b, Point const c, Point const point, char dir)
 {
 	Point	triangle[3] = {a, b, c};
@@ -113,12 +120,7 @@ bool	horizontalRay(Point const a, Point const b, Point const c, Point const poin
 				std::cout << vX.toFloat() << " ; " << point.getY().toFloat() << ")" << std::endl;
 			}
 		}
-		if (s != 0)
-			i++;
-		if (i != 1)
-			j++;
-		else
-			j--;
+		compare_sides(&s, &i, &j);
 	}
 	return crossing_check(crossing);
 }
