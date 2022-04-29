@@ -97,7 +97,7 @@ ClapTrap	& ClapTrap::operator=(ClapTrap const & rhs)
 	this->_hitPoints = rhs.getHitPoints();
 	this->_energyPoints = rhs.getEnergyPoints();
 	this->_attackDamage = rhs.getAttackDamage();
-	std::cout << "ClapTrap: copy assignment operator called" << std::endl;
+	std::cout << "(assign.) A claptrap is born" << std::endl;
 	return *this;
 }
 
@@ -105,22 +105,22 @@ ClapTrap::ClapTrap(ClapTrap const & src) :
 _name(src.getName()), _hitPoints(src.getHitPoints()),
 _energyPoints(src.getEnergyPoints()), _attackDamage(src.getAttackDamage())
 {
-	std::cout << "ClapTrap: copy constructor called" << std::endl;
+	std::cout << "(copy) A claptrap is born" << std::endl;
 }
 
 ClapTrap::ClapTrap(std::string name) : 
 _name(name), _hitPoints(10), _energyPoints(10), _attackDamage(0)
 {
-	std::cout << "ClapTrap: basic constructor called" << std::endl;
+	std::cout << "(name) A claptrap is born" << std::endl;
 }
 
 ClapTrap::ClapTrap() : 
 _name(""), _hitPoints(10), _energyPoints(10), _attackDamage(0)
 {
-	std::cout << "ClapTrap: defaut constructor called" << std::endl;
+	std::cout << "(default) A claptrap is born" << std::endl;
 }
 
 ClapTrap::~ClapTrap()
 {
-	std::cout << "ClapTrap: defaut destructor called" << std::endl;
+	std::cout << "(default) A claptrap is dead" << std::endl;
 }
