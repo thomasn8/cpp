@@ -47,8 +47,8 @@ void ClapTrap::beRepaired(unsigned int amount)
 		this->_hitPoints = 10;
 	}
 
-	std::cout << this->_name << " recovers " << gain << " PV";
-	std::cout << " and has now " << this->_hitPoints << " PV";
+	std::cout << this->_name << " recovers " << gain << " HP";
+	std::cout << " and has now " << this->_hitPoints << " HP";
 	std::cout << std::endl;
 }
 
@@ -86,7 +86,7 @@ int			ClapTrap::getAttackDamage(void) const
 std::ostream	& operator<<(std::ostream & o, ClapTrap const & inst)
 {
 	o << inst.getName() << " (";
-	o << inst.getHitPoints() << "/10 PV - ";
+	o << inst.getHitPoints() << "HP/";
 	o << inst.getEnergyPoints() << "E)";
 	return o;
 }
