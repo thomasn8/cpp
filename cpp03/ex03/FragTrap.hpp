@@ -4,7 +4,7 @@
 #include "ClapTrap.hpp"
 #include <iostream>
 
-class FragTrap : public ClapTrap
+class FragTrap : virtual public ClapTrap
 {
 
 	public:
@@ -17,6 +17,10 @@ class FragTrap : public ClapTrap
 
 		void 	attack(const std::string & target);
 		void	highFivesGuys(void) const;
+	
+	protected:
+	
+		int		_attackDamage;
 };
 
 std::ostream	& operator<<(std::ostream & o, FragTrap const & inst);

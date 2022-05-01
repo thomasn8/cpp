@@ -9,9 +9,8 @@ int	main()
 
 	std::cout << std::endl;
 	std::cout << edgar << std::endl;
-	std::cout << std::endl;
-
 	edgar.attack("a ghost");
+	edgar.whoAmI();
 	edgar.guardGate();
 	edgar.highFivesGuys();
 	std::cout << std::endl;
@@ -19,9 +18,9 @@ int	main()
 	DiamondTrap luis;
 	luis = edgar;
 	luis.setName("luis");
-
 	std::cout << std::endl;
 	std::cout << luis << std::endl;
+	luis.whoAmI();
 	std::cout << std::endl;
 
 	return 0;

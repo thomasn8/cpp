@@ -10,12 +10,24 @@ void	DiamondTrap::attack(const std::string & target)
 }
 
 
+void	DiamondTrap::whoAmI(void)
+{
+	std::cout << "I am " << this->_name << " aka " <<  this->ClapTrap::_name;
+	std::cout << std::endl;
+}
+
+
+/* *****************
+	Setters
+***************** */
 
 void	DiamondTrap::setName(std::string name)
 {
 	this->_name = name;
 	this->FragTrap::_name = std::string(name).append("_clap_name");
 	this->ScavTrap::_name = std::string(name).append("_clap_name");
+	std::cout << "A diamondtrap renamed itself " << name;
+	std::cout << std::endl;
 }
 
 
@@ -31,7 +43,6 @@ std::string	DiamondTrap::getName(void) const
 int			DiamondTrap::getHitPoints(void) const
 {
 	return this->_hitPoints;
-
 }
 
 int			DiamondTrap::getEnergyPoints(void) const
@@ -64,7 +75,8 @@ DiamondTrap	& DiamondTrap::operator=(DiamondTrap const & rhs)
 	this->_hitPoints = rhs.getHitPoints();
 	this->_energyPoints = rhs.getEnergyPoints();
 	this->_attackDamage = rhs.getAttackDamage();
-	std::cout << "(assign.) A diamondtrap clowned another diamondtrap" << std::endl;
+	std::cout << "(assign.) A diamondtrap clowned another diamondtrap";
+	std::cout << std::endl;
 	return *this;
 }
 
@@ -76,18 +88,19 @@ FragTrap()
 	this->_hitPoints = src.getHitPoints();
 	this->_energyPoints = src.getEnergyPoints();
 	this->_attackDamage = src.getAttackDamage();
-	std::cout << "(copy) A scavfrag-hybrid evolved to diamondtrap" << std::endl;
+	std::cout << "(copy) A scavfrag-hybrid evolved to diamondtrap";
+	std::cout << std::endl;
 }
 
 DiamondTrap::DiamondTrap(std::string name) :
-ScavTrap(std::string(name).append("_clap_name")), 
-FragTrap(std::string(name).append("_clap_name")), 
+ClapTrap(std::string(name).append("_clap_name")),
 _name(name)
 {
 	this->_hitPoints = this->FragTrap::_hitPoints;
 	this->_energyPoints = this->ScavTrap::_energyPoints;
 	this->_attackDamage = this->FragTrap::_attackDamage;
-	std::cout << "(name) A scavfrag-hybrid evolved to diamondtrap" << std::endl;
+	std::cout << "(name) A scavfrag-hybrid evolved to diamondtrap";
+	std::cout << std::endl;
 }
 
 DiamondTrap::DiamondTrap() :
@@ -97,10 +110,12 @@ FragTrap()
 	this->_hitPoints = this->FragTrap::_hitPoints;
 	this->_energyPoints = this->ScavTrap::_energyPoints;
 	this->_attackDamage = this->FragTrap::_attackDamage;
-	std::cout << "(default) A scavfrag-hybrid evolved to diamondtrap" << std::endl;
+	std::cout << "(default) A scavfrag-hybrid evolved to diamondtrap";
+	std::cout << std::endl;
 }
 
 DiamondTrap::~DiamondTrap()
 {
-	std::cout << "(default) A diamondtrap lost its evolution" << std::endl;
+	std::cout << "A diamondtrap lost its diamond-evolution, ";
+	std::cout << std::endl;
 }

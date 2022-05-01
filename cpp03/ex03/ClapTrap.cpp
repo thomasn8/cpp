@@ -14,7 +14,7 @@ void ClapTrap::attack(const std::string & target)
 	this->_energyPoints--;
 
 	std::cout << this->_name << " attacks " << target;
-	std::cout << " causing " << this->getAttackDamage() << " points of damage!";
+	std::cout << " causing " << this->_attackDamage << " points of damage!";
 	std::cout << std::endl;
 }
 
@@ -122,5 +122,5 @@ _name(""), _hitPoints(10), _energyPoints(10), _attackDamage(0)
 
 ClapTrap::~ClapTrap()
 {
-	std::cout << "(default) A claptrap is dead" << std::endl;
+	std::cout << "A claptrap is dead" << std::endl;
 }

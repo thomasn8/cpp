@@ -20,7 +20,7 @@ void ScavTrap::attack(const std::string & target)
 	this->_energyPoints--;
 
 	std::cout << "SCAV-attack from " << this->_name << " to " << target;
-	std::cout << " causing " << this->getAttackDamage() << " points of damage!";
+	std::cout << " causing " << this->_attackDamage << " points of damage!";
 	std::cout << std::endl;
 }
 
@@ -66,7 +66,6 @@ ScavTrap::ScavTrap(std::string name) : ClapTrap(name)
 
 ScavTrap::ScavTrap() : ClapTrap()
 {
-	this->_name = "";
 	this->_hitPoints = 100;
 	this->_energyPoints = 50;
 	this->_attackDamage = 20;
@@ -75,5 +74,5 @@ ScavTrap::ScavTrap() : ClapTrap()
 
 ScavTrap::~ScavTrap()
 {
-	std::cout << "(default) A scavtrap lost its evolution" << std::endl;
+	std::cout << "...and its scav-evolution" << std::endl;
 }

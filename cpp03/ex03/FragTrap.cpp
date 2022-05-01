@@ -20,7 +20,7 @@ void FragTrap::attack(const std::string & target)
 	this->_energyPoints--;
 
 	std::cout << "FRAG-attack from " << this->_name << " to " << target;
-	std::cout << " causing " << this->getAttackDamage() << " points of damage!";
+	std::cout << " causing " << this->_attackDamage << " points of damage!";
 	std::cout << std::endl;
 }
 
@@ -43,7 +43,7 @@ FragTrap	& FragTrap::operator=(FragTrap const & rhs)
 	this->_hitPoints = rhs.getHitPoints();
 	this->_energyPoints = rhs.getEnergyPoints();
 	this->_attackDamage = rhs.getAttackDamage();
-	std::cout << "(assign.) A fragtrap clowned another fragtrap" << std::endl;
+	std::cout << "(assign.) ...and fragtrap" << std::endl;
 	return *this;
 }
 
@@ -53,7 +53,7 @@ FragTrap::FragTrap(FragTrap const & src) : ClapTrap()
 	this->_hitPoints = src.getHitPoints();
 	this->_energyPoints = src.getEnergyPoints();
 	this->_attackDamage = src.getAttackDamage();
-	std::cout << "(copy) A claptrap evolved to fragtrap" << std::endl;
+	std::cout << "(copy) ...and to fragtrap" << std::endl;
 }
 
 FragTrap::FragTrap(std::string name) : ClapTrap(name)
@@ -61,19 +61,18 @@ FragTrap::FragTrap(std::string name) : ClapTrap(name)
 	this->_hitPoints = 100;
 	this->_energyPoints = 100;
 	this->_attackDamage = 30;
-	std::cout << "(name) A claptrap evolved to fragtrap" << std::endl;
+	std::cout << "(name) ...and to fragtrap" << std::endl;
 }
 
 FragTrap::FragTrap() : ClapTrap()
 {
-	this->_name = "";
 	this->_hitPoints = 100;
 	this->_energyPoints = 100;
 	this->_attackDamage = 30;
-	std::cout << "(default) A claptrap evolved to fragtrap" << std::endl;
+	std::cout << "(default) ...and to fragtrap" << std::endl;
 }
 
 FragTrap::~FragTrap()
 {
-	std::cout << "(default) A fragtrap lost its evolution" << std::endl;
+	std::cout << "...its frag-evolution " << std::endl;
 }
