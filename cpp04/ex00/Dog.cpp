@@ -1,6 +1,31 @@
 #include "Dog.hpp"
 
 /* *****************
+	Main actions
+***************** */
+
+void		Dog::makeSound() const
+{
+	std::cout << this->_sound;
+}
+
+
+/* *****************
+	Getters
+***************** */
+
+std::string	Dog::getSound() const
+{
+	return this->_sound;
+}
+
+std::string	Dog::getType() const
+{
+	return this->_type;
+}
+
+
+/* *****************
 	Canonical
 ***************** */
 
@@ -14,7 +39,7 @@ Dog	& Dog::operator=(Dog const & src)
 {
 	this->_type = src.getType();
 	this->_sound = src.getSound();
-	std::cout << "(assign.) A Dog is born" << std::endl;
+	std::cout << "(assign.) ...it's a dog" << std::endl;
 	return *this;
 }
 
@@ -22,14 +47,14 @@ Dog::Dog(Dog const & src)
 {
 	this->_type = src.getType();
 	this->_sound = src.getSound();
-	std::cout << "(copy) A Dog is born" << std::endl;
+	std::cout << "(copy) ...it's a dog" << std::endl;
 }
 
 Dog::Dog()
 {
 	this->_type = "Dog";
 	this->_sound = "Wouf!";
-	std::cout << "(default) A Dog is born" << std::endl;
+	std::cout << "(default) ...it's a dog" << std::endl;
 }
 
 Dog::~Dog()

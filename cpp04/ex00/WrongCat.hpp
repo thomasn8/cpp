@@ -22,6 +22,7 @@ class WrongCat : public WrongAnimal
 	
 		std::string _type;
 		std::string _sound;
+
 };
 
 std::ostream	& operator<<(std::ostream & o, WrongCat const & inst);

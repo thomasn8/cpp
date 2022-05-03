@@ -6,7 +6,7 @@
 
 void		Animal::makeSound() const
 {
-	std::cout << this->_sound << std::endl;
+	std::cout << this->_sound;
 }
 
 

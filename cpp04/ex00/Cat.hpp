@@ -13,6 +13,15 @@ class Cat : public Animal
 		Cat(Cat const & src);
 		Cat();
 		~Cat();
+		
+		virtual std::string	getType() const;
+		virtual std::string	getSound() const;
+		virtual void		makeSound() const;
+
+	protected:
+	
+		std::string _type;
+		std::string _sound;
 
 };
 

@@ -6,7 +6,7 @@
 
 void		WrongAnimal::makeSound() const
 {
-	std::cout << this->_sound << std::endl;
+	std::cout << this->_sound;
 }
 
 /* *****************
@@ -38,7 +38,7 @@ WrongAnimal	& WrongAnimal::operator=(WrongAnimal const & src)
 {
 	this->_type = src.getType();
 	this->_sound = src.getSound();
-	std::cout << "(assign.) A WrongAnimal is born" << std::endl;
+	std::cout << "(assign.) A weird Animal is born" << std::endl;
 	return *this;
 }
 
@@ -46,17 +46,17 @@ WrongAnimal::WrongAnimal(WrongAnimal const & src) :
 _type(src.getType()),
 _sound(src.getSound())
 {
-	std::cout << "(copy) A WrongAnimal is born" << std::endl;
+	std::cout << "(copy) A weird Animal is born" << std::endl;
 }
 
 WrongAnimal::WrongAnimal() :
 _type("unknown"),
 _sound("Hello World!")
 {
-	std::cout << "(default) A WrongAnimal is born" << std::endl;
+	std::cout << "(default) A weird Animal is born" << std::endl;
 }
 
 WrongAnimal::~WrongAnimal()
 {
-	std::cout << "A WrongAnimal is dead" << std::endl;
+	std::cout << "A weird Animal is dead" << std::endl;
 }

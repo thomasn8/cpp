@@ -1,6 +1,31 @@
 #include "Cat.hpp"
 
 /* *****************
+	Main actions
+***************** */
+
+void		Cat::makeSound() const
+{
+	std::cout << this->_sound;
+}
+
+
+/* *****************
+	Getters
+***************** */
+
+std::string	Cat::getSound() const
+{
+	return this->_sound;
+}
+
+std::string	Cat::getType() const
+{
+	return this->_type;
+}
+
+
+/* *****************
 	Canonical
 ***************** */
 
@@ -14,7 +39,7 @@ Cat	& Cat::operator=(Cat const & src)
 {
 	this->_type = src.getType();
 	this->_sound = src.getSound();
-	std::cout << "(assign.) A Cat is born" << std::endl;
+	std::cout << "(assign.) ...it's a cat" << std::endl;
 	return *this;
 }
 
@@ -22,14 +47,14 @@ Cat::Cat(Cat const & src)
 {
 	this->_type = src.getType();
 	this->_sound = src.getSound();
-	std::cout << "(copy) A Cat is born" << std::endl;
+	std::cout << "(copy) ...it's a cat" << std::endl;
 }
 
 Cat::Cat()
 {
 	this->_type = "Cat";
 	this->_sound = "Miaou!";
-	std::cout << "(default) A Cat is born" << std::endl;
+	std::cout << "(default) ...it's a cat" << std::endl;
 }
 
 Cat::~Cat()
