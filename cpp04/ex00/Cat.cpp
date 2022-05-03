@@ -13,22 +13,22 @@ std::ostream	& operator<<(std::ostream & o, Cat const & instance)
 Cat	& Cat::operator=(Cat const & src)
 {
 	this->_type = src.getType();
-	this->Animal::_sound = src.getSound();
+	this->_sound = src.getSound();
 	std::cout << "(assign.) A Cat is born" << std::endl;
 	return *this;
 }
 
 Cat::Cat(Cat const & src)
 {
-	this->Animal::_type = src.getType();
-	this->Animal::_sound = src.getSound();
+	this->_type = src.getType();
+	this->_sound = src.getSound();
 	std::cout << "(copy) A Cat is born" << std::endl;
 }
 
 Cat::Cat()
 {
-	this->Animal::_type = "Cat";
-	this->Animal::_sound = "Miaou!";
+	this->_type = "Cat";
+	this->_sound = "Miaou!";
 	std::cout << "(default) A Cat is born" << std::endl;
 }
 

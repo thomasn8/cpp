@@ -14,9 +14,6 @@ class Cat : public Animal
 		Cat();
 		~Cat();
 
-	protected:
-	
-		// std::string _type;
 };
 
 std::ostream	& operator<<(std::ostream & o, Cat const & inst);

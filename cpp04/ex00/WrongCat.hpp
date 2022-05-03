@@ -14,9 +14,14 @@ class WrongCat : public WrongAnimal
 		WrongCat();
 		~WrongCat();
 
+		std::string	getType() const;
+		std::string	getSound() const;
+		void		makeSound() const;
+
 	protected:
 	
-		// std::string _type;
+		std::string _type;
+		std::string _sound;
 };
 
 std::ostream	& operator<<(std::ostream & o, WrongCat const & inst);

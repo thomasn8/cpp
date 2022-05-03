@@ -14,9 +14,6 @@ class Dog : public Animal
 		Dog();
 		~Dog();
 
-	protected:
-	
-		// std::string _type;
 };
 
 std::ostream	& operator<<(std::ostream & o, Dog const & inst);

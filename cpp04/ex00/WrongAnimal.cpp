@@ -51,7 +51,7 @@ _sound(src.getSound())
 
 WrongAnimal::WrongAnimal() :
 _type("unknown"),
-_sound("Hello WrongWorld!")
+_sound("Hello World!")
 {
 	std::cout << "(default) A WrongAnimal is born" << std::endl;
 }

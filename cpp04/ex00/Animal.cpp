@@ -9,6 +9,7 @@ void		Animal::makeSound() const
 	std::cout << this->_sound << std::endl;
 }
 
+
 /* *****************
 	Getters
 ***************** */
