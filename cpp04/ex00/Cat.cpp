@@ -39,7 +39,7 @@ Cat	& Cat::operator=(Cat const & src)
 {
 	this->_type = src.getType();
 	this->_sound = src.getSound();
-	std::cout << "(assign.) ...it's a cat" << std::endl;
+	std::cout << "(assign.) ...it's a Cat" << std::endl;
 	return *this;
 }
 
@@ -47,14 +47,14 @@ Cat::Cat(Cat const & src)
 {
 	this->_type = src.getType();
 	this->_sound = src.getSound();
-	std::cout << "(copy) ...it's a cat" << std::endl;
+	std::cout << "(copy) ...it's a Cat" << std::endl;
 }
 
 Cat::Cat()
 {
 	this->_type = "Cat";
 	this->_sound = "Miaou!";
-	std::cout << "(default) ...it's a cat" << std::endl;
+	std::cout << "(default) ...it's a Cat" << std::endl;
 }
 
 Cat::~Cat()

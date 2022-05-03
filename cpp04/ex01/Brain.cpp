@@ -34,12 +34,12 @@ Brain::Brain(std::string type)
 	if (type == "Dog")
 	{
 		for (int i = 0; i < 100; i++)
-			this->_ideas[i] = "\"I love cats\"";
+			this->_ideas[i] = "\"I love Cats\"";
 	}
 	if (type == "Cat")
 	{
 		for (int i = 0; i < 100; i++)
-			this->_ideas[i] = "\"I hate dogs\"";
+			this->_ideas[i] = "\"I hate Dogs\"";
 	}
 	std::cout << "(string) " << this->_ideas[0] << std::endl;
 }

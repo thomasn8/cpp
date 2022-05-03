@@ -39,7 +39,7 @@ WrongCat	& WrongCat::operator=(WrongCat const & src)
 {
 	this->_type = src.getType();
 	this->_sound = src.getSound();
-	std::cout << "(assign.) ...it's a strange cat" << std::endl;
+	std::cout << "(assign.) ...it's a strange Cat" << std::endl;
 	return *this;
 }
 
@@ -47,17 +47,17 @@ WrongCat::WrongCat(WrongCat const & src)
 {
 	this->_type = src.getType();
 	this->_sound = src.getSound();
-	std::cout << "(copy) ...it's a strange cat" << std::endl;
+	std::cout << "(copy) ...it's a strange Cat" << std::endl;
 }
 
 WrongCat::WrongCat()
 {
 	this->_type = "WrongCat";
 	this->_sound = "WrongMiaou!";
-	std::cout << "(default) ...it's a strange cat" << std::endl;
+	std::cout << "(default) ...it's a strange Cat" << std::endl;
 }
 
 WrongCat::~WrongCat()
 {
-	std::cout << "A WrongCat is dead" << std::endl;
+	std::cout << "A weird Cat is dead" << std::endl;
 }

@@ -59,5 +59,5 @@ _sound("Hello World!")
 
 Animal::~Animal()
 {
-	std::cout << "An Animal is dead" << std::endl;
+	std::cout << "Poor Animal... Rest in peace" << std::endl;
 }

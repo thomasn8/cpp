@@ -58,5 +58,5 @@ _sound("Hello World!")
 
 WrongAnimal::~WrongAnimal()
 {
-	std::cout << "A weird Animal is dead" << std::endl;
+	std::cout << "Poor weird Animal... Rest in peace" << std::endl;
 }

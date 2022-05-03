@@ -40,7 +40,7 @@ Dog	& Dog::operator=(Dog const & src)
 	this->_type = src.getType();
 	this->_sound = src.getSound();
 	this->brain = src.brain;
-	std::cout << "(assign.) ...it's a dog" << std::endl;
+	std::cout << "(assign.) ...it's a Dog" << std::endl;
 	return *this;
 }
 
@@ -49,7 +49,7 @@ Dog::Dog(Dog const & src)
 	this->_type = src.getType();
 	this->_sound = src.getSound();
 	this->brain = src.brain;
-	std::cout << "(copy) ...it's a dog" << std::endl;
+	std::cout << "(copy) ...it's a Dog" << std::endl;
 }
 
 Dog::Dog()
@@ -57,7 +57,7 @@ Dog::Dog()
 	this->_type = "Dog";
 	this->_sound = "Wouf!";
 	this->brain = new Brain(this->_type);
-	std::cout << "(default) ...it's a dog" << std::endl;
+	std::cout << "(default) ...it's a Dog" << std::endl;
 }
 
 Dog::~Dog()
