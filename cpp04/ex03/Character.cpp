@@ -39,7 +39,7 @@ std::string const & Character::getName() const
 	return this->_name;
 }
 
-AMateria * getItemPtr(int idx) const
+AMateria * Character::getMateriaPtr(int idx) const
 {
 	return this->_items[idx];
 }
@@ -59,29 +59,41 @@ Character	& Character::operator=(Character const & src)
 {
 	this->_name = src.getName();
 	for (int i = 0; i < 4; i++)
-		this->*_items[i] = *src.getItemPtr(i)->clone();
+	{
+		if (src.getMateriaPtr(i) != NULL)
+			this->_items[i] = src.getMateriaPtr(i)->clone();
+	}
 	std::cout << "(assign.) Character has been copied" << std::endl;
 	return *this;
 }
 
 Character::Character(Character const & src) :
-_name(src.getName()),
+_name(src.getName())
 {
 	for (int i = 0; i < 4; i++)
-		this->*_items[i] = *src.getItemPtr(i)->clone();
+	{
+		if (src.getMateriaPtr(i) != NULL)
+			this->_items[i] = src.getMateriaPtr(i)->clone();
+	}
 	std::cout << "(copy) Character has been created" << std::endl;
 }
 
 Character::Character(std::string const & name) :
 _name(name)
 {
-	AMateria *_items[4] = {NULL};
+	_items[0] = NULL;
+	_items[1] = NULL;
+	_items[2] = NULL;
+	_items[3] = NULL;
 	std::cout << "(string) Character has been created" << std::endl;
 }
 
 Character::Character()
 {
-	AMateria *_items[4] = {NULL};
+	_items[0] = NULL;
+	_items[1] = NULL;
+	_items[2] = NULL;
+	_items[3] = NULL;
 	std::cout << "(default) Character has been created" << std::endl;
 }
 

@@ -6,23 +6,13 @@
 
 Cure *Cure::clone() const
 {
-	Cure *Cure = new Cure(*this);
-	return Cure;
+	Cure *cure = new Cure(*this);
+	return cure;
 }
 
 void Cure::use(Character & target)
 {
 	std::cout << "* heals " << target << "’s wounds *" << std::endl;
-}
-
-
-/* *****************
-	Getters
-***************** */
-
-std::string const & Cure::getType() const
-{
-	return this->_type;
 }
 
 
@@ -43,15 +33,15 @@ Cure	& Cure::operator=(Cure const & src)
 	return *this;
 }
 
-Cure::Cure(Cure const & src) :
-_type(src.getType()),
+Cure::Cure(Cure const & src)
 {
+	this->_type = src.getType();
 	std::cout << "(copy) Cure has been created" << std::endl;
 }
 
-Cure::Cure() :
-_type("cure"),
+Cure::Cure()
 {
+	this->_type = "cure";
 	std::cout << "(default) Cure has been created" << std::endl;
 }
 

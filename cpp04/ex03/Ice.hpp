@@ -3,8 +3,9 @@
 
 #include <iostream>
 #include "AMateria.hpp"
+#include "Character.hpp"
 
-class Ice
+class Ice : public AMateria
 {
 	public:
 	
@@ -13,13 +14,8 @@ class Ice
 		Ice();
 		~Ice();
 
-		std::string const &getType() const;
 		virtual Ice	*clone() const;
 		virtual void use(Character & target);
-
-	protected:
-	
-		std::string _type;
 };
 
 std::ostream	& operator<<(std::ostream & o, Ice const & inst);

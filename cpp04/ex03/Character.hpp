@@ -2,8 +2,7 @@
 # define CHARACTER_HPP
 
 #include <iostream>
-#include "Ice.hpp"
-#include "Cure.hpp"
+#include "AMateria.hpp"
 
 // class ICharacter
 // {
@@ -29,7 +28,7 @@ class Character
 		virtual void equip(AMateria* m);
 		virtual void unequip(int idx);
 		virtual void use(int idx, Character& target);
-		virtual AMateria * getItemPtr(int idx) const;
+		virtual AMateria * getMateriaPtr(int idx) const;
 
 	private:
 

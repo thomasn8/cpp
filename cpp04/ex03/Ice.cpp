@@ -17,16 +17,6 @@ void Ice::use(Character & target)
 
 
 /* *****************
-	Getters
-***************** */
-
-std::string const & Ice::getType() const
-{
-	return this->_type;
-}
-
-
-/* *****************
 	Canonical
 ***************** */
 
@@ -43,15 +33,15 @@ Ice	& Ice::operator=(Ice const & src)
 	return *this;
 }
 
-Ice::Ice(Ice const & src) :
-_type(src.getType()),
+Ice::Ice(Ice const & src)
 {
+	this->_type = src.getType();
 	std::cout << "(copy) Ice has been created" << std::endl;
 }
 
-Ice::Ice() :
-_type("ice"),
+Ice::Ice()
 {
+	this->_type = "ice";
 	std::cout << "(default) Ice has been created" << std::endl;
 }
 

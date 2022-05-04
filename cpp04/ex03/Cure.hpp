@@ -3,8 +3,9 @@
 
 #include <iostream>
 #include "AMateria.hpp"
+#include "Character.hpp"
 
-class Cure
+class Cure : public AMateria
 {
 	public:
 	
@@ -13,13 +14,8 @@ class Cure
 		Cure();
 		~Cure();
 
-		std::string const &getType() const;
 		virtual Cure *clone() const;
 		virtual void use(Character & target);
-
-	protected:
-	
-		std::string _type;
 };
 
 std::ostream	& operator<<(std::ostream & o, Cure const & inst);

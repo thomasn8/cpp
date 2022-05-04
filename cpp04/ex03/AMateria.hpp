@@ -2,6 +2,9 @@
 # define AMATERIA_HPP
 
 #include <iostream>
+// #include "Character.hpp"
+
+class Character;
 
 class AMateria
 {
