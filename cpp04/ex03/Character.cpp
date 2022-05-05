@@ -2,14 +2,14 @@
 
 void Character::deleteItems()
 {
-	if (this->_items[0])
-		delete this->_items[0];
-	if (this->_items[1])
-		delete this->_items[1];
-	if (this->_items[2])
-		delete this->_items[2];
-	if (this->_items[3])
-		delete this->_items[3];
+	for (int i = 0; i < 4; i++)
+	{
+		if (this->_items[i])
+		{
+			delete this->_items[i];
+			this->_items[i] = NULL;
+		}
+	}
 }
 
 void Character::deleteUnequiped()

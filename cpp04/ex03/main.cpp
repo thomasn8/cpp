@@ -89,7 +89,11 @@ int main()
 	character5->seeEquipement();
 	character5->seeUnquiped();
 
-	// ICharacter *character6(character5);
+	std::cout << std::endl;
+	ICharacter *character6 = new Character(*character5);
+	character6->setName("Jordan");
+	character6->seeEquipement();
+	character6->seeUnquiped();
 
 	std::cout << std::endl;
 	delete character5;
@@ -101,6 +105,8 @@ int main()
 	delete character2;
 	std::cout << std::endl;
 	delete character3;
+	std::cout << std::endl;
+	delete character6;
 	
 
 	// SUBJECT TESTS
