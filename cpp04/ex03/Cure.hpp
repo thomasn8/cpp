@@ -14,8 +14,8 @@ class Cure : public AMateria
 		Cure();
 		~Cure();
 
-		virtual Cure *clone() const;
-		virtual void use(Character & target);
+		virtual AMateria *clone() const;
+		virtual void use(ICharacter & target);
 };
 
 std::ostream	& operator<<(std::ostream & o, Cure const & inst);

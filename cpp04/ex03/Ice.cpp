@@ -4,13 +4,13 @@
 	Main actions
 ***************** */
 
-Ice *Ice::clone() const
+AMateria *Ice::clone() const
 {
 	Ice *ice = new Ice(*this);
 	return ice;
 }
 
-void Ice::use(Character & target)
+void Ice::use(ICharacter & target)
 {
 	std::cout << "* shoots an ice bolt at " << target << " *" << std::endl;
 }
@@ -29,23 +29,23 @@ std::ostream	& operator<<(std::ostream & o, Ice const & instance)
 Ice	& Ice::operator=(Ice const & src)
 {
 	this->_type = src.getType();
-	std::cout << "(assign.) Ice has been copied" << std::endl;
+	std::cout << "(assign.) Ice has been copied - " << this << std::endl;
 	return *this;
 }
 
 Ice::Ice(Ice const & src)
 {
 	this->_type = src.getType();
-	std::cout << "(copy) Ice has been created" << std::endl;
+	std::cout << "(copy) Ice has been created - " << this << std::endl;
 }
 
 Ice::Ice()
 {
 	this->_type = "ice";
-	std::cout << "(default) Ice has been created" << std::endl;
+	std::cout << "(default) Ice has been created - " << this << std::endl;
 }
 
 Ice::~Ice()
 {
-	std::cout << "Ice has been destroyed" << std::endl;
+	std::cout << "Ice has been destroyed - " << this << std::endl;
 }

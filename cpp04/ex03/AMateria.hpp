@@ -4,7 +4,7 @@
 #include <iostream>
 // #include "Character.hpp"
 
-class Character;
+class ICharacter;
 
 class AMateria
 {
@@ -18,7 +18,7 @@ class AMateria
 
 		std::string const	&getType() const;
 		virtual AMateria	*clone() const = 0;
-		virtual void		use(Character & target);
+		virtual void		use(ICharacter & target);
 
 	protected:
 	

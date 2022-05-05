@@ -14,8 +14,8 @@ class Ice : public AMateria
 		Ice();
 		~Ice();
 
-		virtual Ice	*clone() const;
-		virtual void use(Character & target);
+		virtual AMateria *clone() const;
+		virtual void use(ICharacter & target);
 };
 
 std::ostream	& operator<<(std::ostream & o, Ice const & inst);

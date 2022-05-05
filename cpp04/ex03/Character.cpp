@@ -12,6 +12,7 @@ void Character::equip(AMateria *m)
 	if (i == 4) // inventaire plein
 		return ;
 	this->_items[i] = m;
+	std::cout << "(" << m << ") " << m->getType() << " Materia has been equiped" << std::endl;
 }
 
 void Character::unequip(int idx)
@@ -19,19 +20,22 @@ void Character::unequip(int idx)
 	if (this->_items[idx] == NULL)
 		return;
 	// enregistrer le ptr dans un tableau pour free à la fin les materias jetés
+	std::cout << "(" << this->getMateria(idx) << ") " << this->getMateria(idx)->getType();
+	std::cout << " Materia has been unequiped" << std::endl;
 	this->_items[idx] = NULL;
 }
 
-void Character::use(int idx, Character& target)
+void Character::use(int idx, ICharacter& target)
 {
 	if (this->_items[idx] == NULL)
 		return;
+	std::cout << *this << " ";
 	this->_items[idx]->use(target);
 }
 
 
 /* *****************
-	Getters
+	Getters / Setters
 ***************** */
 
 std::string const & Character::getName() const
@@ -39,9 +43,14 @@ std::string const & Character::getName() const
 	return this->_name;
 }
 
-AMateria * Character::getMateriaPtr(int idx) const
+AMateria * Character::getMateria(int idx) const
 {
 	return this->_items[idx];
+}
+
+void Character::setName(std::string const & name)
+{
+	this->_name = name;
 }
 
 
@@ -49,31 +58,31 @@ AMateria * Character::getMateriaPtr(int idx) const
 	Canonical
 ***************** */
 
-std::ostream	& operator<<(std::ostream & o, Character const & instance)
+std::ostream	& operator<<(std::ostream & o, ICharacter const & instance)
 {
 	o << instance.getName();
 	return o;
 }
 
-Character	& Character::operator=(Character const & src)
+Character	& Character::operator=(ICharacter const & src)
 {
 	this->_name = src.getName();
 	for (int i = 0; i < 4; i++)
 	{
-		if (src.getMateriaPtr(i) != NULL)
-			this->_items[i] = src.getMateriaPtr(i)->clone();
+		if (src.getMateria(i) != NULL)
+			this->_items[i] = src.getMateria(i)->clone();
 	}
 	std::cout << "(assign.) Character has been copied" << std::endl;
 	return *this;
 }
 
-Character::Character(Character const & src) :
+Character::Character(ICharacter const & src) :
 _name(src.getName())
 {
 	for (int i = 0; i < 4; i++)
 	{
-		if (src.getMateriaPtr(i) != NULL)
-			this->_items[i] = src.getMateriaPtr(i)->clone();
+		if (src.getMateria(i) != NULL)
+			this->_items[i] = src.getMateria(i)->clone();
 	}
 	std::cout << "(copy) Character has been created" << std::endl;
 }
