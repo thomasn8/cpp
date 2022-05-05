@@ -19,6 +19,7 @@ class ICharacter
 		virtual AMateria * getMateria(int idx) const = 0;
 		virtual void setName(std::string const & name) = 0;
 		virtual void seeEquipement() const = 0;
+		virtual void seeUnquiped() = 0;
 };
 
 #endif

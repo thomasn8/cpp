@@ -3,6 +3,7 @@ SRCS		=		main.cpp		\
 					Ice.cpp			\
 					Cure.cpp		\
 					Character.cpp	\
+					Unequiped.cpp	\
 
 
 

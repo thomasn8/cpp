@@ -4,6 +4,7 @@
 #include <iostream>
 #include "ICharacter.hpp"
 #include "AMateria.hpp"
+#include "Unequiped.hpp"
 
 class Character : public ICharacter
 {
@@ -23,11 +24,13 @@ class Character : public ICharacter
 		virtual AMateria * getMateria(int idx) const;
 		virtual void setName(std::string const & name);
 		virtual void seeEquipement() const;
+		virtual void seeUnquiped();
 
 	private:
 
 		std::string _name;
 		AMateria *_items[4];
+		Unequiped *_unequiped;
 };
 
 std::ostream	& operator<<(std::ostream & o, ICharacter const & inst);

@@ -19,7 +19,27 @@ void Character::unequip(int idx)
 {
 	if (this->_items[idx] == NULL)
 		return;
-	// enregistrer le ptr dans une liste chainées pour free à la fin les materias jetés
+	
+	// liste chainée des materias jetés par le character
+	Unequiped *current = this->_unequiped;
+	if (!current)
+	{
+		current = new Unequiped;
+		this->_unequiped = current;
+		current->materia = this->getMateria(idx);
+		current->next = NULL;
+	}
+	else
+	{
+		while (current->next != NULL)
+			current = current->next;
+		current->next = new Unequiped;
+		current = current->next;
+		current->materia = this->getMateria(idx);
+		current->next = NULL;
+	}
+	
+	// retrait de l'item de l'invetaire du character
 	std::cout << "(" << this->getMateria(idx) << ") " << this->getMateria(idx)->getType();
 	std::cout << " Materia has been unequiped" << std::endl;
 	this->_items[idx] = NULL;
@@ -35,6 +55,7 @@ void Character::use(int idx, ICharacter& target)
 
 void Character::seeEquipement() const
 {
+	std::cout << this->getName() << " equiped materias: " << std::endl;
 	if (this->getMateria(0) != NULL)
 		std::cout << this->getName() << " - item1: " << this->getMateria(0)->getType() << " (" << this->getMateria(0) << ")"<< std::endl;
 	if (this->getMateria(1) != NULL)
@@ -45,9 +66,25 @@ void Character::seeEquipement() const
 		std::cout << this->getName() << " - item4: " << this->getMateria(3)->getType() << " (" << this->getMateria(3) << ")"<< std::endl;
 }
 
+void Character::seeUnquiped()
+{
+	Unequiped *current = this->_unequiped;
+	Unequiped *next;
+	
+	std::cout << this->getName() << " unequiped materias: " << std::endl;
+	if (!current)
+		std::cout << "No items unequiped yet" << std::endl;
+	while (current != NULL) 
+	{
+		next = current->next;
+		std::cout << current->materia->getType() << std::endl;
+		current = next;
+	}
+}
+
 
 /* *****************
-	Getters / Setters
+	Getters/Setters
 ***************** */
 
 std::string const & Character::getName() const
@@ -80,6 +117,7 @@ std::ostream	& operator<<(std::ostream & o, ICharacter const & instance)
 ICharacter	& Character::operator=(ICharacter const & src)
 {
 	this->_name = src.getName();
+	this->_unequiped = NULL;
 	for (int i = 0; i < 4; i++)
 	{
 		if (src.getMateria(i) != NULL)
@@ -94,7 +132,8 @@ ICharacter	& Character::operator=(ICharacter const & src)
 }
 
 Character::Character(ICharacter const & src) :
-_name(src.getName())
+_name(src.getName()),
+_unequiped(NULL)
 {
 	for (int i = 0; i < 4; i++)
 	{
@@ -109,25 +148,44 @@ _name(src.getName())
 }
 
 Character::Character(std::string const & name) :
-_name(name)
+_name(name),
+_unequiped(NULL)
 {
-	_items[0] = NULL;
-	_items[1] = NULL;
-	_items[2] = NULL;
-	_items[3] = NULL;
+	this->_items[0] = NULL;
+	this->_items[1] = NULL;
+	this->_items[2] = NULL;
+	this->_items[3] = NULL;
 	std::cout << "(string) Character " << this->_name << " has been created" << std::endl;
 }
 
-Character::Character()
+Character::Character() :
+_unequiped(NULL)
 {
-	_items[0] = NULL;
-	_items[1] = NULL;
-	_items[2] = NULL;
-	_items[3] = NULL;
+	this->_items[0] = NULL;
+	this->_items[1] = NULL;
+	this->_items[2] = NULL;
+	this->_items[3] = NULL;
 	std::cout << "(default) Character has been created" << std::endl;
 }
 
 Character::~Character()
 {
-	std::cout << "Character has been destroyed" << std::endl;
+	// free l'inventaire d'items
+	delete this->_items[0];
+	delete this->_items[1];
+	delete this->_items[2];
+	delete this->_items[3];
+
+	// free les items jetés
+	Unequiped *current = this->_unequiped;
+	Unequiped *next;
+	while (current != NULL)
+	{
+		next = current->next;
+		delete current->materia;
+		delete current;
+		current = next;
+	}
+
+	std::cout << "(default) Character has been destroyed" << std::endl;
 }
