@@ -28,5 +28,5 @@ next(NULL)
 
 Unequiped::~Unequiped()
 {
-	std::cout << "(default) Unequiped has been destroyed - " << this << std::endl;
+	std::cout << "Unequiped has been destroyed - " << this << std::endl;
 }

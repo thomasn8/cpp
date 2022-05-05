@@ -24,21 +24,21 @@ int main()
 	character1->equip(ice2);
 	character1->seeEquipement();
 
-	// std::cout << std::endl;
-	// ICharacter *character2 = new Character(*character1);
-	// character2->setName("Charlie");
-	// character2->seeEquipement();
+	std::cout << std::endl;
+	ICharacter *character2 = new Character(*character1);
+	character2->setName("Charlie");
+	character2->seeEquipement();
 
-	// std::cout << std::endl;
-	// character2->use(0, *character1);
-	// character2->use(2, *character1);
+	std::cout << std::endl;
+	character2->use(0, *character1);
+	character2->use(2, *character1);
 
-	// std::cout << std::endl;
-	// ICharacter *character3 = new Character();
-	// character3->seeEquipement();
-	// *character3 = *character1;
-	// character3->setName("Albert");
-	// character3->seeEquipement();
+	std::cout << std::endl;
+	ICharacter *character3 = new Character();
+	character3->seeEquipement();
+	*character3 = *character1;
+	character3->setName("Albert");
+	character3->seeEquipement();
 
 	std::cout << std::endl;
 	ICharacter *character4 = new Character("Roni");
@@ -50,12 +50,15 @@ int main()
 	character4->equip(roni_ice2);
 	character4->equip(roni_ice3);
 	character4->equip(roni_ice4);
+	character4->unequip(2);
+	character4->unequip(3);
 	character4->seeEquipement();
 	
 	std::cout << std::endl;
 	*character4 = *character1;
 	character4->setName("Roni");
 	character4->seeEquipement();
+	character4->seeUnquiped();
 
 	ICharacter *character5 = new Character("Selena");
 	AMateria *s_ice1 = new Ice;
@@ -92,6 +95,10 @@ int main()
 	delete character1;
 	std::cout << std::endl;
 	delete character4;
+	std::cout << std::endl;
+	delete character2;
+	std::cout << std::endl;
+	delete character3;
 	
 
 	// SUBJECT TESTS
