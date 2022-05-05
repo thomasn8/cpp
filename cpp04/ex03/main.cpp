@@ -108,12 +108,15 @@ int main()
 	// delete character3;
 	// std::cout << std::endl;
 	// delete character6;
+	// std::cout << std::endl;
+	// std::cout << std::endl;
 	
 
 	// SUBJECT TESTS
 	IMateriaSource* src = new MateriaSource();
 	src->learnMateria(new Ice());
 	src->learnMateria(new Cure());
+	src->seeMaterias();
 
 	ICharacter* me = new Character("me");
 	AMateria* tmp;
@@ -121,12 +124,14 @@ int main()
 	me->equip(tmp);
 	tmp = src->createMateria("cure");
 	me->equip(tmp);
+	me->seeEquipement();
+	me->seeUnquiped();
 	
 	ICharacter* bob = new Character("bob");
 	
 	me->use(0, *bob);
 	me->use(1, *bob);
-	
+
 	delete bob;
 	delete me;
 	delete src;
