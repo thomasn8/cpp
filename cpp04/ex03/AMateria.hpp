@@ -2,7 +2,9 @@
 # define AMATERIA_HPP
 
 #include <iostream>
-// #include "Character.hpp"
+# define MAGENTA "\033[0;35m"
+# define CYAN "\033[0;36m"
+# define DEFAULT "\033[0m"
 
 class ICharacter;
 

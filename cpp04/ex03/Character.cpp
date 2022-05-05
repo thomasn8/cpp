@@ -75,7 +75,7 @@ void Character::use(int idx, ICharacter& target)
 {
 	if (this->_items[idx] == NULL)
 		return;
-	std::cout << *this << " ";
+	std::cout << MAGENTA << *this << ":" << DEFAULT << std::endl;
 	this->_items[idx]->use(target);
 }
 

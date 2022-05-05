@@ -4,6 +4,7 @@ SRCS		=		main.cpp		\
 					Cure.cpp		\
 					Character.cpp	\
 					Unequiped.cpp	\
+					MateriaSource.cpp
 
 
 

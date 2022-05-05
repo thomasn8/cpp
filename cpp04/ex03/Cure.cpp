@@ -7,13 +7,13 @@
 AMateria *Cure::clone() const
 {
 	Cure *cure = new Cure(*this);
-	std::cout << "Cure has been clowned" << std::endl;
+	std::cout << "Cure has been clowned - " << cure << std::endl;
 	return cure;
 }
 
 void Cure::use(ICharacter & target)
 {
-	std::cout << "* heals " << target << "’s wounds *" << std::endl;
+	std::cout << CYAN << "* heals " << target << "’s wounds *" << DEFAULT << std::endl;
 }
 
 

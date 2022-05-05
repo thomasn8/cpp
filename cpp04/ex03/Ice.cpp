@@ -7,13 +7,13 @@
 AMateria *Ice::clone() const
 {
 	Ice *ice = new Ice(*this);
-	std::cout << "Ice has been clowned" << std::endl;
+	std::cout << "Ice has been clowned - " << ice << std::endl;
 	return ice;
 }
 
 void Ice::use(ICharacter & target)
 {
-	std::cout << "* shoots an ice bolt at " << target << " *" << std::endl;
+	std::cout << CYAN << "* shoots an ice bolt at " << target << " *" << DEFAULT << std::endl;
 }
 
 

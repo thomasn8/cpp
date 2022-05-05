@@ -14,7 +14,6 @@ class ICharacter
 		virtual void unequip(int idx) = 0;
 		virtual void use(int idx, ICharacter & target) = 0;
 		
-		// ajouts
 		virtual ICharacter & operator=(ICharacter const & src) = 0;
 		virtual AMateria * getMateria(int idx) const = 0;
 		virtual void setName(std::string const & name) = 0;
@@ -22,7 +21,7 @@ class ICharacter
 		virtual void seeUnquiped() = 0;
 	
 	protected:
-	
+
 		virtual void deleteItems() = 0;
 		virtual void deleteUnequiped() = 0;
 };
