@@ -67,7 +67,7 @@ void Character::unequip(int idx)
 	
 	// retrait de l'item de l'invetaire du character
 	std::cout << this->getMateria(idx)->getType();
-	std::cout << " Materia has been unequiped - " << this->getMateria(idx) << std::endl;
+	std::cout << " Materia has been UNequiped - " << this->getMateria(idx) << std::endl;
 	this->_items[idx] = NULL;
 }
 
