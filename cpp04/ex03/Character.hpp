@@ -9,7 +9,7 @@ class Character : public ICharacter
 {
 	public:
 	
-		Character & operator=(ICharacter const & src);
+		virtual ICharacter & operator=(ICharacter const & src);
 		Character(ICharacter const & src);
 		Character(std::string const & name);
 		Character();
@@ -22,6 +22,7 @@ class Character : public ICharacter
 		
 		virtual AMateria * getMateria(int idx) const;
 		virtual void setName(std::string const & name);
+		virtual void seeEquipement() const;
 
 	private:
 

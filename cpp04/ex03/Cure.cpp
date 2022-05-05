@@ -7,6 +7,7 @@
 AMateria *Cure::clone() const
 {
 	Cure *cure = new Cure(*this);
+	std::cout << "Cure has been clowned" << std::endl;
 	return cure;
 }
 
@@ -22,7 +23,7 @@ void Cure::use(ICharacter & target)
 
 std::ostream	& operator<<(std::ostream & o, Cure const & instance)
 {
-	o << instance.getType();
+	o << instance.getType() << "(" << &instance << ")";
 	return o;
 }
 

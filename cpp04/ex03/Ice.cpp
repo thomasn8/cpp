@@ -7,6 +7,7 @@
 AMateria *Ice::clone() const
 {
 	Ice *ice = new Ice(*this);
+	std::cout << "Ice has been clowned" << std::endl;
 	return ice;
 }
 
@@ -22,7 +23,7 @@ void Ice::use(ICharacter & target)
 
 std::ostream	& operator<<(std::ostream & o, Ice const & instance)
 {
-	o << instance.getType();
+	o << instance.getType() << "(" << &instance << ")";
 	return o;
 }
 
