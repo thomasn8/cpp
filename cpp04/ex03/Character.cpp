@@ -1,5 +1,26 @@
 #include "Character.hpp"
 
+void Character::deleteItems()
+{
+	delete this->_items[0];
+	delete this->_items[1];
+	delete this->_items[2];
+	delete this->_items[3];
+}
+
+void Character::deleteUnequiped()
+{
+	Unequiped *current = this->_unequiped;
+	Unequiped *next;
+	while (current != NULL)
+	{
+		next = current->next;
+		delete current->materia;
+		delete current;
+		current = next;
+	}
+}
+
 /* *****************
 	Main actions
 ***************** */
@@ -118,30 +139,28 @@ std::ostream	& operator<<(std::ostream & o, ICharacter const & instance)
 ICharacter	& Character::operator=(ICharacter const & src)
 {
 	this->_name = src.getName();
+	this->deleteItems();
+	this->deleteUnequiped();
+	this->_unequiped = NULL;
 	for (int i = 0; i < 4; i++)
 	{
 		if (src.getMateria(i) != NULL)
-		{
-			if (this->_items[i] != NULL)
-				delete this->_items[i];
 			this->_items[i] = src.getMateria(i)->clone();
-		}
 	}
 	std::cout << "(assign.) Character " << this->_name << " has been copied - " << this << std::endl;
 	return *this;
 }
 
 Character::Character(ICharacter const & src) :
-_name(src.getName())
+_name(src.getName()),
+_unequiped(NULL)
 {
+	this->deleteItems();
+	this->deleteUnequiped();
 	for (int i = 0; i < 4; i++)
 	{
 		if (src.getMateria(i) != NULL)
-		{
-			if (this->_items[i] != NULL)
-				delete this->_items[i];
 			this->_items[i] = src.getMateria(i)->clone();
-		}
 	}
 	std::cout << "(copy) Character " << this->_name << " has been created - " << this << std::endl;
 }
@@ -158,6 +177,7 @@ _unequiped(NULL)
 }
 
 Character::Character() :
+_name(""),
 _unequiped(NULL)
 {
 	this->_items[0] = NULL;
@@ -169,22 +189,7 @@ _unequiped(NULL)
 
 Character::~Character()
 {
-	// free l'inventaire d'items
-	delete this->_items[0];
-	delete this->_items[1];
-	delete this->_items[2];
-	delete this->_items[3];
-
-	// free les items jetés
-	Unequiped *current = this->_unequiped;
-	Unequiped *next;
-	while (current != NULL)
-	{
-		next = current->next;
-		delete current->materia;
-		delete current;
-		current = next;
-	}
-
+	this->deleteItems();
+	this->deleteUnequiped();
 	std::cout << "Character has been destroyed - " << this << std::endl;
 }

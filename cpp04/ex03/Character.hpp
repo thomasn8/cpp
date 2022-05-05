@@ -31,6 +31,8 @@ class Character : public ICharacter
 		std::string _name;
 		AMateria *_items[4];
 		Unequiped *_unequiped;
+		virtual void deleteItems();
+		virtual void deleteUnequiped();
 };
 
 std::ostream	& operator<<(std::ostream & o, ICharacter const & inst);

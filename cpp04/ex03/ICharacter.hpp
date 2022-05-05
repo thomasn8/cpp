@@ -20,6 +20,11 @@ class ICharacter
 		virtual void setName(std::string const & name) = 0;
 		virtual void seeEquipement() const = 0;
 		virtual void seeUnquiped() = 0;
+	
+	protected:
+	
+		virtual void deleteItems() = 0;
+		virtual void deleteUnequiped() = 0;
 };
 
 #endif

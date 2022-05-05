@@ -89,6 +89,8 @@ int main()
 	character5->seeEquipement();
 	character5->seeUnquiped();
 
+	// ICharacter *character6(character5);
+
 	std::cout << std::endl;
 	delete character5;
 	std::cout << std::endl;
