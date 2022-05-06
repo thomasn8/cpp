@@ -3,8 +3,9 @@
 # Autogen ClassName.hpp and ClassName.cpp with canonical functions
 #
 
-hpp_file=class_files/ClassName.hpp
-cpp_file=class_files/ClassName.cpp
+SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+hpp_file=$SCRIPT_DIR/class_files/ClassName.hpp
+cpp_file=$SCRIPT_DIR/class_files/ClassName.cpp
 
 echo "C++ class files generator (*.hpp + *.cpp)"
 read -p 'Enter ClassName(s) (separated by whitespace) : ' ClassList
