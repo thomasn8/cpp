@@ -2,7 +2,6 @@
 #!/bin/bash
 # Autogen ClassName.hpp and ClassName.cpp with canonical functions
 #
-
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 hpp_file=$SCRIPT_DIR/class_files/ClassName.hpp
 cpp_file=$SCRIPT_DIR/class_files/ClassName.cpp
