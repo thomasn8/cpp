@@ -1,62 +1,44 @@
 #include "Bureaucrat.hpp"
 #include "Form.hpp"
+#include "ShrubberyCreationForm.hpp"
+#include "RobotomyRequestForm.hpp"
+#include "PresidentialPardonForm.hpp"
 
 int main()
 {
 	std::cout << std::endl;
-	std::cout << "NEW BUREAUCRATS" << std::endl;
-	Bureaucrat *melanie = newBureaucrat("Melanie", 175);
-	Bureaucrat *sylvan = newBureaucrat("Sylvan", 0);
-	std::cout << std::endl;
-	Bureaucrat *fanny = newBureaucrat("Fanny", 150);
-	Bureaucrat *louis = newBureaucrat("Louis", 5);
-	Bureaucrat *frank = newBureaucrat("Frank", 1);
-	std::cout << *fanny << std::endl;
-	std::cout << *louis << std::endl;
-	std::cout << *frank << std::endl;
-	std::cout << std::endl;	
-
-	std::cout << "PROMOTIONS/RELEGATIONS" << std::endl;
-	fanny->degrade();
-	fanny->promote();
-	louis->promote();
-	louis->promote();
-	louis->promote();
-	frank->promote();
-	frank->degrade();
-	std::cout << *fanny << std::endl;
-	std::cout << *louis << std::endl;
-	std::cout << *frank << std::endl;
+	Bureaucrat *jean = newBureaucrat("Jean", 100);
+	std::cout << *jean << std::endl;
 	std::cout << std::endl;
 
-	std::cout << "NEW FORMS" << std::endl;
-	Form *form1 = newForm("Form 1", 200, 200);
-	Form *form2 = newForm("Form 2", 0, 0);
-	Form *form3 = newForm("Form 3", 150, 150);
-	Form *form4 = newForm("Form 4", 5, 5);
-	Form *form5 = newForm("Form 5", 1, 1);
-	std::cout << *form3 << std::endl;
-	std::cout << *form4 << std::endl;
-	std::cout << *form5 << std::endl;
+	// TEST 1: instanciation of abstract class Form
+	// Form *test = new Form("test", 1 , 1);		// DOESN'T COMPILE
+
+	// TEST 2: instanciation of concreat class Shrubbery
+	Form *shrubbery1 = newShrubberyCreationForm("Jardin");
+	std::cout << *shrubbery1 << std::endl;
 	std::cout << std::endl;
 
-	std::cout << "SIGNATURES - beSign()" << std::endl;
-	form3->beSigned(louis);
-	form4->beSigned(louis);
-	form4->beSigned(frank);
-	form5->beSigned(louis);
+	// TEST 3: instanciation of concreat classes Robotomy and Presidential
+	Form *robotomy1 = newRobotomyRequestForm("Perceuse");
+	std::cout << *robotomy1 << std::endl;
+	Form *presidential1 = newPresidentialPardonForm("Corbeau");
+	std::cout << *presidential1 << std::endl;
 	std::cout << std::endl;
 
-	std::cout << "SIGNATURES - signForm()" << std::endl;
-	louis->signForm(form5);
-	louis->promote();
-	louis->signForm(form5);	
-	frank->signForm(form5);
+	// TEST 4:
+	jean->signForm(shrubbery1);
+	std::cout << *shrubbery1 << std::endl;
+	jean->signForm(robotomy1);
+	std::cout << *robotomy1 << std::endl;
+	jean->signForm(presidential1);
+	std::cout << *presidential1 << std::endl;
+
+	// End: destructors
 	std::cout << std::endl;
-
-	std::cout << *form3 << std::endl;
-	std::cout << *form4 << std::endl;
-	std::cout << *form5 << std::endl;
-
+	delete jean;
+	delete shrubbery1;
+	delete robotomy1;
+	delete presidential1;
 	return 0;
 }

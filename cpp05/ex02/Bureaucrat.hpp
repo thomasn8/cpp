@@ -47,11 +47,3 @@ std::ostream	& operator<<(std::ostream & o, Bureaucrat const & inst);
 Bureaucrat		*newBureaucrat(std::string const & name, int grade);
 
 #endif
-
-/*
-	Pour finir, ajoutez au Bureaucrat une fonction membre signForm(). Si le formulaire
-	est signé, elle affichera quelque chose comme :
-	<bureaucrat> signed <form>
-	Ou dans le cas contraire :
-	<bureaucrat> couldn’t sign <form> because <reason>. 
-*/

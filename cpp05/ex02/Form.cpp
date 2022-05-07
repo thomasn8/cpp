@@ -1,29 +1,6 @@
 #include "Form.hpp"
 #include "Bureaucrat.hpp"
 
-Form		*newForm(std::string const & name, int grade_sign, int grade_execute)
-{
-	Form *ptr = new Form(name, grade_sign, grade_execute);
-	
-	try
-	{
-		if (grade_sign < 1 || grade_execute < 1)
-			throw Form::GradeTooLowException();
-		else if (grade_sign > 150 || grade_execute > 150)
-			throw Form::GradeTooHighException();
-	}
-	catch (std::exception & e)
-	{
-		std::cerr << RED;
-		std::cerr << "(" << ptr << ") " << name << " ";
-		std::cerr << grade_sign << "/" << grade_execute << ": ";
-		std::cerr << e.what() << std::endl;
-		std::cerr << WHI;
-		delete ptr;
-	}
-	return (ptr);
-}
-
 /* *****************
 	Main stuffs
 ***************** */

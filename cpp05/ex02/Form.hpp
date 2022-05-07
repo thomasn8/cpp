@@ -11,19 +11,18 @@ class Bureaucrat;
 class Form
 {
 	public:
-	
+
 		Form & operator=(Form const & src);
 		Form(Form const & src);
 		Form(std::string const & name, int grade_sign, int grade_execute);
-		~Form();
+		virtual	~Form();
 
-		void		setSignature(bool value);
-		std::string	getName() const;
-		bool		getSignature() const;
-		int			getGradeSignature() const;
-		int			getGradeExecution() const;
-
-		bool beSigned(Bureaucrat *bureaucrat);
+		virtual void 	abstract() const = 0;
+		std::string		getName() const;
+		bool			getSignature() const;
+		int				getGradeSignature() const;
+		int				getGradeExecution() const;
+		void			setSignature(bool value);
 
 		class SignatureException : public std::exception
 		{
@@ -41,17 +40,22 @@ class Form
 				virtual const char* what() const throw();
 		};
 
+	protected:
+	
+
+		bool beSigned(Bureaucrat *bureaucrat);
+
+
 	private:
 
-		std::string	const _name;
-		bool _signature;
-		int const _gradeSignature;
-		int const _gradeExecution;
+		std::string	const	_name;
+		bool 				_signature;
+		int const 			_gradeSignature;
+		int const 			_gradeExecution;
 
 		Form();
 };
 
 std::ostream	& operator<<(std::ostream & o, Form const & inst);
-Form			*newForm(std::string const & name, int grade_sign, int grade_execute);
 
 #endif
