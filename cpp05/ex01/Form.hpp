@@ -3,7 +3,7 @@
 
 #include <iostream>
 #include <stdexcept>
-#include "Bureaucrat.hpp"
+class Bureaucrat;
 
 # define RED "\033[0;31m"
 # define WHI "\033[0m"
@@ -17,13 +17,19 @@ class Form
 		Form(std::string const & name, int grade_sign, int grade_execute);
 		~Form();
 
-		bool beSigned(Bureaucrat *bureaucrat);
-
+		void		setSignature(bool value);
 		std::string	getName() const;
 		bool		getSignature() const;
 		int			getGradeSignature() const;
 		int			getGradeExecution() const;
 
+		bool beSigned(Bureaucrat *bureaucrat);
+
+		class SignatureException : public std::exception
+		{
+			public:
+				virtual const char* what() const throw();
+		};
 		class GradeTooHighException : public std::exception
 		{
 			public:

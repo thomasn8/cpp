@@ -1,4 +1,5 @@
 #include "Form.hpp"
+#include "Bureaucrat.hpp"
 
 Form		*newForm(std::string const & name, int grade_sign, int grade_execute)
 {
@@ -16,8 +17,8 @@ Form		*newForm(std::string const & name, int grade_sign, int grade_execute)
 		std::cerr << RED;
 		std::cerr << "(" << ptr << ") " << name << " ";
 		std::cerr << grade_sign << "/" << grade_execute << ": ";
-		std::cerr << e.what();
-		std::cerr << WHI << std::endl;
+		std::cerr << e.what() << std::endl;
+		std::cerr << WHI;
 		delete ptr;
 	}
 	return (ptr);
@@ -31,28 +32,43 @@ bool	Form::beSigned(Bureaucrat *bureaucrat)
 {
 	try
 	{
-		if (bureaucrat->getGrade() > this->getGradeSignature())
+		if (this->_signature == true)
+			throw Form::SignatureException();
+		if (bureaucrat->getGrade() > this->_gradeSignature)
 			throw Form::GradeTooLowException();
 		else
-		{
-			std::cout << this->_name << ": form signed" << std::endl;
 			this->_signature = true;
-		}
+	}
+	catch(const Form::SignatureException & e)
+	{
+		std::cerr << RED;
+		std::cerr << this->_name << " couldn't be signed by " << bureaucrat->getName() << ". ";
+		std::cerr << this->_name << " ";
+		std::cerr << e.what() << std::endl;
+		std::cerr << WHI;
+		return false;
 	}
 	catch(const std::exception & e)
 	{
 		std::cerr << RED;
-		std::cerr << this->_name << ": ";
-		std::cerr << bureaucrat->getName() << " can't sign it: ";
-		std::cerr << e.what();
-		std::cerr << WHI << std::endl;
+		std::cerr << bureaucrat->getName() << " couldn't sign ";
+		std::cerr << this->_name << " because ";
+		std::cerr << e.what() << std::endl;
+		std::cerr << WHI;
+		return false;
 	}
-	return this->_signature;
+	std::cout << bureaucrat->getName() << " signed " << this->_name << std::endl;
+	return true;
 }
 
 /* *****************
 	Exceptions
 ***************** */
+
+const char* Form::SignatureException::what() const throw()
+{
+	return ("has already been signed in the past");
+}
 
 const char* Form::GradeTooHighException::what() const throw()
 {
@@ -67,6 +83,11 @@ const char* Form::GradeTooLowException::what() const throw()
 /* *****************
 	Getters/Setters
 ***************** */
+
+void	Form::setSignature(bool value)
+{
+	this->_signature = true;
+}
 
 std::string	Form::getName() const
 {
@@ -96,7 +117,7 @@ int	Form::getGradeExecution() const
 std::ostream	& operator<<(std::ostream & o, Form const & instance)
 {
 	o << instance.getName() << " (" << instance.getGradeSignature();
-	o << "/" << instance.getGradeExecution() << ") - signed : ";
+	o << "/" << instance.getGradeExecution() << ") - signed: ";
 	o << instance.getSignature();
 	return o;
 }

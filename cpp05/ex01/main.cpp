@@ -3,6 +3,7 @@
 
 int main()
 {
+	std::cout << std::endl;
 	std::cout << "NEW BUREAUCRATS" << std::endl;
 	Bureaucrat *melanie = newBureaucrat("Melanie", 175);
 	Bureaucrat *sylvan = newBureaucrat("Sylvan", 0);
@@ -28,14 +29,9 @@ int main()
 	std::cout << *frank << std::endl;
 	std::cout << std::endl;
 
-
-	std::cout << std::endl;
-
-
 	std::cout << "NEW FORMS" << std::endl;
 	Form *form1 = newForm("Form 1", 200, 200);
 	Form *form2 = newForm("Form 2", 0, 0);
-	std::cout << std::endl;
 	Form *form3 = newForm("Form 3", 150, 150);
 	Form *form4 = newForm("Form 4", 5, 5);
 	Form *form5 = newForm("Form 5", 1, 1);
@@ -44,14 +40,23 @@ int main()
 	std::cout << *form5 << std::endl;
 	std::cout << std::endl;
 
-	std::cout << "SIGNATURES" << std::endl;
+	std::cout << "SIGNATURES - beSign()" << std::endl;
 	form3->beSigned(louis);
 	form4->beSigned(louis);
+	form4->beSigned(frank);
 	form5->beSigned(louis);
+	std::cout << std::endl;
+
+	std::cout << "SIGNATURES - signForm()" << std::endl;
+	louis->signForm(form5);
+	louis->promote();
+	louis->signForm(form5);	
+	frank->signForm(form5);
+	std::cout << std::endl;
+
 	std::cout << *form3 << std::endl;
 	std::cout << *form4 << std::endl;
 	std::cout << *form5 << std::endl;
-	std::cout << std::endl;
 
 	return 0;
 }

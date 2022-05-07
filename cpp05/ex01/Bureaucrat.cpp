@@ -1,4 +1,5 @@
 #include "Bureaucrat.hpp"
+#include "Form.hpp"
 
 Bureaucrat		*newBureaucrat(std::string const & name, int grade)
 {
@@ -16,8 +17,8 @@ Bureaucrat		*newBureaucrat(std::string const & name, int grade)
 		std::cerr << RED;
 		std::cerr << "(" << ptr << ") ";
 		std::cerr << name << " " << grade << ": ";
-		std::cerr << e.what();
-		std::cerr << WHI << std::endl;
+		std::cerr << e.what() << std::endl;
+		std::cerr << WHI;
 		delete ptr;
 	}
 	return (ptr);
@@ -42,6 +43,39 @@ const char* Bureaucrat::GradeTooLowException::what() const throw()
 	Main stuffs
 ***************** */
 
+bool	Bureaucrat::signForm(Form *form)
+{
+	try
+	{
+		if (form->getSignature() == true)
+			throw Form::SignatureException();
+		if (this->_grade > form->getGradeSignature())
+			throw Bureaucrat::GradeTooLowException();
+		else
+			form->setSignature(true);
+	}
+	catch(const Form::SignatureException & e)
+	{
+		std::cerr << RED;
+		std::cerr << this->_name << " couldn't sign " << form->getName() << ". ";
+		std::cerr << form->getName() << " ";
+		std::cerr << e.what() << std::endl;
+		std::cerr << WHI;
+		return false;
+	}
+	catch(const std::exception & e)
+	{
+		std::cerr << RED;
+		std::cerr << this->_name << " couldn't sign ";
+		std::cerr << form->getName() << " because ";
+		std::cerr << e.what() << std::endl;
+		std::cerr << WHI;
+		return false;
+	}
+	std::cout << this->_name << " signed " << form->getName() << std::endl;
+	return true;
+}
+
 bool Bureaucrat::promote()
 {
 	int prev_grade = this->_grade;
@@ -57,7 +91,8 @@ bool Bureaucrat::promote()
 	{
 		this->_grade++;
 		std::cerr << RED;
-		std::cerr << this->_name << " has reached the maximum step in the company";
+		std::cerr << "Impossible, " << this->_name;
+		std::cerr << " had yet reached the maximum step in the company";
 		std::cerr << WHI << std::endl;
 	}
 	if (this->_grade != prev_grade)
@@ -80,7 +115,8 @@ bool Bureaucrat::degrade()
 	{
 		this->_grade--;
 		std::cerr << RED;
-		std::cerr << this->_name << " is already at the lowest tier in the company.";
+		std::cerr << "Impossible, " << this->_name;
+		std::cerr << " is already at the lowest tier in the company.";
 		std::cerr << WHI << std::endl;
 	}
 	if (this->_grade != prev_grade)
