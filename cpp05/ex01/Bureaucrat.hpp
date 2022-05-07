@@ -4,6 +4,9 @@
 #include <iostream>
 #include <stdexcept>
 
+# define RED "\033[0;31m"
+# define WHI "\033[0m"
+
 class Bureaucrat
 {
 	public:
@@ -15,8 +18,8 @@ class Bureaucrat
 
 		std::string	getName() const ;
 		int	getGrade() const ;
-		void promote();
-		void degrade();
+		bool promote();
+		bool degrade();
 
 		class GradeTooHighException : public std::exception
 		{

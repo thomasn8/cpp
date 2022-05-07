@@ -7,25 +7,34 @@ Bureaucrat		*newBureaucrat(std::string const & name, int grade)
 	try
 	{
 		if (grade < 1)
-			throw Bureaucrat::GradeTooLowException();
-		else if (grade > 150)
 			throw Bureaucrat::GradeTooHighException();
+		else if (grade > 150)
+			throw Bureaucrat::GradeTooLowException();
 	}
-	catch (Bureaucrat::GradeTooLowException & e)
+	catch (std::exception & e)
 	{
-		std::cout << "(" << ptr << ") ";
-		std::cout << name << " " << grade << ", ";
-		std::cout << e.what() << std::endl;
-		delete ptr;
-	}
-	catch (Bureaucrat::GradeTooHighException & e)
-	{
-		std::cout << "(" << ptr << ") ";
-		std::cout << name << " " << grade << ", ";
-		std::cout << e.what() << std::endl;
+		std::cerr << RED;
+		std::cerr << "(" << ptr << ") ";
+		std::cerr << name << " " << grade << ": ";
+		std::cerr << e.what();
+		std::cerr << WHI << std::endl;
 		delete ptr;
 	}
 	return (ptr);
+}
+
+/* *****************
+	Exceptions
+***************** */
+
+const char* Bureaucrat::GradeTooHighException::what() const throw()
+{
+	return ("grade too high");
+}
+
+const char* Bureaucrat::GradeTooLowException::what() const throw()
+{
+	return ("grade too low");
 }
 
 
@@ -33,29 +42,50 @@ Bureaucrat		*newBureaucrat(std::string const & name, int grade)
 	Main stuffs
 ***************** */
 
-void Bureaucrat::promote()
+bool Bureaucrat::promote()
 {
+	int prev_grade = this->_grade;
 	this->_grade--;
+	try
+	{
+		if (this->_grade < 1)
+			throw Bureaucrat::GradeTooHighException();
+		else
+			std::cout << this->_name << ": bureaucrat promoted. New grade: " << this->_grade << std::endl;
+	}
+	catch(const std::exception & e)
+	{
+		this->_grade++;
+		std::cerr << RED;
+		std::cerr << this->_name << " has reached the maximum step in the company";
+		std::cerr << WHI << std::endl;
+	}
+	if (this->_grade != prev_grade)
+		return true;
+	return false;
 }
 
-void Bureaucrat::degrade()
+bool Bureaucrat::degrade()
 {
+	int prev_grade = this->_grade;
 	this->_grade++;
-}
-
-
-/* *****************
-	Exceptions
-***************** */
-
-const char* Bureaucrat::GradeTooLowException::what() const throw()
-{
-	return ("grade too low: min is 1 (for expert)");
-}
-
-const char* Bureaucrat::GradeTooHighException::what() const throw()
-{
-	return ("grade too high: max is 150 (for beginer)");
+	try
+	{
+		if (this->_grade > 150)
+			throw Bureaucrat::GradeTooLowException();
+		else
+			std::cout << this->_name << ": bureaucrat degraded. New grade: " << this->_grade << std::endl;
+	}
+	catch(const std::exception & e)
+	{
+		this->_grade--;
+		std::cerr << RED;
+		std::cerr << this->_name << " is already at the lowest tier in the company.";
+		std::cerr << WHI << std::endl;
+	}
+	if (this->_grade != prev_grade)
+		return true;
+	return false;
 }
 
 
