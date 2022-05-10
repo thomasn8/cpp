@@ -3,14 +3,19 @@
 #include "ShrubberyCreationForm.hpp"
 #include "RobotomyRequestForm.hpp"
 #include "PresidentialPardonForm.hpp"
-#include <ctype.h>
 
-Form *makeForm(std::string formName, std::string target)
+Form *Intern::makeForm(std::string formName, std::string target)
 {
-	std::string	forms[3] = {"shrubbery creation", "robotomy request", "presidential pardon"};
-	f_ptr	functions[] = {&newShrubberyCreationForm, &newRobotomyRequestForm, &newPresidentialPardonForm};
+	std::string	formsName[3] = {"shrubbery creation", "robotomy request", "presidential pardon"};
+	f_ptr	newForms[3] = {&newShrubberyCreationForm, &newRobotomyRequestForm, &newPresidentialPardonForm};
 
-
+	for (int i = 0; i < 3; i++)
+	{
+		if (formName == formsName[i])
+			return (*newForms[i])(target);
+	}
+	std::cout << RED << "\"" << formName << "\": this kind of form doesn't exist" << std::endl << WHI;
+	return NULL;
 }
 
 /* *****************
