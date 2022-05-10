@@ -18,7 +18,6 @@ class RobotomyRequestForm : public Form
 	private:
 		
 		virtual void action() const;
-		virtual void abstract() const;
 		RobotomyRequestForm();
 };
 

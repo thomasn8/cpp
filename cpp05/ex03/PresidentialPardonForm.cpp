@@ -13,16 +13,6 @@ Form		*newPresidentialPardonForm(std::string const & target)
 	return ptr;
 }
 
-void PresidentialPardonForm::abstract() const
-{
-	return ;
-}
-
-/* *****************
-	Getters/Setters
-***************** */
-
-
 
 /* *****************
 	Canonical
@@ -37,14 +27,12 @@ PresidentialPardonForm	& PresidentialPardonForm::operator=(PresidentialPardonFor
 PresidentialPardonForm::PresidentialPardonForm(PresidentialPardonForm const & src) :
 Form(src.getName(), 25, 5)
 {
-	// this->pardon();
 	std::cout << "(" << this << " - copy) PresidentialPardonForm created" << std::endl;
 }
 
 PresidentialPardonForm::PresidentialPardonForm(std::string const & target) :
 Form(target, 25, 5)
 {
-	// this->pardon();
 	std::cout << "(" << this << " - string) PresidentialPardonForm created" << std::endl;
 }
 

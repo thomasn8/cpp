@@ -2,7 +2,6 @@
 # define INTERN_HPP
 
 #include <iostream>
-// #include <ctype.h>
 class Form;
 
 class Intern

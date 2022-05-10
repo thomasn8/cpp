@@ -23,16 +23,6 @@ Form		*newRobotomyRequestForm(std::string const & target)
 	return ptr;
 }
 
-void RobotomyRequestForm::abstract() const
-{
-	return ;
-}
-
-/* *****************
-	Getters/Setters
-***************** */
-
-
 
 /* *****************
 	Canonical
@@ -47,14 +37,12 @@ RobotomyRequestForm	& RobotomyRequestForm::operator=(RobotomyRequestForm const &
 RobotomyRequestForm::RobotomyRequestForm(RobotomyRequestForm const & src) :
 Form(src.getName(), 72, 45)
 {
-	// this->robotomisation();
 	std::cout << "(" << this << " - copy) RobotomyRequestForm created" << std::endl;
 }
 
 RobotomyRequestForm::RobotomyRequestForm(std::string const & target) :
 Form(target, 72, 45)
 {
-	// this->robotomisation();
 	std::cout << "(" << this << " - string) RobotomyRequestForm created" << std::endl;
 }
 

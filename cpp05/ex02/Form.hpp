@@ -20,8 +20,7 @@ class Form
 		Form(std::string const & name, int grade_sign, int grade_execute);
 		virtual	~Form();
 
-		virtual void action() const = 0;
-		virtual void 	abstract() const = 0;
+		virtual void	action() const = 0;
 		std::string		getName() const;
 		bool			getSignature() const;
 		int				getGradeSignature() const;

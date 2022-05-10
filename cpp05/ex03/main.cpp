@@ -5,7 +5,6 @@
 #include "PresidentialPardonForm.hpp"
 #include "Intern.hpp"
 
-
 int main()
 {
 	Intern someRandomIntern;	// stack allocation

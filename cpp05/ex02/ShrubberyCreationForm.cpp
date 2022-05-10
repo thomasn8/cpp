@@ -41,16 +41,6 @@ Form		*newShrubberyCreationForm(std::string const & target)
 	return ptr;
 }
 
-void ShrubberyCreationForm::abstract() const
-{
-	return ;
-}
-
-/* *****************
-	Getters/Setters
-***************** */
-
-
 
 /* *****************
 	Canonical
@@ -65,14 +55,12 @@ ShrubberyCreationForm	& ShrubberyCreationForm::operator=(ShrubberyCreationForm c
 ShrubberyCreationForm::ShrubberyCreationForm(ShrubberyCreationForm const & src) :
 Form(src.getName(), 145, 137)
 {
-	// this->print_tree();
 	std::cout << "(" << this << " - copy) ShrubberyCreationForm created" << std::endl;
 }
 
 ShrubberyCreationForm::ShrubberyCreationForm(std::string const & target) :
 Form(target, 145, 137)
 {
-	// this->print_tree();
 	std::cout << "(" << this << " - string) ShrubberyCreationForm created" << std::endl;
 }
 
