@@ -2,6 +2,7 @@
 # define SHRUBBERYCREATIONFORM_HPP
 
 #include <iostream>
+#include <fstream>
 #include "Form.hpp"
 
 class ShrubberyCreationForm : public Form
@@ -15,6 +16,7 @@ class ShrubberyCreationForm : public Form
 
 	private:
 		
+		void print_tree() const;
 		virtual void abstract() const;
 		ShrubberyCreationForm();
 };

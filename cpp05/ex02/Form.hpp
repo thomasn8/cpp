@@ -6,6 +6,7 @@
 class Bureaucrat;
 
 # define RED "\033[0;31m"
+# define BLU "\033[0;32m"
 # define WHI "\033[0m"
 
 class Form

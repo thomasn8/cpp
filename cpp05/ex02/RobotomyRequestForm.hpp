@@ -3,6 +3,8 @@
 
 #include <iostream>
 #include "Form.hpp"
+#include <stdlib.h>
+#include <time.h>
 
 class RobotomyRequestForm : public Form
 {
@@ -15,6 +17,7 @@ class RobotomyRequestForm : public Form
 
 	private:
 		
+		void robotomisation() const;
 		virtual void abstract() const;
 		RobotomyRequestForm();
 };

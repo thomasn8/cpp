@@ -27,11 +27,11 @@ int main()
 	std::cout << std::endl;
 
 	// TEST 4:
-	jean->signForm(shrubbery1);
+	jean->signForm(shrubbery1);					// 100 vs 145
 	std::cout << *shrubbery1 << std::endl;
-	jean->signForm(robotomy1);
+	jean->signForm(robotomy1);					// 100 vs 72
 	std::cout << *robotomy1 << std::endl;
-	jean->signForm(presidential1);
+	jean->signForm(presidential1);				// 100 vs 25
 	std::cout << *presidential1 << std::endl;
 
 	// End: destructors

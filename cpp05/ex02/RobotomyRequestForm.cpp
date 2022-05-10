@@ -1,15 +1,29 @@
 #include "RobotomyRequestForm.hpp"
 
+/* Fait des bruits de perceuse. Ensuite, informe que la <target> a été robotomisée
+avec succès 50% du temps. Dans le cas contraire, informe que l’opération a échoué. */
+void RobotomyRequestForm::robotomisation() const
+{
+	std::string noise;
+	int rand_num;
+
+	std::cout << BLU;
+	noise = "\"TTrrRRRRrrrlktKtTKt TTrrRRRRrrrlktKtTKt\"";
+	std::cout << noise << std::endl;
+	srand (time(NULL));
+	rand_num = rand() % 2 + 1;
+	if (rand_num == 1)
+		std::cout << this->getName() << " successfuly robotomised" << std::endl;
+	else
+		std::cout << "Failure: the robotization operation failed" << std::endl;
+	std::cout << WHI;
+}
+
 Form		*newRobotomyRequestForm(std::string const & target)
 {
 	Form *ptr = new RobotomyRequestForm(target);
 	return ptr;
 }
-
-/* *****************
-	...
-***************** */
-
 
 void RobotomyRequestForm::abstract() const
 {
@@ -35,12 +49,14 @@ RobotomyRequestForm	& RobotomyRequestForm::operator=(RobotomyRequestForm const &
 RobotomyRequestForm::RobotomyRequestForm(RobotomyRequestForm const & src) :
 Form(src.getName(), 72, 45)
 {
+	this->robotomisation();
 	std::cout << "(" << this << " - copy) RobotomyRequestForm created" << std::endl;
 }
 
 RobotomyRequestForm::RobotomyRequestForm(std::string const & target) :
 Form(target, 72, 45)
 {
+	this->robotomisation();
 	std::cout << "(" << this << " - string) RobotomyRequestForm created" << std::endl;
 }
 
