@@ -16,7 +16,7 @@ class ShrubberyCreationForm : public Form
 
 	private:
 		
-		void print_tree() const;
+		virtual void action() const;
 		virtual void abstract() const;
 		ShrubberyCreationForm();
 };

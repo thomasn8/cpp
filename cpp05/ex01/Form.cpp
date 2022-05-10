@@ -28,38 +28,39 @@ Form		*newForm(std::string const & name, int grade_sign, int grade_execute)
 	Main stuffs
 ***************** */
 
-bool	Form::beSigned(Bureaucrat *bureaucrat)
+bool	Form::beSigned(Bureaucrat const & bureaucrat)
 {
 	try
 	{
 		if (this->_signature == true)
 			throw Form::SignatureException();
-		if (bureaucrat->getGrade() > this->_gradeSignature)
+		else if (bureaucrat.getGrade() > this->_gradeSignature)
 			throw Form::GradeTooLowException();
 		else
 			this->_signature = true;
 	}
-	catch(const Form::SignatureException & e)
+	catch (const Form::SignatureException & e)
 	{
 		std::cerr << RED;
-		std::cerr << this->_name << " couldn't be signed by " << bureaucrat->getName() << ". ";
+		std::cerr << this->_name << " couldn't be signed by " << bureaucrat.getName() << ". ";
 		std::cerr << this->_name << " ";
 		std::cerr << e.what() << std::endl;
 		std::cerr << WHI;
 		return false;
 	}
-	catch(const std::exception & e)
+	catch (const std::exception & e)
 	{
 		std::cerr << RED;
-		std::cerr << bureaucrat->getName() << " couldn't sign ";
+		std::cerr << bureaucrat.getName() << " couldn't sign ";
 		std::cerr << this->_name << " because ";
 		std::cerr << e.what() << std::endl;
 		std::cerr << WHI;
 		return false;
 	}
-	std::cout << bureaucrat->getName() << " signed " << this->_name << std::endl;
+	std::cout << MAG << bureaucrat.getName() << " signed " << this->_name << std::endl << WHI;
 	return true;
 }
+
 
 /* *****************
 	Exceptions

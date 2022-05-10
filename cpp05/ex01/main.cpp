@@ -41,10 +41,10 @@ int main()
 	std::cout << std::endl;
 
 	std::cout << "SIGNATURES - beSign()" << std::endl;
-	form3->beSigned(louis);
-	form4->beSigned(louis);
-	form4->beSigned(frank);
-	form5->beSigned(louis);
+	form3->beSigned(*louis);
+	form4->beSigned(*louis);
+	form4->beSigned(*frank);
+	form5->beSigned(*louis);
 	std::cout << std::endl;
 
 	std::cout << "SIGNATURES - signForm()" << std::endl;
@@ -53,10 +53,6 @@ int main()
 	louis->signForm(form5);	
 	frank->signForm(form5);
 	std::cout << std::endl;
-
-	std::cout << *form3 << std::endl;
-	std::cout << *form4 << std::endl;
-	std::cout << *form5 << std::endl;
 
 	return 0;
 }

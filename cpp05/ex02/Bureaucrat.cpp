@@ -72,7 +72,7 @@ bool	Bureaucrat::signForm(Form *form)
 		std::cerr << WHI;
 		return false;
 	}
-	std::cout << this->_name << " signed " << form->getName() << std::endl;
+	std::cout << MAG << this->_name << " signed " << form->getName() << std::endl << WHI;
 	return true;
 }
 

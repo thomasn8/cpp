@@ -6,6 +6,9 @@
 class Bureaucrat;
 
 # define RED "\033[0;31m"
+# define BLU "\033[0;34m"
+# define MAG "\033[0;35m"
+# define CYA "\033[0;36m"
 # define WHI "\033[0m"
 
 class Form
@@ -23,7 +26,7 @@ class Form
 		int			getGradeSignature() const;
 		int			getGradeExecution() const;
 
-		bool beSigned(Bureaucrat *bureaucrat);
+		bool beSigned(Bureaucrat const & bureaucrat);
 
 		class SignatureException : public std::exception
 		{

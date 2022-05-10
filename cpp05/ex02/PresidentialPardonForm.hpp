@@ -15,6 +15,7 @@ class PresidentialPardonForm : public Form
 
 	private:
 		
+		virtual void action() const;
 		virtual void abstract() const;
 		PresidentialPardonForm();
 };

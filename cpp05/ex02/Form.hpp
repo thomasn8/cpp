@@ -6,7 +6,9 @@
 class Bureaucrat;
 
 # define RED "\033[0;31m"
-# define BLU "\033[0;32m"
+# define BLU "\033[0;34m"
+# define MAG "\033[0;35m"
+# define CYA "\033[0;36m"
 # define WHI "\033[0m"
 
 class Form
@@ -18,6 +20,7 @@ class Form
 		Form(std::string const & name, int grade_sign, int grade_execute);
 		virtual	~Form();
 
+		virtual void action() const = 0;
 		virtual void 	abstract() const = 0;
 		std::string		getName() const;
 		bool			getSignature() const;
@@ -25,6 +28,14 @@ class Form
 		int				getGradeExecution() const;
 		void			setSignature(bool value);
 
+		bool beSigned(Bureaucrat const & bureaucrat);
+		bool execute(Bureaucrat const & executor);
+
+		class MissingSignature : public std::exception
+		{
+			public:
+				virtual const char* what() const throw();
+		};
 		class SignatureException : public std::exception
 		{
 			public:
@@ -39,12 +50,8 @@ class Form
 		{
 			public:
 				virtual const char* what() const throw();
-		};
+		};	
 
-	protected:
-	
-
-		bool beSigned(Bureaucrat *bureaucrat);
 
 
 	private:

@@ -1,8 +1,10 @@
 #include "ShrubberyCreationForm.hpp"
 
-void	ShrubberyCreationForm::print_tree() const
+void	ShrubberyCreationForm::action() const
 {
+	std::string filename = this->getName().append("_shrubbery");
 	std::string tree;
+	
 	tree  = "the\n";
 	tree += "├── quick\n";
 	tree += "│   └── brown\n";
@@ -22,11 +24,15 @@ void	ShrubberyCreationForm::print_tree() const
 	tree += "   `&%\\ ` /%&'    |.|        \\ '|8'\n";
 	tree += "       |o|        | |         | |\n";
 	tree += "       |.|        | |         | |\n";
-	tree += "    \\/ ._\\//_/__/  ,\\_//__\\/.  \\_//__/_\n";
+	tree += "    \\/ ._\\//_/__/  ,\\_//__\\/.  \\_//__/_\n\n";
 	
-	std::ofstream MyFile(std::string(this->getName()).append("_shrubbery"));
-	MyFile << tree;
-	MyFile.close();
+	std::ofstream file;
+  	file.open(filename, std::ofstream::out | std::ofstream::app);
+	file << tree;
+	std::cout << BLU;
+	std::cout << filename << " created" << std::endl;
+	std::cout << WHI;
+	file.close();
 }
 
 Form		*newShrubberyCreationForm(std::string const & target)
@@ -59,14 +65,14 @@ ShrubberyCreationForm	& ShrubberyCreationForm::operator=(ShrubberyCreationForm c
 ShrubberyCreationForm::ShrubberyCreationForm(ShrubberyCreationForm const & src) :
 Form(src.getName(), 145, 137)
 {
-	this->print_tree();
+	// this->print_tree();
 	std::cout << "(" << this << " - copy) ShrubberyCreationForm created" << std::endl;
 }
 
 ShrubberyCreationForm::ShrubberyCreationForm(std::string const & target) :
 Form(target, 145, 137)
 {
-	this->print_tree();
+	// this->print_tree();
 	std::cout << "(" << this << " - string) ShrubberyCreationForm created" << std::endl;
 }
 

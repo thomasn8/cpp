@@ -72,7 +72,7 @@ bool	Bureaucrat::signForm(Form *form)
 		std::cerr << WHI;
 		return false;
 	}
-	std::cout << this->_name << " signed " << form->getName() << std::endl;
+	std::cout << MAG << this->_name << " signed " << form->getName() << std::endl << WHI;
 	return true;
 }
 
@@ -85,7 +85,7 @@ bool Bureaucrat::promote()
 		if (this->_grade < 1)
 			throw Bureaucrat::GradeTooHighException();
 		else
-			std::cout << this->_name << ": bureaucrat promoted. New grade: " << this->_grade << std::endl;
+			std::cout << CYA << this->_name << ": bureaucrat promoted. New grade: " << this->_grade << std::endl << WHI;
 	}
 	catch(const std::exception & e)
 	{
@@ -109,7 +109,7 @@ bool Bureaucrat::degrade()
 		if (this->_grade > 150)
 			throw Bureaucrat::GradeTooLowException();
 		else
-			std::cout << this->_name << ": bureaucrat degraded. New grade: " << this->_grade << std::endl;
+			std::cout << CYA << this->_name << ": bureaucrat degraded. New grade: " << this->_grade << std::endl << WHI;
 	}
 	catch(const std::exception & e)
 	{
