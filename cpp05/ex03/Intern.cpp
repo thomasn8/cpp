@@ -12,7 +12,10 @@ Form *Intern::makeForm(std::string formName, std::string target)
 	for (int i = 0; i < 3; i++)
 	{
 		if (formName == formsName[i])
+		{
+			std::cout << BLU << *this << " creates " << formName << std::endl << WHI;
 			return (*newForms[i])(target);
+		}
 	}
 	std::cout << RED << "\"" << formName << "\": this kind of form doesn't exist" << std::endl << WHI;
 	return NULL;

@@ -21,6 +21,5 @@ int main()
 	delete form2;
 	delete form3;
 	delete form4;
-
 	return 0;
 }
