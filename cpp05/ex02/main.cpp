@@ -29,10 +29,10 @@ int main()
 	std::cout << std::endl;
 
 	// TEST 4: signatures
-	jean->signForm(shrubbery1);					// 100 vs 145
-	jean->signForm(robotomy1);					// 100 vs 72
-	jean->signForm(presidential1);				// 100 vs 25
-	presidential1->beSigned(*lucas);				// 1 vs 5
+	jean->signForm(*shrubbery1);				// 100 vs 145
+	jean->signForm(*robotomy1);					// 100 vs 72
+	jean->signForm(*presidential1);				// 100 vs 25
+	presidential1->beSigned(*lucas);			// 1 vs 5
 	std::cout << std::endl;
 	
 	// TEST 5: execute
@@ -43,8 +43,10 @@ int main()
 	robotomy1->execute(*lucas);					// 1 vs 45
 	presidential1->execute(*lucas);				// 1 vs 5
 	std::cout << std::endl;
-	robotomy1->beSigned(*lucas);					// 1 vs 72
-	robotomy1->execute(*lucas);					// 1 vs 45
+	jean->executeForm(*robotomy1);				// 100 vs 45
+	robotomy1->beSigned(*lucas);
+	jean->executeForm(*robotomy1);				// 100 vs 45
+	lucas->executeForm(*robotomy1);				// 1 vs 45
 
 	// TEST 6: destructors
 	std::cout << std::endl;

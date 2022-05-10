@@ -25,7 +25,8 @@ class Bureaucrat
 
 		bool promote();
 		bool degrade();
-		bool signForm(Form *form);
+		bool signForm(Form & form);
+		bool executeForm(Form const & form);
 
 		class GradeTooHighException : public std::exception
 		{

@@ -9,12 +9,10 @@ bool	Form::execute(Bureaucrat const & executor)
 {
 	try
 	{
-		if (this->getSignature() == false)
+		if (this->_signature == false)
 			throw Form::MissingSignature();
-		else if (executor.getGrade() > this->getGradeExecution())
+		else if (executor.getGrade() > this->_gradeExecution)
 			throw Form::GradeTooLowException();
-		else
-			this->action();
 	}
 	catch (const Form::MissingSignature & e)
 	{
@@ -33,6 +31,8 @@ bool	Form::execute(Bureaucrat const & executor)
 		std::cerr << WHI;
 		return false;
 	}
+	std::cout << BLU << executor.getName() << " executed " << this->_name << ":" << std::endl << WHI;
+	this->action();
 	return true;
 }
 

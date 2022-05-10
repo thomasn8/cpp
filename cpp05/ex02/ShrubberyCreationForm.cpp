@@ -30,7 +30,7 @@ void	ShrubberyCreationForm::action() const
   	file.open(filename, std::ofstream::out | std::ofstream::app);
 	file << tree;
 	std::cout << BLU;
-	std::cout << filename << " created" << std::endl;
+	std::cout << filename << " written" << std::endl;
 	std::cout << WHI;
 	file.close();
 }

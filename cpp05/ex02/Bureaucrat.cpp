@@ -43,22 +43,52 @@ const char* Bureaucrat::GradeTooLowException::what() const throw()
 	Main stuffs
 ***************** */
 
-bool	Bureaucrat::signForm(Form *form)
+bool Bureaucrat::executeForm(Form const & form)
 {
 	try
 	{
-		if (form->getSignature() == true)
+		if (form.getSignature() == false)
+			throw Form::MissingSignature();
+		else if (this->_grade > form.getGradeExecution())
+			throw Form::GradeTooLowException();
+	}
+	catch (const Form::MissingSignature & e)
+	{
+		std::cerr << RED;
+		std::cerr << this->_name << " couldn't execute " << form.getName() << " because ";
+		std::cerr << e.what() << std::endl;
+		std::cerr << WHI;
+		return false;
+	}
+	catch (const Form::GradeTooLowException & e)
+	{
+		std::cerr << RED;
+		std::cerr << this->_name << " couldn't execute " << form.getName() << " because ";
+		std::cerr << e.what() << std::endl;
+		std::cerr << WHI;
+		return false;
+	}
+	std::cout << BLU << this->_name << " executed " << form.getName() << ":" << std::endl << WHI;
+	form.action();
+	return true;
+}
+
+bool	Bureaucrat::signForm(Form & form)
+{
+	try
+	{
+		if (form.getSignature() == true)
 			throw Form::SignatureException();
-		if (this->_grade > form->getGradeSignature())
+		if (this->_grade > form.getGradeSignature())
 			throw Bureaucrat::GradeTooLowException();
 		else
-			form->setSignature(true);
+			form.setSignature(true);
 	}
 	catch(const Form::SignatureException & e)
 	{
 		std::cerr << RED;
-		std::cerr << this->_name << " couldn't sign " << form->getName() << ". ";
-		std::cerr << form->getName() << " ";
+		std::cerr << this->_name << " couldn't sign " << form.getName() << ". ";
+		std::cerr << form.getName() << " ";
 		std::cerr << e.what() << std::endl;
 		std::cerr << WHI;
 		return false;
@@ -67,12 +97,12 @@ bool	Bureaucrat::signForm(Form *form)
 	{
 		std::cerr << RED;
 		std::cerr << this->_name << " couldn't sign ";
-		std::cerr << form->getName() << " because ";
+		std::cerr << form.getName() << " because ";
 		std::cerr << e.what() << std::endl;
 		std::cerr << WHI;
 		return false;
 	}
-	std::cout << MAG << this->_name << " signed " << form->getName() << std::endl << WHI;
+	std::cout << MAG << this->_name << " signed " << form.getName() << std::endl << WHI;
 	return true;
 }
 
