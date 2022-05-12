@@ -1,14 +1,50 @@
 #include <iostream>
-#include <cstdlib>
-#include <cwctype>
-#include <climits>
-#include <typeinfo>
-#include <exception>
+#include <limits>
+// #include <cstdlib>
+// #include <cwctype>
+// #include <typeinfo>
+// #include <exception>
+
+# define INFF std::numeric_limits<float>::infinity()
+# define NEG_INFF - std::numeric_limits<float>::infinity()
+# define INF std::numeric_limits<double>::infinity()
+# define NEG_INF - std::numeric_limits<double>::infinity()
 
 int	error(std::string msg)
 {
 	std::cout << msg << std::endl;
 	exit(-1);
+}
+
+bool	int_overflow(std::string literal)
+{
+	int		len;
+	long	num;
+	int		digit;
+	char	digit2;
+
+	len = literal.length();
+	num = atoi(literal.c_str());
+	if ((literal[0] == '-' && num > 0) ||
+		(literal[0] != '-' && num < 0))				// for 2147483648 and multiples
+		return true;
+	if (num < 0)
+		num *= -1;
+	while (num > 0)
+	{
+		len--;
+		digit = num % 10;
+		digit2 = literal.c_str()[len];
+		// std::cout << atoi(&digit2) << " vs " << digit << std::endl;
+		if (atoi(&digit2) != digit)
+			return true;
+		num /= 10;
+	}
+	if (literal[0] == '-')
+		len--;
+	if (len > 0)									// for 8589934592 (= 2147483648 * 4)
+		return true;
+	return false;
 }
 
 int	parse(std::string literal)
@@ -73,40 +109,68 @@ int	get_type(std::string literal)
 	return type;
 }
 
-/* 
-	le convertir de sa représentation sous forme de chaîne de caractères vers son véritable type, 
-	et ensuite le convertir explicitement vers les trois autres types de données (char, int, float ou double)
-
-	Si une conversion n’a pas de sens ou overflow, affichez un message pour informer l’utilisateur
-	que la conversion de type est impossible. Incluez tout fichier d’en-tête qui vous
-	sera nécessaire afin de gérer les limites numériques et les valeurs spéciales.
-*/
-
 void char_convert(int type, std::string literal)
 {
 	char	c;
-	int		i;		// 2
-	float	f;		// 3
-	double	d;		// 4
+	int		i;
+	float	f;
+	double	d;
 
 	if (type == 1)
 		std::cout << "char: " << literal[0] << std::endl;
-	if (type == 2)
-	{
-		i = atoi(literal.c_str());
-		c = static_cast<char>(i);
-	}
-	else if (type == 3 || type == 4)
-	{
-		f = atof(literal.c_str());
-		c = static_cast<char>(f);
-	}
-	if (c >= ' ' && c < '~')
-		std::cout << "char: '" << c << "'" << std::endl;
-	else if ((c >= 0 && c < ' ') || c == 127)
-		std::cout << "char: Non displayable" << std::endl;
-	else
+	else if (literal == "-inff" || literal == "+inff" || literal ==  "nanf" 
+			 || literal ==  "-inf" || literal ==  "+inf" || literal ==  "nan"
+			 || (type == 2 && int_overflow(literal)))
 		std::cout << "char: impossible" << std::endl;
+	else
+	{
+		if (type == 2)
+		{
+			i = atoi(literal.c_str());
+			c = static_cast<char>(i);
+		}
+		else if (type == 3 || type == 4)
+		{
+			f = atof(literal.c_str());
+			c = static_cast<char>(f);
+		}
+		if (c >= ' ' && c < '~')
+			std::cout << "char: '" << c << "'" << std::endl;
+		else if ((c >= 0 && c < ' ') || c == 127)
+			std::cout << "char: Non displayable" << std::endl;
+		else
+			std::cout << "char: impossible" << std::endl;
+	}
+}
+
+void int_convert(int type, std::string literal)
+{
+	char	c;
+	int		i;
+	float	f;
+	double	d;
+
+	if (type == 2 && int_overflow(literal))
+		std::cout << "int: impossible (overflow)" << std::endl;
+	else if (type == 2)
+		std::cout << "int: " << atoi(literal.c_str()) << std::endl;
+	else if (literal == "-inff" || literal == "+inff" || literal ==  "nanf" 
+			 || literal ==  "-inf" || literal ==  "+inf" || literal ==  "nan")
+		std::cout << "int: impossible" << std::endl;
+	else
+	{
+		if (type == 1)
+		{
+			c = literal[0];
+			i = static_cast<int>(c);
+		}
+		else if (type == 3 || type == 4)
+		{
+			d = atof(literal.c_str());
+			i = static_cast<int>(d);
+		}
+		std::cout << "int: " << i << std::endl;
+	}
 }
 
 void	convert(std::string literal)
@@ -118,8 +182,10 @@ void	convert(std::string literal)
 	double	d;		// 4
 
 	type = get_type(literal);
+	std::cout << "TYPE: " << type << std::endl;
+
 	char_convert(type, literal);
-	// ...
+	int_convert(type, literal);
 }
 
 int main(int ac, char **av)
