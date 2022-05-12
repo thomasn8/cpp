@@ -2,8 +2,9 @@ SRCS		=		main.cpp		\
 
 OBJS		= ${SRCS:.cpp=.o}
 CC			= c++
-CFLAGS		= -std=c++98 -Wall -Wextra -Werror -Wno-conversion
-NAME		= casting
+CFLAGS		= -std=c++98 -Wall -Wextra -Werror
+#CFLAGS		= -std=c++98 -Wall -Wextra -Werror -Wno-conversion
+NAME		= convert
 RM			= rm -f
 
 all:		${NAME}
