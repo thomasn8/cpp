@@ -105,11 +105,11 @@ int	get_type(std::string literal)
 	// Detect numerical values
 	type = parse(literal);
 	if (type == -1)
-		error("Invalid value for conversion");
+		error("Error: invalid value");
 	return type;
 }
 
-void char_convert(int type, std::string literal)
+void char_conversion(int type, std::string literal)
 {
 	char	c;
 	int		i;
@@ -143,7 +143,7 @@ void char_convert(int type, std::string literal)
 	}
 }
 
-void int_convert(int type, std::string literal)
+void int_conversion(int type, std::string literal)
 {
 	char	c;
 	int		i;
@@ -184,8 +184,8 @@ void	convert(std::string literal)
 	type = get_type(literal);
 	std::cout << "TYPE: " << type << std::endl;
 
-	char_convert(type, literal);
-	int_convert(type, literal);
+	char_conversion(type, literal);
+	int_conversion(type, literal);
 }
 
 int main(int ac, char **av)
