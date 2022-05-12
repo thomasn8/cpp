@@ -2,6 +2,8 @@
 #include <cstdlib>
 #include <cwctype>
 #include <climits>
+#include <typeinfo>
+#include <exception>
 
 int	error(std::string msg)
 {
@@ -80,6 +82,33 @@ int	get_type(std::string literal)
 	sera nécessaire afin de gérer les limites numériques et les valeurs spéciales.
 */
 
+void char_convert(int type, std::string literal)
+{
+	char	c;
+	int		i;		// 2
+	float	f;		// 3
+	double	d;		// 4
+
+	if (type == 1)
+		std::cout << "char: " << literal[0] << std::endl;
+	if (type == 2)
+	{
+		i = atoi(literal.c_str());
+		c = static_cast<char>(i);
+	}
+	else if (type == 3 || type == 4)
+	{
+		f = atof(literal.c_str());
+		c = static_cast<char>(f);
+	}
+	if (c >= ' ' && c < '~')
+		std::cout << "char: '" << c << "'" << std::endl;
+	else if ((c >= 0 && c < ' ') || c == 127)
+		std::cout << "char: Non displayable" << std::endl;
+	else
+		std::cout << "char: impossible" << std::endl;
+}
+
 void	convert(std::string literal)
 {
 	int		type;	// types:
@@ -89,26 +118,8 @@ void	convert(std::string literal)
 	double	d;		// 4
 
 	type = get_type(literal);
-
-	if (type == 1)
-		c = literal[0];
-	else if (type == 2)
-		i = atoi(literal.c_str());
-	else if (type == 3)
-		f = atof(literal.c_str());
-	else if (type == 4)
-		d = atof(literal.c_str());
-
-	if (type == 1)
-	{
-		std::cout << "char: " << c << std::endl;
-		std::cout << "int: " << (int)c << std::endl;
-		std::cout << "float: " << (float)c << std::endl;
-		std::cout << "double: " << (double)c << std::endl;
-	}
-	// c = (char)literal[0];
-	// std::cout << "char: " << c << std::endl;
-
+	char_convert(type, literal);
+	// ...
 }
 
 int main(int ac, char **av)
@@ -144,14 +155,30 @@ int main(int ac, char **av)
 	5 actions de cast possibles
 
 	- CONVERSIONS
-		-> static cast :
-		exemple: static_cast<int>(42);
-
 	- RÉINTERPRÉTATIONS
 	- CHANGEMENTS DE TYPE QUALIFIER
 	- DOWNCAST
 	- UPCAST
 
-	promotion/downcast = quand on va vers un type plus précis, ne pose pas problème
-	démotion/upcast = quand on va vers un type moins précis, pose problème
+	promotion/downcast	= quand on va vers un type plus précis,		pas de problème de précision
+	démotion/upcast		= quand on va vers un type moins précis,	perte de précision possible
+
+	downcast implicite	=> ne compile pas
+	upcast implicite	=> pas de problème de compilation
+
+	-> static cast: 
+		- pour les conversions de valeurs simples
+			exemple: static_cast<int>(42);
+		- pour les conversions de class (upcast/downcast), détecte les arbres d'héritages et empêche les conversions sans correspondance
+			exemple: static_cast<Unrelated *>(&a)
+
+	-> dynamic cast: 
+		- fonctionne au runtime (≠ tous les autres à la compil)
+		- fonctionne que sur des classes incorporant le polymorphisme virtuel (= classes avec méthodes, donc basées sur classe abstraite)
+		- s'utilise uniquement pour les downcast, et vérifie si possible ou non
+		- s'utilise qu'avec des ptr ou des ref
+			exemple: dynamic_cast<Child1 *>(b)
+			exemple: dynamic_cast<Child2 &>(*b)
+		lorsqu'on dynamic_cast avec des ptr, si échoue retourne NULL
+		lorsqu'on dynamic_cast avec des ref, si échoue throw une error std::bad_cast à gérer avec try-catch
 */
