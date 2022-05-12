@@ -63,3 +63,13 @@ void int_conversion(int type, std::string literal)
 		std::cout << "int: " << i << std::endl;
 	}
 }
+
+void float_conversion(int type, std::string literal)
+{
+	char	c;
+	int		i;
+	float	f;
+	double	d;
+
+	// ...
+}

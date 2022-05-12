@@ -13,7 +13,8 @@ void	convert(std::string literal)
 
 	char_conversion(type, literal);
 	int_conversion(type, literal);
-	//...
+	// float_conversion(type, literal);
+	// double_conversion(type, literal);
 }
 
 int main(int ac, char **av)

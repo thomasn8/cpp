@@ -20,6 +20,7 @@ int		get_type(std::string literal);
 // conversions
 void	char_conversion(int type, std::string literal);
 void	int_conversion(int type, std::string literal);
+void	float_conversion(int type, std::string literal);
 
 // utils
 int		error(std::string msg);
