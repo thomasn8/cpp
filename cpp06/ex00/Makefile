@@ -1,4 +1,7 @@
 SRCS		=		main.cpp		\
+					utils.cpp		\
+					get_type.cpp	\
+					conversions.cpp	\
 
 OBJS		= ${SRCS:.cpp=.o}
 CC			= c++
