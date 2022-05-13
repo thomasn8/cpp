@@ -18,17 +18,21 @@ static int	parse(std::string literal)
 			dots++;
 			if (dots > 1)
 				return -1;
+			if (!iswdigit(literal[i + 1]))
+				return -1;
 		}
 		else if (literal[i] == '-' && i != 0)
 			return -1;
 		else if (literal[i] == 'f' && i != (len - 1))
 			return -1;
 	}
+	if (dots == 0 && literal[len - 1] == 'f')
+		return - 1;
 	if (digits == 0)
 		return -1;
 	if (dots == 0)
 		return 2;
-	else if (literal[len - 1] == 'f')
+	if (literal[len - 1] == 'f')
 		return 3;
 	return 4;
 }

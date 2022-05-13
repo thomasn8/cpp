@@ -1,0 +1,42 @@
+5 actions de cast possibles
+
+- CONVERSIONS
+- RÉINTERPRÉTATIONS
+- CHANGEMENTS DE TYPE QUALIFIER
+- DOWNCAST
+- UPCAST
+
+promotion/downcast	= quand on va vers un type plus précis,		pas de problème de précision
+démotion/upcast		= quand on va vers un type moins précis,	perte de précision possible
+
+downcast implicite	=> ne compile pas
+upcast implicite	=> pas de problème de compilation
+
+-> static cast: 
+	- pour les conversions de valeurs simples
+		exemple: static_cast<int>(42);
+	- pour les conversions de class (upcast/downcast), détecte les arbres d'héritages et empêche les conversions sans correspondance
+		exemple: static_cast<Unrelated *>(&a)
+
+-> dynamic cast: 
+	- fonctionne au runtime (≠ tous les autres à la compil)
+	- fonctionne que sur des classes incorporant le polymorphisme virtuel (= classes avec méthodes, donc basées sur classe abstraite)
+	- s'utilise uniquement pour les downcast, et vérifie si possible ou non
+	- s'utilise qu'avec des ptr ou des ref
+		exemple: dynamic_cast<Child1 *>(b)
+		exemple: dynamic_cast<Child2 &>(*b)
+	lorsqu'on dynamic_cast avec des ptr, si échoue retourne NULL
+	lorsqu'on dynamic_cast avec des ref, si échoue throw une error std::bad_cast à gérer avec try-catch
+
+-> reinterpret cast:
+	- pour les réinterprétations, upcast/downcast
+	- le + permissif des casts, aucune vérification sur ce qu'on réinterprete
+	- utile par exemple pour retyper une donnée dont on avait perdu l'info de type
+	 	exemple: reinterpret_cast<int *>(b);
+
+-> const cast:
+	- permet le changement de type qualifier (const)
+	- à éviter le plus possible
+		exemple:
+		int const *b = &a;
+		int *d = const_cast<int *>(b);
