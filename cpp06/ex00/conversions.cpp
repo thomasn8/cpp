@@ -40,15 +40,15 @@ void int_conversion(int type, std::string literal)
 	int		i;
 	double	fd;
 
-	if (type == 2 && int_overflow(literal))
+	if (literal == "-inff" || literal == "+inff" || literal == "nanf" 
+			 || literal == "-inf" || literal == "+inf" || literal == "nan")
+		std::cout << "int: impossible" << std::endl;
+	else if (type == 2 && int_overflow(literal))
 		std::cout << "int: impossible (integer overflow)" << std::endl;
 	else if ((type == 3 || type == 4) && int_overflow(get_int_part(literal)))
 		std::cout << "int: impossible (integer overflow)" << std::endl;
 	else if (type == 2)
 		std::cout << "int: " << integer_useless_zero_remove(literal) << std::endl;
-	else if (literal == "-inff" || literal == "+inff" || literal == "nanf" 
-			 || literal == "-inf" || literal == "+inf" || literal == "nan")
-		std::cout << "int: impossible" << std::endl;
 	else
 	{
 		if (type == 1)
@@ -146,7 +146,7 @@ void double_conversion(int type, std::string literal)
 /*  
 	FLOAT AND DOUBLE :
 	------------------
-	
+
 	A float can store values 
 	from:
     -340282346638528859811704183484516925440.0000000000000000 Float lowest
