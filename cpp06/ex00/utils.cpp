@@ -7,7 +7,7 @@ int	error(std::string msg)
 	exit(-1);
 }
 
-std::string	decimal_check(std::string literal)
+std::string	decimal_append(std::string literal)
 {
 	int i = 0;
 	int j = 0;
@@ -77,13 +77,13 @@ bool	int_overflow(std::string literal)
 	int		digit;
 	char	digit2;
 
-	if (literal == "0" || literal == "-0")				// for 0, -0, 000**, -000**, etc
+	if (literal == "0" || literal == "-0")	// for 0, -0, 000**, -000**, etc
 		return false;
 	literal = integer_useless_zero_remove(literal);
 	len = literal.length();
 	num = atoi(literal.c_str());
 	if ((literal[0] == '-' && num > 0) ||
-		(literal[0] != '-' && num < 0))					// for 2147483648 and multiples
+		(literal[0] != '-' && num < 0))		// for 2147483648 and multiples
 		return true;
 	if (num < 0)
 		num *= -1;
@@ -99,7 +99,7 @@ bool	int_overflow(std::string literal)
 	}
 	if (literal[0] == '-')
 		len--;
-	if (len > 0)										// for 8589934592 (= 2147483648 * 4)
+	if (len > 0)							// for 8589934592 (= 2147483648 * 4)
 		return true;
 	return false;
 }

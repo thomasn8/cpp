@@ -86,7 +86,7 @@ void float_conversion(int type, std::string literal)
 		else if (f == NEG_INFF)
 			std::cout << "float: " << "-inff" << std::endl;
 		else
-			std::cout << "float: " << f << decimal_check(itoaf(f)) << "f" << std::endl;
+			std::cout << "float: " << f << decimal_append(itoaf(f)) << "f" << std::endl;
 	}
 	else
 	{
@@ -100,7 +100,7 @@ void float_conversion(int type, std::string literal)
 			i = atoi(literal.c_str());
 			f = static_cast<float>(i);
 		}
-		std::cout << "float: " << f << decimal_check(literal) << "f" << std::endl;
+		std::cout << "float: " << f << decimal_append(literal) << "f" << std::endl;
 	}
 }
 
@@ -125,7 +125,7 @@ void double_conversion(int type, std::string literal)
 		else if (d == NEG_INF)
 			std::cout << "double: " << "-inf" << std::endl;
 		else 
-			std::cout << "double: " << d << decimal_check(itoaf(d)) << std::endl;
+			std::cout << "double: " << d << decimal_append(itoaf(d)) << std::endl;
 	}
 	else
 	{
@@ -139,7 +139,7 @@ void double_conversion(int type, std::string literal)
 			i = atoi(literal.c_str());
 			d = static_cast<double>(i);
 		}
-		std::cout << "double: " << d << decimal_check(literal) << std::endl;
+		std::cout << "double: " << d << decimal_append(literal) << std::endl;
 	}
 }
 
