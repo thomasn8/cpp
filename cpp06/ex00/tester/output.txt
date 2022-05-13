@@ -1,0 +1,543 @@
+
+
+#UNIT TESTS:
+
+
+
+##errors
+
+./convert abc
+Error: invalid value
+
+./convert a122
+Error: invalid value
+
+./convert " "
+Usage: ./convert <value>
+
+./convert " 23"
+Usage: ./convert <value>
+
+./convert " 23 "
+Usage: ./convert <value>
+
+./convert "2 3"
+Usage: ./convert <value>
+
+./convert 123.a
+Error: invalid value
+
+./convert a.123
+Error: invalid value
+
+./convert 0.a
+Error: invalid value
+
+./convert a.0
+Error: invalid value
+
+./convert -a
+Error: invalid value
+
+./convert -f
+Error: invalid value
+
+./convert 1.
+Error: invalid value
+
+./convert 1.f
+Error: invalid value
+
+./convert -1.
+Error: invalid value
+
+./convert -1.f
+Error: invalid value
+
+./convert .1f
+Error: invalid value
+
+./convert .1
+Error: invalid value
+
+./convert -.1f
+Error: invalid value
+
+./convert -.1
+Error: invalid value
+
+./convert 1..0
+Error: invalid value
+
+./convert 1.1.0
+Error: invalid value
+
+./convert 1.1ff
+Error: invalid value
+
+./convert --1
+Error: invalid value
+
+./convert 1.2d
+Error: invalid value
+
+./convert inf
+Error: invalid value
+
+
+
+##char
+
+./convert /
+char: /
+int: 47
+float: 47.0f
+double: 47.0
+
+./convert a
+char: a
+int: 97
+float: 97.0f
+double: 97.0
+
+./convert f
+char: f
+int: 102
+float: 102.0f
+double: 102.0
+
+./convert -
+char: -
+int: 45
+float: 45.0f
+double: 45.0
+
+./convert .
+char: .
+int: 46
+float: 46.0f
+double: 46.0
+
+
+
+##int with some overflows
+
+./convert 0
+char: Non displayable
+int: 0
+float: 0.0f
+double: 0.0
+
+./convert -0
+char: Non displayable
+int: 0
+float: 0.0f
+double: 0.0
+
+./convert 1
+char: Non displayable
+int: 1
+float: 1.0f
+double: 1.0
+
+./convert -1
+char: impossible
+int: -1
+float: -1.0f
+double: -1.0
+
+./convert 11
+char: Non displayable
+int: 11
+float: 11.0f
+double: 11.0
+
+./convert -11
+char: impossible
+int: -11
+float: -11.0f
+double: -11.0
+
+./convert 011
+char: Non displayable
+int: 11
+float: 11.0f
+double: 11.0
+
+./convert -011
+char: impossible
+int: -11
+float: -11.0f
+double: -11.0
+
+./convert 00000011
+char: Non displayable
+int: 11
+float: 11.0f
+double: 11.0
+
+./convert -00000011
+char: impossible
+int: -11
+float: -11.0f
+double: -11.0
+
+./convert 2147483647
+char: impossible
+int: 2147483647
+float: 2.14748e+09.0f
+double: 2.14748e+09.0
+
+./convert 2147483648
+char: impossible
+int: impossible (integer overflow)
+float: impossible (integer overflow)
+double: impossible (integer overflow)
+
+./convert -2147483648
+char: Non displayable
+int: -2147483648
+float: -2.14748e+09.0f
+double: -2.14748e+09.0
+
+./convert -2147483649
+char: impossible
+int: impossible (integer overflow)
+float: impossible (integer overflow)
+double: impossible (integer overflow)
+
+./convert 4294967296
+char: impossible
+int: impossible (integer overflow)
+float: impossible (integer overflow)
+double: impossible (integer overflow)
+
+./convert 4294967297
+char: impossible
+int: impossible (integer overflow)
+float: impossible (integer overflow)
+double: impossible (integer overflow)
+
+./convert -4294967296
+char: impossible
+int: impossible (integer overflow)
+float: impossible (integer overflow)
+double: impossible (integer overflow)
+
+./convert -4294967297
+char: impossible
+int: impossible (integer overflow)
+float: impossible (integer overflow)
+double: impossible (integer overflow)
+
+./convert 6442450944
+char: impossible
+int: impossible (integer overflow)
+float: impossible (integer overflow)
+double: impossible (integer overflow)
+
+./convert -6442450944
+char: impossible
+int: impossible (integer overflow)
+float: impossible (integer overflow)
+double: impossible (integer overflow)
+
+./convert 8589934592
+char: impossible
+int: impossible (integer overflow)
+float: impossible (integer overflow)
+double: impossible (integer overflow)
+
+./convert -8589934592
+char: impossible
+int: impossible (integer overflow)
+float: impossible (integer overflow)
+double: impossible (integer overflow)
+
+
+
+##float with some overflows
+
+./convert nanf
+char: impossible
+int: impossible
+float: nanf
+double: nan
+
+./convert inff
+Error: invalid value
+
+./convert +inff
+char: impossible
+int: impossible
+float: +inff
+double: +inf
+
+./convert -inff
+char: impossible
+int: impossible
+float: -inff
+double: -inf
+
+./convert 0.1f
+char: Non displayable
+int: 0
+float: 0.1f
+double: 0.1
+
+./convert -0.1f
+char: Non displayable
+int: 0
+float: -0.1f
+double: -0.1
+
+./convert 000.1f
+char: Non displayable
+int: 0
+float: 0.1f
+double: 0.1
+
+./convert -000.1f
+char: Non displayable
+int: 0
+float: -0.1f
+double: -0.1
+
+./convert 0.1000f
+char: Non displayable
+int: 0
+float: 0.1f
+double: 0.1
+
+./convert -0.1000f
+char: Non displayable
+int: 0
+float: -0.1f
+double: -0.1
+
+./convert 0.0001f
+char: Non displayable
+int: 0
+float: 0.0001f
+double: 0.0001
+
+./convert -0.0001f
+char: Non displayable
+int: 0
+float: -0.0001f
+double: -0.0001
+
+./convert 0.10010f
+char: Non displayable
+int: 0
+float: 0.1001f
+double: 0.1001
+
+./convert -0.10010f
+char: Non displayable
+int: 0
+float: -0.1001f
+double: -0.1001
+
+./convert 1000.1001001000f
+char: impossible
+int: 1000
+float: 1000.1f
+double: 1000.1
+
+./convert -1000.1001001000f
+char: Non displayable
+int: -1000
+float: -1000.1f
+double: -1000.1
+
+./convert 1.0f
+char: Non displayable
+int: 1
+float: 1.0f
+double: 1.0
+
+./convert -1.0f
+char: impossible
+int: -1
+float: -1.0f
+double: -1.0
+
+./convert 340282346638528859811704183484516925440.0000000000000000f
+char: impossible
+int: impossible (integer overflow)
+float: 3.40282e+38f
+double: 3.40282e+38
+
+./convert -340282346638528859811704183484516925440.0000000000000000f
+char: impossible
+int: impossible (integer overflow)
+float: -3.40282e+38f
+double: -3.40282e+38
+
+./convert 640282346638528859811704183484516925440.0000000000000000f
+char: impossible
+int: impossible (integer overflow)
+float: +inff
+double: 6.40282e+38.0
+
+./convert -640282346638528859811704183484516925440.0000000000000000f
+char: impossible
+int: impossible (integer overflow)
+float: -inff
+double: -6.40282e+38.0
+
+
+
+##double with some overflows
+
+./convert nan
+char: impossible
+int: impossible
+float: nanf
+double: nan
+
+./convert +inf
+char: impossible
+int: impossible
+float: +inff
+double: +inf
+
+./convert -inf
+char: impossible
+int: impossible
+float: -inff
+double: -inf
+
+./convert 0.1
+char: Non displayable
+int: 0
+float: 0.1f
+double: 0.1
+
+./convert -0.1
+char: Non displayable
+int: 0
+float: -0.1f
+double: -0.1
+
+./convert 000.1
+char: Non displayable
+int: 0
+float: 0.1f
+double: 0.1
+
+./convert -000.1
+char: Non displayable
+int: 0
+float: -0.1f
+double: -0.1
+
+./convert 0.1000
+char: Non displayable
+int: 0
+float: 0.1f
+double: 0.1
+
+./convert -0.1000
+char: Non displayable
+int: 0
+float: -0.1f
+double: -0.1
+
+./convert 0.0001
+char: Non displayable
+int: 0
+float: 0.0001f
+double: 0.0001
+
+./convert -0.0001
+char: Non displayable
+int: 0
+float: -0.0001f
+double: -0.0001
+
+./convert 0.10010
+char: Non displayable
+int: 0
+float: 0.1001f
+double: 0.1001
+
+./convert -0.10010
+char: Non displayable
+int: 0
+float: -0.1001f
+double: -0.1001
+
+./convert 1000.1001001000
+char: impossible
+int: 1000
+float: 1000.1f
+double: 1000.1
+
+./convert -1000.1001001000
+char: Non displayable
+int: -1000
+float: -1000.1f
+double: -1000.1
+
+./convert 1.0
+char: Non displayable
+int: 1
+float: 1.0f
+double: 1.0
+
+./convert -1.0
+char: impossible
+int: -1
+float: -1.0f
+double: -1.0
+
+./convert 340282346638528859811704183484516925440.0000000000000000
+char: impossible
+int: impossible (integer overflow)
+float: 3.40282e+38f
+double: 3.40282e+38
+
+./convert -340282346638528859811704183484516925440.0000000000000000
+char: impossible
+int: impossible (integer overflow)
+float: -3.40282e+38f
+double: -3.40282e+38
+
+./convert 640282346638528859811704183484516925440.0000000000000000
+char: impossible
+int: impossible (integer overflow)
+float: +inff
+double: 6.40282e+38.0
+
+./convert -640282346638528859811704183484516925440.0000000000000000
+char: impossible
+int: impossible (integer overflow)
+float: -inff
+double: -6.40282e+38.0
+
+./convert 179769313486231570814527423731704356798070567525844996598917476803157260780028538760589558632766878171540458953514382464234321326889464182768467546703537516986049910576551282076245490090389328944075868508455133942304583236903222948165808559332123348274797826204144723168738177180919299881250404026184124858368.0000000000000000
+char: impossible
+int: impossible (integer overflow)
+float: +inff
+double: 1.79769e+308.0
+
+./convert -179769313486231570814527423731704356798070567525844996598917476803157260780028538760589558632766878171540458953514382464234321326889464182768467546703537516986049910576551282076245490090389328944075868508455133942304583236903222948165808559332123348274797826204144723168738177180919299881250404026184124858368.0000000000000000
+char: impossible
+int: impossible (integer overflow)
+float: -inff
+double: -1.79769e+308.0
+
+./convert 279769313486231570814527423731704356798070567525844996598917476803157260780028538760589558632766878171540458953514382464234321326889464182768467546703537516986049910576551282076245490090389328944075868508455133942304583236903222948165808559332123348274797826204144723168738177180919299881250404026184124858368.0000000000000000
+char: impossible
+int: impossible (integer overflow)
+float: +inff
+double: +inf
+
+./convert -279769313486231570814527423731704356798070567525844996598917476803157260780028538760589558632766878171540458953514382464234321326889464182768467546703537516986049910576551282076245490090389328944075868508455133942304583236903222948165808559332123348274797826204144723168738177180919299881250404026184124858368.0000000000000000
+char: impossible
+int: impossible (integer overflow)
+float: -inff
+double: -inf
+

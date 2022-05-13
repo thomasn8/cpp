@@ -48,7 +48,10 @@ void int_conversion(int type, std::string literal)
 	else if ((type == 3 || type == 4) && int_overflow(get_int_part(literal)))
 		std::cout << "int: impossible (integer overflow)" << std::endl;
 	else if (type == 2)
-		std::cout << "int: " << integer_useless_zero_remove(literal) << std::endl;
+	{
+		i = atoi(literal.c_str());
+		std::cout << "int: " << i << std::endl;
+	}
 	else
 	{
 		if (type == 1)

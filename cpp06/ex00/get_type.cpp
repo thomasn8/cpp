@@ -18,7 +18,7 @@ static int	parse(std::string literal)
 			dots++;
 			if (dots > 1)
 				return -1;
-			if (!iswdigit(literal[i + 1]))
+			if ((!iswdigit(literal[i - 1]) || !iswdigit(literal[i + 1])) && literal != ".")
 				return -1;
 		}
 		else if (literal[i] == '-' && i != 0)
