@@ -3,16 +3,24 @@
 
 #include <iostream>
 
-// structure non-vide (comporte des variables membres)
 struct Data
 {
+	public:
+	
+		Data & operator=(Data const & src);
+		Data(Data const & src);
+		Data(std::string const & name, int id);
+		Data();
+		~Data();
+
+		void setName(std::string const & name);
+		std::string	getName() const ;
+
+	private:
+
+		std::string	_name;
+		int			_id;
 
 };
-
-// Elle prend un pointeur et convertit celui-ci vers le type d’entier non-signé uintptr_t
-uintptr_t serialize(Data* ptr);
-
-// Elle prend un entier non-signé en paramètre et le convertit en pointeur sur Data
-Data* deserialize(uintptr_t raw);
 
 #endif
