@@ -25,7 +25,7 @@ float		Fixed::getDecimal(float const num) const
 	s = itoaf(num);
 	s = s.erase(0, s.find('.', 0));
 	s = '0' + s;
-	r = std::stof(s, NULL);
+	r = atof(s.c_str());
 	return r;
 }
 

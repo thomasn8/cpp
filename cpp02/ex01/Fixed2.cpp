@@ -35,36 +35,49 @@ float		Fixed::getTypedValue(void) const
 /* **************************************************** */
 /* ******************** DEC TO BIN ******************** */
 
-int		Fixed::intToRawBits(int const num) const
+std::string	Fixed::decToBin(int num) const
 {
-	std::string	rawBits;
-	char		b;
-	int			bit;
-	size_t		len;
-	int			res;
-	int			prec = this->_prec;
-	
-	rawBits = this->decToBin(num);
-	rawBits += "00000000";
-	len = rawBits.length();
-	res = 0;
-	for(size_t e = 0; e < len; e++)
+	int			r;
+	std::string bits;
+
+	while (num)
 	{
-		b = rawBits[e];
-		bit = atoi(&b);
-		res += bit * powf(2, len-e-1);
+		r = num % 2;
+		if (r == 1)
+			bits = '1' + bits;
+		else
+			bits = '0' + bits;
+		num /= 2;
 	}
-	return res;
+	return bits;
+}
+
+std::string Fixed::decToBinFractPart(float num, int prec) const
+{
+	std::string bits;
+	
+	while (--prec >= 0)
+	{
+		if (num < 1)
+			num *= 2;
+		else
+			num = (num - 1) * 2;
+		if (num < 1)
+			bits += '0';
+		else
+			bits += '1';
+	}
+	return bits;
 }
 
 // avec correction de +1 sur la valeur binaire 
-// si trop grosse perte de précision par rapport au float initial
-int		Fixed::floatToRawBits(float const num) const
+// si trop grosse perte de précision par rapport au num initial
+int		Fixed::toRawBits(float const num) const
 {
 	std::string	bits;
 	char		b;
 	int			bit;
-	size_t		len;
+	int			len;
 	int			res;
 	int			prec = this->_prec;
 	float		correction;
@@ -73,7 +86,7 @@ int		Fixed::floatToRawBits(float const num) const
 	bits = bits + this->decToBinFractPart(this->getDecimal(num), prec);
 	len = bits.length();
 	res = 0;
-	for(size_t e = 0; e < len; e++)
+	for (int e = 0; e < len; e++)
 	{
 		b = bits[e];
 		bit = atoi(&b);
@@ -92,20 +105,21 @@ int		Fixed::floatToRawBits(float const num) const
 int 	Fixed::toInt(void) const
 {
 	std::string	bits;
-	std::size_t	len = 0;
+	int			len;
 	char		b;
 	int			bit;
 	int			res;
 	int			prec = this->_prec;
 
 	bits = this->decToBin(this->_rawBits);
-	if (bits.length() < prec || this->_rawBits == 0)
+	len = bits.length();
+	if (this->_rawBits == 0 || len <= prec)
 		return 0;
 	len = bits.length();
 	bits.erase(len - prec, prec);
 	len = bits.length();
 	res = 0;
-	for(size_t e = 0; e < len; e++)
+	for (int e = 0; e < len; e++)
 	{
 		b = bits[e];
 		bit = atoi(&b);
@@ -117,17 +131,14 @@ int 	Fixed::toInt(void) const
 float	Fixed::toFloat(void) const
 {
 	std::string	bits;
-	std::string	intBits;
-	std::size_t	len;
+	int			len;
 	char		b;
 	int			bit;
 	float		res;
 	int			prec = this->_prec;
 
-	if (this->_rawBits == 0)
-		return 0;
-	res = toInt();
 	bits = this->decToBin(this->_rawBits);
+	res = toInt();
 	len = bits.length();
 	if (len > prec)
 		bits.erase(0, len - prec);
@@ -137,7 +148,7 @@ float	Fixed::toFloat(void) const
 		bits = '0' + bits;
 		len = bits.length();
 	}
-	for(int e = 0; e < prec; e++)
+	for (int e = 0; e < prec; e++)
 	{
 		b = bits[e];
 		bit = atoi(&b);
