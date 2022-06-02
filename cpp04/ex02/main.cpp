@@ -4,7 +4,7 @@
 
 int main()
 {
-	Animal *animal = new Animal();	// rend la compilation impossible (c'est le but)
+	// Animal *animal = new Animal();	// rend la compilation impossible (c'est le but)
 	Animal *cat = new Cat();
 	Animal *dog = new Dog();
 	std::cout << std::endl;

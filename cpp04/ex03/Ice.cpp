@@ -34,7 +34,8 @@ Ice	& Ice::operator=(Ice const & src)
 	return *this;
 }
 
-Ice::Ice(Ice const & src)
+Ice::Ice(Ice const & src) : 
+AMateria()
 {
 	this->_type = src.getType();
 	std::cout << "(copy) Ice has been created - " << this << std::endl;

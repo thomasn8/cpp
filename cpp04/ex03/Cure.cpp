@@ -34,7 +34,8 @@ Cure	& Cure::operator=(Cure const & src)
 	return *this;
 }
 
-Cure::Cure(Cure const & src)
+Cure::Cure(Cure const & src) :
+AMateria()
 {
 	this->_type = src.getType();
 	std::cout << "(copy) Cure has been created - " << this << std::endl;

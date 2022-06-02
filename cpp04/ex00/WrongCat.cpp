@@ -43,7 +43,8 @@ WrongCat	& WrongCat::operator=(WrongCat const & src)
 	return *this;
 }
 
-WrongCat::WrongCat(WrongCat const & src)
+WrongCat::WrongCat(WrongCat const & src) :
+WrongAnimal()
 {
 	this->_type = src.getType();
 	this->_sound = src.getSound();

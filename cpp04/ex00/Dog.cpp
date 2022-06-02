@@ -43,7 +43,8 @@ Dog	& Dog::operator=(Dog const & src)
 	return *this;
 }
 
-Dog::Dog(Dog const & src)
+Dog::Dog(Dog const & src) :
+Animal()
 {
 	this->_type = src.getType();
 	this->_sound = src.getSound();

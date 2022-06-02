@@ -43,7 +43,8 @@ Cat	& Cat::operator=(Cat const & src)
 	return *this;
 }
 
-Cat::Cat(Cat const & src)
+Cat::Cat(Cat const & src) :
+Animal()
 {
 	this->_type = src.getType();
 	this->_sound = src.getSound();
