@@ -81,6 +81,7 @@ DiamondTrap	& DiamondTrap::operator=(DiamondTrap const & rhs)
 }
 
 DiamondTrap::DiamondTrap(DiamondTrap const & src) : 
+ClapTrap(),
 ScavTrap(), 
 FragTrap()
 {
