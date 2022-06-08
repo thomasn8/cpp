@@ -3,8 +3,8 @@
 int main()
 {
 	// Exceptions
-	Bureaucrat *melanie = newBureaucrat("Melanie", 175);
-	Bureaucrat *sylvan = newBureaucrat("Sylvan", 0);
+	Bureaucrat *melanie = newBureaucrat("Melanie", 175);	(void) melanie;
+	Bureaucrat *sylvan = newBureaucrat("Sylvan", 0);		(void) sylvan;
 	std::cout << std::endl;
 	
 	// Grades ok

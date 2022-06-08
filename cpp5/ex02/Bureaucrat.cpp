@@ -82,7 +82,7 @@ bool	Bureaucrat::signForm(Form & form)
 		if (this->_grade > form.getGradeSignature())
 			throw Bureaucrat::GradeTooLowException();
 		else
-			form.setSignature(true);
+			form.setSignature();
 	}
 	catch(const Form::SignatureException & e)
 	{

@@ -5,8 +5,8 @@ int main()
 {
 	std::cout << std::endl;
 	std::cout << "NEW BUREAUCRATS" << std::endl;
-	Bureaucrat *melanie = newBureaucrat("Melanie", 175);
-	Bureaucrat *sylvan = newBureaucrat("Sylvan", 0);
+	Bureaucrat *melanie = newBureaucrat("Melanie", 175);	(void) melanie;
+	Bureaucrat *sylvan = newBureaucrat("Sylvan", 0);		(void) sylvan;
 	std::cout << std::endl;
 	Bureaucrat *fanny = newBureaucrat("Fanny", 150);
 	Bureaucrat *louis = newBureaucrat("Louis", 5);
@@ -30,8 +30,8 @@ int main()
 	std::cout << std::endl;
 
 	std::cout << "NEW FORMS" << std::endl;
-	Form *form1 = newForm("Form 1", 200, 200);
-	Form *form2 = newForm("Form 2", 0, 0);
+	Form *form1 = newForm("Form 1", 200, 200); 		(void) form1;
+	Form *form2 = newForm("Form 2", 0, 0); 			(void) form2;
 	Form *form3 = newForm("Form 3", 150, 150);
 	Form *form4 = newForm("Form 4", 5, 5);
 	Form *form5 = newForm("Form 5", 1, 1);

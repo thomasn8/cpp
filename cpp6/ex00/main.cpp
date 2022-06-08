@@ -3,10 +3,6 @@
 void	convert(std::string literal)
 {
 	int		type;
-	char	c;		// 1
-	int		i;		// 2
-	float	f;		// 3
-	double	d;		// 4
 
 	type = get_type(literal);
 	char_conversion(type, literal);

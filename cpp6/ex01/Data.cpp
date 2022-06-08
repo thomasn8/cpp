@@ -37,9 +37,8 @@ _name(src.getName())
 	std::cout << "(" << this << " - copy) Data created" << std::endl;
 }
 
-Data::Data(std::string const & name, int id) :
-_name(name),
-_id(id)
+Data::Data(std::string const & name) :
+_name(name)
 {
 	std::cout << "(" << this << " - string) Data created" << std::endl;
 }

@@ -48,6 +48,7 @@ Form		*newShrubberyCreationForm(std::string const & target)
 
 ShrubberyCreationForm	& ShrubberyCreationForm::operator=(ShrubberyCreationForm const & src)
 {
+	(void) src;
 	std::cout << "(" << this << " - assign.) Can't reassign an existing form" << std::endl;
 	return *this;
 }

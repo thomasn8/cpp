@@ -1,7 +1,6 @@
 #include "convert.hpp"
-#include <sstream>
 
-int	error(std::string msg)
+void	error(std::string msg)
 {
 	std::cout << msg << std::endl;
 	exit(-1);

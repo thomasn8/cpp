@@ -97,7 +97,7 @@ const char* Form::GradeTooLowException::what() const throw()
 	Getters/Setters
 ***************** */
 
-void	Form::setSignature(bool value)
+void	Form::setSignature()
 {
 	this->_signature = true;
 }
@@ -137,6 +137,7 @@ std::ostream	& operator<<(std::ostream & o, Form const & instance)
 
 Form	& Form::operator=(Form const & src)
 {
+	(void) src;
 	std::cout << "(" << this << " - assign.) Can't reassign an existing form" << std::endl;
 	return *this;
 }

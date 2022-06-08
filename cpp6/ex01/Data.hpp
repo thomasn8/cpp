@@ -9,7 +9,7 @@ struct Data
 	
 		Data & operator=(Data const & src);
 		Data(Data const & src);
-		Data(std::string const & name, int id);
+		Data(std::string const & name);
 		Data();
 		~Data();
 
@@ -19,8 +19,6 @@ struct Data
 	private:
 
 		std::string	_name;
-		int			_id;
-
 };
 
 #endif

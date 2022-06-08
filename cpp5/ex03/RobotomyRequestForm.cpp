@@ -30,6 +30,7 @@ Form		*newRobotomyRequestForm(std::string const & target)
 
 RobotomyRequestForm	& RobotomyRequestForm::operator=(RobotomyRequestForm const & src)
 {
+	(void) src;
 	std::cout << "(" << this << " - assign.) Can't reassign an existing form" << std::endl;
 	return *this;
 }

@@ -27,6 +27,7 @@ Form *Intern::makeForm(std::string formName, std::string target)
 
 std::ostream	& operator<<(std::ostream & o, Intern const & instance)
 {
+	(void) instance;
 	o << "Intern";
 	return o;
 }
@@ -39,6 +40,7 @@ Intern	& Intern::operator=(Intern const & src)
 
 Intern::Intern(Intern const & src)
 {
+	(void) src;
 	std::cout << "(" << this << " - copy) Intern created" << std::endl;
 }
 

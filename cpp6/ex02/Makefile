@@ -9,7 +9,7 @@ RM			= rm -f
 
 all:		${NAME}
 
-.c.o:
+.cpp.o:
 			${CC} ${CFLAGS} -c $< -o ${<:.cpp=.o}
 
 ${NAME}:	${OBJS}

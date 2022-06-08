@@ -1,5 +1,7 @@
 #include <iostream>
 #include <limits>
+#include <cstdlib>
+#include <sstream>
 
 # define INFF std::numeric_limits<float>::infinity()
 # define NEG_INFF - std::numeric_limits<float>::infinity()
@@ -16,7 +18,7 @@ void	float_conversion(int type, std::string literal);
 void	double_conversion(int type, std::string literal);
 
 // utils
-int			error(std::string msg);
+void			error(std::string msg);
 std::string	decimal_append(std::string literal);
 std::string	decimal_useless_zero_remove(std::string literal);
 std::string	integer_useless_zero_remove(std::string literal);

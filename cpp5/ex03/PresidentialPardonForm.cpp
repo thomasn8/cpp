@@ -20,6 +20,7 @@ Form		*newPresidentialPardonForm(std::string const & target)
 
 PresidentialPardonForm	& PresidentialPardonForm::operator=(PresidentialPardonForm const & src)
 {
+	(void) src;
 	std::cout << "(" << this << " - assign.) Can't reassign an existing form" << std::endl;
 	return *this;
 }

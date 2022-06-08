@@ -3,12 +3,12 @@ SRCS		=		main.cpp \
 OBJS		= ${SRCS:.cpp=.o}
 CC			= c++
 CFLAGS		= -std=c++98 -Wall -Wextra -Werror
-NAME		= temple
+NAME		= template
 RM			= rm -f
 
 all:		${NAME}
 
-.c.o:
+.cpp.o:
 			${CC} ${CFLAGS} -c $< -o ${<:.cpp=.o}
 
 ${NAME}:	${OBJS}

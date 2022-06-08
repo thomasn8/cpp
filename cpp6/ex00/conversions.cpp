@@ -20,7 +20,7 @@ void char_conversion(int type, std::string literal)
 			i = atoi(literal.c_str());
 			c = static_cast<char>(i);
 		}
-		else if (type == 3 || type == 4)
+		else // if (type == 3 || type == 4)
 		{
 			fd = atof(literal.c_str());
 			c = static_cast<char>(fd);
@@ -59,7 +59,7 @@ void int_conversion(int type, std::string literal)
 			c = literal[0];
 			i = static_cast<int>(c);
 		}
-		else if (type == 3 || type == 4)
+		else // if (type == 3 || type == 4)
 		{
 			fd = atof(literal.c_str());
 			i = static_cast<int>(fd);
@@ -98,7 +98,7 @@ void float_conversion(int type, std::string literal)
 			c = literal[0];
 			f = static_cast<float>(c);
 		}
-		else if (type == 2)
+		else // if (type == 2)
 		{
 			i = atoi(literal.c_str());
 			f = static_cast<float>(i);
@@ -137,7 +137,7 @@ void double_conversion(int type, std::string literal)
 			c = literal[0];
 			d = static_cast<double>(c);
 		}
-		else if (type == 2)
+		else // if (type == 2)
 		{
 			i = atoi(literal.c_str());
 			d = static_cast<double>(i);

@@ -25,7 +25,7 @@ class Form
 		bool			getSignature() const;
 		int				getGradeSignature() const;
 		int				getGradeExecution() const;
-		void			setSignature(bool value);
+		void			setSignature();
 
 		bool beSigned(Bureaucrat const & bureaucrat);
 		bool execute(Bureaucrat const & executor);

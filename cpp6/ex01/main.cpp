@@ -20,7 +20,7 @@ Data* deserialize(uintptr_t raw)
 
 int main()
 {
-	Data data("Smith", 1);
+	Data data("Smith");
 	uintptr_t ret1;
 	Data *ret2;
 
