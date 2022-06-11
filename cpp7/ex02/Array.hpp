@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <stdexcept>
+#include <cstdlib>
 
 # define RED "\033[0;31m"
 # define WHI "\033[0m"
