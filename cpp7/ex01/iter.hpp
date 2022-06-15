@@ -10,10 +10,10 @@ void	add_one(T ptr)
 }
 
 template<typename T>
-void iter(T tab, size_t size, void (*ft)(T tab))
+void iter(T tab, size_t size, void (*my_function)(T tab))
 {
 	for (size_t i = 0; i < size; i++)
-		ft(&tab[i]);
+		my_function(&tab[i]);
 }
 
 #endif

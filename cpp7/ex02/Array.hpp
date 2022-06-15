@@ -59,14 +59,14 @@ class Array
 			return *this;
 		}
 
-		Array(Array const & src) :
+		Array<T>(Array const & src) :
 		_n(src.size())
 		{
 			this->_array = new T[src.size()];
 			std::cout << "(" << this << " - copy) Array created" << std::endl;
 		}
 
-		Array(unsigned int  n) : _n(n)
+		Array<T>(unsigned int  n) : _n(n)
 		{
 			this->_array = new T[n];
 			for (unsigned int i = 0; i < n; i++)
@@ -74,13 +74,13 @@ class Array
 			std::cout << "(" << this << " - N) Array created" << std::endl;
 		}
 
-		Array() : _n(0)
+		Array<T>() : _n(0)
 		{
 			this->_array = NULL;
 			std::cout << "(" << this << " - default) Null Array created" << std::endl;
 		}
 
-		~Array() 
+		~Array<T>() 
 		{
 			delete [] this->_array;
 			std::cout << "(" << this << " - default) Array destroyed" << std::endl;

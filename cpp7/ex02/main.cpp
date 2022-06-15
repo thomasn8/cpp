@@ -2,7 +2,7 @@
 
 int main()
 {
-	Array<> empty_array;
+	Array<> empty_array;	// (fonctionne que si on précise un default type dans le template)
 	std::cout << empty_array << std::endl;
 	// empty_array[0] = 1;											// Tentative d'accès à de la mémoire non-attribuée
 	std::cout << std::endl;

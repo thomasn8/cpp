@@ -12,14 +12,15 @@ int main(void)
 	std::cout << std::endl;
 	for (int i = 0; i < 6; i++)
 		std::cout << tab2[i];
+	std::cout << std::endl;
 	for (int i = 0; i < 6; i++)
-		std::cout << std::endl << tab3[i];
+		std::cout << tab3[i] << " ";
 	std::cout << std::endl;
 
 
-	::iter<char *>(tab1, 4, &::add_one);
-	::iter<int *>(tab2, 6, &::add_one);
-	::iter<int **>(tab3, 6, &::add_one);
+	::iter<char *>(tab1, 4, ::add_one);
+	::iter<int *>(tab2, 6, ::add_one);
+	::iter<int **>(tab3, 6, ::add_one);
 
 
 	std::cout << std::endl << "AFTER ITER:" << std::endl;
@@ -28,8 +29,9 @@ int main(void)
 	std::cout << std::endl;
 	for (int i = 0; i < 6; i++)
 		std::cout << tab2[i];
+	std::cout << std::endl;
 	for (int i = 0; i < 6; i++)
-		std::cout << std::endl << tab3[i];
+		std::cout << tab3[i] << " ";
 	std::cout << std::endl;
 
 	return 0;
