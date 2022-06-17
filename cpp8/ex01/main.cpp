@@ -101,8 +101,12 @@ int main()
 	std::cout << sp << " contains: ";
 	for_each(sp.begin(), sp.end(), display);
 	std::cout << std::endl;
-	sp6.addRange(sp.begin(), sp.end());
+	sp6.addRange(sp.begin(), sp.end());				// from std::list with iterators
 	std::cout << sp6 << " contains: ";
+	for_each(sp6.begin(), sp6.end(), display);
+	std::cout << std::endl;
+	int myints[] = {16,2,77,29};
+	sp6.addRange(myints, 4);						// from int *, with N
 	for_each(sp6.begin(), sp6.end(), display);
 	std::cout << std::endl;
 

@@ -22,6 +22,7 @@ class Span : public std::list<int>
 		unsigned int getLimit() const;
 		bool addNumber(int number);
 		bool addRange(std::list<int>::const_iterator first, std::list<int>::const_iterator last);
+		bool addRange(int *tab, unsigned int N);
 		int shortestSpan() const;
 		int longestSpan() const;
 

@@ -67,10 +67,67 @@ int Span::longestSpan() const
 
 bool Span::addRange(std::list<int>::const_iterator first, std::list<int>::const_iterator last)
 {
+	try
+	{
+		if (this->size() + std::distance(first, last) > this->getLimit())
+			throw Span::FullException();
+		if (this->size() + std::distance(first, last) > this->max_size())
+			throw Span::MaxSizeException();
+	}
+	catch (Span::FullException & e)
+	{
+		std::cerr << RED;
+		std::cerr << e.what();
+		std::cerr << this->_limit;
+		std::cerr << std::endl;
+		std::cerr << WHI;
+		return false;
+	}
+	catch (Span::MaxSizeException & e)
+	{
+		std::cerr << RED;
+		std::cerr << e.what();
+		std::cerr << this->_limit;
+		std::cerr << std::endl;
+		std::cerr << WHI;
+		return false;
+	}
 	std::list<int>::const_iterator it = this->end();
-	// checker la size de this
-	// checker la size du range
-	// additioner les 2 et checker si ça passe dans la limit
+	this->insert(it, first, last);
+	return true;
+}
+
+bool Span::addRange(int *tab, unsigned int N)
+{
+	std::list<int> tmp(tab, tab + N);
+	std::list<int>::const_iterator first = tmp.begin();
+	std::list<int>::const_iterator last = tmp.end();
+	try
+	{
+		if (this->size() + std::distance(first, last) > this->getLimit())
+			throw Span::FullException();
+		if (this->size() + std::distance(first, last) > this->max_size())
+			throw Span::MaxSizeException();
+	}
+	catch (Span::FullException & e)
+	{
+		std::cerr << RED;
+		std::cerr << e.what();
+		std::cerr << this->_limit;
+		std::cerr << std::endl;
+		std::cerr << WHI;
+		return false;
+	}
+	catch (Span::MaxSizeException & e)
+	{
+		std::cerr << RED;
+		std::cerr << e.what();
+		std::cerr << this->_limit;
+		std::cerr << std::endl;
+		std::cerr << WHI;
+		return false;
+	}
+	std::list<int>::const_iterator it = this->end();
 	this->insert(it, first, last);
 	return true;
 }
