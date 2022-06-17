@@ -1,4 +1,5 @@
 #include "Span.hpp"
+#include <time.h>
 
 void display(int i) 
 {
@@ -76,7 +77,36 @@ int main()
 	std::cout << "Shortest distance = " << sp.shortestSpan();
 	std::cout << std::endl;
 
-	std::cout << std::endl << "PART 3: DESTRUCTOR CALLED ON OBJECTS INSTANCIATED" << std::endl;
+	std::cout << std::endl << "PART 3: TESTS WITH A 10'000 NUMBERS IN SPAN" << std::endl;
+	int rand_num;
+	srand(time(NULL));
+	for (int i = 0; i < 10000; i++)
+	{
+		rand_num = rand() % 1000000 + 1;
+		sp5.addNumber(rand_num);
+	}
+	std::cout << sp5 << std::endl;
+	std::cout << "Longest distance = " << sp5.longestSpan();
+	std::cout << std::endl;
+	std::cout << "Shortest distance = " << sp5.shortestSpan();
+	std::cout << std::endl;
+
+	std::cout << std::endl << "PART 4: ADDING A RANGE OF NUMBERS TO CONTAINER" << std::endl;
+	Span sp6 = Span(100);
+	sp6.addNumber(99);
+	sp6.addNumber(98);
+	std::cout << sp6 << " contains: ";
+	for_each(sp6.begin(), sp6.end(), display);
+	std::cout << std::endl;
+	std::cout << sp << " contains: ";
+	for_each(sp.begin(), sp.end(), display);
+	std::cout << std::endl;
+	sp6.addRange(sp.begin(), sp.end());
+	std::cout << sp6 << " contains: ";
+	for_each(sp6.begin(), sp6.end(), display);
+	std::cout << std::endl;
+
+	std::cout << std::endl << "PART 5: DESTRUCTOR CALLED ON OBJECTS INSTANCIATED" << std::endl;
 
 	return 0;
 }

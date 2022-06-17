@@ -4,7 +4,6 @@
 	...
 ***************** */
 
-// 4	1	9	13	6	21
 int Span::shortestSpan() const
 {
 	int shortest = -1;
@@ -66,15 +65,35 @@ int Span::longestSpan() const
 	return distance;
 }
 
+bool Span::addRange(std::list<int>::const_iterator first, std::list<int>::const_iterator last)
+{
+	std::list<int>::const_iterator it = this->end();
+	// checker la size de this
+	// checker la size du range
+	// additioner les 2 et checker si ça passe dans la limit
+	this->insert(it, first, last);
+	return true;
+}
+
 bool Span::addNumber(int number)
 {
 	try
 	{
 		if (this->size() >= this->getLimit())
 			throw Span::FullException();
-		// TESTER AUSSI LA LIMITE VS LE SYSTEM
+		if (this->size() >= this->max_size())
+			throw Span::MaxSizeException();
 	}
 	catch (Span::FullException & e)
+	{
+		std::cerr << RED;
+		std::cerr << e.what();
+		std::cerr << this->_limit;
+		std::cerr << std::endl;
+		std::cerr << WHI;
+		return false;
+	}
+	catch (Span::MaxSizeException & e)
 	{
 		std::cerr << RED;
 		std::cerr << e.what();
@@ -90,6 +109,11 @@ bool Span::addNumber(int number)
 const char *Span::FullException::what() const throw()
 {
 	return ("Container is full: maximum numbers inside is ");
+}
+
+const char *Span::MaxSizeException::what() const throw()
+{
+	return ("Container reached his maximum size due to known system or library implementation limitations ");
 }
 
 const char *Span::SmallException::what() const throw()

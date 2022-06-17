@@ -21,10 +21,17 @@ class Span : public std::list<int>
 
 		unsigned int getLimit() const;
 		bool addNumber(int number);
+		bool addRange(std::list<int>::const_iterator first, std::list<int>::const_iterator last);
 		int shortestSpan() const;
 		int longestSpan() const;
 
 		class FullException : public std::exception
+		{
+			public :
+				virtual const char *what() const throw();
+		};
+
+		class MaxSizeException : public std::exception
 		{
 			public :
 				virtual const char *what() const throw();
