@@ -28,7 +28,7 @@ typename T::iterator easyfind(T container, int n)
 			std::cout << WHI;
 		}
 	}
-	catch (std::exception)
+	catch (std::exception const &)
 	{
 		std::cerr << RED;
 		std::cerr << "No occurence of ";
