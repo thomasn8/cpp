@@ -11,13 +11,21 @@ class MutantStack : public std::stack<int>
 {
 	public:
 	
-		class iterator : public std::iterator<std::input_iterator_tag, T>
+		class iterator : public std::iterator<std::forward_iterator_tag, T>
 		{
 			private:
 				T *_ptr;
 
 			public:
+				iterator() : _ptr(0) {};
 				iterator(T *src) : _ptr(src) {};
+  				iterator(iterator const & src) : _ptr(src.getPtr()) {};
+
+
+				T *getPtr() const
+				{
+					return this->_ptr;
+				}
 				
 				iterator & operator=(T *src)
 				{
@@ -25,32 +33,43 @@ class MutantStack : public std::stack<int>
 					return *this;
 				}
 
-				T operator*()
+				T & operator*() const
 				{
 					return *this->_ptr;
 				}
-				T	*operator++(void)	// incrementation d'abord
+
+				bool operator==(iterator const & rhs) const
+				{
+					return this->_ptr == rhs.getPtr();
+				}
+				bool operator!=(iterator const & rhs) const
+				{
+					return this->_ptr != rhs.getPtr();
+				}
+
+				T	*operator++(void)
 				{
 					++this->_ptr;
 					return this->_ptr;
 				}
-				T	*operator++(int)		// incrementation après
+				T	*operator++(int)
 				{
 					T *tmp(this->_ptr);
 					this->_ptr++;
 					return tmp;
 				}
-				// T	operator--(void)
-				// {
-				// 	--this->_rawBits;
-				// 	return *this;
-				// }
-				// T	operator--(int)
-				// {
-				// 	T	tmp(this->toFloat());
-				// 	this->_rawBits--;
-				// 	return (tmp);
-				// }
+
+				T	*operator--(void)
+				{
+					--this->_ptr;
+					return this->_ptr;
+				}
+				T	*operator--(int)
+				{
+					T *tmp(this->_ptr);
+					this->_ptr--;
+					return tmp;
+				}
 		};
 	
 		T *begin() const 
