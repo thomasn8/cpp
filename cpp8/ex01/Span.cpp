@@ -92,7 +92,7 @@ bool Span::addRange(std::list<int>::const_iterator first, std::list<int>::const_
 		std::cerr << WHI;
 		return false;
 	}
-	std::list<int>::const_iterator it = this->end();
+	std::list<int>::iterator it = this->end();
 	this->insert(it, first, last);
 	return true;
 }
@@ -127,7 +127,7 @@ bool Span::addRange(int *tab, unsigned int N)
 		std::cerr << WHI;
 		return false;
 	}
-	std::list<int>::const_iterator it = this->end();
+	std::list<int>::iterator it = this->end();
 	this->insert(it, first, last);
 	return true;
 }
