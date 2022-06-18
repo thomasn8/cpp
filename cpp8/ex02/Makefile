@@ -3,7 +3,7 @@ SRCS		=		main.cpp \
 OBJS		= ${SRCS:.cpp=.o}
 CC			= c++
 CFLAGS		= -std=c++98 -Wall -Wextra -Werror
-NAME		= find
+NAME		= mutant
 RM			= rm -f
 
 all:		${NAME}
