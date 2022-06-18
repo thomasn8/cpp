@@ -4,7 +4,6 @@
 #include <iostream>
 #include <stack>
 #include <iterator>
-#include <algorithm>
 
 template <typename T = int>
 class MutantStack : public std::stack<int>
