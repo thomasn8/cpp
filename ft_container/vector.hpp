@@ -52,7 +52,7 @@ namespace ft
 					T * getP() const { return this->_p; }
 
 				// SURCHARGES
-					iterator& operator++() { ++this->_p; return *this; }
+					iterator & operator++() { ++this->_p; return *this; }
 					iterator operator++(T) { iterator tmp(*this); this->_p++; return tmp; }
 					iterator & operator--() { --this->_p; return *this; }
 					iterator operator--(T) { iterator tmp(*this); this->_p--; return tmp; }
@@ -82,26 +82,37 @@ namespace ft
 
 			vector<T>(iterator first, iterator last)
 			{
-				iterator first_cpy = first;
-				size_type n = 0;
-				while (++first_cpy != last)
-					++n;
-				this->_pointer = this->get_allocator().allocate(n + 1);
-				this->_first = this->_pointer;
-				while (first != last)
+				if (first != last)
 				{
-					this->get_allocator().construct(this->_pointer, *first);
-					++first;
-					this->_pointer++;
+					iterator first_cpy = first;
+					size_type n = 0;
+					while (++first_cpy != last)
+						++n;
+					this->_n = n + 1;
+					this->_pointer = this->_alloc.allocate(n + 2);
+					this->_first = this->_pointer;
+					while (first != last)
+					{
+						this->_alloc.construct(this->_pointer, *first);
+						++first;
+						this->_pointer++;
+					}
+					this->_pointer--;
+					this->_last = this->_pointer;
 				}
-				this->_pointer--;
-				this->_last = this->_pointer;
+				else
+				{
+					this->_pointer = this->_alloc.allocate(1);
+					this->_first = this->_pointer;
+					this->_last = --this->_pointer;
+					this->_n = 0;
+				}
 				cout << "(" << this << " - range) vector created" << endl;
 			}
 
 			vector<T>(size_type n, const value_type & val) : _n(n)
 			{
-				this->_pointer = this->_alloc.allocate(n);					// créer un objet T pour le copier n fois, puis détruit l'objet de base
+				this->_pointer = this->_alloc.allocate(n + 1);				// créer un objet T pour le copier n fois, puis détruit l'objet de base
 				this->_first = this->_pointer;
 				for (size_type i = 0; i < n; i++)
 				{
@@ -115,7 +126,9 @@ namespace ft
 			
 			vector<T>() : _n(0)
 			{
-				this->_first = 0;
+				this->_pointer = this->_alloc.allocate(1);
+				this->_first = this->_pointer;
+				this->_last = --this->_pointer;
 				cout << "(" << this << " - null) vector created" << endl;
 			}
 

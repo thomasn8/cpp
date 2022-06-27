@@ -5,6 +5,13 @@ using namespace std;
 
 int main()
 {
+	ft::vector<int> null;
+	ft::vector<int>::iterator null1(null.begin());
+	ft::vector<int>::iterator null2(null.end());
+	cout << *null1 << endl;
+	cout << *null2 << endl;
+	ft::vector<int> null_range(null1, null2);
+
 	ft::vector<int> vec1(5, 10);
 	cout << &vec1[0] << ": " << vec1[0] << endl;
 	cout << &vec1[1] << ": " << vec1[1] << endl;
