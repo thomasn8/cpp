@@ -76,28 +76,36 @@ namespace ft
 			};
 
 		iterator begin() { iterator it(this->_first); return it; };
-		iterator end() { iterator ite(this->_last); return ite; };
-
+		iterator end() { iterator ite(++this->_last); return ite; };
 
 		// CONSTRUCTEURS/DESTRUCTEUR
 
 			/*	(3) range constructor :
-    			Constructs a container with as many elements as the range [first,last), with each element constructed from its corresponding element in that range, in the same order. 
-				
-				first, last :
-				Input iterators to the initial and final positions in a range. The range used is [first,last), which includes all the elements between first and last, including the element pointed by first but not the element pointed by last.
-				The function template argument InputIterator shall be an input iterator type that points to elements of a type from which value_type objects can be constructed.
 
 				Prototype :
 				vector (InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type()); 
 			*/
 			// template <typename InputIterator>
 			// vector<T>(InputIterator first, InputIterator last)
-			// {
-			// 	(void) first;
-			// 	(void) last;
-			// 	cout << "(" << this << " - range) vector created" << endl;
-			// }
+			vector<T>(iterator first, iterator last)
+			{
+				// InputIterator first_cpy = first;
+				iterator first_cpy = first;
+				size_type n = 0;
+				while (++first_cpy != last)
+					++n;
+				this->_pointer = this->get_allocator().allocate(n + 1);
+				this->_first = this->_pointer;
+				while (first != last)
+				{
+					this->get_allocator().construct(this->_pointer, *first);
+					++first;
+					this->_pointer++;
+				}
+				this->_pointer--;
+				this->_last = this->_pointer;
+				cout << "(" << this << " - range) vector created" << endl;
+			}
 
 			vector<T>(size_type n, const value_type & val) : _n(n)
 			{
@@ -136,8 +144,8 @@ namespace ft
 			reference operator[](size_type index)	{ return this->_first[index]; }
 
 		// ALLOCATOR
-			allocator_type get_allocator() const { return this->_alloc; }	// for (i=0; i<5; i++) myvector.get_allocator().construct(&p[i],i)	
-																			// permet de construire en utilisant un autre Constructeur que celui par copie
+			allocator_type get_allocator() const { return this->_alloc; }
+
 
 		private :
 

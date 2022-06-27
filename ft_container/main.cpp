@@ -11,16 +11,25 @@ int main()
 	cout << &vec1[2] << ": " << vec1[2] << endl;
 	cout << &vec1[3] << ": " << vec1[3] << endl;
 	cout << &vec1[4] << ": " << vec1[4] << endl;
+	cout << &vec1[5] << ": " << vec1[5] << endl;	// out of range
 	cout << endl;
 
-	ft::vector<int>::iterator it1(&vec1[0]);
+	ft::vector<int>::iterator it1(vec1.begin());
 	ft::vector<int>::iterator it2(vec1.end());
 	cout << *it1 << endl;
-	cout << *it2 << endl;
-	// cout << *it << endl;
-	// ++it;
-	// cout << *it << endl;
-	// cout << it[0] << " " << it[1] << endl;
+	cout << *it2 << endl;							// out of range
+	ft::vector<int> range(it1, it2);
+	// ft::vector<int> range<iterator>(it1, it2);
+	// ft::vector<int> range<ft::vector<int>::iterator>(it1, it2);
+	cout << &range[0] << ": " << range[0] << endl;
+	cout << &range[1] << ": " << range[1] << endl;
+	cout << &range[2] << ": " << range[2] << endl;
+	cout << &range[3] << ": " << range[3] << endl;
+	cout << &range[4] << ": " << range[4] << endl;
+	cout << endl;
+	cout << it1[0] << " " << it1[1] << endl;
+	cout << it1[2] << " " << it1[3] << endl;
+	cout << it1[4] << " " << it1[5] << endl;
 
 	
 	// ft::vector<int> vec2(5, 10);
