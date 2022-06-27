@@ -10,23 +10,33 @@ int main()
 	// ft::vector<int> vec1;
 	// cout << endl;
 	
-	cout << sizeof(int) << endl;
-	ft::vector<int> vec2(5, 10);
-	cout << vec2 << ": " << *vec2 << endl << endl;
-	cout << &vec2[0] << ": " << vec2[0] << endl;
-	cout << &vec2[1] << ": " << vec2[1] << endl;
-	cout << &vec2[2] << ": " << vec2[2] << endl;
-	cout << &vec2[3] << ": " << vec2[3] << endl;
-	cout << &vec2[4] << ": " << vec2[4] << endl;
-	// cout << &vec2[5] << ": " << vec2[5] << endl;
-	cout << endl;
-
-	// cout << sizeof(Test) << endl;
-	// ft::vector<Test> vec3(3, 10);
+	// ft::vector<int> vec2(5, 10);
+	// cout << vec2 << ": " << *vec2 << endl << endl;
+	// cout << &vec2[0] << ": " << vec2[0] << endl;
+	// cout << &vec2[1] << ": " << vec2[1] << endl;
+	// cout << &vec2[2] << ": " << vec2[2] << endl;
+	// cout << &vec2[3] << ": " << vec2[3] << endl;
+	// cout << &vec2[4] << ": " << vec2[4] << endl;
+	// // cout << &vec2[5] << ": " << vec2[5] << endl;
 	// cout << endl;
+
+	cout << sizeof(Test) << endl;
+	ft::vector<Test> vec3(3, 10);
+	cout << endl;
 	
 	// ft::map<int> map1;
 	// cout << endl;
+
+	ft::vector<Test> myvector;
+	Test * p;
+	unsigned int i;
+	// allocate an array with space for 5 elements using vector's allocator:
+	p = myvector.get_allocator().allocate(5);
+	// construct values in-place on the array:
+	for (i=0; i<5; i++) myvector.get_allocator().construct(&p[i],i);
+	cout << "The allocated array contains:";
+	for (i=0; i<5; i++) cout << ' ' << p[i];
+	cout << endl;
 
 	return 0;
 }

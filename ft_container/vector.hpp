@@ -23,7 +23,7 @@ explicit vector (const allocator_type& alloc = allocator_type());				-> Construc
 */
 namespace ft
 {
-	template <typename T>
+	template <typename T, typename Alloc = allocator<T> >
 	class vector
 	{
 		public :
@@ -32,7 +32,7 @@ namespace ft
 			typedef T 											value_type;			// le type de donné inséré dans le container
 			typedef unsigned int size_type;											// can represent any non-negative value of difference_type
 
-			typedef std::allocator<T> 							allocator_type;		// l'allocateur par défault
+			typedef allocator<T> 								allocator_type;		// l'allocateur par défault
 			typedef typename allocator_type::reference 			reference;			// T& -> Reference to element
 			typedef typename allocator_type::const_reference 	const_reference;	// const T& -> Reference to constant element
 			typedef	typename allocator_type::pointer 			pointer;			// T* Pointer to element
@@ -53,7 +53,7 @@ namespace ft
 				this->_first = this->_pointer;
 				for (size_type i = 0; i < n; i++)
 				{
-					this->_alloc.construct(this->_pointer, val + i);
+					this->_alloc.construct(this->_pointer, val);
 					// this->_alloc.construct(this->_pointer, val);			// utilise l'objet créé pour Construire les instances par copie
 					this->_pointer++;
 				}
@@ -78,20 +78,17 @@ namespace ft
 			T * operator&() const			{ return &this->_first; }
 			T & operator[](size_type index)	{ return this->_first[index]; }
 
-		// ???
-			allocator_type get_allocator() const
-			{
-				this->_alloc_cpy = this->_alloc;
-				return this->_alloc_cpy;
-			}
+		// ALLOCATOR
+			allocator_type get_allocator() const { return this->_alloc; }
+			// for (i=0; i<5; i++)
+			// 	myvector.get_allocator().construct(&p[i],i)		->		permet de construire en utilisant un autre Constructeur que celui par copie
 
 
 			T *				_first;
 			T *				_last;
 		private :
 
-			allocator_type	_alloc;		// construct an allocator object
-			allocator_type	_alloc_cpy;	// copy of allocator, use in get_allocator
+			allocator_type	_alloc;
 			size_type		_n;
 			// T *				_first;	
 			// T *				_last;	
@@ -104,9 +101,9 @@ namespace ft
 	};
 
 	template <typename T>
-	std::ostream	& operator<<(std::ostream & o, ft::vector<T> const & inst)
+	ostream	& operator<<(ostream & o, ft::vector<T> const & inst)
 	{
-		std::cout << inst._first;
+		cout << inst._first;
 		return o;
 	}
 }
