@@ -19,8 +19,6 @@ int main()
 	cout << *it1 << endl;
 	cout << *it2 << endl;							// out of range
 	ft::vector<int> range(it1, it2);
-	// ft::vector<int> range<iterator>(it1, it2);
-	// ft::vector<int> range<ft::vector<int>::iterator>(it1, it2);
 	cout << &range[0] << ": " << range[0] << endl;
 	cout << &range[1] << ": " << range[1] << endl;
 	cout << &range[2] << ": " << range[2] << endl;

@@ -43,11 +43,11 @@ namespace ft
 				
 				public:
 				// CONSTRUCTEURS/DESTRUCTEUR
-					iterator() : _p(0) {cout << "Iterator default" << endl;}																// default
-					iterator(T * x) : _p(x) {cout << "Iterator pointer" << endl;}															// special
-					iterator(const iterator & it) : _p(it._p) {cout << "Iterator copy" << endl;}											// copy
-					iterator & operator=(iterator const & src) { this->_p = src.getP(); return *this; cout << "Iterator assign" << endl;} 	// assign 
-					~iterator() { cout << "Iterator destruction" << endl;}
+					iterator() : _p(0) { cout << "Iterator default" << endl; }																// default
+					iterator(T * x) : _p(x) { cout << "Iterator pointer" << endl; }															// special
+					iterator(const iterator & it) : _p(it._p) { cout << "Iterator copy" << endl; }											// copy
+					iterator & operator=(iterator const & src) { this->_p = src.getP(); return *this; cout << "Iterator assign" << endl; } 	// assign 
+					~iterator() { cout << "Iterator destruction" << endl; }
 				// ACCESSORS
 					T * getP() const { return this->_p; }
 
@@ -80,16 +80,8 @@ namespace ft
 
 		// CONSTRUCTEURS/DESTRUCTEUR
 
-			/*	(3) range constructor :
-
-				Prototype :
-				vector (InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type()); 
-			*/
-			// template <typename InputIterator>
-			// vector<T>(InputIterator first, InputIterator last)
 			vector<T>(iterator first, iterator last)
 			{
-				// InputIterator first_cpy = first;
 				iterator first_cpy = first;
 				size_type n = 0;
 				while (++first_cpy != last)
