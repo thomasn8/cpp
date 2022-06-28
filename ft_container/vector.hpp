@@ -139,7 +139,7 @@ namespace ft
 				return sizeof(T);
 			}
 	
-	}; // end of templace ft::vector<T>
+	}; // end of template ft::vector<T>
 
 	template <typename T>
 	ostream	& operator<<(ostream & o, vector<T> const & inst)

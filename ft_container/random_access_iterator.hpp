@@ -10,12 +10,18 @@ using namespace std;
 namespace ft
 {
 	template <typename T>
-	class random_access_iterator : public std::iterator<std::random_access_iterator_tag, T>
-	{
-		protected:
-			T * _p;
-		
+	class random_access_iterator
+	// class random_access_iterator : public std::iterator<std::random_access_iterator_tag, T>
+	{		
 		public:
+
+		// MEMBER TYPES
+		    // typedef T         value_type;
+			// typedef Distance  difference_type;
+			// typedef Pointer   pointer;
+			// typedef Reference reference;
+			// typedef Category  iterator_category;
+
 		// CONSTRUCTEURS/DESTRUCTEUR
 			random_access_iterator() : _p(0) { /*cout << "random_access_iterator default" << endl;*/ }																				// default
 			random_access_iterator(T * p) : _p(p) { /* cout << "random_access_iterator pointer" << endl; */ }																			// special
@@ -93,9 +99,12 @@ namespace ft
 			// a -= n
 			// *a++ Two iterators that compare equal, keep comparing equal after being both increased.
 			// *a-- Can be decremented (if a dereferenceable iterator value precedes it).
+		
+		protected:
+			T * _p;
 
-	}; // end of template class
+	}; // end of template ft:random_access_iterator<T>
 
-} // end of namespace
+} // end of namespace ft::
 
 #endif
