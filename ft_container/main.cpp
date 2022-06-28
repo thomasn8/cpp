@@ -22,17 +22,26 @@ int main()
 	cout << endl;
 	ft::vector<int>::iterator it1(vec1.begin());
 	ft::vector<int>::iterator it2(vec1.end());
-	cout << *it1 << endl;
-	cout << *it2 << endl;							// out of range
-	cout << *(it1 + 0) << endl;
-	cout << *(it1 + 2) << endl;
-	cout << *(2 + it1) << endl;
-	cout << it2 - it1 << endl;
-	cout << *(it1 + 3) << endl;
-	cout << *(it2 - 0) << endl;
-	cout << *(it2 - 1) << endl;
-	cout << *(it2 - 2) << endl;
-	cout << *(it2 - 3) << endl;
+	// cout << *it1 << endl;
+	// cout << *it2 << endl;							// out of range
+	// cout << *(it1 + 0) << endl;
+	// cout << *(it1 + 2) << endl;
+	// cout << *(2 + it1) << endl;
+	// cout << it2 - it1 << endl;
+	// cout << *(it1 + 3) << endl;
+	// cout << *(it2 - 0) << endl;
+	// cout << *(it2 - 1) << endl;
+	// cout << *(it2 - 2) << endl;
+	// cout << *(it2 - 3) << endl;
+	// it1 += 4;
+	// cout << *it1 << endl;
+	// it1--;
+	// --it1;
+	// cout << *it1 << endl;
+	// it1 -= 2;
+	// cout << *it1 << endl;
+	// *it1 = 100;
+
 
 	// ft::vector<int> range(it1, it2);
 	// cout << &range[0] << ": " << range[0] << endl;
@@ -110,11 +119,10 @@ int main()
 // 	cout << endl;
 
 // 	std::vector<int>::iterator it(vec2.begin());
-// 	std::vector<int>::iterator ite(vec2.end());
-// 	cout << ite - it << endl;
+// 	// std::vector<int>::iterator ite(vec2.end());
+// 	// cout << ite - it << endl;
 // 	// cout << *it << endl;
 // 	// cout << it[0] << " " << it[1] << endl;
-
 
 // 	return 0;
 // }
