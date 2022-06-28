@@ -111,8 +111,10 @@ namespace ft
 					}
 					friend int operator-(const iterator & a, const iterator & b) { return static_cast<int>(a._p - b._p); }
 
+					// a->m
+					// *a = t (à tester)
+
 					// ARITHMETIC
-					// a - b -> subtracting an iterator from another
 					// a += n
 					// a -= n
 					// *a++ Two iterators that compare equal, keep comparing equal after being both increased.
@@ -208,7 +210,8 @@ namespace ft
 			{
 				return sizeof(T);
 			}
-	};
+	
+	}; // end of templace ft::vector<T>
 
 	template <typename T>
 	ostream	& operator<<(ostream & o, vector<T> const & inst)
@@ -217,23 +220,4 @@ namespace ft
 		return o;
 	}
 
-
-
-	// friend iterator operator+(int n, const iterator & it);	// n + a
-	// template <typename T>
-	// typename vector<T>::iterator operator+(int n, const typename vector<T>::iterator & it) //outside the class
-	// {
-	// 	T *tmp = it._p;
-	// 	if (n >= 0)
-	// 	{
-	// 		while (n--)
-	// 			tmp++;
-	// 	} 
-	// 	else 
-	// 	{
-	// 		while (n++) 
-	// 			tmp--;
-	// 	} 
-	// 	return tmp; 
-	// }
-}
+} // end of namespace ft::
