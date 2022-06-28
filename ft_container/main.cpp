@@ -5,12 +5,12 @@ using namespace std;
 
 int main()
 {
-	ft::vector<int> null;
-	ft::vector<int>::iterator null1(null.begin());
-	ft::vector<int>::iterator null2(null.end());
-	cout << *null1 << endl;
-	cout << *null2 << endl;
-	ft::vector<int> null_range(null1, null2);
+	// ft::vector<int> null;
+	// ft::vector<int>::iterator null1(null.begin());
+	// ft::vector<int>::iterator null2(null.end());
+	// cout << *null1 << endl;
+	// cout << *null2 << endl;
+	// ft::vector<int> null_range(null1, null2);
 
 	ft::vector<int> vec1(5, 10);
 	cout << &vec1[0] << ": " << vec1[0] << endl;
@@ -20,21 +20,30 @@ int main()
 	cout << &vec1[4] << ": " << vec1[4] << endl;
 	cout << &vec1[5] << ": " << vec1[5] << endl;	// out of range
 	cout << endl;
-
 	ft::vector<int>::iterator it1(vec1.begin());
 	ft::vector<int>::iterator it2(vec1.end());
-	cout << *it1 << endl;
-	cout << *it2 << endl;							// out of range
-	ft::vector<int> range(it1, it2);
-	cout << &range[0] << ": " << range[0] << endl;
-	cout << &range[1] << ": " << range[1] << endl;
-	cout << &range[2] << ": " << range[2] << endl;
-	cout << &range[3] << ": " << range[3] << endl;
-	cout << &range[4] << ": " << range[4] << endl;
-	cout << endl;
-	cout << it1[0] << " " << it1[1] << endl;
-	cout << it1[2] << " " << it1[3] << endl;
-	cout << it1[4] << " " << it1[5] << endl;
+	// cout << *it1 << endl;
+	// cout << *it2 << endl;							// out of range
+	cout << *(it1 + 0) << endl;
+	cout << *(it1 + 2) << endl;
+	cout << *(2 + it1) << endl;
+	cout << it2 - it1 << endl;
+	// cout << *(it1 + 3) << endl;
+	// cout << *(it2 - 0) << endl;
+	// cout << *(it2 - 1) << endl;
+	// cout << *(it2 - 2) << endl;
+	// cout << *(it2 - 3) << endl;
+
+	// ft::vector<int> range(it1, it2);
+	// cout << &range[0] << ": " << range[0] << endl;
+	// cout << &range[1] << ": " << range[1] << endl;
+	// cout << &range[2] << ": " << range[2] << endl;
+	// cout << &range[3] << ": " << range[3] << endl;
+	// cout << &range[4] << ": " << range[4] << endl;
+	// cout << endl;
+	// cout << it1[0] << " " << it1[1] << endl;
+	// cout << it1[2] << " " << it1[3] << endl;
+	// cout << it1[4] << " " << it1[5] << endl;
 
 	
 	// ft::vector<int> vec2(5, 10);
@@ -65,26 +74,15 @@ int main()
 	return 0;
 }
 
-/* 
-	- Toutes les fonctions membres, les fonctions non-membres et les surcharges d’un container sont attendues
-	- Vous conformer au nommage original
-	- Si le container possède un système d’itérateur, vous devez l’implémenter
-	- Utiliser std::allocator
-	- Pour les surcharges non-membres, le mot-clé friend est autorisé
-*/
-
-/* 
-	Vous devez aussi implémenter :
-	• iterators_traits
-	• reverse_iterator
-	• enable_if
-	• is_integral
-	• equal et/ou lexicographical_compare
-	• std::pair
-	• std::make_pair
-*/
 
 
+
+
+
+
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 
@@ -108,12 +106,14 @@ int main()
 // 	cout << &vec2[2] << ": " << vec2[2] << endl;
 // 	cout << &vec2[3] << ": " << vec2[3] << endl;
 // 	cout << &vec2[4] << ": " << vec2[4] << endl;
-// 	cout << &vec2[5] << ": " << vec2[5] << endl;
+// 	// cout << &vec2[5] << ": " << vec2[5] << endl;
 // 	cout << endl;
 
 // 	std::vector<int>::iterator it(vec2.begin());
-// 	cout << *it << endl;
-// 	cout << it[0] << " " << it[1] << endl;
+// 	std::vector<int>::iterator ite(vec2.end());
+// 	cout << ite - it << endl;
+// 	// cout << *it << endl;
+// 	// cout << it[0] << " " << it[1] << endl;
 
 
 // 	return 0;

@@ -64,15 +64,59 @@ namespace ft
 					bool operator>=(const iterator & rhs) const { return this->_p >= rhs._p; }
 					T & operator[](unsigned int index) { return this->_p[index]; }	
 					int & operator*() { return *_p; }
-					// *a++ Two iterators that compare equal, keep comparing equal after being both increased.
-					// *a-- Can be decremented (if a dereferenceable iterator value precedes it).
+					iterator operator+(int n)								// a + n
+					{
+						T *tmp = this->_p;
+						if (n >= 0)
+						{
+							while (n--)
+								tmp++;
+						} 
+						else 
+						{
+							while (n++) 
+								tmp--;
+						} 
+						return tmp; 
+					}
+					friend iterator operator+(int n, const iterator & it)	// n + a
+					{
+						T *tmp = it._p;
+						if (n >= 0)
+						{
+							while (n--)
+								tmp++;
+						} 
+						else 
+						{
+							while (n++) 
+								tmp--;
+						} 
+						return tmp; 
+					}
+					iterator operator-(int n)								// a - n
+					{
+						T *tmp = this->_p;
+						if (n >= 0)
+						{
+							while (n--)
+								tmp--;
+						} 
+						else 
+						{
+							while (n++) 
+								tmp++;
+						} 
+						return tmp; 
+					}
+					friend int operator-(const iterator & a, const iterator & b) { return static_cast<int>(a._p - b._p); }
+
 					// ARITHMETIC
-					// a + n
-					// n + a
-					// a - n
-					// a - b
+					// a - b -> subtracting an iterator from another
 					// a += n
 					// a -= n
+					// *a++ Two iterators that compare equal, keep comparing equal after being both increased.
+					// *a-- Can be decremented (if a dereferenceable iterator value precedes it).
 			};
 
 		iterator begin() { iterator it(this->_first); return it; };
@@ -167,9 +211,29 @@ namespace ft
 	};
 
 	template <typename T>
-	ostream	& operator<<(ostream & o, ft::vector<T> const & inst)
+	ostream	& operator<<(ostream & o, vector<T> const & inst)
 	{
 		cout << &inst.front();
 		return o;
 	}
+
+
+
+	// friend iterator operator+(int n, const iterator & it);	// n + a
+	// template <typename T>
+	// typename vector<T>::iterator operator+(int n, const typename vector<T>::iterator & it) //outside the class
+	// {
+	// 	T *tmp = it._p;
+	// 	if (n >= 0)
+	// 	{
+	// 		while (n--)
+	// 			tmp++;
+	// 	} 
+	// 	else 
+	// 	{
+	// 		while (n++) 
+	// 			tmp--;
+	// 	} 
+	// 	return tmp; 
+	// }
 }
