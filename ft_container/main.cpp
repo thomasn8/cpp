@@ -22,17 +22,17 @@ int main()
 	cout << endl;
 	ft::vector<int>::iterator it1(vec1.begin());
 	ft::vector<int>::iterator it2(vec1.end());
-	// cout << *it1 << endl;
-	// cout << *it2 << endl;							// out of range
+	cout << *it1 << endl;
+	cout << *it2 << endl;							// out of range
 	cout << *(it1 + 0) << endl;
 	cout << *(it1 + 2) << endl;
 	cout << *(2 + it1) << endl;
 	cout << it2 - it1 << endl;
-	// cout << *(it1 + 3) << endl;
-	// cout << *(it2 - 0) << endl;
-	// cout << *(it2 - 1) << endl;
-	// cout << *(it2 - 2) << endl;
-	// cout << *(it2 - 3) << endl;
+	cout << *(it1 + 3) << endl;
+	cout << *(it2 - 0) << endl;
+	cout << *(it2 - 1) << endl;
+	cout << *(it2 - 2) << endl;
+	cout << *(it2 - 3) << endl;
 
 	// ft::vector<int> range(it1, it2);
 	// cout << &range[0] << ": " << range[0] << endl;
