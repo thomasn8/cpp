@@ -36,7 +36,7 @@ namespace ft
 			// typedef reverse_iterator<const_iterator> 			const_reverse_iterator;
 
 		// ITERATORS
-			class iterator : public std::iterator<std::random_access_iterator_tag, T>
+			class iterator : public std::iterator<std::random_access_iterator_tag, T>		// ESSAYER DE SORTIR LA définition de CETTE NESTED CLASS 
 			{
 				private:
 					T * _p;
