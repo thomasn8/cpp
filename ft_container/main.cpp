@@ -18,12 +18,12 @@ void my_reverse(It first, It last)
 
 int main()
 {
-	// ft::vector<int> null;
-	// ft::vector<int>::iterator null1(null.begin());
-	// ft::vector<int>::iterator null2(null.end());
-	// cout << *null1 << endl;
-	// cout << *null2 << endl;
-	// ft::vector<int> null_range(null1, null2);
+	ft::vector<int> null;
+	ft::vector<int>::iterator null1(null.begin());
+	ft::vector<int>::iterator null2(null.end());
+	cout << *null1 << endl;
+	cout << *null2 << endl;
+	ft::vector<int> null_range(null1, null2);
 
 	ft::vector<int> vec1(5, 10);
 	cout << &vec1[0] << ": " << vec1[0] << endl;
@@ -35,38 +35,41 @@ int main()
 	cout << endl;
 	ft::vector<int>::iterator it1(vec1.begin());
 	ft::vector<int>::iterator it2(vec1.end());
-	// cout << *it1 << endl;
-	// cout << *it2 << endl;							// out of range
-	// cout << *(it1 + 0) << endl;
-	// cout << *(it1 + 2) << endl;
-	// cout << *(2 + it1) << endl;
-	// cout << it2 - it1 << endl;
-	// cout << *(it1 + 3) << endl;
-	// cout << *(it2 - 0) << endl;
-	// cout << *(it2 - 1) << endl;
-	// cout << *(it2 - 2) << endl;
-	// cout << *(it2 - 3) << endl;
-	// it1 += 4;
-	// cout << *it1 << endl;
-	// it1--;
-	// --it1;
-	// cout << *it1 << endl;
-	// it1 -= 2;
-	// cout << *it1 << endl;
-	// *it1 = 100;
+	cout << *it1 << endl;
+	cout << *it2 << endl;							// out of range
+	cout << *(it1 + 0) << endl;
+	cout << *(it1 + 2) << endl;
+	cout << *(2 + it1) << endl;
+	cout << it2 - it1 << endl;
+	cout << *(it1 + 3) << endl;
+	cout << *(it2 - 0) << endl;
+	cout << *(it2 - 1) << endl;
+	cout << *(it2 - 2) << endl;
+	cout << *(it2 - 3) << endl;
+	it1 += 4;
+	cout << *it1 << endl;
+	it1--;
+	--it1;
+	cout << *it1 << endl;
+	it1 -= 2;
+	cout << *it1 << endl;
+	*it1 = 100;
+
+	ft::iterator_traits<int *>::value_type num = 1;
+	cout << num << endl;
 
     my_reverse(it1, it2);
 	for (int n = 0; n < 5; n++)
 		cout << vec1[n] << endl;
 
-	// ft::vector<int> range(it1, it2);
-	// cout << &range[0] << ": " << range[0] << endl;
-	// cout << &range[1] << ": " << range[1] << endl;
-	// cout << &range[2] << ": " << range[2] << endl;
-	// cout << &range[3] << ": " << range[3] << endl;
-	// cout << &range[4] << ": " << range[4] << endl;
-	// cout << endl;
-	// cout << it1[0] << " " << it1[1] << endl;
+	ft::vector<int> range(it1, it2);
+	cout << &range[0] << ": " << range[0] << endl;
+	cout << &range[1] << ": " << range[1] << endl;
+	cout << &range[2] << ": " << range[2] << endl;
+	cout << &range[3] << ": " << range[3] << endl;
+	cout << &range[4] << ": " << range[4] << endl;
+	cout << endl;
+	cout << it1[0] << " " << it1[1] << endl;
 	// cout << it1[2] << " " << it1[3] << endl;
 	// cout << it1[4] << " " << it1[5] << endl;
 
@@ -138,7 +141,8 @@ int main()
 // 	// std::vector<int>::iterator ite(vec2.end());
 // 	// cout << ite - it << endl;
 // 	// cout << *it << endl;
-// 	// cout << it[0] << " " << it[1] << endl;
+// 	*(it + 1) = 11;
+// 	cout << it[0] << " " << it[1] << endl;
 
 // 	return 0;
 // }

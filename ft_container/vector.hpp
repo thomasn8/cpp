@@ -9,7 +9,7 @@
 	vectors do not reallocate each time an element is added to the container.
 */
 
-#include "random_access_iterator.hpp"
+#include "random_access_iterator_tag.hpp"
 #include <iostream>
 #include <memory>
 using namespace std;
@@ -22,24 +22,17 @@ namespace ft
 	{
 		public :
 		// MEMBER TYPES
-			typedef T 											value_type;			// le type de donné inséré dans le container
-			typedef unsigned int 								size_type;			// can represent any non-negative value of difference_type
-
-			typedef allocator<T> 								allocator_type;		// l'allocateur par défault
-			typedef typename allocator_type::reference 			reference;			// T & -> Reference to element
-			typedef typename allocator_type::const_reference 	const_reference;	// const T & -> Reference to constant element
-			typedef	typename allocator_type::pointer 			pointer;			// T * Pointer to element
-			typedef	typename allocator_type::const_pointer 		const_pointer;		// const T * Pointer to constant element
-			
-			typedef int											difference_type;	// Type to express the result of subtracting one iterator from another
-
-			// typedef a random access iterator to value_type	iterator;
-			// typedef a random access iterator to const value_type const_iterator;
-			// typedef reverse_iterator<iterator> 			reverse_iterator;
-			// typedef reverse_iterator<const_iterator> 			const_reverse_iterator;
+			typedef T 											value_type;
+			typedef unsigned int 								size_type;
+			typedef allocator<T> 								allocator_type;
+			typedef typename allocator_type::reference 			reference;			// T &
+			typedef typename allocator_type::const_reference 	const_reference;	// const T &
+			typedef	typename allocator_type::pointer 			pointer;			// T *
+			typedef	typename allocator_type::const_pointer 		const_pointer;		// const T *
+			typedef int											difference_type;	// symbolise le résultat d'une soustraction de pointeurs
 
 		// ITERATORS
-			class iterator : public ft::random_access_iterator<T>
+			class iterator : public ft::random_access_iterator_tag<T>
 			{	
 				public : 
 					iterator & operator=(iterator const & src) { this->_p = src.getP(); return *this; }
@@ -52,7 +45,7 @@ namespace ft
 			iterator end() { iterator ite(++this->_last); return ite; };
 
 		// CONSTRUCTEURS/DESTRUCTEUR
-			vector<T>(iterator first, iterator last) // constr #3
+			vector<T>(iterator first, iterator last) 						// CONSTR #3
 			{
 				if (first != last)
 				{
@@ -81,27 +74,30 @@ namespace ft
 				}
 				cout << "(" << this << " - range) vector created" << endl;
 			}
-			vector<T>(size_type n, const value_type & val) : _n(n) 	// constr #2
+			vector<T>(size_type n, const value_type & val) : _n(n) 			// CONSTR #2
 			{
-				this->_pointer = this->_alloc.allocate(n + 1);				// créer un objet T pour le copier n fois, puis détruit l'objet de base
+				this->_pointer = this->_alloc.allocate(n + 1);					// créer un objet T pour le copier n fois, puis détruit l'objet de base
 				this->_first = this->_pointer;
 				for (size_type i = 0; i < n; i++)
 				{
-					this->_alloc.construct(this->_pointer, val+i);			// utilise l'objet créé pour Construire les instances par copie
+					this->_alloc.construct(this->_pointer, val+i);				// utilise l'objet créé pour Construire les instances par copie
 					this->_pointer++;
 				}
 				this->_pointer--;
 				this->_last = this->_pointer;
-				cout << "(" << this << " - size) vector created" << endl;	// l'objet initial créé par allocate() est détruit en sortie de fonction
+				cout << "(" << this << " - size) vector created" << endl;		// l'objet initial créé par allocate() est détruit en sortie de fonction
 			}
-			vector<T>() : _n(0)	// constr #1
+			vector<T>() : _n(0)												// CONSTR #1
 			{
 				this->_pointer = this->_alloc.allocate(1);
 				this->_first = this->_pointer;
 				this->_last = --this->_pointer;
 				cout << "(" << this << " - null) vector created" << endl;
 			}
-			virtual ~vector<T>() { cout << "(" << this << " - default) vector destroyed" << endl; } // destr
+			virtual ~vector<T>() 											// DESTR
+			{ 
+				cout << "(" << this << " - default) vector destroyed" << endl; 
+			}
 
 		// ELEMENT ACCESS:
 			reference front() { return *this->_first; }
