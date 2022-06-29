@@ -16,7 +16,7 @@ namespace ft
 			typedef T &							reference;
 			typedef random_access_iterator_tag  iterator_category;
 			typedef	iterator_category			it;
-			typedef int 						SFINAE;	// pour forcer le choix de l'overload entre les constructeurs
+			typedef int 						SFINAE;		// force le choix de l'overload entre les constructeurs d'une outer-class
 
 		// CONSTRUCTEURS/DESTRUCTEUR
 			random_access_iterator_tag() : _p(0) {}										// default
