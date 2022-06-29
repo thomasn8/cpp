@@ -2,7 +2,6 @@
 # define ITERATOR_TRAITS_HPP
 
 #include <iostream>
-using namespace std;
 
 namespace ft
 {

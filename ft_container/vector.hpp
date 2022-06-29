@@ -1,17 +1,22 @@
-#ifndef VECTOR_HPP
-# define VECTOR_HPP
+/*	
+	VECTORS
 
-/* 
 	Internally, vectors use a dynamically allocated array to store their elements. 
 	This array may need to be reallocated in order to grow in size when new elements are inserted, 
 	which implies allocating a new array and moving all elements to it. 
 	This is a relatively expensive task in terms of processing time, and thus, 
 	vectors do not reallocate each time an element is added to the container.
+	
 */
+
+#ifndef VECTOR_HPP
+# define VECTOR_HPP
 
 #include "random_access_iterator_tag.hpp"
 #include <iostream>
 #include <memory>
+#include <type_traits>
+
 using namespace std;
 
 namespace ft
@@ -24,7 +29,7 @@ namespace ft
 		// MEMBER TYPES
 			typedef T 											value_type;
 			typedef unsigned int 								size_type;
-			typedef allocator<T> 								allocator_type;
+			typedef allocator<value_type> 						allocator_type;
 			typedef typename allocator_type::reference 			reference;			// T &
 			typedef typename allocator_type::const_reference 	const_reference;	// const T &
 			typedef	typename allocator_type::pointer 			pointer;			// T *
@@ -45,16 +50,42 @@ namespace ft
 			iterator end() { iterator ite(++this->_last); return ite; };
 
 		// CONSTRUCTEURS/DESTRUCTEUR
-			vector<T>(iterator first, iterator last) 						// CONSTR #3
+			explicit vector(const allocator_type & alloc = allocator_type()) 		// CONSTR #1
+			: _n(0)
 			{
-				if (first != last)
+				this->_pointer = this->_alloc.allocate(1);
+				this->_first = this->_pointer;
+				this->_last = --this->_pointer;
+				this->_alloc = alloc;
+				cout << "(" << this << " - null) vector created" << endl;
+			}
+
+			explicit vector(size_type n, const value_type & val = value_type(), 	// CONSTR #2
+				const allocator_type & alloc = allocator_type())
+			: _n(n)
+			{
+				this->_pointer = this->_alloc.allocate(n + 1);				// créer un objet T pour le copier n fois, puis détruit l'objet de base
+				this->_first = this->_pointer;
+				for (size_type i = 0; i < n; i++)
 				{
-					iterator first_cpy = first;
-					size_type n = 0;
-					while (++first_cpy != last)
-						++n;
-					this->_n = n + 1;
-					this->_pointer = this->_alloc.allocate(n + 2);
+					this->_alloc.construct(this->_pointer, val+i);			// utilise l'objet créé pour Construire les instances par copie
+					this->_pointer++;
+				}
+				this->_pointer--;
+				this->_last = this->_pointer;
+				this->_alloc = alloc;
+				cout << "(" << this << " - size) vector created" << endl;	// l'objet initial créé par allocate() est détruit en sortie de fonction
+			}
+			
+			template <typename InputIterator>										// CONSTR #3
+			vector(InputIterator first, InputIterator last, 
+				const allocator_type & alloc = allocator_type(), 
+				typename InputIterator::SFINAE = 0)							// le typedef SFINAE (dans la classe iterator) force le choix de l'overload
+			{
+				this->_n = last - first;
+				if (this->_n)
+				{
+					this->_pointer = this->_alloc.allocate(this->_n + 1);
 					this->_first = this->_pointer;
 					while (first != last)
 					{
@@ -70,31 +101,12 @@ namespace ft
 					this->_pointer = this->_alloc.allocate(1);
 					this->_first = this->_pointer;
 					this->_last = --this->_pointer;
-					this->_n = 0;
 				}
+				this->_alloc = alloc;
 				cout << "(" << this << " - range) vector created" << endl;
 			}
-			vector<T>(size_type n, const value_type & val) : _n(n) 			// CONSTR #2
-			{
-				this->_pointer = this->_alloc.allocate(n + 1);					// créer un objet T pour le copier n fois, puis détruit l'objet de base
-				this->_first = this->_pointer;
-				for (size_type i = 0; i < n; i++)
-				{
-					this->_alloc.construct(this->_pointer, val+i);				// utilise l'objet créé pour Construire les instances par copie
-					this->_pointer++;
-				}
-				this->_pointer--;
-				this->_last = this->_pointer;
-				cout << "(" << this << " - size) vector created" << endl;		// l'objet initial créé par allocate() est détruit en sortie de fonction
-			}
-			vector<T>() : _n(0)												// CONSTR #1
-			{
-				this->_pointer = this->_alloc.allocate(1);
-				this->_first = this->_pointer;
-				this->_last = --this->_pointer;
-				cout << "(" << this << " - null) vector created" << endl;
-			}
-			virtual ~vector<T>() 											// DESTR
+
+			virtual ~vector() 											// DESTR
 			{ 
 				cout << "(" << this << " - default) vector destroyed" << endl; 
 			}
@@ -106,15 +118,15 @@ namespace ft
 			const_reference back() const { return *this->_last; }
 
 		// SURCHARGES
-			reference operator*() const			{ return *this->_first; }
-			pointer operator&() const			{ return &this->_first; }
+			reference operator*() const				{ return *this->_first; }
+			pointer operator&() const				{ return &this->_first; }
 			reference operator[](size_type index)	{ return this->_first[index]; }
 
 		// ALLOCATOR
 			allocator_type get_allocator() const { return this->_alloc; }
 
 		private :
-			allocator_type	_alloc;		// the default allocator
+			Alloc			_alloc;		// the default allocator
 			size_type		_n;			// number of elements in container
 			pointer			_first;		// first element
 			pointer			_last;		// last element

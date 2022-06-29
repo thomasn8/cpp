@@ -9,7 +9,8 @@ void my_reverse(It first, It last)
 {
     typename ft::iterator_traits<It>::difference_type n = last - first;
 
-    for (--n; n > 0; n -= 2) {
+    for (--n; n > 0; n -= 2) 
+	{
         typename ft::iterator_traits<It>::value_type tmp = *first;
         *first++ = *--last;
         *last = tmp;
@@ -18,12 +19,21 @@ void my_reverse(It first, It last)
 
 int main()
 {
+	// int a = 1;
+  	// int* p = &a;
+	// int b = *p;
+	// (void) b;
+	
+	// int x = 1;
+	// int y = *x;
+
 	ft::vector<int> null;
 	ft::vector<int>::iterator null1(null.begin());
 	ft::vector<int>::iterator null2(null.end());
 	cout << *null1 << endl;
 	cout << *null2 << endl;
 	ft::vector<int> null_range(null1, null2);
+
 
 	ft::vector<int> vec1(5, 10);
 	cout << &vec1[0] << ": " << vec1[0] << endl;
@@ -62,14 +72,22 @@ int main()
 	for (int n = 0; n < 5; n++)
 		cout << vec1[n] << endl;
 
-	ft::vector<int> range(it1, it2);
-	cout << &range[0] << ": " << range[0] << endl;
-	cout << &range[1] << ": " << range[1] << endl;
-	cout << &range[2] << ": " << range[2] << endl;
-	cout << &range[3] << ": " << range[3] << endl;
-	cout << &range[4] << ": " << range[4] << endl;
-	cout << endl;
-	cout << it1[0] << " " << it1[1] << endl;
+	ft::vector<int> vec3(4, 10);					// problème: utilise le constr #3 à la place du constr #2
+	ft::vector<int>::iterator it(vec3.begin());
+	ft::vector<int>::iterator ite(vec3.end());
+	ft::vector<int> range(it, ite);
+	// cout << &vec3[0] << ": " << vec3[0] << endl;
+	// cout << &vec3[4] << ": " << vec3[4] << endl;
+	// cout << &range[0] << ": " << range[0] << endl;
+	// cout << &range[4] << ": " << range[4] << endl;
+
+	// cout << &range[0] << ": " << range[0] << endl;
+	// cout << &range[1] << ": " << range[1] << endl;
+	// cout << &range[2] << ": " << range[2] << endl;
+	// cout << &range[3] << ": " << range[3] << endl;
+	// cout << &range[4] << ": " << range[4] << endl;
+	// cout << endl;
+	// cout << it1[0] << " " << it1[1] << endl;
 	// cout << it1[2] << " " << it1[3] << endl;
 	// cout << it1[4] << " " << it1[5] << endl;
 

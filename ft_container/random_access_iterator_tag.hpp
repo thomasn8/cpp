@@ -1,8 +1,6 @@
 #ifndef RANDOM_ACCESS_ITERATOR_TAG_HPP
 # define RANDOM_ACCESS_ITERATOR_TAG_HPP
 
-// #include <iostream>
-
 namespace ft
 {
 
@@ -18,6 +16,7 @@ namespace ft
 			typedef T &							reference;
 			typedef random_access_iterator_tag  iterator_category;
 			typedef	iterator_category			it;
+			typedef int 						SFINAE;	// pour forcer le choix de l'overload entre les constructeurs
 
 		// CONSTRUCTEURS/DESTRUCTEUR
 			random_access_iterator_tag() : _p(0) {}										// default
