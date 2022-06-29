@@ -10,6 +10,7 @@
 	This feature is used in template metaprogramming. 
 
 	https://en.cppreference.com/w/cpp/language/sfinae
+	https://en.wikipedia.org/wiki/Substitution_failure_is_not_an_error
 */
 
 #ifndef ENABLE_IF_HPP
@@ -26,16 +27,12 @@ namespace ft
 {
 	// Cond is true -> type T is enabled as member type enable_if::type
 	template <class T> 
-	class enable_if<true, T>
-	{
-		typedef T type;
-	};
+	class enable_if<true, T> { typedef T type; };
 
 	// enable_if::type is not defined because a particular condition is not met
 	// so attempting to compile using it should fail
 	template <bool Cond, class T = void> 
-	class enable_if 
-	{ };
+	class enable_if {};
 }
 
 #endif
