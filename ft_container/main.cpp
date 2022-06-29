@@ -1,7 +1,20 @@
 #include "vector.hpp"
 #include "Test.hpp"
+#include "iterator_traits.hpp"
 
 using namespace std;
+
+template<class It>
+void my_reverse(It first, It last)
+{
+    typename ft::iterator_traits<It>::difference_type n = last - first;
+
+    for (--n; n > 0; n -= 2) {
+        typename ft::iterator_traits<It>::value_type tmp = *first;
+        *first++ = *--last;
+        *last = tmp;
+    }
+}
 
 int main()
 {
@@ -42,6 +55,9 @@ int main()
 	// cout << *it1 << endl;
 	// *it1 = 100;
 
+    my_reverse(it1, it2);
+	for (int n = 0; n < 5; n++)
+		cout << vec1[n] << endl;
 
 	// ft::vector<int> range(it1, it2);
 	// cout << &range[0] << ": " << range[0] << endl;

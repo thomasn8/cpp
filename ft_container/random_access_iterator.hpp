@@ -1,15 +1,11 @@
 #ifndef RANDOM_ACCESS_ITERATOR_HPP
 # define RANDOM_ACCESS_ITERATOR_HPP
 
-#include <memory>
-#include <iostream>
-#include <iterator>
-
-using namespace std;
+// #include <iostream>
 
 namespace ft
 {
-	// class random_access_iterator : public std::iterator<std::random_access_iterator_tag, T>
+	
 	template <typename T>
 	class random_access_iterator
 	{		
@@ -60,7 +56,7 @@ namespace ft
 				{
 					while (n++) 
 						tmp--;
-				} 
+				}
 				return tmp;
 			}
 			friend it operator+(int n, const it & it)			// n + a

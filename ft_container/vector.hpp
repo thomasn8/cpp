@@ -2,18 +2,21 @@
 # define VECTOR_HPP
 
 /* 
-	Internally, vectors use a dynamically allocated array to store their elements. This array may need to be reallocated in order to grow in size when new elements are inserted, which implies allocating a new array and moving all elements to it. This is a relatively expensive task in terms of processing time, and thus, vectors do not reallocate each time an element is added to the container.
+	Internally, vectors use a dynamically allocated array to store their elements. 
+	This array may need to be reallocated in order to grow in size when new elements are inserted, 
+	which implies allocating a new array and moving all elements to it. 
+	This is a relatively expensive task in terms of processing time, and thus, 
+	vectors do not reallocate each time an element is added to the container.
 */
 
-#include <memory>
-#include <iostream>
-#include <iterator>
 #include "random_access_iterator.hpp"
-
+#include <iostream>
+#include <memory>
 using namespace std;
 
 namespace ft
 {
+
 	template <typename T, typename Alloc = allocator<T> >
 	class vector
 	{
@@ -124,8 +127,8 @@ namespace ft
 
 	}; // end of template ft::vector<T>
 
-	template <typename T>
-	ostream	& operator<<(ostream & o, vector<T> const & inst) { cout << &inst.front(); return o; }
+	// template <typename T>
+	// ostream	& operator<<(ostream & o, vector<T> const & inst) { cout << &inst.front(); return o; }
 
 } // end of namespace ft::
 
