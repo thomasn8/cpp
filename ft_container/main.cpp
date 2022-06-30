@@ -27,13 +27,20 @@ int main()
 	// int x = 1;
 	// int y = *x;
 
-	ft::vector<int> null;
-	ft::vector<int>::iterator null1(null.begin());
-	ft::vector<int>::iterator null2(null.end());
-	cout << *null1 << endl;
-	cout << *null2 << endl;
-	ft::vector<int> null_range(null1, null2);
+	// ft::vector<int> null;
+	// ft::vector<int>::iterator null1(null.begin());
+	// ft::vector<int>::iterator null2(null.end());
+	// cout << *null1 << endl;
+	// cout << *null2 << endl;
+	// ft::vector<int> null_range(null1, null2);
 
+	// const ft::vector<int> vec1(5, 10);
+	// ft::vector<int> vec1(5, 10);
+	// // ft::vector<int>::iterator it = vec1.begin();
+	// ft::vector<int>::const_iterator it = vec1.begin();
+	// cout << *it << endl;
+	// *it = 999;
+	// cout << *it << endl;
 
 	ft::vector<int> vec1(5, 10);
 	cout << &vec1[0] << ": " << vec1[0] << endl;
@@ -41,6 +48,7 @@ int main()
 	cout << &vec1[2] << ": " << vec1[2] << endl;
 	cout << &vec1[3] << ": " << vec1[3] << endl;
 	cout << &vec1[4] << ": " << vec1[4] << endl;
+	
 	cout << &vec1[5] << ": " << vec1[5] << endl;	// out of range
 	cout << endl;
 	ft::vector<int>::iterator it1(vec1.begin());
@@ -65,32 +73,36 @@ int main()
 	cout << *it1 << endl;
 	*it1 = 100;
 
-	ft::iterator_traits<int *>::value_type num = 1;
-	cout << num << endl;
+	// ft::iterator_traits<int *>::value_type num = 1;
+	// cout << num << endl;
 
-    my_reverse(it1, it2);
-	for (int n = 0; n < 5; n++)
-		cout << vec1[n] << endl;
+    // my_reverse(it1, it2);
+	// for (int n = 0; n < 5; n++)
+	// 	cout << vec1[n] << endl;
 
-	ft::vector<int> vec3(4, 10);					// problème: utilise le constr #3 à la place du constr #2
+	ft::vector<int> vec3(5, 10);
 	ft::vector<int>::iterator it(vec3.begin());
 	ft::vector<int>::iterator ite(vec3.end());
 	ft::vector<int> range(it, ite);
+	cout << &range[0] << ": " << range[0] << endl;
+	cout << &range[1] << ": " << range[1] << endl;
+	cout << &range[2] << ": " << range[2] << endl;
+	cout << &range[3] << ": " << range[3] << endl;
+	cout << &range[4] << ": " << range[4] << endl;
+	cout << &range[5] << ": " << range[5] << endl;
+	cout << endl;
+
+	// ft::vector<int> copy(vec3);
 	// cout << &vec3[0] << ": " << vec3[0] << endl;
+	// cout << &vec3[1] << ": " << vec3[1] << endl;
+	// cout << &vec3[2] << ": " << vec3[2] << endl;
+	// cout << &vec3[3] << ": " << vec3[3] << endl;
 	// cout << &vec3[4] << ": " << vec3[4] << endl;
-	// cout << &range[0] << ": " << range[0] << endl;
-	// cout << &range[4] << ": " << range[4] << endl;
-
-	// cout << &range[0] << ": " << range[0] << endl;
-	// cout << &range[1] << ": " << range[1] << endl;
-	// cout << &range[2] << ": " << range[2] << endl;
-	// cout << &range[3] << ": " << range[3] << endl;
-	// cout << &range[4] << ": " << range[4] << endl;
-	// cout << endl;
-	// cout << it1[0] << " " << it1[1] << endl;
-	// cout << it1[2] << " " << it1[3] << endl;
-	// cout << it1[4] << " " << it1[5] << endl;
-
+	// cout << &copy[0] << ": " << copy[0] << endl;
+	// cout << &copy[1] << ": " << copy[1] << endl;
+	// cout << &copy[2] << ": " << copy[2] << endl;
+	// cout << &copy[3] << ": " << copy[3] << endl;
+	// cout << &copy[4] << ": " << copy[4] << endl;
 	
 	// ft::vector<int> vec2(5, 10);
 	// cout << vec2 << ": " << *vec2 << endl << endl;
@@ -146,21 +158,30 @@ int main()
 
 // int main()
 // {
-// 	std::vector<int> vec2(5, 10);
-// 	cout << &vec2[0] << ": " << vec2[0] << endl;
-// 	cout << &vec2[1] << ": " << vec2[1] << endl;
-// 	cout << &vec2[2] << ": " << vec2[2] << endl;
-// 	cout << &vec2[3] << ": " << vec2[3] << endl;
-// 	cout << &vec2[4] << ": " << vec2[4] << endl;
-// 	// cout << &vec2[5] << ": " << vec2[5] << endl;
-// 	cout << endl;
+// 	// std::vector<int> vec2(5, 10);	
+// 	// cout << &vec2[0] << ": " << vec2[0] << endl;
+// 	// cout << &vec2[1] << ": " << vec2[1] << endl;
+// 	// cout << &vec2[2] << ": " << vec2[2] << endl;
+// 	// cout << &vec2[3] << ": " << vec2[3] << endl;
+// 	// cout << &vec2[4] << ": " << vec2[4] << endl;
+// 	// // cout << &vec2[5] << ": " << vec2[5] << endl;
+// 	// cout << endl;
 
-// 	std::vector<int>::iterator it(vec2.begin());
-// 	// std::vector<int>::iterator ite(vec2.end());
-// 	// cout << ite - it << endl;
+// 	// std::vector<int>::iterator it(vec2.begin());
+// 	// // std::vector<int>::iterator ite(vec2.end());
+// 	// // cout << ite - it << endl;
+// 	// // cout << *it << endl;
+// 	// *(it + 1) = 11;
+// 	// cout << it[0] << " " << it[1] << endl;
+
+// 	// // std::vector<int> vec1(5, 10);
+// 	// const std::vector<int> vec1(5, 10);
+// 	// // std::vector<int>::iterator it = vec1.begin();
+// 	// std::vector<int>::const_iterator it = vec1.begin();
 // 	// cout << *it << endl;
-// 	*(it + 1) = 11;
-// 	cout << it[0] << " " << it[1] << endl;
+// 	// *it = 999;
+// 	// cout << *it << endl;
+
 
 // 	return 0;
 // }

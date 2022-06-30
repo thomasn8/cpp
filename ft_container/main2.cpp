@@ -1,22 +1,13 @@
 // enable_if example: two ways of using enable_if
+
 #include <iostream>
 #include <type_traits>
+// #include "enable_if.hpp"
 
 // 1. the return type (bool) is only valid if T is an integral type:
 template <class T>
 typename std:: enable_if< std::is_integral<T>::value, bool >::type is_odd (T i)
 {
-	/* 	
-		si is_integral<T>::value est true
-		bool -> 1 (donc odd/=impair)
-		1 % 2 = 1
-		return bool(1) -> 1
-
-		si is_integral<T>::value est false
-		bool -> 0 (donc not odd)
-		0 % 2 = 0
-		return bool(0) -> 0
-	*/
 	return bool(i % 2);
 }
 
@@ -27,8 +18,12 @@ bool is_even (T i)
 	return !bool(i % 2);
 }
 
-int main() {
-//   int i = 9;		// code does not compile if type of i is not integral
+int main()		// code does not compile if type of i is not integral
+{
+  int i = 9;
+ 
+  int j = 1;
+  int *i = &j;
 
   std::cout << std::boolalpha;
   std::cout << "i is odd: " << is_odd(i) << std::endl;
@@ -36,9 +31,3 @@ int main() {
 
   return 0;
 }
-
-/* 
-	Output:
-	i is odd: true
-	i is even: false
-*/

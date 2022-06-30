@@ -35,19 +35,6 @@ namespace ft
 			typedef	typename allocator_type::const_pointer 		const_pointer;		// const T *
 			typedef int											difference_type;	// symbolise le résultat d'une soustraction de pointeurs
 
-		// ITERATORS
-			class iterator : public ft::random_access_iterator_tag<T>
-			{	
-				public : 
-					iterator & operator=(iterator const & src) { this->_p = src.getP(); return *this; }
-					iterator(const iterator & src) { this->_p = src.getP(); }
-					iterator(T * p) { this->_p = p; }
-					iterator() { this->_p = 0; }
-					~iterator() {}
-			};
-			iterator begin() { iterator it(this->_first); return it; };
-			iterator end() { iterator ite(++this->_last); return ite; };
-
 		// CONSTRUCTEURS/DESTRUCTEUR
 			explicit vector(const allocator_type & alloc = allocator_type()) 		// CONSTR #1
 			: _n(0)
@@ -63,23 +50,24 @@ namespace ft
 				const allocator_type & alloc = allocator_type())
 			: _n(n)
 			{
-				this->_pointer = this->_alloc.allocate(n + 1);				// créer un objet T pour le copier n fois, puis détruit l'objet de base
+				this->_pointer = this->_alloc.allocate(n + 1);
 				this->_first = this->_pointer;
 				for (size_type i = 0; i < n; i++)
 				{
-					this->_alloc.construct(this->_pointer, val+i);			// utilise l'objet créé pour Construire les instances par copie
+					this->_alloc.construct(this->_pointer, val+i);
 					this->_pointer++;
 				}
 				this->_pointer--;
 				this->_last = this->_pointer;
 				this->_alloc = alloc;
-				cout << "(" << this << " - size) vector created" << endl;	// l'objet initial créé par allocate() est détruit en sortie de fonction
+				cout << "(" << this << " - size) vector created" << endl;
 			}
 			
+			// le typedef SFINAE (dans la classe iterator) force le choix de l'overload
 			template <typename InputIterator>										// CONSTR #3
 			vector(InputIterator first, InputIterator last, 
 				const allocator_type & alloc = allocator_type(), 
-				typename InputIterator::SFINAE = 0)							// le typedef SFINAE (dans la classe iterator) force le choix de l'overload
+				typename InputIterator::SFINAE_condition = 0)
 			{
 				this->_n = last - first;
 				if (this->_n)
@@ -105,24 +93,74 @@ namespace ft
 				cout << "(" << this << " - range) vector created" << endl;
 			}
 
-			virtual ~vector() 											// DESTR
+			vector(const vector & x)
+			{
+				vector::const_iterator first = x.begin();
+				vector::const_iterator last = x.end();
+
+				this->_n = x.size();
+				this->_pointer = x.get_allocator().allocate(this->_n + 1);
+				this->_first = this->_pointer;
+				while (first != last)
+				{
+					x.get_allocator().construct(this->_pointer, *first);
+					++first;
+					cout << &this->_pointer[0] << " = " << *this->_pointer << endl;
+					this->_pointer++;
+				}
+				this->_pointer--;
+				this->_last = this->_pointer;
+				this->_alloc = x.get_allocator();
+				cout << "(" << this << " - copy) vector created" << endl;
+			}
+
+			virtual ~vector() 														// DESTR #1
 			{ 
 				cout << "(" << this << " - default) vector destroyed" << endl; 
 			}
 
-		// ELEMENT ACCESS:
-			reference front() { return *this->_first; }
-			const_reference front() const { return *this->_first; }
-			reference back() { return *this->_last; }
-			const_reference back() const { return *this->_last; }
+		// ITERATORS
+			class iterator : public ft::random_access_iterator_tag<T, char>
+			{	
+				public : 
+					iterator & operator=(iterator const & src) { this->_p = src.getP(); return *this; }
+					iterator(const iterator & src) { this->_p = src.getP(); }
+					iterator(T * p) { this->_p = p; }
+					iterator() { this->_p = 0; }
+					virtual ~iterator() {}
+			};
+			iterator begin() {return iterator(this->_first); };
+			iterator end() { return iterator(this->_last + 1); };
 
-		// SURCHARGES
-			reference operator*() const				{ return *this->_first; }
-			pointer operator&() const				{ return &this->_first; }
-			reference operator[](size_type index)	{ return this->_first[index]; }
+			// sécialisation avec un int pour utiliser la bonne instanciation du template random_access_iterator_tag
+			class const_iterator : public ft::random_access_iterator_tag<T, int>
+			{	
+				public : 
+					const_iterator & operator=(const_iterator const & src) { this->_p = src.getP(); return *this; }
+					const_iterator(const const_iterator & src) { this->_p = src.getP(); }
+					const_iterator(T * p) { this->_p = p; }
+					const_iterator() { this->_p = 0; }
+					~const_iterator() {}
+			};
+			const_iterator begin() const {const_iterator(this->_first); };
+			const_iterator end() const { const_iterator(this->_last + 1); };
+
+		// ELEMENT ACCESS:
+			reference front() 								{ return *this->_first; }
+			const_reference front() const 					{ return *this->_first; }
+			reference back() 								{ return *this->_last; }
+			const_reference back() const 					{ return *this->_last; }
+
+		// CAPACITY
+			size_type size() const 							{ return this->_n; }
 
 		// ALLOCATOR
 			allocator_type get_allocator() const { return this->_alloc; }
+
+		// SURCHARGES
+			reference operator*() const 					{ return *this->_first; }
+			pointer operator&() const 						{ return &this->_first; }
+			reference operator[](size_type index) const		{ return this->_first[index]; }
 
 		private :
 			Alloc			_alloc;		// the default allocator
@@ -130,12 +168,8 @@ namespace ft
 			pointer			_first;		// first element
 			pointer			_last;		// last element
 			pointer			_pointer;	// random pointer for multi-usage
-			// difference_type _difference_type() const { return sizeof(T); }
 
 	}; // end of template ft::vector<T>
-
-	// template <typename T>
-	// ostream	& operator<<(ostream & o, vector<T> const & inst) { cout << &inst.front(); return o; }
 
 } // end of namespace ft::
 
