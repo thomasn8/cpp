@@ -13,8 +13,8 @@
 # define VECTOR_HPP
 
 #include "random_access_iterator_tag.hpp"
-#include <iostream>
-#include <memory>
+#include <iostream>	// cout << 
+#include <memory>	// allocator<T>
 
 using namespace std;
 
@@ -132,7 +132,7 @@ namespace ft
 			iterator begin() {return iterator(this->_first); };
 			iterator end() { return iterator(this->_last + 1); };
 
-			// sécialisation avec un int pour utiliser la bonne instanciation du template random_access_iterator_tag
+			// sécialisation grâce à un int pour utiliser la bonne instanciation du template random_access_iterator_tag
 			class const_iterator : public ft::random_access_iterator_tag<T, int>
 			{	
 				public : 
