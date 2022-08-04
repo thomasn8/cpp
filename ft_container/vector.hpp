@@ -163,9 +163,12 @@ namespace ft
 			allocator_type get_allocator() const { return this->_alloc; }
 
 		// SURCHARGES
-			reference operator*() const 					{ return *this->_first; }
-			pointer operator&() const 						{ return &this->_first; }
-			reference operator[](size_type index) const		{ return this->_first[index]; }
+			reference operator*() 								{ return *this->_first; }
+			reference operator[](size_type index)				{ return this->_first[index]; }
+			pointer operator&() 	 							{ return &this->_first; }
+			
+			const_reference operator*() const 					{ return *this->_first; }
+			const_reference operator[](size_type index) const	{ return this->_first[index]; }
 
 		private :
 			Alloc			_alloc;		// the default allocator

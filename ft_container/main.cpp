@@ -134,7 +134,8 @@ int main()
 	{
 		cout << &fill[i] << ": " << fill[i] << endl;
 	}
-	fill[9] = 999;
+	// *fill = 111;
+	// fill[9] = 999;
 
 	ft::vector<int>::const_iterator it = fill.begin();
 	ft::vector<int>::const_iterator ite = fill.end();
@@ -149,7 +150,8 @@ int main()
 	// {
 	// 	cout << &fill[i] << ": " << fill[i] << endl;
 	// }
-	// fill[9] = 999;
+	// // *fill = 111;
+	// // fill[9] = 999;
 
 	// ft::vector<int>::iterator it = fill.begin();
 	// ft::vector<int>::iterator ite = fill.end();
@@ -211,6 +213,22 @@ int main()
 // 	// cout << *it << endl;
 // 	// *it = 999;
 // 	// cout << *it << endl;
+
+
+// 	// const std::vector<int> fill(10, 1);
+// 	// for (int i = 0; i < 10; i++)
+// 	// {
+// 	// 	cout << &fill[i] << ": " << fill[i] << endl;
+// 	// }
+// 	// fill[9] = 999;
+
+// 	// std::vector<int>::const_iterator it = fill.begin();
+// 	// std::vector<int>::const_iterator ite = fill.end();
+// 	// std::vector<int> range(it, ite);
+// 	// for (int i = 0; i < 10; i++)
+// 	// {
+// 	// 	cout << &range[i] << ": " << range[i] << endl;
+// 	// }
 
 // 	return 0;
 // }
