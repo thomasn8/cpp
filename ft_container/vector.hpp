@@ -54,7 +54,7 @@ namespace ft
 				this->_first = this->_pointer;
 				for (size_type i = 0; i < n; i++)
 				{
-					this->_alloc.construct(this->_pointer, val+i);
+					this->_alloc.construct(this->_pointer, val+i);	// ENLEVER LE +1 (de val+1), car juste pour tester
 					this->_pointer++;
 				}
 				this->_pointer--;
@@ -93,7 +93,7 @@ namespace ft
 				cout << "(" << this << " - range) vector created" << endl;
 			}
 
-			vector(const vector & x)
+			vector(const vector & x)												// CONSTR #4
 			{
 				vector::const_iterator first = x.begin();
 				vector::const_iterator last = x.end();
@@ -129,7 +129,7 @@ namespace ft
 					iterator() { this->_p = 0; }
 					virtual ~iterator() {}
 			};
-			iterator begin() {return iterator(this->_first); };
+			iterator begin() { return iterator(this->_first); };
 			iterator end() { return iterator(this->_last + 1); };
 
 			// sécialisation grâce à un int pour utiliser la bonne instanciation du template random_access_iterator_tag

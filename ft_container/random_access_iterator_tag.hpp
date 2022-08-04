@@ -20,7 +20,7 @@ namespace ft
 
 		// CONSTRUCTEURS/DESTRUCTEUR
 			random_access_iterator_tag() : _p(0) {}										// default
-			random_access_iterator_tag(value_type * p) : _p(p) {}								// special
+			random_access_iterator_tag(value_type * p) : _p(p) {}						// special
 			random_access_iterator_tag(const it & src) : _p(src.getP()) {}				// copy
 			virtual ~random_access_iterator_tag() {}
 		

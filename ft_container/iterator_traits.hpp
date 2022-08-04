@@ -17,7 +17,7 @@ namespace ft
     };
 
 	template <typename T>
-	struct iterator_traits<T*>
+	struct iterator_traits<T *>
 	{
 		typedef int								difference_type;
 		typedef T								value_type;

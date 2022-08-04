@@ -42,36 +42,36 @@ int main()
 	// *it = 999;
 	// cout << *it << endl;
 
-	ft::vector<int> vec1(5, 10);
-	cout << &vec1[0] << ": " << vec1[0] << endl;
-	cout << &vec1[1] << ": " << vec1[1] << endl;
-	cout << &vec1[2] << ": " << vec1[2] << endl;
-	cout << &vec1[3] << ": " << vec1[3] << endl;
-	cout << &vec1[4] << ": " << vec1[4] << endl;
+	// ft::vector<int> vec1(5, 10);
+	// cout << &vec1[0] << ": " << vec1[0] << endl;
+	// cout << &vec1[1] << ": " << vec1[1] << endl;
+	// cout << &vec1[2] << ": " << vec1[2] << endl;
+	// cout << &vec1[3] << ": " << vec1[3] << endl;
+	// cout << &vec1[4] << ": " << vec1[4] << endl;
 	
-	cout << &vec1[5] << ": " << vec1[5] << endl;	// out of range
-	cout << endl;
-	ft::vector<int>::iterator it1(vec1.begin());
-	ft::vector<int>::iterator it2(vec1.end());
-	cout << *it1 << endl;
-	cout << *it2 << endl;							// out of range
-	cout << *(it1 + 0) << endl;
-	cout << *(it1 + 2) << endl;
-	cout << *(2 + it1) << endl;
-	cout << it2 - it1 << endl;
-	cout << *(it1 + 3) << endl;
-	cout << *(it2 - 0) << endl;
-	cout << *(it2 - 1) << endl;
-	cout << *(it2 - 2) << endl;
-	cout << *(it2 - 3) << endl;
-	it1 += 4;
-	cout << *it1 << endl;
-	it1--;
-	--it1;
-	cout << *it1 << endl;
-	it1 -= 2;
-	cout << *it1 << endl;
-	*it1 = 100;
+	// cout << &vec1[5] << ": " << vec1[5] << endl;	// out of range
+	// cout << endl;
+	// ft::vector<int>::iterator it1(vec1.begin());
+	// ft::vector<int>::iterator it2(vec1.end());
+	// cout << *it1 << endl;
+	// cout << *it2 << endl;							// out of range
+	// cout << *(it1 + 0) << endl;
+	// cout << *(it1 + 2) << endl;
+	// cout << *(2 + it1) << endl;
+	// cout << it2 - it1 << endl;
+	// cout << *(it1 + 3) << endl;
+	// cout << *(it2 - 0) << endl;
+	// cout << *(it2 - 1) << endl;
+	// cout << *(it2 - 2) << endl;
+	// cout << *(it2 - 3) << endl;
+	// it1 += 4;
+	// cout << *it1 << endl;
+	// it1--;
+	// --it1;
+	// cout << *it1 << endl;
+	// it1 -= 2;
+	// cout << *it1 << endl;
+	// *it1 = 100;
 
 	// ft::iterator_traits<int *>::value_type num = 1;
 	// cout << num << endl;
@@ -80,17 +80,17 @@ int main()
 	// for (int n = 0; n < 5; n++)
 	// 	cout << vec1[n] << endl;
 
-	ft::vector<int> vec3(5, 10);
-	ft::vector<int>::iterator it(vec3.begin());
-	ft::vector<int>::iterator ite(vec3.end());
-	ft::vector<int> range(it, ite);
-	cout << &range[0] << ": " << range[0] << endl;
-	cout << &range[1] << ": " << range[1] << endl;
-	cout << &range[2] << ": " << range[2] << endl;
-	cout << &range[3] << ": " << range[3] << endl;
-	cout << &range[4] << ": " << range[4] << endl;
-	cout << &range[5] << ": " << range[5] << endl;
-	cout << endl;
+	// ft::vector<int> vec3(5, 10);
+	// ft::vector<int>::iterator it(vec3.begin());
+	// ft::vector<int>::iterator ite(vec3.end());
+	// ft::vector<int> range(it, ite);
+	// cout << &range[0] << ": " << range[0] << endl;
+	// cout << &range[1] << ": " << range[1] << endl;
+	// cout << &range[2] << ": " << range[2] << endl;
+	// cout << &range[3] << ": " << range[3] << endl;
+	// cout << &range[4] << ": " << range[4] << endl;
+	// cout << &range[5] << ": " << range[5] << endl;
+	// cout << endl;
 
 	// ft::vector<int> copy(vec3);
 	// cout << &vec3[0] << ": " << vec3[0] << endl;
@@ -128,6 +128,21 @@ int main()
 	// cout << "The allocated array contains:";
 	// for (i=0; i<5; i++) cout << ' ' << p[i];
 	// cout << endl;
+
+	ft::vector<int> fill(10, 1);
+	for (int i = 0; i < 10; i++)
+	{
+		cout << &fill[i] << ": " << fill[i] << endl;
+	}
+	fill[9] = 999;
+
+	ft::vector<int>::iterator it = fill.begin();
+	ft::vector<int>::iterator ite = fill.end();
+	ft::vector<int> range(it, ite);
+	for (int i = 0; i < 10; i++)
+	{
+		cout << &range[i] << ": " << range[i] << endl;
+	}
 
 	return 0;
 }
@@ -181,7 +196,6 @@ int main()
 // 	// cout << *it << endl;
 // 	// *it = 999;
 // 	// cout << *it << endl;
-
 
 // 	return 0;
 // }
