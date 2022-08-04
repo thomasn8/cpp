@@ -60,7 +60,7 @@ namespace ft
 				this->_pointer--;
 				this->_last = this->_pointer;
 				this->_alloc = alloc;
-				cout << "(" << this << " - size) vector created" << endl;
+				cout << "(" << this << " - fill) vector created" << endl;
 			}
 			
 			// le typedef SFINAE (dans la classe iterator) force le choix de l'overload
@@ -115,8 +115,13 @@ namespace ft
 			}
 
 			virtual ~vector() 														// DESTR #1
-			{ 
-				cout << "(" << this << " - default) vector destroyed" << endl; 
+			{
+				// This destroys all container elements, and deallocates all the storage capacity allocated 
+				// by the vector using its allocator.
+
+				// => CHECKER SI LA MEMOIRE EST BIEN DESALLOUEE AVEC LES LEAKS
+				
+				cout << "(" << this << " - default) vector destroyed" << endl;
 			}
 
 		// ITERATORS
