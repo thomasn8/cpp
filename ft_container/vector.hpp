@@ -130,7 +130,6 @@ namespace ft
 				public : 
 					iterator & operator=(iterator const & src) { this->_p = src.getP(); return *this; }
 					iterator(const iterator & src) : ft::random_access_iterator_tag<T, char>(src.getP()) {} 
-					// iterator(const iterator & src) { this->_p = src.getP(); }
 					iterator(T * p) { this->_p = p; }
 					iterator() { this->_p = 0; }
 					virtual ~iterator() {}
@@ -143,13 +142,13 @@ namespace ft
 			{	
 				public : 
 					const_iterator & operator=(const_iterator const & src) { this->_p = src.getP(); return *this; }
-					const_iterator(const const_iterator & src) { this->_p = src.getP(); }
+					const_iterator(const const_iterator & src) : ft::random_access_iterator_tag<T, int>(src.getP()) {} 
 					const_iterator(T * p) { this->_p = p; }
 					const_iterator() { this->_p = 0; }
 					~const_iterator() {}
 			};
-			const_iterator begin() const {const_iterator(this->_first); };
-			const_iterator end() const { const_iterator(this->_last + 1); };
+			const_iterator begin() const { return const_iterator(this->_first); };
+			const_iterator end() const { return const_iterator(this->_last + 1); };
 
 		// ELEMENT ACCESS:
 			reference front() 								{ return *this->_first; }

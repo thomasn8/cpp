@@ -129,20 +129,35 @@ int main()
 	// for (i=0; i<5; i++) cout << ' ' << p[i];
 	// cout << endl;
 
-	ft::vector<int> fill(10, 1);
+	const ft::vector<int> fill(10, 1);
 	for (int i = 0; i < 10; i++)
 	{
 		cout << &fill[i] << ": " << fill[i] << endl;
 	}
 	fill[9] = 999;
 
-	ft::vector<int>::iterator it = fill.begin();
-	ft::vector<int>::iterator ite = fill.end();
+	ft::vector<int>::const_iterator it = fill.begin();
+	ft::vector<int>::const_iterator ite = fill.end();
 	ft::vector<int> range(it, ite);
 	for (int i = 0; i < 10; i++)
 	{
 		cout << &range[i] << ": " << range[i] << endl;
 	}
+
+	// ft::vector<int> fill(10, 1);
+	// for (int i = 0; i < 10; i++)
+	// {
+	// 	cout << &fill[i] << ": " << fill[i] << endl;
+	// }
+	// fill[9] = 999;
+
+	// ft::vector<int>::iterator it = fill.begin();
+	// ft::vector<int>::iterator ite = fill.end();
+	// ft::vector<int> range(it, ite);
+	// for (int i = 0; i < 10; i++)
+	// {
+	// 	cout << &range[i] << ": " << range[i] << endl;
+	// }
 
 	return 0;
 }
