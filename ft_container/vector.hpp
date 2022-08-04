@@ -129,7 +129,8 @@ namespace ft
 			{	
 				public : 
 					iterator & operator=(iterator const & src) { this->_p = src.getP(); return *this; }
-					iterator(const iterator & src) { this->_p = src.getP(); }
+					iterator(const iterator & src) : ft::random_access_iterator_tag<T, char>(src.getP()) {} 
+					// iterator(const iterator & src) { this->_p = src.getP(); }
 					iterator(T * p) { this->_p = p; }
 					iterator() { this->_p = 0; }
 					virtual ~iterator() {}
@@ -137,7 +138,7 @@ namespace ft
 			iterator begin() { return iterator(this->_first); };
 			iterator end() { return iterator(this->_last + 1); };
 
-			// sécialisation grâce à un int pour utiliser la bonne instanciation du template random_access_iterator_tag
+			// spécialisation grâce à un int pour utiliser la bonne instanciation du template random_access_iterator_tag
 			class const_iterator : public ft::random_access_iterator_tag<T, int>
 			{	
 				public : 
