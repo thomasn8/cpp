@@ -120,6 +120,7 @@ namespace ft
 				// by the vector using its allocator.
 
 				// => CHECKER SI LA MEMOIRE EST BIEN DESALLOUEE AVEC LES LEAKS
+				this->get_allocator().deallocate(this->_first, this->size());
 				
 				cout << "(" << this << " - default) vector destroyed" << endl;
 			}
@@ -151,16 +152,16 @@ namespace ft
 			const_iterator end() const { return const_iterator(this->_last + 1); };
 
 		// ELEMENT ACCESS:
-			reference front() 								{ return *this->_first; }
-			const_reference front() const 					{ return *this->_first; }
-			reference back() 								{ return *this->_last; }
-			const_reference back() const 					{ return *this->_last; }
+			reference front() 									{ return *this->_first; }
+			const_reference front() const 						{ return *this->_first; }
+			reference back() 									{ return *this->_last; }
+			const_reference back() const 						{ return *this->_last; }
 
 		// CAPACITY
-			size_type size() const 							{ return this->_n; }
+			size_type size() const 								{ return this->_n; }
 
 		// ALLOCATOR
-			allocator_type get_allocator() const { return this->_alloc; }
+			allocator_type get_allocator() const 				{ return this->_alloc; }
 
 		// SURCHARGES
 			reference operator*() 								{ return *this->_first; }
