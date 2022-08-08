@@ -115,8 +115,8 @@ int main()
 	// cout << endl;
 
 	// cout << sizeof(Test) << endl;
-	// ft::vector<Test> vec3(3, 10);
-	// cout << endl;
+	ft::vector<Test> vec3(3, 10);
+	cout << endl;
 
 	// ft::vector<Test> myvector;
 	// Test * p;
@@ -129,23 +129,7 @@ int main()
 	// for (i=0; i<5; i++) cout << ' ' << p[i];
 	// cout << endl;
 
-	const ft::vector<int> fill(10, 1);
-	for (int i = 0; i < 10; i++)
-	{
-		cout << &fill[i] << ": " << fill[i] << endl;
-	}
-	// *fill = 111;
-	// fill[9] = 999;
-
-	ft::vector<int>::const_iterator it = fill.begin();
-	ft::vector<int>::const_iterator ite = fill.end();
-	ft::vector<int> range(it, ite);
-	for (int i = 0; i < 10; i++)
-	{
-		cout << &range[i] << ": " << range[i] << endl;
-	}
-
-	// ft::vector<int> fill(10, 1);
+	// const ft::vector<int> fill(10, 1);
 	// for (int i = 0; i < 10; i++)
 	// {
 	// 	cout << &fill[i] << ": " << fill[i] << endl;
@@ -153,13 +137,41 @@ int main()
 	// // *fill = 111;
 	// // fill[9] = 999;
 
-	// ft::vector<int>::iterator it = fill.begin();
-	// ft::vector<int>::iterator ite = fill.end();
+	// ft::vector<int>::const_iterator it = fill.begin();
+	// ft::vector<int>::const_iterator ite = fill.end();
 	// ft::vector<int> range(it, ite);
 	// for (int i = 0; i < 10; i++)
 	// {
 	// 	cout << &range[i] << ": " << range[i] << endl;
 	// }
+
+	ft::vector<int> fill(10, 1);
+	for (int i = 0; i < 10; i++)
+	{
+		cout << &fill[i] << ": " << fill[i] << endl;
+	}
+	*fill = 111;
+	fill[9] = 999;
+
+	ft::vector<int>::iterator it = fill.begin();
+	ft::vector<int>::iterator ite = fill.end();
+	ft::vector<int> range(it, ite);
+	for (int i = 0; i < 10; i++)
+	{
+		cout << &range[i] << ": " << range[i] << endl;
+	}
+
+	ft::vector<int> copy(fill);
+	for (int i = 0; i < 10; i++)
+	{
+		cout << &copy[i] << ": " << copy[i] << endl;
+	}
+
+	ft::vector<int> assign = copy;
+	for (int i = 0; i < 10; i++)
+	{
+		cout << &assign[i] << ": " << assign[i] << endl;
+	}
 
 	return 0;
 }

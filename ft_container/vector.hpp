@@ -13,6 +13,7 @@
 # define VECTOR_HPP
 
 #include "random_access_iterator_tag.hpp"
+#include "reverse_iterator.hpp"
 #include <iostream>	// cout << 
 #include <memory>	// allocator<T>
 
@@ -43,7 +44,7 @@ namespace ft
 				this->_first = this->_pointer;
 				this->_last = --this->_pointer;
 				this->_alloc = alloc;
-				cout << "(" << this << " - null) vector created" << endl;
+				cout << endl << "(" << this << " - null) vector created" << endl;
 			}
 
 			explicit vector(size_type n, const value_type & val = value_type(), 	// CONSTR #2
@@ -54,13 +55,14 @@ namespace ft
 				this->_first = this->_pointer;
 				for (size_type i = 0; i < n; i++)
 				{
-					this->_alloc.construct(this->_pointer, val+i);	// ENLEVER LE +1 (de val+1), car juste pour tester
+					// this->_alloc.construct(this->_pointer, val+i);	// ENLEVER LE +1 (de val+1), car juste pour tester
+					this->_alloc.construct(this->_pointer, val);
 					this->_pointer++;
 				}
 				this->_pointer--;
 				this->_last = this->_pointer;
 				this->_alloc = alloc;
-				cout << "(" << this << " - fill) vector created" << endl;
+				cout << endl << "(" << this << " - fill) vector created" << endl;
 			}
 			
 			// le typedef SFINAE (dans la classe iterator) force le choix de l'overload
@@ -90,7 +92,7 @@ namespace ft
 					this->_last = --this->_pointer;
 				}
 				this->_alloc = alloc;
-				cout << "(" << this << " - range) vector created" << endl;
+				cout << endl << "(" << this << " - range) vector created" << endl;
 			}
 
 			vector(const vector & x)												// CONSTR #4
@@ -105,24 +107,19 @@ namespace ft
 				{
 					x.get_allocator().construct(this->_pointer, *first);
 					++first;
-					cout << &this->_pointer[0] << " = " << *this->_pointer << endl;
+					// cout << &this->_pointer[0] << " = " << *this->_pointer << endl;
 					this->_pointer++;
 				}
 				this->_pointer--;
 				this->_last = this->_pointer;
 				this->_alloc = x.get_allocator();
-				cout << "(" << this << " - copy) vector created" << endl;
+				cout << endl << "(" << this << " - copy) vector created" << endl;
 			}
 
 			virtual ~vector() 														// DESTR #1
 			{
-				// This destroys all container elements, and deallocates all the storage capacity allocated 
-				// by the vector using its allocator.
-
-				// => CHECKER SI LA MEMOIRE EST BIEN DESALLOUEE AVEC LES LEAKS
 				this->get_allocator().deallocate(this->_first, this->size());
-				
-				cout << "(" << this << " - default) vector destroyed" << endl;
+				cout << endl << "(" << this << " - default) vector destroyed:" << endl << "from " << this->_first << ", size = " << this->size() << endl;
 			}
 
 		// ITERATORS
@@ -150,6 +147,22 @@ namespace ft
 			};
 			const_iterator begin() const { return const_iterator(this->_first); };
 			const_iterator end() const { return const_iterator(this->_last + 1); };
+			
+			// typedef  ft::vector<T, Alloc>::iterator				iterator;
+			// typedef  ft::vector<T, Alloc>::const_iterator		const_iterator;
+			// typedef  typename ft::vector<T, Alloc>::iterator				iterator;
+			// typedef  typename ft::vector<T, Alloc>::const_iterator		const_iterator;
+
+		// REVERSE ITERATORS
+			class reverse_iterator : public ft::reverse_iterator<T, char>
+			{
+				
+			};
+
+			class const_reverse_iterator : public ft::reverse_iterator<T, int>
+			{
+
+			};
 
 		// ELEMENT ACCESS:
 			reference front() 									{ return *this->_first; }
