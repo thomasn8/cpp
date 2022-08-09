@@ -1,11 +1,12 @@
-#ifndef RANDOM_ACCESS_ITERATOR_TAG_HPP
-# define RANDOM_ACCESS_ITERATOR_TAG_HPP
+#ifndef RANDOM_ACCESS_ITERATOR_HPP
+# define RANDOM_ACCESS_ITERATOR_HPP
 
 namespace ft
 {
+	class random_access_iterator_tag {};
 
 	template <typename T, typename U>
-	class random_access_iterator_tag
+	class random_access_iterator
 	{
 		public:
 
@@ -14,18 +15,19 @@ namespace ft
 			typedef int							difference_type;
 			typedef T *							pointer;
 			typedef T &							reference;
-			typedef random_access_iterator_tag  iterator_category;
+			typedef random_access_iterator	 	iterator_category;
 			typedef	iterator_category			it;
 			typedef int 						SFINAE_condition;	// force le choix de l'overload entre les constructeurs d'une outer-class
 
 		// CONSTRUCTEURS/DESTRUCTEUR
-			random_access_iterator_tag() : _p(0) {}										// default
-			random_access_iterator_tag(pointer p) : _p(p) {}						// special
-			random_access_iterator_tag(reference src) : _p(src.getP()) {}				// copy
-			virtual ~random_access_iterator_tag() {}
+			random_access_iterator() : _p(0) {}										// default
+			random_access_iterator(pointer p) : _p(p) {}							// special
+			random_access_iterator(reference src) : _p(src.getP()) {}				// copy
+			virtual ~random_access_iterator() {}
 		
 		// ACCESSEURS
 			pointer getP() const { return this->_p; }
+			difference_type getDiff() const { return sizeof(T); }
 
 		// SURCHARGES
 			it & operator=(it const & src) { this->_p = src.getP(); return *this; }		// assign 
@@ -35,9 +37,9 @@ namespace ft
 			friend difference_type operator-(const it & a, const it & b) { return static_cast<int>(a._p - b._p); }
 
 			it & operator++() { ++this->_p; return *this; }
-			it operator++(value_type) { random_access_iterator_tag tmp(*this); this->_p++; return tmp; }
+			it operator++(value_type) { random_access_iterator tmp(*this); this->_p++; return tmp; }
 			it & operator--() { --this->_p; return *this; }
-			it operator--(value_type) { random_access_iterator_tag tmp(*this); this->_p--; return tmp; }
+			it operator--(value_type) { random_access_iterator tmp(*this); this->_p--; return tmp; }
 
 			bool operator==(const it & rhs) const { return this->_p == rhs._p; }
 			bool operator!=(const it & rhs) const { return this->_p != rhs._p; }
@@ -123,12 +125,12 @@ namespace ft
 		protected:
 			pointer _p;
 
-	}; // end of template ft:random_access_iterator_tag<T>
+	}; // end of template ft:random_access_iterator<T>
 
 
 	// CONST SPECIALIZED
 	template <typename T>
-	class random_access_iterator_tag<T, int>
+	class random_access_iterator<T, int>
 	{
 		public:
 
@@ -137,18 +139,19 @@ namespace ft
 			typedef int							difference_type;
 			typedef const T *					pointer;
 			typedef const T &					reference;
-			typedef random_access_iterator_tag  iterator_category;
+			typedef random_access_iterator		iterator_category;
 			typedef	iterator_category			it;
 			typedef int 						SFINAE_condition;	// force le choix de l'overload entre les constructeurs d'une outer-class
 
 		// CONSTRUCTEURS/DESTRUCTEUR
-			random_access_iterator_tag() : _p(0) {}										// default
-			random_access_iterator_tag(pointer p) : _p(p) {}						// special
-			random_access_iterator_tag(reference src) : _p(src.getP()) {}				// copy
-			virtual ~random_access_iterator_tag() {}
+			random_access_iterator() : _p(0) {}										// default
+			random_access_iterator(pointer p) : _p(p) {}							// special
+			random_access_iterator(reference src) : _p(src.getP()) {}				// copy
+			virtual ~random_access_iterator() {}
 		
 		// ACCESSEURS
 			pointer getP() const { return this->_p; }
+			difference_type getDiff() const { return sizeof(this->_p); }
 
 		// SURCHARGES
 			it & operator=(it const & src) { this->_p = src.getP(); return *this; }		// assign 
@@ -158,9 +161,9 @@ namespace ft
 			friend difference_type operator-(const it & a, const it & b) { return static_cast<int>(a._p - b._p); }
 
 			it & operator++() { ++this->_p; return *this; }
-			it operator++(value_type) { random_access_iterator_tag tmp(*this); this->_p++; return tmp; }
+			it operator++(value_type) { random_access_iterator tmp(*this); this->_p++; return tmp; }
 			it & operator--() { --this->_p; return *this; }
-			it operator--(value_type) { random_access_iterator_tag tmp(*this); this->_p--; return tmp; }
+			it operator--(value_type) { random_access_iterator tmp(*this); this->_p--; return tmp; }
 
 			bool operator==(const it & rhs) const { return this->_p == rhs._p; }
 			bool operator!=(const it & rhs) const { return this->_p != rhs._p; }
@@ -246,7 +249,7 @@ namespace ft
 		protected:
 			pointer _p;
 
-	}; // end of template ft:random_access_iterator_tag<T>
+	}; // end of template ft:random_access_iterator<T>
 
 } // end of namespace ft::
 

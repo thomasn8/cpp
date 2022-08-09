@@ -155,23 +155,42 @@ int main()
 
 	ft::vector<int>::iterator it = fill.begin();
 	ft::vector<int>::iterator ite = fill.end();
-	ft::vector<int> range(it, ite);
-	for (int i = 0; i < 10; i++)
-	{
-		cout << &range[i] << ": " << range[i] << endl;
-	}
+	// ft::vector<int> range(it, ite);
+	// for (int i = 0; i < 10; i++)
+	// {
+	// 	cout << &range[i] << ": " << range[i] << endl;
+	// }
 
-	ft::vector<int> copy(fill);
-	for (int i = 0; i < 10; i++)
-	{
-		cout << &copy[i] << ": " << copy[i] << endl;
-	}
+	// ft::vector<int> copy(fill);
+	// for (int i = 0; i < 10; i++)
+	// {
+	// 	cout << &copy[i] << ": " << copy[i] << endl;
+	// }
 
-	ft::vector<int> assign = copy;
-	for (int i = 0; i < 10; i++)
-	{
-		cout << &assign[i] << ": " << assign[i] << endl;
-	}
+	// ft::vector<int> assign = copy;
+	// for (int i = 0; i < 10; i++)
+	// {
+	// 	cout << &assign[i] << ": " << assign[i] << endl;
+	// }
+
+	// cout << endl << "HERE: " << it.getP() << endl;
+	// cout << endl << "HERE: " << &(*it) << endl;
+	// for (int i = 0; i < 10; i++)
+	// {
+	// 	cout << &fill[i] << ": " << fill[i] << endl;
+	// }
+
+
+
+	// **************************************************************
+	// CONSTR 1-2 FONCTIONNE MAIS PAS LE 3
+	typedef ft::vector<int>::iterator	iter_type;
+	ft::reverse_iterator<iter_type> rev_it1(it);
+	// ft::reverse_iterator<iter_type> const & rev_it1_ref = rev_it1;
+	// ft::reverse_iterator< ft::reverse_iterator<iter_type> > rev_it2(rev_it1_ref);
+	// typedef ft::reverse_iterator<iter_type>	rev;
+	// ft::reverse_iterator< rev > rev_it2(rev_it1);
+	// **************************************************************
 
 	return 0;
 }

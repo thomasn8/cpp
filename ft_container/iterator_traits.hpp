@@ -2,38 +2,49 @@
 # define ITERATOR_TRAITS_HPP
 
 #include <iostream>
+#include "random_access_iterator.hpp"
 
 namespace ft
 {
 
-	template <class T>
-    struct iterator_traits 
+	template<typename T>
+	struct iterator_traits
 	{
-        typedef typename T::difference_type		difference_type;
-        typedef typename T::value_type			value_type;
-        typedef typename T::pointer				pointer;
-        typedef typename T::reference			reference;
-        typedef typename T::iterator_category	iterator_category;
-    };
+		public :
+			typedef typename	T::difference_type 		difference_type;
+			typedef typename 	T::value_type			value_type;
+			typedef typename	T::pointer				pointer;
+			typedef typename	T::reference			reference;
+			typedef typename	T::iterator_category	iterator_category;
+			
+			iterator_traits(){ std::cout << "SAJHDJFGASDJHKKASHJFKSDAGFSAHDJFSDHJAGS 1" << std::endl; return; }
+	};
 
 	template <typename T>
 	struct iterator_traits<T *>
 	{
-		typedef int								difference_type;
-		typedef T								value_type;
-		typedef T *								pointer;
-		typedef T &								reference;
-		typedef std::random_access_iterator_tag	iterator_category;
+		public :
+			typedef int								difference_type;
+			typedef T								value_type;
+			typedef T *								pointer;
+			typedef T &								reference;
+			typedef ft::random_access_iterator_tag	iterator_category;
+			
+			iterator_traits(){ std::cout << "SAJHDJFGASDJHKKASHJFKSDAGFSAHDJFSDHJAGS 2" << std::endl; return; }
 	};
 
 	template <typename T>
 	struct iterator_traits<const T *>
 	{
-		typedef int								difference_type;
-		typedef T								value_type;
-		typedef const T *						pointer;
-		typedef const T &						reference;
-		typedef std::random_access_iterator_tag	iterator_category;
+		public :
+			typedef int								difference_type;
+			typedef T								value_type;
+			typedef const T *						pointer;
+			typedef const T &						reference;
+			typedef ft::random_access_iterator_tag	iterator_category;
+			
+		
+		iterator_traits(){ std::cout << " SAJHDJFGASDJHKKASHJFKSDAGFSAHDJFSDHJAGS 3" << std::endl; return; }
 	};
 
 }
