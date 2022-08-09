@@ -2,7 +2,6 @@
 # define REVERSE_ITERATOR_HPP
 
 #include "iterator_traits.hpp"
-#include <type_traits>
 
 using namespace std;
 
@@ -20,58 +19,38 @@ namespace ft
 			typedef typename ft::iterator_traits<Iterator>::pointer				pointer;
 			typedef	typename ft::iterator_traits<Iterator>::reference			reference;
 			typedef	typename ft::iterator_traits<Iterator>::iterator_category	iterator_category;
-			typedef int 														Test_SFINAE;	// force le choix de l'overload entre les constructeurs d'une outer-class
 
 
 		// CONSTRUCTEURS/DESTRUCTEUR
-			reverse_iterator() : _p(0), _base(0) 								// #1 default
+			reverse_iterator(void)
 			{
+				_iterator = Iterator();
 				cout << endl << "(" << this << " - #1) rev_it created" << endl;
+				return;
 			}
 
-			explicit reverse_iterator(iterator_type it) :						// A FAIRE PLANTER AVEC UN SFINAE !!!!!
-			// explicit reverse_iterator(iterator_type it,
-			// typename std::enable_if< std::is_integral<Iterator>::value>::type * = 0) :
-			// typename std::enable_if< not std::is_same<Iterator, ft::reverse_iterator<Iterator> >::value>::type * = 0) :
-			// typename std::enable_if< ! std::is_reference<Iterator>::value >::type * = 0) :						// A FAIRE PLANTER AVEC UN SFINAE !!!!!
-			_p(reinterpret_cast<pointer>(&(*it))), 
-			_base(reinterpret_cast<pointer>(&(*it))),
-			_diff(it.getDiff())													// #2 initalization
+			explicit reverse_iterator(iterator_type it) : _iterator(it)
 			{
 				// Constructs a reverse iterator from some original iterator it. 
 				// The behavior of the constructed object replicates the original, 
 				// except that it iterates through its pointed elements in the reverse order.
-
-				// this->_p = reinterpret_cast<pointer>(&(*it));
-				// this->_base = reinterpret_cast<pointer>(&(*it));
-				// std::cout << "HERE: " << this->_p << std::endl;
-				// std::cout << "HERE: " << this->_diff << std::endl;
 				cout << endl << "(" << this << " - #2) rev_it created" << endl;
+				return;
 			}
 
-			// template <class Iter>												// #3 copy/type-cast 
-  			// reverse_iterator(const reverse_iterator<Iter> & rev_it)	:			// checker que le type et l'argument soient du même type
-			// // template <class Iter>												// #3 copy/type-cast 
-  			// // reverse_iterator(const reverse_iterator<Iter> & rev_it,
-			// // typename Iter::Test_SFINAE = 0) :			// checker que le type et l'argument soient du même type
-			// _p(rev_it.getP()),													// pour s'assurer qu'il faut utiliser ce constructeur
-			// _base(rev_it.getBase()),
-			// _diff(rev_it.getDiff())
-			// {
-			// 	// Constructs a reverse iterator from some other reverse iterator. 
-			// 	// The constructed object keeps the same sense of iteration as rev_it.
-			// 	// this->_p = rev_it.getP();													// pour s'assurer qu'il faut utiliser ce constructeur
-			// 	// this->_base = rev_it.getBase();
-			// 	// this->_diff = rev_it.getDiff();
-			// 	cout << endl << "(" << this << " - #3) rev_it created" << endl;
-			// }
-			
+			reverse_iterator(const reverse_iterator<Iterator> & rev_it)
+			{
+				// Constructs a reverse iterator from some other reverse iterator. 
+				// The constructed object keeps the same sense of iteration as rev_it.
+				this->_iterator = rev_it._iterator;
+				cout << endl << "(" << this << " - #3) rev_it created" << endl;
+				return;
+			}
+
 			virtual ~reverse_iterator() {}
 		
 		// ACCESSEURS
-			pointer getP() const { return this->_p; }
-			pointer getBase() const { return this->_base; }
-			difference_type getDiff() const { return this->_diff; }
+			// ...
 
 		// // SURCHARGES
 		// 	it & operator=(it const & src) { this->_p = src.getP(); return *this; }		// assign 
@@ -167,9 +146,8 @@ namespace ft
 		// 	}
 
 		private :
-			pointer _p;
-			pointer _base;
-			difference_type _diff;
+
+			Iterator		_iterator;
 
 	}; // end of template ft:reverse_iterator<T>
 

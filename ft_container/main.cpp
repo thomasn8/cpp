@@ -186,10 +186,10 @@ int main()
 	// CONSTR 1-2 FONCTIONNE MAIS PAS LE 3
 	typedef ft::vector<int>::iterator	iter_type;
 	ft::reverse_iterator<iter_type> rev_it1(it);
+	typedef ft::reverse_iterator<iter_type>	rev;
+	ft::reverse_iterator< rev > rev_it2(rev_it1);
 	// ft::reverse_iterator<iter_type> const & rev_it1_ref = rev_it1;
 	// ft::reverse_iterator< ft::reverse_iterator<iter_type> > rev_it2(rev_it1_ref);
-	// typedef ft::reverse_iterator<iter_type>	rev;
-	// ft::reverse_iterator< rev > rev_it2(rev_it1);
 	// **************************************************************
 
 	return 0;
