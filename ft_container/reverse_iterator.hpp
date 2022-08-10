@@ -18,12 +18,13 @@ namespace ft
 			typedef	typename ft::iterator_traits<Iterator>::difference_type 	difference_type;
 			typedef typename ft::iterator_traits<Iterator>::pointer				pointer;
 			typedef	typename ft::iterator_traits<Iterator>::reference			reference;
-			typedef	typename ft::iterator_traits<Iterator>::iterator_category	iterator_category;
+			typedef reverse_iterator<Iterator>									iterator_category;
+			typedef	iterator_category											rev_it;
 
 
 		// CONSTRUCTEURS/DESTRUCTEUR
-			reverse_iterator(void) { _iterator = Iterator(); }
-			explicit reverse_iterator(iterator_type it) : _iterator(it) {}
+			reverse_iterator(void) { this->_iterator = Iterator(); }
+			explicit reverse_iterator(Iterator it) : _iterator(it) {}
 			reverse_iterator(const reverse_iterator<Iterator> & rev_it) { this->_iterator = rev_it._iterator; }
 			virtual ~reverse_iterator() {}
 		
@@ -31,100 +32,49 @@ namespace ft
 			// ...
 
 		// // SURCHARGES
-			value_type & operator*() { return *(_iterator - 1); }
-			reference operator[](unsigned int index) { return *(this->_iterator - (index + 1)); }
-			pointer operator->() { return (_iterator - 1);  }
+			rev_it & operator=(const Iterator & src) { this->_iterator = src; return *this; }
+			rev_it & operator=(const reverse_iterator<Iterator> & src) { this->_iterator = src._iterator; return *this; }
+			value_type operator*() { return *(this->_iterator - 1); }
+			value_type operator[](unsigned int index) { return *(this->_iterator - (index + 1)); }
+			pointer operator->() { return (this->_iterator - 1);  }
 			friend difference_type operator-(const reverse_iterator<Iterator> & a, const reverse_iterator<Iterator> & b) 
 			{ 
 				return static_cast<int>(b._iterator - a._iterator);
 			}
-			// friend difference_type operator-(const it & a, const it & b) { return static_cast<int>(a._p - b._p); }
-
-		// 	it & operator++() { ++this->_p; return *this; }
-		// 	it operator++(value_type) { random_access_iterator_tag tmp(*this); this->_p++; return tmp; }
-		// 	it & operator--() { --this->_p; return *this; }
-		// 	it operator--(value_type) { random_access_iterator_tag tmp(*this); this->_p--; return tmp; }
-
-		// 	bool operator==(const it & rhs) const { return this->_p == rhs._p; }
-		// 	bool operator!=(const it & rhs) const { return this->_p != rhs._p; }
-		// 	bool operator<(const it & rhs) const { return this->_p < rhs._p; }
-		// 	bool operator<=(const it & rhs) const { return this->_p <= rhs._p; }
-		// 	bool operator>(const it & rhs) const { return this->_p > rhs._p; }
-		// 	bool operator>=(const it & rhs) const { return this->_p >= rhs._p; }
-
-		// 	it operator+(int n)	const							// a + n
-		// 	{
-		// 		pointer tmp = this->_p;
-		// 		if (n >= 0)
-		// 		{
-		// 			while (n--)
-		// 				tmp++;
-		// 		} 
-		// 		else 
-		// 		{
-		// 			while (n++) 
-		// 				tmp--;
-		// 		}
-		// 		return tmp;
-		// 	}
-		// 	friend it operator+(int n, const it & it)			// n + a
-		// 	{
-		// 		pointer tmp = it._p;
-		// 		if (n >= 0)
-		// 		{
-		// 			while (n--)
-		// 				tmp++;
-		// 		} 
-		// 		else 
-		// 		{
-		// 			while (n++) 
-		// 				tmp--;
-		// 		} 
-		// 		return tmp; 
-		// 	}
-		// 	it & operator+=(int n)								// a += n 
-		// 	{
-		// 		if (n >= 0)
-		// 		{
-		// 			while (n--)
-		// 				this->_p++;
-		// 		} 
-		// 		else 
-		// 		{
-		// 			while (n++) 
-		// 				this->_p--;
-		// 		} 
-		// 		return *this; 
-		// 	}
-		// 	it operator-(int n)	const							// a - n
-		// 	{
-		// 		pointer tmp = this->_p;
-		// 		if (n >= 0)
-		// 		{
-		// 			while (n--)
-		// 				tmp--;
-		// 		} 
-		// 		else 
-		// 		{
-		// 			while (n++) 
-		// 				tmp++;
-		// 		} 
-		// 		return tmp; 
-		// 	}
-		// 	it & operator-=(int n)								// a-= n
-		// 	{
-		// 		if (n >= 0)
-		// 		{
-		// 			while (n--)
-		// 				this->_p--;
-		// 		} 
-		// 		else 
-		// 		{
-		// 			while (n++) 
-		// 				this->_p++;
-		// 		} 
-		// 		return *this; 
-		// 	}
+			rev_it & operator++() { --this->_iterator; return *this; }
+			rev_it operator++(value_type)
+			{
+				Iterator tmp = this->_iterator;
+				this->_iterator--;
+				return reverse_iterator<Iterator>(tmp);
+			}
+			rev_it & operator--() { ++this->_iterator; return *this; }
+			rev_it operator--(value_type) 
+			{
+				Iterator tmp = this->_iterator;
+				this->_iterator++;
+				return reverse_iterator<Iterator>(tmp);
+			}
+			rev_it operator+(difference_type n)	const
+			{
+				Iterator tmp = this->_iterator;
+				tmp -= n;
+				return reverse_iterator<Iterator>(tmp);
+			}
+  			friend rev_it operator+(difference_type n, const reverse_iterator<Iterator> & rev_it)
+			{
+				Iterator tmp = rev_it._iterator;
+				tmp -= n;
+				return reverse_iterator<Iterator>(tmp);
+			}
+			rev_it operator-(difference_type n) const
+			{
+				Iterator tmp = this->_iterator;
+				tmp += n;
+				return reverse_iterator<Iterator>(tmp);
+			}
+			rev_it & operator+=(difference_type n) { this->_iterator -= n; return *this; }
+			rev_it & operator-=(difference_type n) { this->_iterator += n; return *this; }
 
 		private :
 

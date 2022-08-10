@@ -2,9 +2,6 @@
 #include "Test.hpp"
 #include "iterator_traits.hpp"
 
-#include <iostream>
-#include <vector>
-
 using namespace std;
 
 template<class It>
@@ -60,7 +57,10 @@ int main()
 	// cout << *it2 << endl;							// out of range
 	// cout << *(it1 + 0) << endl;
 	// cout << *(it1 + 2) << endl;
+	// cout << *(it1 + (-2)) << endl;					// out of range
+	// cout << *(it2 + (-2)) << endl;
 	// cout << *(2 + it1) << endl;
+	// cout << *((-2) + it2) << endl;
 	// cout << it2 - it1 << endl;
 	// cout << *(it1 + 3) << endl;
 	// cout << *(it2 - 0) << endl;
@@ -195,41 +195,42 @@ int main()
 
 	cout << endl << "REVERSE IT: " << endl;
 	cout << "from:		" << *it << endl;			
-	cout << "until:		" << *ite << endl;		
+	cout << "until:		" << *ite << " (out of range)" << endl;		
 	cout << "rev_from:	" << *r_from << endl;		
-	cout << "rev_until:	" << *r_until << endl;	
-	// cout << "rev_until:	" << *(r_until - 1) << endl;
-
-	// cout << endl << "REVERSE IT: " << endl;
-	cout << r_from[2] << endl;
-	cout << "rev_from:	" << *r_from << endl;		
+	cout << "rev_until:	" << *r_until << " (out of range)" << endl;
+	cout << "rev_until - 2:	" << *(r_until - 2) << endl;
+	cout << "rev_from + 2:	" << r_from[2] << endl;
 	cout << "distance = " << r_from - r_until << endl;		
-	cout << "distance = " << r_until - r_from << endl;		
-	// **************************************************************
-	cout << endl << "STD: ";
-	std::vector<int> myvector;
-	for (int i=0; i<10; i++) myvector.push_back(i);
-  	typedef std::vector<int>::iterator std_iter_type;			// ? 0 1 2 3 4 5 6 7 8 9 ?
-  	std_iter_type from (myvector.begin());						//   ^
-  	std_iter_type until (myvector.end());						//                       ^
-  	std::reverse_iterator<std_iter_type> rev_until (from);		// ^
-  	std::reverse_iterator<std_iter_type> rev_from (until);		//                     ^
+	cout << "distance = " << r_until - r_from << endl;
 
-	cout << endl << "REVERSE IT: " << endl;
-	cout << "from:		" << *from << endl;						//   ^
-	cout << "until:		" << *until << endl;					//                        ^
-	cout << "rev_from:	" << *rev_from << endl;					//                     ^
-	cout << "rev_until:	" << *rev_until << endl;				// ^
-	cout << "rev_until:	" << *(rev_until - 1) << endl;			//   ^ 
-	cout << rev_from[2] << endl;
-	cout << "rev_from:	" << *rev_from << endl;					//                     ^
-	cout << "distance = " << rev_from - rev_until << endl;		
-	cout << "distance = " << rev_until - rev_from << endl;		
+	ft::reverse_iterator<iter_type> ft_rev_it;
+	// ft::reverse_iterator<iter_type> ft_rev_it2;
+  	// ft_rev_it = it;
+	// ft_rev_it2 = r_from;
+	// cout << "ft_rev_it:		" << *ft_rev_it << endl;			
+	// cout << "ft_rev_it2:		" << *ft_rev_it2 << endl;		
+  	ft_rev_it = r_from +3;	
+	std::cout << "The fourth element from the end is: " << *ft_rev_it << '\n';
+	ft_rev_it = 3 + r_from;	
+	std::cout << "The fourth element from the end is: " << *ft_rev_it << '\n';		
+	ft_rev_it = r_until - 3;
+	std::cout << "myvector.rend()-3 points to: " << *ft_rev_it << '\n';
 
-	// std::cout << "myvector:";
-  	// while (rev_from != rev_until)
-    // 	std::cout << ' ' << *rev_from++;
-  	// std::cout << '\n';
+	cout << "rev_from:	" << *r_from << endl;
+	r_from++;
+	cout << "rev_from:	" << *r_from << endl;
+	++r_from;
+	cout << "rev_from:	" << *r_from << endl;		
+	r_from--;
+	cout << "rev_from:	" << *r_from << endl;
+	--r_from;
+	cout << "rev_from:	" << *r_from << endl;
+	
+	r_from+= 4;
+	cout << "rev_from:	" << *r_from << endl;
+	r_from-= 4;
+	cout << "rev_from:	" << *r_from << endl;
+
 
 	return 0;
 }
@@ -299,6 +300,42 @@ int main()
 // 	// {
 // 	// 	cout << &range[i] << ": " << range[i] << endl;
 // 	// }
+
+// // **************************************************************
+// cout << endl << "STD: ";
+// std::vector<int> myvector;
+// for (int i=0; i<10; i++) myvector.push_back(i);
+// typedef std::vector<int>::iterator std_iter_type;			// ? 0 1 2 3 4 5 6 7 8 9 ?
+// std_iter_type from (myvector.begin());						//   ^
+// std_iter_type until (myvector.end());						//                       ^
+// std::reverse_iterator<std_iter_type> rev_until (from);		// ^
+// std::reverse_iterator<std_iter_type> rev_from (until);		//                     ^
+
+// cout << endl << "REVERSE IT: " << endl;
+// cout << "from:		" << *from << endl;						//   ^
+// cout << "until:		" << *until << " (out of range)" << endl;					//                        ^
+// cout << "rev_from:	" << *rev_from << endl;					//                     ^
+// cout << "rev_until:	" << *rev_until << " (out of range)" << endl;				// ^
+// cout << "rev_until - 2:	" << *(rev_until - 2) << endl;			//   ^ 
+// cout << "rev_from + 2:	" << rev_from[2] << endl;
+// cout << "distance = " << rev_from - rev_until << endl;		
+// cout << "distance = " << rev_until - rev_from << endl;
+
+// std::reverse_iterator<std_iter_type> rev_it;
+// rev_it = myvector.rbegin() +3;	
+// std::cout << "The fourth element from the end is: " << *rev_it << '\n';
+// rev_it = 3 + myvector.rbegin();	
+// std::cout << "The fourth element from the end is: " << *rev_it << '\n';
+
+// std::reverse_iterator<std_iter_type> rev_iterator;
+// rev_iterator = myvector.rend() - 3;
+// rev_iterator = myvector.rend() - 3;
+// std::cout << "myvector.rend()-3 points to: " << *rev_iterator << '\n';
+
+// // std::cout << "myvector:";
+// // while (rev_from != rev_until)
+// // 	std::cout << ' ' << *rev_from++;
+// // std::cout << '\n';
 
 // 	return 0;
 // }
