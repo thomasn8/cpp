@@ -21,17 +21,13 @@ namespace ft
 			typedef reverse_iterator<Iterator>									iterator_category;
 			typedef	iterator_category											rev_it;
 
-
 		// CONSTRUCTEURS/DESTRUCTEUR
 			reverse_iterator(void) { this->_iterator = Iterator(); }
 			explicit reverse_iterator(Iterator it) : _iterator(it) {}
 			reverse_iterator(const reverse_iterator<Iterator> & rev_it) { this->_iterator = rev_it._iterator; }
 			virtual ~reverse_iterator() {}
-		
-		// ACCESSEURS
-			// ...
 
-		// // SURCHARGES
+		// SURCHARGES
 			rev_it & operator=(const Iterator & src) { this->_iterator = src; return *this; }
 			rev_it & operator=(const reverse_iterator<Iterator> & src) { this->_iterator = src._iterator; return *this; }
 			value_type operator*() { return *(this->_iterator - 1); }

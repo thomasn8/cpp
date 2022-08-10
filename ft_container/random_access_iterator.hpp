@@ -20,9 +20,9 @@ namespace ft
 			typedef int 						SFINAE_condition;	// pour le constructeur de vector avec iterateur
 
 		// CONSTRUCTEURS/DESTRUCTEUR
-			random_access_iterator() : _p(0) {}										// default
-			random_access_iterator(pointer p) : _p(p) {}							// special
-			random_access_iterator(reference src) : _p(src.getP()) {}				// copy
+			random_access_iterator() : _p(0) {}											// default
+			random_access_iterator(pointer p) : _p(p) {}								// special
+			random_access_iterator(reference src) : _p(src.getP()) {}					// copy
 			virtual ~random_access_iterator() {}
 		
 		// ACCESSEURS
@@ -48,19 +48,19 @@ namespace ft
 			bool operator>(const it & rhs) const { return this->_p > rhs._p; }
 			bool operator>=(const it & rhs) const { return this->_p >= rhs._p; }
 
-			it operator+(difference_type n)	const { pointer tmp(this->_p + n); return tmp; }					// a + n
-			friend it operator+(difference_type n, const it & it) { pointer tmp(it._p + n); return tmp; }		// n + a
-			it operator-(difference_type n)	const { pointer tmp(this->_p - n); return tmp; }					// a - n
-			it & operator+=(difference_type n) { it tmp(this->_p + n); this->_p = tmp.getP(); return *this; }	// a += n 
-			it & operator-=(difference_type n) { it tmp(this->_p - n); this->_p = tmp.getP(); return *this; }	// a-= n
+			it operator+(difference_type n)	const { pointer tmp(this->_p + n); return tmp; }
+			friend it operator+(difference_type n, const it & it) { pointer tmp(it._p + n); return tmp; }
+			it operator-(difference_type n)	const { pointer tmp(this->_p - n); return tmp; }
+			it & operator+=(difference_type n) { it tmp(this->_p + n); this->_p = tmp.getP(); return *this; }
+			it & operator-=(difference_type n) { it tmp(this->_p - n); this->_p = tmp.getP(); return *this; }
 
-		protected:
+		protected :
 			pointer _p;
 
 	}; // end of template ft:random_access_iterator<T>
 
 
-	// CONST SPECIALIZED
+	// CONST SPECIALIZATION
 	template <typename T>
 	class random_access_iterator<T, int>
 	{
@@ -76,9 +76,9 @@ namespace ft
 			typedef int 						SFINAE_condition;	// pour le constructeur de vector avec iterateur
 
 		// CONSTRUCTEURS/DESTRUCTEUR
-			random_access_iterator() : _p(0) {}										// default
-			random_access_iterator(pointer p) : _p(p) {}							// special
-			random_access_iterator(reference src) : _p(src.getP()) {}				// copy
+			random_access_iterator() : _p(0) {}											// default
+			random_access_iterator(pointer p) : _p(p) {}								// special
+			random_access_iterator(reference src) : _p(src.getP()) {}					// copy
 			virtual ~random_access_iterator() {}
 		
 		// ACCESSEURS
@@ -104,14 +104,13 @@ namespace ft
 			bool operator>(const it & rhs) const { return this->_p > rhs._p; }
 			bool operator>=(const it & rhs) const { return this->_p >= rhs._p; }
 
-			it operator+(difference_type n)	const { pointer tmp(this->_p + n); return tmp; }					// a + n
-			friend it operator+(difference_type n, const it & it) { pointer tmp(it._p + n); return tmp; }		// n + a
-			it operator-(difference_type n)	const { pointer tmp(this->_p - n); return tmp; }					// a - n
-			it & operator+=(difference_type n) { it tmp(this->_p + n); this->_p = tmp.getP(); return *this; }	// a += n 
-			it & operator-=(difference_type n) { it tmp(this->_p - n); this->_p = tmp.getP(); return *this; }	// a-= n
+			it operator+(difference_type n)	const { pointer tmp(this->_p + n); return tmp; }
+			friend it operator+(difference_type n, const it & it) { pointer tmp(it._p + n); return tmp; }
+			it operator-(difference_type n)	const { pointer tmp(this->_p - n); return tmp; }
+			it & operator+=(difference_type n) { it tmp(this->_p + n); this->_p = tmp.getP(); return *this; }
+			it & operator-=(difference_type n) { it tmp(this->_p - n); this->_p = tmp.getP(); return *this; }
 
-
-		protected:
+		protected :
 			pointer _p;
 
 	}; // end of template ft:random_access_iterator<T>

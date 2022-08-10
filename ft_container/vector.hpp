@@ -34,7 +34,7 @@ namespace ft
 			typedef typename allocator_type::const_reference 	const_reference;	// const T &
 			typedef	typename allocator_type::pointer 			pointer;			// T *
 			typedef	typename allocator_type::const_pointer 		const_pointer;		// const T *
-			typedef int											difference_type;	// symbolise le résultat d'une soustraction de pointeurs
+			typedef int											difference_type;	// pour marquer les diff d'objets entre 2 ptr
 
 		// CONSTRUCTEURS/DESTRUCTEUR
 			explicit vector(const allocator_type & alloc = allocator_type()) 		// CONSTR #1
