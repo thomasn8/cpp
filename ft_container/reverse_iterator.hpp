@@ -22,62 +22,78 @@ namespace ft
 			typedef	iterator_category											rev_it;
 
 		// CONSTRUCTEURS/DESTRUCTEUR
-			reverse_iterator(void) { this->_iterator = Iterator(); }
-			explicit reverse_iterator(Iterator it) : _iterator(it) {}
-			reverse_iterator(const reverse_iterator<Iterator> & rev_it) { this->_iterator = rev_it._iterator; }
+			reverse_iterator(void) { this->_iterator = iterator_type(); }
+			explicit reverse_iterator(iterator_type it) : _iterator(it) {}
+			reverse_iterator(const reverse_iterator<iterator_type> & rev_it) { this->_iterator = rev_it._iterator; }
 			virtual ~reverse_iterator() {}
 
+		// MEMBER FUNCTION
+			iterator_type base() const { return this->_iterator; }
+
 		// SURCHARGES
-			rev_it & operator=(const Iterator & src) { this->_iterator = src; return *this; }
+			rev_it & operator=(const iterator_type & src) { this->_iterator = src; return *this; }
 			rev_it & operator=(const reverse_iterator<Iterator> & src) { this->_iterator = src._iterator; return *this; }
 			value_type operator*() { return *(this->_iterator - 1); }
 			value_type operator[](unsigned int index) { return *(this->_iterator - (index + 1)); }
 			pointer operator->() { return (this->_iterator - 1);  }
-			friend difference_type operator-(const reverse_iterator<Iterator> & a, const reverse_iterator<Iterator> & b) 
+			friend difference_type operator-(const reverse_iterator<iterator_type> & a, const reverse_iterator<iterator_type> & b) 
 			{ 
 				return static_cast<int>(b._iterator - a._iterator);
 			}
 			rev_it & operator++() { --this->_iterator; return *this; }
 			rev_it operator++(value_type)
 			{
-				Iterator tmp = this->_iterator;
+				iterator_type tmp = this->_iterator;
 				this->_iterator--;
-				return reverse_iterator<Iterator>(tmp);
+				return reverse_iterator<iterator_type>(tmp);
 			}
 			rev_it & operator--() { ++this->_iterator; return *this; }
 			rev_it operator--(value_type) 
 			{
-				Iterator tmp = this->_iterator;
+				iterator_type tmp = this->_iterator;
 				this->_iterator++;
-				return reverse_iterator<Iterator>(tmp);
+				return reverse_iterator<iterator_type>(tmp);
 			}
 			rev_it operator+(difference_type n)	const
 			{
-				Iterator tmp = this->_iterator;
+				iterator_type tmp = this->_iterator;
 				tmp -= n;
-				return reverse_iterator<Iterator>(tmp);
+				return reverse_iterator<iterator_type>(tmp);
 			}
-  			friend rev_it operator+(difference_type n, const reverse_iterator<Iterator> & rev_it)
+  			friend rev_it operator+(difference_type n, const reverse_iterator<iterator_type> & rev_it)
 			{
-				Iterator tmp = rev_it._iterator;
+				iterator_type tmp = rev_it._iterator;
 				tmp -= n;
-				return reverse_iterator<Iterator>(tmp);
+				return reverse_iterator<iterator_type>(tmp);
 			}
 			rev_it operator-(difference_type n) const
 			{
-				Iterator tmp = this->_iterator;
+				iterator_type tmp = this->_iterator;
 				tmp += n;
-				return reverse_iterator<Iterator>(tmp);
+				return reverse_iterator<iterator_type>(tmp);
 			}
 			rev_it & operator+=(difference_type n) { this->_iterator -= n; return *this; }
 			rev_it & operator-=(difference_type n) { this->_iterator += n; return *this; }
 
+		// NON-MEMBER FUNCTION OVERLOADS
+		friend bool operator==(const reverse_iterator<Iterator>& lhs,
+			const reverse_iterator<Iterator>& rhs) { return lhs._iterator == rhs._iterator; }
+		friend bool operator!=(const reverse_iterator<Iterator>& lhs,
+			const reverse_iterator<Iterator>& rhs) { return lhs._iterator != rhs._iterator; }
+		friend bool operator<(const reverse_iterator<Iterator>& lhs,
+			const reverse_iterator<Iterator>& rhs) { return lhs._iterator < rhs._iterator; }
+		friend bool operator<=(const reverse_iterator<Iterator>& lhs,
+			const reverse_iterator<Iterator>& rhs) { return lhs._iterator <= rhs._iterator; }
+		friend bool operator>(const reverse_iterator<Iterator>& lhs,
+			const reverse_iterator<Iterator>& rhs) { return lhs._iterator > rhs._iterator; }
+		friend bool operator>=(const reverse_iterator<Iterator>& lhs,
+			const reverse_iterator<Iterator>& rhs) { return lhs._iterator >= rhs._iterator; }
+
 		private :
+			iterator_type		_iterator;
 
-			Iterator		_iterator;
+	};
 
-	}; // end of template ft:reverse_iterator<T>
-
-} // end of namespace ft::
+}
 
 #endif

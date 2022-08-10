@@ -176,8 +176,8 @@ namespace ft
 			pointer			_last;		// last element
 			pointer			_pointer;	// random pointer for multi-usage
 
-	}; // end of template ft::vector<T>
+	};
 
-} // end of namespace ft::
+}
 
 #endif

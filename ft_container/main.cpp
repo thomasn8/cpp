@@ -186,7 +186,7 @@ int main()
 
 
 	// **************************************************************
-	// TEST REVERSER_ITERATOR
+	// TESTS REVERSER_ITERATOR
 	typedef ft::vector<int>::iterator	iter_type;
 	ft::reverse_iterator<iter_type> r_until(it);
 	ft::reverse_iterator<iter_type> r_from(ite);
@@ -231,7 +231,18 @@ int main()
 	r_from-= 4;
 	cout << "rev_from:	" << *r_from << endl;
 
+  	cout << "myvector:";
+	for (iter_type iti = r_until.base(); iti != r_from.base(); ++iti)
+    	std::cout << ' ' << *iti;
+	cout << endl;
 
+	cout << "BOOL ? " << bool(r_until != r_from) << endl;
+	cout << "BOOL ? " << bool(r_until == r_from) << endl;
+	cout << "BOOL ? " << bool(r_until < r_from) << endl;
+	cout << "BOOL ? " << bool(r_until <= r_from) << endl;
+	cout << "BOOL ? " << bool(r_until > r_from) << endl;
+	cout << "BOOL ? " << bool(r_until >= r_from) << endl;
+	
 	return 0;
 }
 

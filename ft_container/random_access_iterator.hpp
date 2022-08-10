@@ -57,7 +57,7 @@ namespace ft
 		protected :
 			pointer _p;
 
-	}; // end of template ft:random_access_iterator<T>
+	};
 
 
 	// CONST SPECIALIZATION
@@ -113,8 +113,8 @@ namespace ft
 		protected :
 			pointer _p;
 
-	}; // end of template ft:random_access_iterator<T>
+	};
 
-} // end of namespace ft::
+}
 
 #endif
