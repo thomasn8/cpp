@@ -243,6 +243,25 @@ int main()
 	cout << "BOOL ? " << bool(r_until > r_from) << endl;
 	cout << "BOOL ? " << bool(r_until >= r_from) << endl;
 	
+	ft::reverse_iterator<iter_type> from = fill.rbegin();
+	cout << "FROM: " << *from << endl;
+	ft::reverse_iterator<iter_type> const from2 = fill.rbegin();
+	cout << "FROM: " << *from2 << endl;
+	ft::reverse_iterator<iter_type> const from3 = fill.crbegin();
+	cout << "FROM: " << *from3 << endl;
+	
+	ft::reverse_iterator<iter_type> until = fill.rend();
+	cout << "UNTIL: " << *until << " (out of range)" << endl;
+	ft::reverse_iterator<iter_type> const until2 = fill.rend();
+	cout << "UNTIL: " << *until2 << " (out of range)" << endl;
+	ft::reverse_iterator<iter_type> const until3 = fill.crend();
+	cout << "UNTIL: " << *until3 << " (out of range)" << endl;
+
+	// ft::vector<int>::iterator test = fill.begin();
+	// cout << "FROM: " << *test << endl;
+	// *test = 500;
+	// cout << "FROM: " << *test << endl;
+
 	return 0;
 }
 

@@ -31,7 +31,7 @@ namespace ft
 
 		// SURCHARGES
 			it & operator=(it const & src) { this->_p = src.getP(); return *this; }		// assign 
-			const value_type & operator*() { return *_p; }
+			reference operator*() { return *_p; }
 			reference operator[](unsigned int index) { return this->_p[index]; }	
 			pointer operator->() { return _p;  }
 			friend difference_type operator-(const it & a, const it & b) { return static_cast<int>(a._p - b._p); }
@@ -87,7 +87,7 @@ namespace ft
 
 		// SURCHARGES
 			it & operator=(it const & src) { this->_p = src.getP(); return *this; }		// assign 
-			value_type & operator*() { return *_p; }
+			reference operator*() const { return *_p; }
 			reference operator[](unsigned int index) { return this->_p[index]; }	
 			pointer operator->() { return _p;  }
 			friend difference_type operator-(const it & a, const it & b) { return static_cast<int>(a._p - b._p); }

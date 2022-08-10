@@ -34,6 +34,7 @@ namespace ft
 			rev_it & operator=(const iterator_type & src) { this->_iterator = src; return *this; }
 			rev_it & operator=(const reverse_iterator<Iterator> & src) { this->_iterator = src._iterator; return *this; }
 			value_type operator*() { return *(this->_iterator - 1); }
+			value_type operator*() const { return *(this->_iterator - 1); }
 			value_type operator[](unsigned int index) { return *(this->_iterator - (index + 1)); }
 			pointer operator->() { return (this->_iterator - 1);  }
 			friend difference_type operator-(const reverse_iterator<iterator_type> & a, const reverse_iterator<iterator_type> & b) 
@@ -76,18 +77,18 @@ namespace ft
 			rev_it & operator-=(difference_type n) { this->_iterator += n; return *this; }
 
 		// NON-MEMBER FUNCTION OVERLOADS
-		friend bool operator==(const reverse_iterator<Iterator>& lhs,
-			const reverse_iterator<Iterator>& rhs) { return lhs._iterator == rhs._iterator; }
-		friend bool operator!=(const reverse_iterator<Iterator>& lhs,
-			const reverse_iterator<Iterator>& rhs) { return lhs._iterator != rhs._iterator; }
-		friend bool operator<(const reverse_iterator<Iterator>& lhs,
-			const reverse_iterator<Iterator>& rhs) { return lhs._iterator < rhs._iterator; }
-		friend bool operator<=(const reverse_iterator<Iterator>& lhs,
-			const reverse_iterator<Iterator>& rhs) { return lhs._iterator <= rhs._iterator; }
-		friend bool operator>(const reverse_iterator<Iterator>& lhs,
-			const reverse_iterator<Iterator>& rhs) { return lhs._iterator > rhs._iterator; }
-		friend bool operator>=(const reverse_iterator<Iterator>& lhs,
-			const reverse_iterator<Iterator>& rhs) { return lhs._iterator >= rhs._iterator; }
+			friend bool operator==(const reverse_iterator<Iterator>& lhs,
+				const reverse_iterator<Iterator>& rhs) { return lhs._iterator == rhs._iterator; }
+			friend bool operator!=(const reverse_iterator<Iterator>& lhs,
+				const reverse_iterator<Iterator>& rhs) { return lhs._iterator != rhs._iterator; }
+			friend bool operator<(const reverse_iterator<Iterator>& lhs,
+				const reverse_iterator<Iterator>& rhs) { return lhs._iterator < rhs._iterator; }
+			friend bool operator<=(const reverse_iterator<Iterator>& lhs,
+				const reverse_iterator<Iterator>& rhs) { return lhs._iterator <= rhs._iterator; }
+			friend bool operator>(const reverse_iterator<Iterator>& lhs,
+				const reverse_iterator<Iterator>& rhs) { return lhs._iterator > rhs._iterator; }
+			friend bool operator>=(const reverse_iterator<Iterator>& lhs,
+				const reverse_iterator<Iterator>& rhs) { return lhs._iterator >= rhs._iterator; }
 
 		private :
 			iterator_type		_iterator;

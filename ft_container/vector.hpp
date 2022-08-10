@@ -35,7 +35,7 @@ namespace ft
 			typedef	typename allocator_type::pointer 			pointer;			// T *
 			typedef	typename allocator_type::const_pointer 		const_pointer;		// const T *
 			typedef int											difference_type;	// pour marquer les diff d'objets entre 2 ptr
-
+			
 		// CONSTRUCTEURS/DESTRUCTEUR
 			explicit vector(const allocator_type & alloc = allocator_type()) 		// CONSTR #1
 			: _n(0)
@@ -65,7 +65,7 @@ namespace ft
 				cout << endl << "(" << this << " - fill) vector created" << endl;
 			}
 			
-			// le typedef SFINAE (dans la classe iterator) force le choix de l'overload
+			// le typedef SFINAE dans random_access_iterator force le choix pour ce constructeur (car 2 args comme le #2)
 			template <typename InputIterator>										// CONSTR #3
 			vector(InputIterator first, InputIterator last, 
 				const allocator_type & alloc = allocator_type(), 
@@ -107,7 +107,6 @@ namespace ft
 				{
 					x.get_allocator().construct(this->_pointer, *first);
 					++first;
-					// cout << &this->_pointer[0] << " = " << *this->_pointer << endl;
 					this->_pointer++;
 				}
 				this->_pointer--;
@@ -123,7 +122,7 @@ namespace ft
 			}
 
 		// ITERATORS
-			// spécialisation grâce à un char pour utiliser l'instanciation NON-CONST du template random_access_iterator
+			// spécialisation grâce à un char pour utiliser la spécialisation NON-CONST du template random_access_iterator
 			class iterator : public ft::random_access_iterator<T, char>
 			{	
 				public : 
@@ -136,7 +135,7 @@ namespace ft
 			iterator begin() { return iterator(this->_first); };
 			iterator end() { return iterator(this->_last + 1); };
 
-			// spécialisation grâce à un int pour utiliser l'instanciation CONST du template random_access_iterator
+			// spécialisation grâce à un int pour utiliser spécialisation CONST du template random_access_iterator
 			class const_iterator : public ft::random_access_iterator<T, int>
 			{	
 				public : 
@@ -146,8 +145,21 @@ namespace ft
 					const_iterator() { this->_p = 0; }
 					~const_iterator() {}
 			};
-			const_iterator begin() const { return const_iterator(this->_first); };
-			const_iterator end() const { return const_iterator(this->_last + 1); };
+			const_iterator begin() const { return const_iterator(this->_first); }
+			const_iterator end() const { return const_iterator(this->_last + 1); }
+			const_iterator cbegin() const { return const_iterator(this->_first); }
+			const_iterator cend() const { return const_iterator(this->_last + 1); }
+
+		// REVERSE ITERATORS
+			typedef ft::reverse_iterator<typename ft::vector<T>::iterator> 			reverse_iterator;
+			typedef const ft::reverse_iterator<typename ft::vector<T>::iterator> 	const_reverse_iterator;
+			
+			reverse_iterator rbegin() { reverse_iterator from(this->_last + 1); return from; }
+			const_reverse_iterator rbegin() const { const_reverse_iterator from(this->_last + 1); return from; }
+			reverse_iterator rend() { reverse_iterator until(this->_first); return until; }
+			const_reverse_iterator rend() const { const_reverse_iterator until(this->_first); return until; }
+			const_reverse_iterator crbegin() const { const_reverse_iterator from(this->_last + 1); return from; }
+			const_reverse_iterator crend() const { const_reverse_iterator until(this->_first); return until; }
 
 		// ELEMENT ACCESS:
 			reference front() 									{ return *this->_first; }
