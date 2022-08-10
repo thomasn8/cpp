@@ -55,8 +55,8 @@ namespace ft
 				this->_first = this->_pointer;
 				for (size_type i = 0; i < n; i++)
 				{
-					// this->_alloc.construct(this->_pointer, val+i);	// ENLEVER LE +1 (de val+1), car juste pour tester
-					this->_alloc.construct(this->_pointer, val);
+					this->_alloc.construct(this->_pointer, val+i-1);	// ENLEVER LE +1 (de val+1), car juste pour tester
+					// this->_alloc.construct(this->_pointer, val);
 					this->_pointer++;
 				}
 				this->_pointer--;
@@ -123,6 +123,7 @@ namespace ft
 			}
 
 		// ITERATORS
+			// spécialisation grâce à un char pour utiliser l'instanciation NON-CONST du template random_access_iterator
 			class iterator : public ft::random_access_iterator<T, char>
 			{	
 				public : 
@@ -135,7 +136,7 @@ namespace ft
 			iterator begin() { return iterator(this->_first); };
 			iterator end() { return iterator(this->_last + 1); };
 
-			// spécialisation grâce à un int pour utiliser la bonne instanciation du template random_access_iterator
+			// spécialisation grâce à un int pour utiliser l'instanciation CONST du template random_access_iterator
 			class const_iterator : public ft::random_access_iterator<T, int>
 			{	
 				public : 

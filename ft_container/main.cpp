@@ -2,6 +2,9 @@
 #include "Test.hpp"
 #include "iterator_traits.hpp"
 
+#include <iostream>
+#include <vector>
+
 using namespace std;
 
 template<class It>
@@ -115,8 +118,8 @@ int main()
 	// cout << endl;
 
 	// cout << sizeof(Test) << endl;
-	ft::vector<Test> vec3(3, 10);
-	cout << endl;
+	// ft::vector<Test> vec3(3, 10);
+	// cout << endl;
 
 	// ft::vector<Test> myvector;
 	// Test * p;
@@ -150,8 +153,8 @@ int main()
 	{
 		cout << &fill[i] << ": " << fill[i] << endl;
 	}
-	*fill = 111;
-	fill[9] = 999;
+	// *fill = 111;
+	// fill[9] = 999;
 
 	ft::vector<int>::iterator it = fill.begin();
 	ft::vector<int>::iterator ite = fill.end();
@@ -183,14 +186,50 @@ int main()
 
 
 	// **************************************************************
-	// CONSTR 1-2 FONCTIONNE MAIS PAS LE 3
+	// TEST REVERSER_ITERATOR
 	typedef ft::vector<int>::iterator	iter_type;
-	ft::reverse_iterator<iter_type> rev_it1(it);
-	typedef ft::reverse_iterator<iter_type>	rev;
-	ft::reverse_iterator< rev > rev_it2(rev_it1);
-	// ft::reverse_iterator<iter_type> const & rev_it1_ref = rev_it1;
-	// ft::reverse_iterator< ft::reverse_iterator<iter_type> > rev_it2(rev_it1_ref);
+	ft::reverse_iterator<iter_type> r_until(it);
+	ft::reverse_iterator<iter_type> r_from(ite);
+	// typedef ft::reverse_iterator<iter_type>	rev;
+	// ft::reverse_iterator< rev > rev_it2(r_until);
+
+	cout << endl << "REVERSE IT: " << endl;
+	cout << "from:		" << *it << endl;			
+	cout << "until:		" << *ite << endl;		
+	cout << "rev_from:	" << *r_from << endl;		
+	cout << "rev_until:	" << *r_until << endl;	
+	// cout << "rev_until:	" << *(r_until - 1) << endl;
+
+	// cout << endl << "REVERSE IT: " << endl;
+	cout << r_from[2] << endl;
+	cout << "rev_from:	" << *r_from << endl;		
+	cout << "distance = " << r_from - r_until << endl;		
+	cout << "distance = " << r_until - r_from << endl;		
 	// **************************************************************
+	cout << endl << "STD: ";
+	std::vector<int> myvector;
+	for (int i=0; i<10; i++) myvector.push_back(i);
+  	typedef std::vector<int>::iterator std_iter_type;			// ? 0 1 2 3 4 5 6 7 8 9 ?
+  	std_iter_type from (myvector.begin());						//   ^
+  	std_iter_type until (myvector.end());						//                       ^
+  	std::reverse_iterator<std_iter_type> rev_until (from);		// ^
+  	std::reverse_iterator<std_iter_type> rev_from (until);		//                     ^
+
+	cout << endl << "REVERSE IT: " << endl;
+	cout << "from:		" << *from << endl;						//   ^
+	cout << "until:		" << *until << endl;					//                        ^
+	cout << "rev_from:	" << *rev_from << endl;					//                     ^
+	cout << "rev_until:	" << *rev_until << endl;				// ^
+	cout << "rev_until:	" << *(rev_until - 1) << endl;			//   ^ 
+	cout << rev_from[2] << endl;
+	cout << "rev_from:	" << *rev_from << endl;					//                     ^
+	cout << "distance = " << rev_from - rev_until << endl;		
+	cout << "distance = " << rev_until - rev_from << endl;		
+
+	// std::cout << "myvector:";
+  	// while (rev_from != rev_until)
+    // 	std::cout << ' ' << *rev_from++;
+  	// std::cout << '\n';
 
 	return 0;
 }

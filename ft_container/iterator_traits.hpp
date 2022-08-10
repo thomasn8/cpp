@@ -16,8 +16,6 @@ namespace ft
 			typedef typename	T::pointer				pointer;
 			typedef typename	T::reference			reference;
 			typedef typename	T::iterator_category	iterator_category;
-			
-			iterator_traits(){ std::cout << "SAJHDJFGASDJHKKASHJFKSDAGFSAHDJFSDHJAGS 1" << std::endl; return; }
 	};
 
 	template <typename T>
@@ -29,8 +27,6 @@ namespace ft
 			typedef T *								pointer;
 			typedef T &								reference;
 			typedef ft::random_access_iterator_tag	iterator_category;
-			
-			iterator_traits(){ std::cout << "SAJHDJFGASDJHKKASHJFKSDAGFSAHDJFSDHJAGS 2" << std::endl; return; }
 	};
 
 	template <typename T>
@@ -42,9 +38,6 @@ namespace ft
 			typedef const T *						pointer;
 			typedef const T &						reference;
 			typedef ft::random_access_iterator_tag	iterator_category;
-			
-		
-		iterator_traits(){ std::cout << " SAJHDJFGASDJHKKASHJFKSDAGFSAHDJFSDHJAGS 3" << std::endl; return; }
 	};
 
 }

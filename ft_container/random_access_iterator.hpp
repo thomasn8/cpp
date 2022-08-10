@@ -1,9 +1,6 @@
 #ifndef RANDOM_ACCESS_ITERATOR_HPP
 # define RANDOM_ACCESS_ITERATOR_HPP
 
-#include <iostream>
-using namespace std;
-
 namespace ft
 {
 	class random_access_iterator_tag {};
@@ -23,10 +20,10 @@ namespace ft
 			typedef int 						SFINAE_condition;	// force le choix de l'overload entre les constructeurs d'une outer-class
 
 		// CONSTRUCTEURS/DESTRUCTEUR
-			random_access_iterator() : _p(0) {cout << endl << "(" << this << " default - #1) it created" << endl;}										// default
-			random_access_iterator(pointer p) : _p(p) {cout << endl << "(" << this << " special - #2) it created" << endl;}							// special
-			random_access_iterator(reference src) : _p(src.getP()) {cout << endl << "(" << this << " copy - #3) it created" << endl;}				// copy
-			virtual ~random_access_iterator() {cout << endl << "(" << this << " - #1) it destroyed" << endl;}
+			random_access_iterator() : _p(0) {}										// default
+			random_access_iterator(pointer p) : _p(p) {}							// special
+			random_access_iterator(reference src) : _p(src.getP()) {}				// copy
+			virtual ~random_access_iterator() {}
 		
 		// ACCESSEURS
 			pointer getP() const { return this->_p; }

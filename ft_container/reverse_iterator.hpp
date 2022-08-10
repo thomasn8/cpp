@@ -22,42 +22,23 @@ namespace ft
 
 
 		// CONSTRUCTEURS/DESTRUCTEUR
-			reverse_iterator(void)
-			{
-				_iterator = Iterator();
-				cout << endl << "(" << this << " - #1) rev_it created" << endl;
-				return;
-			}
-
-			explicit reverse_iterator(iterator_type it) : _iterator(it)
-			{
-				// Constructs a reverse iterator from some original iterator it. 
-				// The behavior of the constructed object replicates the original, 
-				// except that it iterates through its pointed elements in the reverse order.
-				cout << endl << "(" << this << " - #2) rev_it created" << endl;
-				return;
-			}
-
-			reverse_iterator(const reverse_iterator<Iterator> & rev_it)
-			{
-				// Constructs a reverse iterator from some other reverse iterator. 
-				// The constructed object keeps the same sense of iteration as rev_it.
-				this->_iterator = rev_it._iterator;
-				cout << endl << "(" << this << " - #3) rev_it created" << endl;
-				return;
-			}
-
+			reverse_iterator(void) { _iterator = Iterator(); }
+			explicit reverse_iterator(iterator_type it) : _iterator(it) {}
+			reverse_iterator(const reverse_iterator<Iterator> & rev_it) { this->_iterator = rev_it._iterator; }
 			virtual ~reverse_iterator() {}
 		
 		// ACCESSEURS
 			// ...
 
 		// // SURCHARGES
-		// 	it & operator=(it const & src) { this->_p = src.getP(); return *this; }		// assign 
-		// 	value_type & operator*() { return *_p; }
-		// 	reference operator[](unsigned int index) { return this->_p[index]; }	
-		// 	pointer operator->() { return _p;  }
-		// 	friend difference_type operator-(const it & a, const it & b) { return static_cast<int>(a._p - b._p); }
+			value_type & operator*() { return *(_iterator - 1); }
+			reference operator[](unsigned int index) { return *(this->_iterator - (index + 1)); }
+			pointer operator->() { return (_iterator - 1);  }
+			friend difference_type operator-(const reverse_iterator<Iterator> & a, const reverse_iterator<Iterator> & b) 
+			{ 
+				return static_cast<int>(b._iterator - a._iterator);
+			}
+			// friend difference_type operator-(const it & a, const it & b) { return static_cast<int>(a._p - b._p); }
 
 		// 	it & operator++() { ++this->_p; return *this; }
 		// 	it operator++(value_type) { random_access_iterator_tag tmp(*this); this->_p++; return tmp; }
