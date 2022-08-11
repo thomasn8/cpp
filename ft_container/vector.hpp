@@ -6,6 +6,12 @@
 	which implies allocating a new array and moving all elements to it. 
 	This is a relatively expensive task in terms of processing time, and thus, 
 	vectors do not reallocate each time an element is added to the container.
+
+	Under the hood, a vector just uses an array. 
+	The capacity of the vector is the size of that array. 
+	This is always equal to or larger than the size. 
+	The difference between them is the number of elements that you can add 
+	to the vector before the array under the hood needs to be reallocated
 	
 */
 
@@ -160,6 +166,18 @@ namespace ft
 			const_reverse_iterator rend() const { const_reverse_iterator until(this->_first); return until; }
 			const_reverse_iterator crbegin() const { const_reverse_iterator from(this->_last + 1); return from; }
 			const_reverse_iterator crend() const { const_reverse_iterator until(this->_first); return until; }
+		
+		// CAPACITY
+			size_type size() const 								{ return this->_n; }
+	// This is the number of actual objects held in the vector, 
+	// which is not necessarily equal to its storage capacity.
+			size_type capacity() const							{ return ; }
+	// This capacity is not necessarily equal to the vector size. 
+	// It can be equal or greater, with the extra space allowing to accommodate 
+	// for growth without the need to reallocate on each insertion.
+	// When this capacity is exhausted and more is needed, 
+	// it is automatically expanded by the container (reallocating it storage space)
+
 
 		// ELEMENT ACCESS:
 			reference front() 									{ return *this->_first; }
@@ -168,7 +186,15 @@ namespace ft
 			const_reference back() const 						{ return *this->_last; }
 
 		// CAPACITY
-			size_type size() const 								{ return this->_n; }
+			void push_back(const value_type & val)
+			{
+	// Adds a new element at the end of the vector, after its current last element. 
+	// The content of val is copied (or moved) to the new element.
+	// This effectively increases the container size by one, which causes an automatic 
+	// reallocation of the allocated storage space 
+	// IF -AND ONLY IF- THE NEW VECTOR SIZE SURPASSES THE CURRENT VECTOR CAPACITY.
+
+			}
 
 		// ALLOCATOR
 			allocator_type get_allocator() const 				{ return this->_alloc; }
