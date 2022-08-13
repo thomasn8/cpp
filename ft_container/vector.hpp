@@ -106,8 +106,8 @@ namespace ft
 			vector(const vector & x) :												// CONSTR #4
 			 _capacityFactor(1)
 			{
-				vector::const_iterator first = x.begin();
-				vector::const_iterator last = x.end();
+				vector::iterator first = x.begin();
+				vector::iterator last = x.end();
 
 				this->_n = x.size();
 				this->_c = this->_n;
@@ -202,8 +202,8 @@ namespace ft
 				else
 				{
 					// reallocate all the vector
-					vector::const_iterator old_first = this->begin();
-					vector::const_iterator old_last = this->end();
+					vector::iterator old_first = this->begin();
+					vector::iterator old_last = this->end();
 					this->_capacityFactor *= 2;
 					size_type new_capacity = this->_c * this->_capacityFactor;
 					this->_pointer = this->_alloc.allocate(new_capacity + 1);
@@ -214,16 +214,18 @@ namespace ft
 						++old_first;
 						this->_pointer++;
 					}
+					this->_alloc.construct(this->_pointer, val);
 
 					// deallocate the old vector
 					this->_alloc.deallocate(this->_first, this->_n);
 
 					// reset the variables to the new vector
 					this->_first = new_first;
-					this->_pointer--;
+					// this->_pointer--;
 					this->_last = this->_pointer;
 					this->_c = new_capacity;
-					cout << endl << "(" << this << " - push_back) vector reallocated" << endl;
+					cout << endl << "(" << this << " - push_back) vector reallocated -> ";
+					cout << "new capacity = " << this->_c << endl;
 				}
 				this->_n++;
 			}

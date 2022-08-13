@@ -266,10 +266,30 @@ int main()
 	// ********************************************************
 	// TEST MODIFIERS
 	ft::vector<int> fill(10, 1);
-	for (int i = 0; i < 10; i++)
-	{
+	cout << "Size = " << fill.size() << " | Capacity = " << fill.capacity() << endl;
+
+	for (size_t i = 0; i < fill.size(); i++)
 		cout << &fill[i] << ": " << fill[i] << endl;
+
+	fill.push_back(19);
+
+	ft::vector<int>::iterator it = fill.begin();
+	ft::vector<int>::iterator ite = fill.end();
+	while (it != ite)
+	{
+		cout << &(*it) << ": " << *it << endl;
+		it++;
 	}
+	it = fill.begin();
+	cout << "First: " << *it << endl;
+	cout << "Second: " << *(it + 1) << endl;
+	cout << "Last: " << *(ite - 1) << endl;
+	cout << "Out of range: " << *ite << endl;
+
+	// for (size_t i = fill.size(); i < fill.capacity(); i++)
+	// {
+	// 	fill.push_back()
+	// }
 
 	return 0;
 }
