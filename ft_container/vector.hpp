@@ -44,7 +44,7 @@ namespace ft
 			
 		// CONSTRUCTEURS/DESTRUCTEUR
 			explicit vector(const allocator_type & alloc = allocator_type()) 		// CONSTR #1
-			: _n(0)
+			: _n(0), _c(0), _capacityFactor(1)
 			{
 				this->_pointer = this->_alloc.allocate(1);
 				this->_first = this->_pointer;
@@ -55,7 +55,7 @@ namespace ft
 
 			explicit vector(size_type n, const value_type & val = value_type(), 	// CONSTR #2
 				const allocator_type & alloc = allocator_type())
-			: _n(n)
+			: _n(n), _c(n), _capacityFactor(1)
 			{
 				this->_pointer = this->_alloc.allocate(n + 1);
 				this->_first = this->_pointer;
@@ -75,9 +75,11 @@ namespace ft
 			template <typename InputIterator>										// CONSTR #3
 			vector(InputIterator first, InputIterator last, 
 				const allocator_type & alloc = allocator_type(), 
-				typename InputIterator::SFINAE_condition = 0)
+				typename InputIterator::SFINAE_condition = 0) : 
+				_capacityFactor(1)
 			{
 				this->_n = last - first;
+				this->_c = this->_n;
 				if (this->_n)
 				{
 					this->_pointer = this->_alloc.allocate(this->_n + 1);
@@ -101,12 +103,14 @@ namespace ft
 				cout << endl << "(" << this << " - range) vector created" << endl;
 			}
 
-			vector(const vector & x)												// CONSTR #4
+			vector(const vector & x) :												// CONSTR #4
+			 _capacityFactor(1)
 			{
 				vector::const_iterator first = x.begin();
 				vector::const_iterator last = x.end();
 
 				this->_n = x.size();
+				this->_c = this->_n;
 				this->_pointer = x.get_allocator().allocate(this->_n + 1);
 				this->_first = this->_pointer;
 				while (first != last)
@@ -167,18 +171,6 @@ namespace ft
 			const_reverse_iterator crbegin() const { const_reverse_iterator from(this->_last + 1); return from; }
 			const_reverse_iterator crend() const { const_reverse_iterator until(this->_first); return until; }
 		
-		// CAPACITY
-			size_type size() const 								{ return this->_n; }
-	// This is the number of actual objects held in the vector, 
-	// which is not necessarily equal to its storage capacity.
-			size_type capacity() const							{ return ; }
-	// This capacity is not necessarily equal to the vector size. 
-	// It can be equal or greater, with the extra space allowing to accommodate 
-	// for growth without the need to reallocate on each insertion.
-	// When this capacity is exhausted and more is needed, 
-	// it is automatically expanded by the container (reallocating it storage space)
-
-
 		// ELEMENT ACCESS:
 			reference front() 									{ return *this->_first; }
 			const_reference front() const 						{ return *this->_first; }
@@ -186,14 +178,54 @@ namespace ft
 			const_reference back() const 						{ return *this->_last; }
 
 		// CAPACITY
+			// This is the number of actual objects held in the vector, 
+			// which is not necessarily equal to its storage capacity.
+			size_type size() const 								{ return this->_n; }
+
+			// This capacity is not necessarily equal to the vector size. 
+			// It can be equal or greater, with the extra space allowing to accommodate 
+			// for growth without the need to reallocate on each insertion.
+			// When this capacity is exhausted and more is needed, 
+			// it is automatically expanded by the container (reallocating it storage space)
+			size_type capacity() const							{ return this->_c; }
+
+			// void reserve (size_type n);
+
+		// MODIFIERS
 			void push_back(const value_type & val)
 			{
-	// Adds a new element at the end of the vector, after its current last element. 
-	// The content of val is copied (or moved) to the new element.
-	// This effectively increases the container size by one, which causes an automatic 
-	// reallocation of the allocated storage space 
-	// IF -AND ONLY IF- THE NEW VECTOR SIZE SURPASSES THE CURRENT VECTOR CAPACITY.
+				if (this->_n + 1 <= this->_c)
+				{
+					this->_alloc.construct(this->_last, val);
+					this->_last++;
+				}
+				else
+				{
+					// reallocate all the vector
+					vector::const_iterator old_first = this->begin();
+					vector::const_iterator old_last = this->end();
+					this->_capacityFactor *= 2;
+					size_type new_capacity = this->_c * this->_capacityFactor;
+					this->_pointer = this->_alloc.allocate(new_capacity + 1);
+					pointer new_first = this->_pointer;
+					while (old_first != old_last)
+					{
+						this->_alloc.construct(this->_pointer, *old_first);
+						++old_first;
+						this->_pointer++;
+					}
 
+					// deallocate the old vector
+					this->_alloc.deallocate(this->_first, this->_n);
+
+					// reset the variables to the new vector
+					this->_first = new_first;
+					this->_pointer--;
+					this->_last = this->_pointer;
+					this->_c = new_capacity;
+					cout << endl << "(" << this << " - push_back) vector reallocated" << endl;
+				}
+				this->_n++;
 			}
 
 		// ALLOCATOR
@@ -207,11 +239,14 @@ namespace ft
 			const_reference operator[](size_type index) const	{ return this->_first[index]; }
 
 		private :
-			Alloc			_alloc;		// the default allocator
-			size_type		_n;			// number of elements in container
-			pointer			_first;		// first element
-			pointer			_last;		// last element
-			pointer			_pointer;	// random pointer for multi-usage
+
+			Alloc			_alloc;				// the default allocator
+			size_type		_n;					// size: number of elements in container
+			size_type		_c;					// capacity: storage space expressed in terms of elements
+			size_type		_capacityFactor;	// incremental factor for capacity reallocation
+			pointer			_first;				// first element
+			pointer			_last;				// last element
+			pointer			_pointer;			// random pointer for multi-usage
 
 	};
 

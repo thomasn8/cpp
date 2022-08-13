@@ -148,16 +148,16 @@ int main()
 	// 	cout << &range[i] << ": " << range[i] << endl;
 	// }
 
-	ft::vector<int> fill(10, 1);
-	for (int i = 0; i < 10; i++)
-	{
-		cout << &fill[i] << ": " << fill[i] << endl;
-	}
+	// ft::vector<int> fill(10, 1);
+	// for (int i = 0; i < 10; i++)
+	// {
+	// 	cout << &fill[i] << ": " << fill[i] << endl;
+	// }
 	// *fill = 111;
 	// fill[9] = 999;
 
-	ft::vector<int>::iterator it = fill.begin();
-	ft::vector<int>::iterator ite = fill.end();
+	// ft::vector<int>::iterator it = fill.begin();
+	// ft::vector<int>::iterator ite = fill.end();
 	// ft::vector<int> range(it, ite);
 	// for (int i = 0; i < 10; i++)
 	// {
@@ -187,80 +187,89 @@ int main()
 
 	// **************************************************************
 	// TESTS REVERSER_ITERATOR
-	typedef ft::vector<int>::iterator	iter_type;
-	ft::reverse_iterator<iter_type> r_until(it);
-	ft::reverse_iterator<iter_type> r_from(ite);
-	// typedef ft::reverse_iterator<iter_type>	rev;
-	// ft::reverse_iterator< rev > rev_it2(r_until);
+	// typedef ft::vector<int>::iterator	iter_type;
+	// ft::reverse_iterator<iter_type> r_until(it);
+	// ft::reverse_iterator<iter_type> r_from(ite);
+	// // typedef ft::reverse_iterator<iter_type>	rev;
+	// // ft::reverse_iterator< rev > rev_it2(r_until);
 
-	cout << endl << "REVERSE IT: " << endl;
-	cout << "from:		" << *it << endl;			
-	cout << "until:		" << *ite << " (out of range)" << endl;		
-	cout << "rev_from:	" << *r_from << endl;		
-	cout << "rev_until:	" << *r_until << " (out of range)" << endl;
-	cout << "rev_until - 2:	" << *(r_until - 2) << endl;
-	cout << "rev_from + 2:	" << r_from[2] << endl;
-	cout << "distance = " << r_from - r_until << endl;		
-	cout << "distance = " << r_until - r_from << endl;
+	// cout << endl << "REVERSE IT: " << endl;
+	// cout << "from:		" << *it << endl;			
+	// cout << "until:		" << *ite << " (out of range)" << endl;		
+	// cout << "rev_from:	" << *r_from << endl;		
+	// cout << "rev_until:	" << *r_until << " (out of range)" << endl;
+	// cout << "rev_until - 2:	" << *(r_until - 2) << endl;
+	// cout << "rev_from + 2:	" << r_from[2] << endl;
+	// cout << "distance = " << r_from - r_until << endl;		
+	// cout << "distance = " << r_until - r_from << endl;
 
-	ft::reverse_iterator<iter_type> ft_rev_it;
+	// ft::reverse_iterator<iter_type> ft_rev_it;
 	// ft::reverse_iterator<iter_type> ft_rev_it2;
   	// ft_rev_it = it;
 	// ft_rev_it2 = r_from;
 	// cout << "ft_rev_it:		" << *ft_rev_it << endl;			
 	// cout << "ft_rev_it2:		" << *ft_rev_it2 << endl;		
-  	ft_rev_it = r_from +3;	
-	std::cout << "The fourth element from the end is: " << *ft_rev_it << '\n';
-	ft_rev_it = 3 + r_from;	
-	std::cout << "The fourth element from the end is: " << *ft_rev_it << '\n';		
-	ft_rev_it = r_until - 3;
-	std::cout << "myvector.rend()-3 points to: " << *ft_rev_it << '\n';
+  	// ft_rev_it = r_from +3;	
+	// std::cout << "The fourth element from the end is: " << *ft_rev_it << '\n';
+	// ft_rev_it = 3 + r_from;	
+	// std::cout << "The fourth element from the end is: " << *ft_rev_it << '\n';		
+	// ft_rev_it = r_until - 3;
+	// std::cout << "myvector.rend()-3 points to: " << *ft_rev_it << '\n';
 
-	cout << "rev_from:	" << *r_from << endl;
-	r_from++;
-	cout << "rev_from:	" << *r_from << endl;
-	++r_from;
-	cout << "rev_from:	" << *r_from << endl;		
-	r_from--;
-	cout << "rev_from:	" << *r_from << endl;
-	--r_from;
-	cout << "rev_from:	" << *r_from << endl;
+	// cout << "rev_from:	" << *r_from << endl;
+	// r_from++;
+	// cout << "rev_from:	" << *r_from << endl;
+	// ++r_from;
+	// cout << "rev_from:	" << *r_from << endl;		
+	// r_from--;
+	// cout << "rev_from:	" << *r_from << endl;
+	// --r_from;
+	// cout << "rev_from:	" << *r_from << endl;
 	
-	r_from+= 4;
-	cout << "rev_from:	" << *r_from << endl;
-	r_from-= 4;
-	cout << "rev_from:	" << *r_from << endl;
+	// r_from+= 4;
+	// cout << "rev_from:	" << *r_from << endl;
+	// r_from-= 4;
+	// cout << "rev_from:	" << *r_from << endl;
 
-  	cout << "myvector:";
-	for (iter_type iti = r_until.base(); iti != r_from.base(); ++iti)
-    	std::cout << ' ' << *iti;
-	cout << endl;
+  	// cout << "myvector:";
+	// for (iter_type iti = r_until.base(); iti != r_from.base(); ++iti)
+    // 	std::cout << ' ' << *iti;
+	// cout << endl;
 
-	cout << "BOOL ? " << bool(r_until != r_from) << endl;
-	cout << "BOOL ? " << bool(r_until == r_from) << endl;
-	cout << "BOOL ? " << bool(r_until < r_from) << endl;
-	cout << "BOOL ? " << bool(r_until <= r_from) << endl;
-	cout << "BOOL ? " << bool(r_until > r_from) << endl;
-	cout << "BOOL ? " << bool(r_until >= r_from) << endl;
+	// cout << "BOOL ? " << bool(r_until != r_from) << endl;
+	// cout << "BOOL ? " << bool(r_until == r_from) << endl;
+	// cout << "BOOL ? " << bool(r_until < r_from) << endl;
+	// cout << "BOOL ? " << bool(r_until <= r_from) << endl;
+	// cout << "BOOL ? " << bool(r_until > r_from) << endl;
+	// cout << "BOOL ? " << bool(r_until >= r_from) << endl;
 	
-	ft::reverse_iterator<iter_type> from = fill.rbegin();
-	cout << "FROM: " << *from << endl;
-	ft::reverse_iterator<iter_type> const from2 = fill.rbegin();
-	cout << "FROM: " << *from2 << endl;
-	ft::reverse_iterator<iter_type> const from3 = fill.crbegin();
-	cout << "FROM: " << *from3 << endl;
+	// ft::reverse_iterator<iter_type> from = fill.rbegin();
+	// cout << "FROM: " << *from << endl;
+	// ft::reverse_iterator<iter_type> const from2 = fill.rbegin();
+	// cout << "FROM: " << *from2 << endl;
+	// ft::reverse_iterator<iter_type> const from3 = fill.crbegin();
+	// cout << "FROM: " << *from3 << endl;
 	
-	ft::reverse_iterator<iter_type> until = fill.rend();
-	cout << "UNTIL: " << *until << " (out of range)" << endl;
-	ft::reverse_iterator<iter_type> const until2 = fill.rend();
-	cout << "UNTIL: " << *until2 << " (out of range)" << endl;
-	ft::reverse_iterator<iter_type> const until3 = fill.crend();
-	cout << "UNTIL: " << *until3 << " (out of range)" << endl;
+	// ft::reverse_iterator<iter_type> until = fill.rend();
+	// cout << "UNTIL: " << *until << " (out of range)" << endl;
+	// ft::reverse_iterator<iter_type> const until2 = fill.rend();
+	// cout << "UNTIL: " << *until2 << " (out of range)" << endl;
+	// ft::reverse_iterator<iter_type> const until3 = fill.crend();
+	// cout << "UNTIL: " << *until3 << " (out of range)" << endl;
 
 	// ft::vector<int>::iterator test = fill.begin();
 	// cout << "FROM: " << *test << endl;
 	// *test = 500;
 	// cout << "FROM: " << *test << endl;
+
+
+	// ********************************************************
+	// TEST MODIFIERS
+	ft::vector<int> fill(10, 1);
+	for (int i = 0; i < 10; i++)
+	{
+		cout << &fill[i] << ": " << fill[i] << endl;
+	}
 
 	return 0;
 }
