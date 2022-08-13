@@ -201,28 +201,29 @@ namespace ft
 				}
 				else
 				{
-					// reallocate all the vector
+					// reallocate all the vector increasing capacity
 					vector::iterator old_first = this->begin();
 					vector::iterator old_last = this->end();
-					this->_capacityFactor *= 2;
+					// this->_capacityFactor *= 2;
+					this->_capacityFactor = 2;
 					size_type new_capacity = this->_c * this->_capacityFactor;
 					this->_pointer = this->_alloc.allocate(new_capacity + 1);
 					pointer new_first = this->_pointer;
-					while (old_first != old_last)
+					while (old_first != old_last - 1)
 					{
+						cout << "Old_first = " << *old_first << " | Old_last = " << *old_last << endl;
 						this->_alloc.construct(this->_pointer, *old_first);
-						++old_first;
+						old_first++;
 						this->_pointer++;
 					}
 					this->_alloc.construct(this->_pointer, val);
 
 					// deallocate the old vector
-					this->_alloc.deallocate(this->_first, this->_n);
+					this->_alloc.deallocate(this->_first, this->_c + 1);
 
 					// reset the variables to the new vector
 					this->_first = new_first;
-					// this->_pointer--;
-					this->_last = this->_pointer;
+					this->_last = this->_pointer + 1;
 					this->_c = new_capacity;
 					cout << endl << "(" << this << " - push_back) vector reallocated -> ";
 					cout << "new capacity = " << this->_c << endl;
