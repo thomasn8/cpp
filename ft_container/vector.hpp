@@ -44,7 +44,7 @@ namespace ft
 			
 		// CONSTRUCTEURS/DESTRUCTEUR
 			explicit vector(const allocator_type & alloc = allocator_type()) 		// CONSTR #1
-			: _n(0), _c(0), _capacityFactor(1)
+			: _n(0), _c(0), _capacityFactor(2)
 			{
 				this->_pointer = this->_alloc.allocate(1);
 				this->_first = this->_pointer;
@@ -55,13 +55,13 @@ namespace ft
 
 			explicit vector(size_type n, const value_type & val = value_type(), 	// CONSTR #2
 				const allocator_type & alloc = allocator_type())
-			: _n(n), _c(n), _capacityFactor(1)
+			: _n(n), _c(n), _capacityFactor(2)
 			{
 				this->_pointer = this->_alloc.allocate(n + 1);
 				this->_first = this->_pointer;
 				for (size_type i = 0; i < n; i++)
 				{
-					this->_alloc.construct(this->_pointer, val+i-1);	// ENLEVER LE +1 (de val+1), car juste pour tester
+					this->_alloc.construct(this->_pointer, val+i);	// ENLEVER LE +1 (de val+1), car juste pour tester
 					// this->_alloc.construct(this->_pointer, val);
 					this->_pointer++;
 				}
@@ -76,7 +76,7 @@ namespace ft
 			vector(InputIterator first, InputIterator last, 
 				const allocator_type & alloc = allocator_type(), 
 				typename InputIterator::SFINAE_condition = 0) : 
-				_capacityFactor(1)
+				_capacityFactor(2)
 			{
 				this->_n = last - first;
 				this->_c = this->_n;
@@ -104,7 +104,7 @@ namespace ft
 			}
 
 			vector(const vector & x) :												// CONSTR #4
-			 _capacityFactor(1)
+			 _capacityFactor(2)
 			{
 				vector::iterator first = x.begin();
 				vector::iterator last = x.end();
@@ -196,7 +196,7 @@ namespace ft
 			{
 				if (this->_n + 1 <= this->_c)
 				{
-					this->_alloc.construct(this->_last, val);
+					this->_alloc.construct(this->_last + 1, val);
 					this->_last++;
 				}
 				else
@@ -204,28 +204,23 @@ namespace ft
 					// reallocate all the vector increasing capacity
 					vector::iterator old_first = this->begin();
 					vector::iterator old_last = this->end();
-					// this->_capacityFactor *= 2;
-					this->_capacityFactor = 2;
 					size_type new_capacity = this->_c * this->_capacityFactor;
 					this->_pointer = this->_alloc.allocate(new_capacity + 1);
 					pointer new_first = this->_pointer;
-					while (old_first != old_last - 1)
+					while (old_first != old_last)
 					{
-						cout << "Old_first = " << *old_first << " | Old_last = " << *old_last << endl;
 						this->_alloc.construct(this->_pointer, *old_first);
 						old_first++;
 						this->_pointer++;
 					}
 					this->_alloc.construct(this->_pointer, val);
-
 					// deallocate the old vector
 					this->_alloc.deallocate(this->_first, this->_c + 1);
-
 					// reset the variables to the new vector
 					this->_first = new_first;
-					this->_last = this->_pointer + 1;
+					this->_last = this->_pointer;
 					this->_c = new_capacity;
-					cout << endl << "(" << this << " - push_back) vector reallocated -> ";
+					cout << endl << "(" << this << " - push_back) vector reallocated / ";
 					cout << "new capacity = " << this->_c << endl;
 				}
 				this->_n++;

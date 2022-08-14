@@ -267,28 +267,26 @@ int main()
 	// TEST MODIFIERS
 	ft::vector<int> fill(4, 1);
 	cout << "Size = " << fill.size() << " | Capacity = " << fill.capacity() << endl;
-
-	// for (size_t i = 0; i < fill.size(); i++)
-	// 	cout << &fill[i] << ": " << fill[i] << endl;
-
-	// fill.push_back(19);
-
+	fill.push_back(5);
+	fill.push_back(6);
+	fill.push_back(7);
+	fill.push_back(8);
+	fill.push_back(9);
 	ft::vector<int>::iterator it = fill.begin();
 	ft::vector<int>::iterator ite = fill.end();
+	cout << "Size = " << fill.size() << " | Capacity = " << fill.capacity() << endl;
+	cout << "First: " << *it << endl;
+	cout << "Second: " << *(it + 1) << endl;
+	cout << "Last: " << *(ite - 1) << endl;
+	cout << "Out of range: " << *ite << endl;
 	while (it != ite)
 	{
 		cout << &(*it) << ": " << *it << endl;
 		it++;
 	}
-	it = fill.begin();
-	cout << "First: " << *it << endl;
-	cout << "Second: " << *(it + 1) << endl;
-	cout << "Last: " << *(ite - 1) << endl;
-	cout << "Out of range: " << *ite << endl;
-	cout << "Size = " << fill.size() << " | Capacity = " << fill.capacity() << endl;
 
-	int val = 1;
-	for (size_t i = 0; i < 24; i++)
+	int val = 10;
+	for (size_t i = 0; i < 40; i++)
 	{
 		fill.push_back(val);
 		val++;
@@ -305,7 +303,6 @@ int main()
 		cout << &(*it) << ": " << *it << endl;
 		it++;
 	}
-
 	return 0;
 }
 
