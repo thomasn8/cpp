@@ -312,7 +312,7 @@ int main()
 	// cout << "Max size = "<<fill.max_size() << endl;
 	
 	
-	fill.resize(70);
+	fill.resize(10);
 	it = fill.begin();
 	ite = fill.end();
 	cout << "First: " << *it << endl;

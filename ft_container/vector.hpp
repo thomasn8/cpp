@@ -224,8 +224,9 @@ namespace ft
 			{
 				if (n < this->_n)
 				{
-					// erase()
-					return;
+					vector::iterator first(this->_first + n);
+					vector::iterator last = this->end();
+					erase(first, last);
 				}
 				else if (n > this->_n)
 				{
@@ -275,14 +276,17 @@ namespace ft
 				this->_n++;
 				return;
 			}
-			iterator erase(iterator position)
-			{
-
-			}
-			iterator erase(iterator first, iterator last)
-			{
-				
-			}
+			// Removes from the vector either a single element (position) or a range of elements ([first,last)).
+			// This effectively reduces the container size by the number of elements removed, which are destroyed.
+			
+			// iterator erase(iterator position)
+			// {
+					// this->get_allocator().deallocate(this->_first, 1);
+			// }
+			// iterator erase(iterator first, iterator last)
+			// {
+					// this->get_allocator().deallocate(this->_first, last - first);
+			// }
 
 		// ALLOCATOR
 			allocator_type get_allocator() const 				{ return this->_alloc; }
