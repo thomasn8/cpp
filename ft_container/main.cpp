@@ -291,6 +291,28 @@ int main()
 		fill.push_back(val);
 		val++;
 	}
+	
+	// fill.reserve(30);
+	// fill.push_back(10);
+
+	it = fill.begin();
+	ite = fill.end();
+	cout << "First: " << *it << endl;
+	cout << "Second: " << *(it + 1) << endl;
+	cout << "Last: " << *(ite - 1) << endl;
+	cout << "Out of range: " << *ite << endl;
+	cout << "Size = " << fill.size() << " | Capacity = " << fill.capacity() << endl;
+	while (it != ite)
+	{
+		cout << &(*it) << ": " << *it << endl;
+		it++;
+	}
+
+	
+	// cout << "Max size = "<<fill.max_size() << endl;
+	
+	
+	fill.resize(70);
 	it = fill.begin();
 	ite = fill.end();
 	cout << "First: " << *it << endl;
