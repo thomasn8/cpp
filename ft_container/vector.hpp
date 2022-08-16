@@ -245,7 +245,6 @@ namespace ft
 			{
 				if (this->_n + 1 <= this->_c)
 				{
-					// insert the new object in the vector
 					this->_alloc.construct(this->_last + 1, val);
 					this->_last++;
 				}
@@ -254,7 +253,6 @@ namespace ft
 					size_type new_capacity = this->_c * this->_capacityFactor;
 					if (new_capacity > this->max_size())
 						return this->capacity_error();
-					// reallocate all the vector increasing capacity
 					iterator old_first = this->begin();
 					iterator old_last = this->end();
 					this->_pointer = this->_alloc.allocate(new_capacity + 1);
@@ -265,11 +263,8 @@ namespace ft
 						old_first++;
 						this->_pointer++;
 					}
-					// insert the new object in the vector
 					this->_alloc.construct(this->_pointer, val);
-					// deallocate the old vector
 					this->_alloc.deallocate(this->_first, this->_c + 1);
-					// reset the variables to the new vector
 					this->_first = new_first;
 					this->_last = this->_pointer;
 					this->_c = new_capacity;
@@ -279,17 +274,14 @@ namespace ft
 				this->_n++;
 				return;
 			}
+
 			template <typename iterator>
 			iterator erase(iterator position)
 			{
-				// 1 - 2 - 3 - 4 - 5
-				//         ^
-				// 1 - 2 - 4 - 5
-				//         R
-				iterator r_value = position;
-				size_type i = 1;
-				size_type dist = this->_last - position;
-				while (dist)
+				iterator r_value = position;									// 1 - 2 - 3 - 4 - 5
+				size_type i = 1;												//         ^
+				size_type dist = this->_last - position;						// 1 - 2 - 4 - 5
+				while (dist)													//         R
 				{
 					this->_alloc.construct(position.getP(), *(position + i));
 					dist--;
@@ -300,24 +292,20 @@ namespace ft
 				this->_n--;
 				return r_value;
 			}
+			
 			template <typename iterator>
 			iterator erase(iterator first, iterator last)
 			{
-				// 1 - 2 - 3 - 4 - 5 - 6 - 7 - 8 - 9 - 10
-				//         F  ...  L
-				// 1 - 2 - 6 - 7 - 8 - 9 - 10
-				//         R
-				iterator r_value = first;
-				size_type i = 1;
-				size_type dist = this->_last - last;
-				while (dist)
-				{
-					this->_alloc.construct(first.getP(), *(last + i));
+				iterator r_value = first;										// 1 - 2 - 3 - 4 - 5 - 6 - 7 - 8 - 9 - 10
+				size_type dist = this->_last - last + 1;						//         F  ... ...  L
+				while (dist)													// 1 - 2 - 6 - 7 - 8 - 9 - 10
+				{																//         R
+					this->_alloc.construct(first.getP(), *last);
 					dist--;
 					first++;
 					last++;
 				}
-				size_type erased = last - first + 1;
+				size_type erased = last - first;
 				this->_last -= erased;
 				this->_n -= erased;
 				while (erased)
