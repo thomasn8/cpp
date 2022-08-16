@@ -146,6 +146,9 @@ namespace ft
 			iterator begin() { return iterator(this->_first); };
 			iterator end() { return iterator(this->_last + 1); };
 
+			// typedef typename ft::vector<T>::iterator> 			iterator;
+			// typedef typename const ft::vector<T>::iterator> 		const_iterator;
+
 			// spécialisation grâce à un int pour utiliser spécialisation CONST du template random_access_iterator
 			class const_iterator : public ft::random_access_iterator<T, int>
 			{	
@@ -224,8 +227,8 @@ namespace ft
 			{
 				if (n < this->_n)
 				{
-					vector::iterator first(this->_first + n);
-					vector::iterator last = this->end();
+					iterator first(this->_first + n);
+					iterator last = this->end();
 					erase(first, last);
 				}
 				else if (n > this->_n)
@@ -252,8 +255,8 @@ namespace ft
 					if (new_capacity > this->max_size())
 						return this->capacity_error();
 					// reallocate all the vector increasing capacity
-					vector::iterator old_first = this->begin();
-					vector::iterator old_last = this->end();
+					iterator old_first = this->begin();
+					iterator old_last = this->end();
 					this->_pointer = this->_alloc.allocate(new_capacity + 1);
 					pointer new_first = this->_pointer;
 					while (old_first != old_last)
@@ -276,17 +279,54 @@ namespace ft
 				this->_n++;
 				return;
 			}
-			// Removes from the vector either a single element (position) or a range of elements ([first,last)).
-			// This effectively reduces the container size by the number of elements removed, which are destroyed.
-			
-			// iterator erase(iterator position)
-			// {
-					// this->get_allocator().deallocate(this->_first, 1);
-			// }
-			// iterator erase(iterator first, iterator last)
-			// {
-					// this->get_allocator().deallocate(this->_first, last - first);
-			// }
+			template <typename iterator>
+			iterator erase(iterator position)
+			{
+				// 1 - 2 - 3 - 4 - 5
+				//         ^
+				// 1 - 2 - 4 - 5
+				//         R
+				iterator r_value = position;
+				size_type i = 1;
+				size_type dist = this->_last - position;
+				while (dist)
+				{
+					this->_alloc.construct(position.getP(), *(position + i));
+					dist--;
+					position++;
+				}
+				this->get_allocator().destroy(this->_last);
+				this->_last--;
+				this->_n--;
+				return r_value;
+			}
+			template <typename iterator>
+			iterator erase(iterator first, iterator last)
+			{
+				// 1 - 2 - 3 - 4 - 5 - 6 - 7 - 8 - 9 - 10
+				//         F  ...  L
+				// 1 - 2 - 6 - 7 - 8 - 9 - 10
+				//         R
+				iterator r_value = first;
+				size_type i = 1;
+				size_type dist = this->_last - last;
+				while (dist)
+				{
+					this->_alloc.construct(first.getP(), *(last + i));
+					dist--;
+					first++;
+					last++;
+				}
+				size_type erased = last - first + 1;
+				this->_last -= erased;
+				this->_n -= erased;
+				while (erased)
+				{
+					this->get_allocator().destroy(this->_last - erased + 1);
+					erased--;
+				}
+				return r_value;
+			}
 
 		// ALLOCATOR
 			allocator_type get_allocator() const 				{ return this->_alloc; }
