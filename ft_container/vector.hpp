@@ -9,9 +9,6 @@
 
 using namespace std;
 
-# define RED "\033[0;31m"
-# define WHI "\033[0m"
-
 namespace ft
 {
 	template <typename T, typename Alloc = allocator<T> >
@@ -26,7 +23,7 @@ namespace ft
 			typedef typename allocator_type::const_reference 	const_reference;	// const T &
 			typedef	typename allocator_type::pointer 			pointer;			// T *
 			typedef	typename allocator_type::const_pointer 		const_pointer;		// const T *
-			typedef int											difference_type;	// pour marquer les diff d'objets entre 2 ptr
+			typedef int											difference_type;	// pour marquer les distances entre 2 ptr
 			
 		// CONSTRUCTEURS/DESTRUCTEUR
 			explicit vector(const allocator_type & alloc = allocator_type()) 		// CONSTR #1
@@ -39,7 +36,7 @@ namespace ft
 				cout << endl << "(" << this << " - null) vector created" << endl;
 			}
 
-			explicit vector(size_type n, const value_type & val = value_type(), 	// CONSTR #2
+			explicit vector(size_type n, const value_type & val = value_type(), 					// CONSTR #2
 				const allocator_type & alloc = allocator_type())
 			: _n(n), _c(n), _capacityFactor(2)
 			{
@@ -63,7 +60,7 @@ namespace ft
 			}
 			
 			// le typedef SFINAE dans random_access_iterator force le choix pour ce constructeur (car 2 args comme le #2)
-			template <typename InputIterator>										// CONSTR #3
+			template <typename InputIterator>													// CONSTR #3
 			vector(InputIterator first, InputIterator last, 
 				const allocator_type & alloc = allocator_type(), 
 				typename InputIterator::SFINAE_condition = 0) : 
@@ -99,7 +96,7 @@ namespace ft
 				cout << endl << "(" << this << " - range) vector created" << endl;
 			}
 
-			vector(const vector & x) :												// CONSTR #4
+			vector(const vector & x) :															// CONSTR #4
 			 _capacityFactor(2)
 			{
 				vector::iterator first = x.begin();
@@ -126,7 +123,7 @@ namespace ft
 				cout << endl << "(" << this << " - copy) vector created" << endl;
 			}
 
-			virtual ~vector() 														// DESTR #1
+			virtual ~vector() 																	// DESTR #1
 			{
 				this->get_allocator().deallocate(this->_first, this->size());
 				cout << endl << "(" << this << " - default) vector destroyed:" << endl << "from " << this->_first << ", size = " << this->size() << endl;
@@ -145,9 +142,6 @@ namespace ft
 			};
 			iterator begin() { return iterator(this->_first); };
 			iterator end() { return iterator(this->_last + 1); };
-
-			// typedef typename ft::vector<T>::iterator> 			iterator;
-			// typedef typename const ft::vector<T>::iterator> 		const_iterator;
 
 			// spécialisation grâce à un int pour utiliser spécialisation CONST du template random_access_iterator
 			class const_iterator : public ft::random_access_iterator<T, int>
@@ -193,15 +187,28 @@ namespace ft
 
 		// CAPACITY
 			size_type size() const 								{ return this->_n; }
+			bool empty() const 									{ return bool(!this->_n); }
 			size_type capacity() const							{ return this->_c; }
 			size_type max_size() const							{ return this->_alloc.max_size(); }
+			
+			void shrink_to_fit()
+			{
+				size_type distance = this->_c - this->_n;
+				cout << "Distance: " << distance << endl;
+				if (distance > 0)
+				{
+					this->_alloc.deallocate(this->_last + 2, distance);
+					cout << "TTTTEEEEESSSSSTTTTTT" << endl;
+					this->_c = this->_n;
+				}
+			}
+
 			void reserve(size_type n)
 			{
 				if (n > this->max_size())
 					return this->capacity_error();
 				if (n > this->_c)
 				{
-					// reallocate all the vector increasing capacity
 					vector::iterator old_first = this->begin();
 					vector::iterator old_last = this->end();
 					this->_pointer = this->_alloc.allocate(n + 1);
@@ -212,9 +219,7 @@ namespace ft
 						old_first++;
 						this->_pointer++;
 					}
-					// deallocate the old vector
 					this->_alloc.deallocate(this->_first, this->_c + 1);
-					// reset the variables to the new vector
 					this->_first = new_first;
 					this->_last = --this->_pointer;
 					this->_c = n;
@@ -223,6 +228,7 @@ namespace ft
 				}
 				return;
 			}
+
 			void resize(size_type n, value_type val = value_type())
 			{
 				if (n < this->_n)
@@ -256,6 +262,8 @@ namespace ft
 					iterator old_first = this->begin();
 					iterator old_last = this->end();
 					this->_pointer = this->_alloc.allocate(new_capacity + 1);
+					for(size_type i = 0; i < new_capacity + 1; i++)
+						cout << i << ": " << &(*(this->_pointer + i)) << endl;
 					pointer new_first = this->_pointer;
 					while (old_first != old_last)
 					{
@@ -292,7 +300,7 @@ namespace ft
 				this->_n--;
 				return r_value;
 			}
-			
+
 			template <typename iterator>
 			iterator erase(iterator first, iterator last)
 			{
@@ -344,9 +352,7 @@ namespace ft
 				}
 				catch (const vector::length_error & e)
 				{
-					cerr << RED;
 					cerr << e.what() << endl;
-					cerr << WHI;
 					return;
 				}
 			}
@@ -358,9 +364,7 @@ namespace ft
 				}
 				catch (const vector::length_error & e)
 				{
-					cerr << RED;
 					cerr << e.what() << endl;
-					cerr << WHI;
 				}
 			}
 

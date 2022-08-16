@@ -297,10 +297,10 @@ int main()
 
 	it = fill.begin();
 	ite = fill.end();
-	cout << "First: " << *it << endl;
-	cout << "Second: " << *(it + 1) << endl;
-	cout << "Last: " << *(ite - 1) << endl;
-	cout << "Out of range: " << *ite << endl;
+	cout << "First: " << *it << " (" << &(*it) << ")" << endl;
+	cout << "Second: " << *(it + 1) << " (" << &(*(it+1)) << ")"  << endl;
+	cout << "Last: " << *(ite - 1) << " (" << &(*(ite - 1)) << ")" << endl;
+	cout << "Out of range: " << *ite << " (" << &(*ite) << ")" << endl;
 	cout << "Size = " << fill.size() << " | Capacity = " << fill.capacity() << endl;
 	while (it != ite)
 	{
@@ -310,40 +310,54 @@ int main()
 
 	// cout << "Max size = "<<fill.max_size() << endl;
 
-	it = fill.begin();
-	ite = fill.end();
-	cout << "RETURN: " << *(fill.erase(fill.begin() + 2, fill.begin() + 5) ) << endl;
+	// it = fill.begin();
+	// ite = fill.end();
+	// cout << "RETURN: " << *(fill.erase(fill.begin() + 2, fill.begin() + 5) ) << endl;
 
-	it = fill.begin();
-	ite = fill.end();
-	cout << "First: " << *it << endl;
-	cout << "Second: " << *(it + 1) << endl;
-	cout << "Last: " << *(ite - 1) << endl;
-	cout << "Out of range: " << *ite << endl;
-	cout << "Size = " << fill.size() << " | Capacity = " << fill.capacity() << endl;
-	while (it != ite)
-	{
-		cout << &(*it) << ": " << *it << endl;
-		it++;
-	}
+	// it = fill.begin();
+	// ite = fill.end();
+	// cout << "First: " << *it << endl;
+	// cout << "Second: " << *(it + 1) << endl;
+	// cout << "Last: " << *(ite - 1) << endl;
+	// cout << "Out of range: " << *ite << endl;
+	// cout << "Size = " << fill.size() << " | Capacity = " << fill.capacity() << endl;
+	// while (it != ite)
+	// {
+	// 	cout << &(*it) << ": " << *it << endl;
+	// 	it++;
+	// }
 
 
-	fill.resize(30);
-	it = fill.begin();
-	ite = fill.end();
-	cout << "First: " << *it << endl;
-	cout << "Second: " << *(it + 1) << endl;
-	cout << "Last: " << *(ite - 1) << endl;
-	cout << "Out of range: " << *ite << endl;
-	cout << "Size = " << fill.size() << " | Capacity = " << fill.capacity() << endl;
-	while (it != ite)
-	{
-		cout << &(*it) << ": " << *it << endl;
-		it++;
-	}
+	// fill.resize(30);
+	// it = fill.begin();
+	// ite = fill.end();
+	// cout << "First: " << *it << endl;
+	// cout << "Second: " << *(it + 1) << endl;
+	// cout << "Last: " << *(ite - 1) << endl;
+	// cout << "Out of range: " << *ite << endl;
+	// cout << "Size = " << fill.size() << " | Capacity = " << fill.capacity() << endl;
+	// while (it != ite)
+	// {
+	// 	cout << &(*it) << ": " << *it << endl;
+	// 	it++;
+	// }
 	
 
-	fill.resize(50, 100);
+	// fill.resize(50, 100);
+	// it = fill.begin();
+	// ite = fill.end();
+	// cout << "First: " << *it << endl;
+	// cout << "Second: " << *(it + 1) << endl;
+	// cout << "Last: " << *(ite - 1) << endl;
+	// cout << "Out of range: " << *ite << endl;
+	// cout << "Size = " << fill.size() << " | Capacity = " << fill.capacity() << endl;
+	// while (it != ite)
+	// {
+	// 	cout << &(*it) << ": " << *it << endl;
+	// 	it++;
+	// }
+
+	fill.shrink_to_fit();
 	it = fill.begin();
 	ite = fill.end();
 	cout << "First: " << *it << endl;
@@ -351,11 +365,8 @@ int main()
 	cout << "Last: " << *(ite - 1) << endl;
 	cout << "Out of range: " << *ite << endl;
 	cout << "Size = " << fill.size() << " | Capacity = " << fill.capacity() << endl;
-	while (it != ite)
-	{
-		cout << &(*it) << ": " << *it << endl;
-		it++;
-	}
+
+	cout << "Is vector empty ? " << fill.empty() << endl;
 	return 0;
 }
 
