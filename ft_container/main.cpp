@@ -366,6 +366,30 @@ int main()
 	cout << "Out of range: " << *ite << endl;
 	cout << "Size = " << fill.size() << " | Capacity = " << fill.capacity() << endl;
 
+	fill.pop_back();
+	fill.pop_back();
+	fill.pop_back();
+	it = fill.begin();
+	ite = fill.end();
+	cout << "First: " << *it << endl;
+	cout << "Second: " << *(it + 1) << endl;
+	cout << "Last: " << *(ite - 1) << endl;
+	cout << "Out of range: " << *ite << endl;
+	cout << "Size = " << fill.size() << " | Capacity = " << fill.capacity() << endl;
+	while (it != ite)
+	{
+		cout << &(*it) << ": " << *it << endl;
+		it++;
+	}
+
+	cout << "Ref: " << fill.at(0) << endl;	// 1
+	cout << "Ref: " << fill.at(1) << endl;	// 2
+	cout << "Ref: " << fill.at(3) << endl;	// 4
+	cout << "Ref: " << fill.at(45) << endl;	// 46
+	cout << "Ref: " << fill.at(46) << endl;	// out of range
+	cout << "Ref: " << fill.at(47) << endl;	// out of range
+	cout << "Ref: " << fill.at(100) << endl;// out of range
+
 	cout << "Is vector empty ? " << fill.empty() << endl;
 	return 0;
 }

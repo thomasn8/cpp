@@ -42,7 +42,7 @@ namespace ft
 			{
 				if (n > this->max_size())
 				{
-					this->capacity_error_constructor();
+					this->capacity_error();
 					return;
 				}
 				this->_pointer = this->_alloc.allocate(n + 1);
@@ -70,7 +70,7 @@ namespace ft
 				this->_c = this->_n;
 				if (this->_c > this->max_size())
 				{
-					this->capacity_error_constructor();
+					this->capacity_error();
 					return;
 				}
 				if (this->_n)
@@ -106,7 +106,7 @@ namespace ft
 				this->_c = this->_n;
 				if (this->_c > this->max_size())
 				{
-					this->capacity_error_constructor();
+					this->capacity_error();
 					return;
 				}
 				this->_pointer = x.get_allocator().allocate(this->_n + 1);
@@ -178,12 +178,33 @@ namespace ft
 						return ("Allocation impossible: capacity exceeded");
 					}
 			};
+			class out_of_range_error : public std::exception
+			{
+				public:
+					virtual const char* what() const throw()
+					{
+						return ("Error: out of range");
+					}
+			};
 
 		// ELEMENT ACCESS
 			reference front() 									{ return *this->_first; }
 			const_reference front() const 						{ return *this->_first; }
 			reference back() 									{ return *this->_last; }
 			const_reference back() const 						{ return *this->_last; }
+			
+			reference at(size_type n)
+			{
+				if (n >= this->_n)
+					this->range_error();
+				return *(this->_first + n);
+			}
+			const_reference at(size_type n) const
+			{
+				if (n >= this->_n)
+					this->range_error();
+				return *(this->_first + n);
+			}
 
 		// CAPACITY
 			size_type size() const 								{ return this->_n; }
@@ -194,12 +215,24 @@ namespace ft
 			void shrink_to_fit()
 			{
 				size_type distance = this->_c - this->_n;
-				cout << "Distance: " << distance << endl;
 				if (distance > 0)
 				{
-					this->_alloc.deallocate(this->_last + 2, distance);
-					cout << "TTTTEEEEESSSSSTTTTTT" << endl;
+					vector::iterator old_first = this->begin();
+					vector::iterator old_last = this->end();
+					this->_pointer = this->_alloc.allocate(this->_n + 1);
+					pointer new_first = this->_pointer;
+					while (old_first != old_last)
+					{
+						this->_alloc.construct(this->_pointer, *old_first);
+						old_first++;
+						this->_pointer++;
+					}
+					this->_alloc.deallocate(this->_first, this->_c + 1);
+					this->_first = new_first;
+					this->_last = --this->_pointer;
 					this->_c = this->_n;
+					cout << endl << "(" << this << " - shrink_to_fit) vector reallocated / ";
+					cout << "new capacity = " << this->_c << endl;
 				}
 			}
 
@@ -226,7 +259,6 @@ namespace ft
 					cout << endl << "(" << this << " - push_back) vector reallocated / ";
 					cout << "new capacity = " << this->_c << endl;
 				}
-				return;
 			}
 
 			void resize(size_type n, value_type val = value_type())
@@ -243,7 +275,6 @@ namespace ft
 					for (size_type i = 0; i < diff; i++)
 						this->push_back(val);
 				}
-				return;
 			}
 
 		// MODIFIERS
@@ -263,7 +294,7 @@ namespace ft
 					iterator old_last = this->end();
 					this->_pointer = this->_alloc.allocate(new_capacity + 1);
 					for(size_type i = 0; i < new_capacity + 1; i++)
-						cout << i << ": " << &(*(this->_pointer + i)) << endl;
+						cout << "Alloc " << i << ": " << &(*(this->_pointer + i)) << endl;
 					pointer new_first = this->_pointer;
 					while (old_first != old_last)
 					{
@@ -280,7 +311,17 @@ namespace ft
 					cout << "new capacity = " << this->_c << endl;
 				}
 				this->_n++;
-				return;
+			}
+
+			void pop_back()
+			{
+				if (this->_n > 0)
+				{
+					this->_alloc.destroy(this->_last);
+					this->_n--;
+					this->_last--;
+					cout << endl << "(" << this << " - pop_back) new size = " << this->_n << endl;
+				}
 			}
 
 			template <typename iterator>
@@ -353,16 +394,15 @@ namespace ft
 				catch (const vector::length_error & e)
 				{
 					cerr << e.what() << endl;
-					return;
 				}
 			}
-			void	capacity_error_constructor()
+			void	range_error()
 			{
 				try
 				{
-					throw vector::length_error();
+					throw vector::out_of_range_error();
 				}
-				catch (const vector::length_error & e)
+				catch (const vector::out_of_range_error & e)
 				{
 					cerr << e.what() << endl;
 				}
