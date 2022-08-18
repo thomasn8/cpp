@@ -192,7 +192,8 @@ namespace ft
 			const_reference front() const 						{ return *this->_first; }
 			reference back() 									{ return *this->_last; }
 			const_reference back() const 						{ return *this->_last; }
-			
+			value_type * data() 									{ return this->_first; }
+			const value_type * data() const 						{ return this->_first; }
 			reference at(size_type n)
 			{
 				if (n >= this->_n)
@@ -217,8 +218,8 @@ namespace ft
 				size_type distance = this->_c - this->_n;
 				if (distance > 0)
 				{
-					vector::iterator old_first = this->begin();
-					vector::iterator old_last = this->end();
+					iterator old_first = this->begin();
+					iterator old_last = this->end();
 					this->_pointer = this->_alloc.allocate(this->_n + 1);
 					pointer new_first = this->_pointer;
 					while (old_first != old_last)
@@ -242,8 +243,8 @@ namespace ft
 					return this->capacity_error();
 				if (n > this->_c)
 				{
-					vector::iterator old_first = this->begin();
-					vector::iterator old_last = this->end();
+					iterator old_first = this->begin();
+					iterator old_last = this->end();
 					this->_pointer = this->_alloc.allocate(n + 1);
 					pointer new_first = this->_pointer;
 					while (old_first != old_last)
@@ -278,6 +279,51 @@ namespace ft
 			}
 
 		// MODIFIERS
+			void assign(size_type n, const value_type & val)
+			{
+				iterator old_first = this->begin();
+				iterator old_last = this->end();
+				this->_pointer = this->_alloc.allocate(n + 1);
+				pointer new_first = this->_pointer;
+				for (size_type i = 0; i < n; i++)
+				{
+					this->_alloc.construct(this->_pointer, val);
+					this->_pointer++;
+				}
+				this->_alloc.deallocate(this->_first, this->_c + 1);
+				this->_first = new_first;
+				this->_last = --this->_pointer;
+				this->_n = n;
+				this->_c = this->_n;
+				cout << endl << "(" << this << " - assign 1) vector reallocated / ";
+				cout << "new size = " << this->_n << endl;
+			}
+			
+			template <class InputIterator>
+			void assign(InputIterator first, InputIterator last, 
+				typename InputIterator::SFINAE_condition = 0)
+			{
+				iterator old_first = this->begin();
+				iterator old_last = this->end();
+				size_type n = last - first;
+				this->_pointer = this->_alloc.allocate(n + 1);
+				pointer new_first = this->_pointer;
+				while (first != last)
+				{
+					this->_alloc.construct(this->_pointer, *first);
+					first++;
+					this->_pointer++;
+				}
+				this->_alloc.deallocate(this->_first, this->_c + 1);
+				this->_first = new_first;
+				this->_last = --this->_pointer;
+				this->_n = n;
+				this->_c = this->_n;
+				cout << endl << "(" << this << " - assign 2) vector reallocated / ";
+				cout << "new size = " << this->_n << endl;
+			}
+
+
 			void push_back(const value_type & val)
 			{
 				if (this->_n + 1 <= this->_c)

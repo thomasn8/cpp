@@ -357,24 +357,71 @@ int main()
 	// 	it++;
 	// }
 
-	fill.shrink_to_fit();
-	it = fill.begin();
-	ite = fill.end();
-	cout << "First: " << *it << endl;
-	cout << "Second: " << *(it + 1) << endl;
-	cout << "Last: " << *(ite - 1) << endl;
-	cout << "Out of range: " << *ite << endl;
-	cout << "Size = " << fill.size() << " | Capacity = " << fill.capacity() << endl;
+	// fill.shrink_to_fit();
+	// it = fill.begin();
+	// ite = fill.end();
+	// cout << "First: " << *it << endl;
+	// cout << "Second: " << *(it + 1) << endl;
+	// cout << "Last: " << *(ite - 1) << endl;
+	// cout << "Out of range: " << *ite << endl;
+	// cout << "Size = " << fill.size() << " | Capacity = " << fill.capacity() << endl;
 
-	fill.pop_back();
-	fill.pop_back();
-	fill.pop_back();
+	// fill.pop_back();
+	// fill.pop_back();
+	// fill.pop_back();
+	// it = fill.begin();
+	// ite = fill.end();
+	// cout << "First: " << *it << endl;
+	// cout << "Second: " << *(it + 1) << endl;
+	// cout << "Last: " << *(ite - 1) << endl;
+	// cout << "Out of range: " << *ite << endl;
+	// cout << "Size = " << fill.size() << " | Capacity = " << fill.capacity() << endl;
+	// while (it != ite)
+	// {
+	// 	cout << &(*it) << ": " << *it << endl;
+	// 	it++;
+	// }
+
+	// cout << "Ref: " << fill.at(0) << endl;	// 1
+	// cout << "Ref: " << fill.at(1) << endl;	// 2
+	// cout << "Ref: " << fill.at(3) << endl;	// 4
+	// cout << "Ref: " << fill.at(45) << endl;	// 46
+	// cout << "Ref: " << fill.at(46) << endl;	// out of range
+	// cout << "Ref: " << fill.at(47) << endl;	// out of range
+	// cout << "Ref: " << fill.at(100) << endl;// out of range
+
+	// cout << "Is vector empty ? " << fill.empty() << endl;
+
+	// cout << "myvector contains:";
+	// for (unsigned i=0; i<fill.size(); ++i)
+    // 	cout << ' ' << fill.data()[i];
+	// cout << '\n';
+
+	ft::vector<int> fill2(10, 100);
+	ft::vector<int>::iterator it2 = fill2.begin();
+	ft::vector<int>::iterator ite2 = fill2.end();
+	// cout << "First: " << *it2 << endl;
+	// cout << "Second: " << *(it2 + 1) << endl;
+	// cout << "Last: " << *(ite2 - 1) << endl;
+	// cout << "Out of range: " << *ite2 << endl;
+	// cout << "Size = " << fill2.size() << " | Capacity = " << fill2.capacity() << endl;
+	// while (it2 != ite2)
+	// {
+	// 	cout << &(*it2) << ": " << *it2 << endl;
+	// 	it2++;
+	// }
+
+	it2 = fill2.begin();
+	ite2 = fill2.end();
+	// fill.assign(it2, ite2);
+	fill.assign(10, 100);
+
 	it = fill.begin();
 	ite = fill.end();
-	cout << "First: " << *it << endl;
-	cout << "Second: " << *(it + 1) << endl;
-	cout << "Last: " << *(ite - 1) << endl;
-	cout << "Out of range: " << *ite << endl;
+	cout << "First: " << *it << " (" << &(*it) << ")" << endl;
+	cout << "Second: " << *(it + 1) << " (" << &(*(it+1)) << ")"  << endl;
+	cout << "Last: " << *(ite - 1) << " (" << &(*(ite - 1)) << ")" << endl;
+	cout << "Out of range: " << *ite << " (" << &(*ite) << ")" << endl;
 	cout << "Size = " << fill.size() << " | Capacity = " << fill.capacity() << endl;
 	while (it != ite)
 	{
@@ -382,15 +429,6 @@ int main()
 		it++;
 	}
 
-	cout << "Ref: " << fill.at(0) << endl;	// 1
-	cout << "Ref: " << fill.at(1) << endl;	// 2
-	cout << "Ref: " << fill.at(3) << endl;	// 4
-	cout << "Ref: " << fill.at(45) << endl;	// 46
-	cout << "Ref: " << fill.at(46) << endl;	// out of range
-	cout << "Ref: " << fill.at(47) << endl;	// out of range
-	cout << "Ref: " << fill.at(100) << endl;// out of range
-
-	cout << "Is vector empty ? " << fill.empty() << endl;
 	return 0;
 }
 
