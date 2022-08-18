@@ -414,10 +414,12 @@ int main()
 	it2 = fill2.begin();
 	ite2 = fill2.end();
 	// fill.assign(it2, ite2);
-	fill.assign(10, 100);
-
+	// fill.assign(10, 100);
+	
 	it = fill.begin();
+	fill.erase(it+3);
 	ite = fill.end();
+	fill.insert(it+3, 100);
 	cout << "First: " << *it << " (" << &(*it) << ")" << endl;
 	cout << "Second: " << *(it + 1) << " (" << &(*(it+1)) << ")"  << endl;
 	cout << "Last: " << *(ite - 1) << " (" << &(*(ite - 1)) << ")" << endl;

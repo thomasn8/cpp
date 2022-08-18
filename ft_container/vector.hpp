@@ -370,15 +370,53 @@ namespace ft
 				}
 			}
 
+			// single element (1)
+			template <typename iterator>
+			iterator insert(iterator position, const value_type & val)
+			{
+				// 1 - 2 - 3 - 5 - 6 - 7 - 8
+				//             p
+				// 1 - 2 - 3 - 4 - 5 - 6 - 7 - 8
+				iterator r_value = position;
+				iterator tmp = position;
+				size_type dist = this->_last - position;
+				// cout << "Dist: " << dist << endl;
+				this->_alloc.construct(position.getP(), val);
+				while (dist)
+				{
+					position++;
+					this->_alloc.construct(position.getP(), *tmp);
+					tmp = position;
+					dist--;
+				}
+				this->get_allocator().destroy(this->_last);
+				this->_last++;
+				this->_n++;
+				return r_value;
+			}
+
+			// // fill (2)	
+			// void insert(iterator position, size_type n, const value_type & val)
+			// {
+
+			// }
+
+			// // range (3)	
+			// template <class InputIterator>
+			// void insert(iterator position, InputIterator first, InputIterator last)
+			// {
+
+			// }
+
+
 			template <typename iterator>
 			iterator erase(iterator position)
 			{
-				iterator r_value = position;									// 1 - 2 - 3 - 4 - 5
-				size_type i = 1;												//         ^
-				size_type dist = this->_last - position;						// 1 - 2 - 4 - 5
-				while (dist)													//         R
+				iterator r_value = position;
+				size_type dist = this->_last - position;
+				while (dist)
 				{
-					this->_alloc.construct(position.getP(), *(position + i));
+					this->_alloc.construct(position.getP(), *(position + 1));
 					dist--;
 					position++;
 				}
@@ -391,10 +429,10 @@ namespace ft
 			template <typename iterator>
 			iterator erase(iterator first, iterator last)
 			{
-				iterator r_value = first;										// 1 - 2 - 3 - 4 - 5 - 6 - 7 - 8 - 9 - 10
-				size_type dist = this->_last - last + 1;						//         F  ... ...  L
-				while (dist)													// 1 - 2 - 6 - 7 - 8 - 9 - 10
-				{																//         R
+				iterator r_value = first;						
+				size_type dist = this->_last - last + 1;
+				while (dist)
+				{
 					this->_alloc.construct(first.getP(), *last);
 					dist--;
 					first++;
