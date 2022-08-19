@@ -368,7 +368,6 @@ namespace ft
 				}
 			}
 
-			// single element (1)
 			template <typename iterator>
 			iterator insert(iterator position, const value_type & val)
 			{
@@ -394,6 +393,7 @@ namespace ft
 						it++;
 					}
 					// desallouer le précédant vector
+					this->_alloc.deallocate(this->_first, this->_c + 1);
 					this->_n++;
 					this->_c++;
 					this->_last = this->_pointer - 1;
@@ -402,8 +402,8 @@ namespace ft
 				else
 				{
 					r_value = position;
-					value_type  tmp = *position;
-					value_type  tmp2;
+					value_type tmp = *position;
+					value_type tmp2;
 					this->_alloc.construct(position.getP(), val);
 					while (position != this->_last + 1)
 					{
