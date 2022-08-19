@@ -339,8 +339,6 @@ namespace ft
 					iterator old_first = this->begin();
 					iterator old_last = this->end();
 					this->_pointer = this->_alloc.allocate(new_capacity + 1);
-					for(size_type i = 0; i < new_capacity + 1; i++)
-						cout << "Alloc " << i << ": " << &(*(this->_pointer + i)) << endl;
 					pointer new_first = this->_pointer;
 					while (old_first != old_last)
 					{
@@ -374,24 +372,48 @@ namespace ft
 			template <typename iterator>
 			iterator insert(iterator position, const value_type & val)
 			{
-				// 1 - 2 - 3 - 5 - 6 - 7 - 8
-				//             p
-				// 1 - 2 - 3 - 4 - 5 - 6 - 7 - 8
-				iterator r_value = position;
-				iterator tmp = position;
-				size_type dist = this->_last - position;
-				// cout << "Dist: " << dist << endl;
-				this->_alloc.construct(position.getP(), val);
-				while (dist)
+				iterator r_value;
+				if (this->_n ==  this->_c)
 				{
-					position++;
-					this->_alloc.construct(position.getP(), *tmp);
-					tmp = position;
-					dist--;
+					iterator it = this->begin();
+					this->_pointer = this->_alloc.allocate(this->_n + 2);
+					cout << endl;
+					while (it != position)
+					{
+						this->_alloc.construct(this->_pointer, *it);
+						this->_pointer++;
+						it++;
+					}
+					this->_alloc.construct(this->_pointer, val);
+					r_value = this->_pointer;
+					this->_pointer++;
+					while (it != this->_last + 1)
+					{
+						this->_alloc.construct(this->_pointer, *it);
+						this->_pointer++;
+						it++;
+					}
+					// desallouer le précédant vector
+					this->_n++;
+					this->_c++;
+					this->_last = this->_pointer - 1;
+					this->_first = this->_pointer - this->_n;
 				}
-				this->get_allocator().destroy(this->_last);
-				this->_last++;
-				this->_n++;
+				else
+				{
+					r_value = position;
+					value_type  tmp = *position;
+					value_type  tmp2;
+					this->_alloc.construct(position.getP(), val);
+					while (position != this->_last + 1)
+					{
+						tmp2 = *(++position);
+						this->_alloc.construct(position.getP(), tmp);
+						tmp = tmp2;
+					}
+					this->_last++;
+					this->_n++;
+				}
 				return r_value;
 			}
 

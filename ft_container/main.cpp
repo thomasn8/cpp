@@ -397,9 +397,9 @@ int main()
     // 	cout << ' ' << fill.data()[i];
 	// cout << '\n';
 
-	ft::vector<int> fill2(10, 100);
-	ft::vector<int>::iterator it2 = fill2.begin();
-	ft::vector<int>::iterator ite2 = fill2.end();
+	// ft::vector<int> fill2(10, 100);
+	// ft::vector<int>::iterator it2 = fill2.begin();
+	// ft::vector<int>::iterator ite2 = fill2.end();
 	// cout << "First: " << *it2 << endl;
 	// cout << "Second: " << *(it2 + 1) << endl;
 	// cout << "Last: " << *(ite2 - 1) << endl;
@@ -411,15 +411,18 @@ int main()
 	// 	it2++;
 	// }
 
-	it2 = fill2.begin();
-	ite2 = fill2.end();
+	// it2 = fill2.begin();
+	// ite2 = fill2.end();
 	// fill.assign(it2, ite2);
 	// fill.assign(10, 100);
 	
+	cout << endl;
+	fill.shrink_to_fit();
 	it = fill.begin();
-	fill.erase(it+3);
 	ite = fill.end();
-	fill.insert(it+3, 100);
+	cout << "First inserted value = " << *(fill.insert(it+3, 100)) << endl;
+	it = fill.begin();
+	ite = fill.end();
 	cout << "First: " << *it << " (" << &(*it) << ")" << endl;
 	cout << "Second: " << *(it + 1) << " (" << &(*(it+1)) << ")"  << endl;
 	cout << "Last: " << *(ite - 1) << " (" << &(*(ite - 1)) << ")" << endl;
