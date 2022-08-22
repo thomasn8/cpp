@@ -140,6 +140,7 @@ namespace ft
 					iterator() { this->_p = 0; }
 					virtual ~iterator() {}
 					iterator operator+(difference_type n)	const { pointer tmp(this->_p + n); return tmp; }
+					iterator operator-(difference_type n)	const { pointer tmp(this->_p - n); return tmp; }
 			};
 			iterator begin() { return iterator(this->_first); };
 			iterator end() { return iterator(this->_last + 1); };
@@ -154,6 +155,7 @@ namespace ft
 					const_iterator() { this->_p = 0; }
 					~const_iterator() {}
 					const_iterator operator+(difference_type n)	const { pointer tmp(this->_p + n); return tmp; }
+					const_iterator operator-(difference_type n)	const { pointer tmp(this->_p - n); return tmp; }
 			};
 			const_iterator begin() const { return const_iterator(this->_first); }
 			const_iterator end() const { return const_iterator(this->_last + 1); }
