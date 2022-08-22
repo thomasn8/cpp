@@ -436,7 +436,7 @@ int main()
 	// cout << "First inserted value = " << *(fill.insert(it+3, 100)) << endl;
 	// fill2.insert(it2+1, 3, 100);
 
-	fill2.shrink_to_fit();
+	// fill2.shrink_to_fit();
 	it2 = fill2.begin();
 	ite2 = fill2.end();
 	cout << "First: " << *it2 << " (" << &(*it2) << ")" << endl;
