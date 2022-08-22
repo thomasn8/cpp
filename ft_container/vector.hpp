@@ -139,6 +139,7 @@ namespace ft
 					iterator(T * p) { this->_p = p; }
 					iterator() { this->_p = 0; }
 					virtual ~iterator() {}
+					iterator operator+(difference_type n)	const { pointer tmp(this->_p + n); return tmp; }
 			};
 			iterator begin() { return iterator(this->_first); };
 			iterator end() { return iterator(this->_last + 1); };
@@ -152,6 +153,7 @@ namespace ft
 					const_iterator(T * p) { this->_p = p; }
 					const_iterator() { this->_p = 0; }
 					~const_iterator() {}
+					const_iterator operator+(difference_type n)	const { pointer tmp(this->_p + n); return tmp; }
 			};
 			const_iterator begin() const { return const_iterator(this->_first); }
 			const_iterator end() const { return const_iterator(this->_last + 1); }
@@ -376,27 +378,19 @@ namespace ft
 				{
 					iterator it = this->begin();
 					this->_pointer = this->_alloc.allocate(this->_n + 2);
+					pointer f = this->_pointer;
 					cout << endl;
 					while (it != position)
-					{
-						this->_alloc.construct(this->_pointer, *it);
-						this->_pointer++;
-						it++;
-					}
+						this->_alloc.construct(this->_pointer++, *it++);
 					r_value = this->_pointer;
 					this->_alloc.construct(this->_pointer, val);
 					this->_pointer++;
 					while (it != this->_last + 1)
-					{
-						this->_alloc.construct(this->_pointer, *it);
-						this->_pointer++;
-						it++;
-					}
+						this->_alloc.construct(this->_pointer++, *it++);
 					this->_alloc.deallocate(this->_first, this->_c + 1);
-					this->_n++;
 					this->_c++;
 					this->_last = this->_pointer - 1;
-					this->_first = this->_pointer - this->_n;
+					this->_first = f;
 				}
 				else
 				{
@@ -411,44 +405,33 @@ namespace ft
 						tmp = tmp2;
 					}
 					this->_last++;
-					this->_n++;
 				}
+				this->_n++;
 				return r_value;
 			}
 
 			template <typename iterator>
 			void insert(iterator position, size_type n, const value_type & val)
 			{
+				iterator it = this->begin();
 				if (this->_n + n > this->_c)
 				{
-					iterator it = this->begin();
 					this->_pointer = this->_alloc.allocate(this->_n + n + 1);
-					cout << endl;
+					pointer f = this->_pointer;
 					while (it != position)
-					{
-						this->_alloc.construct(this->_pointer, *it);
-						this->_pointer++;
-						it++;
-					}
+						this->_alloc.construct(this->_pointer++, *it++);
 					for (size_type i = 0; i < n; i++)
 						this->_alloc.construct(this->_pointer++, val);
 					while (it != this->_last + 1)
-					{
-						this->_alloc.construct(this->_pointer, *it);
-						this->_pointer++;
-						it++;
-					}
+						this->_alloc.construct(this->_pointer++, *it++);
 					this->_alloc.deallocate(this->_first, this->_c + 1);
-					this->_n += n;
 					this->_c += n;
 					this->_last = this->_pointer - 1;
-					this->_first = this->_pointer - this->_n;
+					this->_first = f;
 				}
 				else
 				{
-					iterator it = this->begin();
-					iterator ite = this->end();
-					vector<T> cpy(it, ite);
+					vector<T> cpy(it, this->end());
 					iterator it_cpy = cpy.begin();
 					size_type index = this->get_index(position);
 					size_type new_index;
@@ -461,44 +444,48 @@ namespace ft
 					for (size_type i = 0; i < n; i++)
 						this->_alloc.construct(&this->_first[this->get_index(position++)], val);
 					this->_last = this->_first + new_index;
-					this->_n += n;
 				}
+				this->_n += n;
 			}
 
-			// // range (3)	
-			// template <class InputIterator>
-			// void insert(iterator position, InputIterator first, InputIterator last)
-			// {
-			// 	// iterator pos = static_cast<iterator>(position);
-			// 	// (void) pos;
-			// 	size_type n = last - first;
-			// 	if (this->_n + n > this->_c)
-			// 	{
-
-			// 	}
-			// 	else
-			// 	{
-			// 		// 1 - 2 - 3 - 4 - 5 - 6
-			// 		//         ^
-			// 		// 10 - 11 - 12 - 13
-			// 		iterator it = this->begin();
-			// 		iterator ite = this->end();
-			// 		vector<T> cpy(it, ite);
-			// 		iterator it_cpy = cpy.begin();
-			// 		size_type index = this->get_index(position);
-			// 		size_type dist = this->_last - position + 1;
-			// 		size_type new_index;
-			// 		for (size_type i = 0; i < dist; i++)
-			// 		{
-			// 			new_index = index + n + i;
-			// 			this->_alloc.construct(this->_first + new_index, *(it_cpy + new_index - n));
-			// 		}
-			// 		for (size_type i = 0; i < n; i++)
-			// 			this->_alloc.construct(&this->_first[this->get_index(position++)], *first++);
-			// 		this->_last = this->_first + new_index;
-			// 		this->_n += n;
-			// 	}
-			// }
+			template <class InputIterator>
+			void insert(iterator position, InputIterator first, InputIterator last)
+			{
+				size_type n = last - first;
+				iterator it = this->begin();
+				if (this->_n + n > this->_c)
+				{
+					this->_pointer = this->_alloc.allocate(this->_n + n + 1);
+					pointer f = this->_pointer;
+					while (it != position)
+						this->_alloc.construct(this->_pointer++, *it++);
+					for (size_type i = 0; i < n; i++)
+						this->_alloc.construct(this->_pointer++, *first++);
+					while (it != this->_last + 1)
+						this->_alloc.construct(this->_pointer++, *it++);
+					this->_alloc.deallocate(this->_first, this->_c + 1);
+					this->_c += n;
+					this->_last = this->_pointer - 1;
+					this->_first = f;
+				}
+				else
+				{
+					vector<T> cpy(it, this->end());
+					iterator it_cpy = cpy.begin();
+					size_type index = this->get_index(position);
+					size_type dist = this->_last - position + 1;
+					size_type new_index;
+					for (size_type i = 0; i < dist; i++)
+					{
+						new_index = index + n + i;
+						this->_alloc.construct(this->_first + new_index, *(it_cpy + new_index - n));
+					}
+					for (size_type i = 0; i < n; i++)
+						this->_alloc.construct(&this->_first[this->get_index(position++)], *first++);
+					this->_last = this->_first + new_index;
+				}
+				this->_n += n;
+			}
 
 
 			template <typename iterator>

@@ -422,9 +422,40 @@ int main()
 	fill2.reserve(30);
 	it2 = fill2.begin();
 	ite2 = fill2.end();
-	fill.shrink_to_fit();
+	cout << "First: " << *it2 << " (" << &(*it2) << ")" << endl;
+	cout << "Second: " << *(it2 + 1) << " (" << &(*(it2+1)) << ")"  << endl;
+	cout << "Last: " << *(ite2 - 1) << " (" << &(*(ite2 - 1)) << ")" << endl;
+	cout << "Out of range: " << *ite2 << " (" << &(*ite2) << ")" << endl;
+	cout << "Size = " << fill2.size() << " | Capacity = " << fill2.capacity() << endl;
+	while (it2 != ite2)
+	{
+		cout << &(*it2) << ": " << *it2 << endl;
+		it2++;
+	}
+	// fill.shrink_to_fit();
 	// cout << "First inserted value = " << *(fill.insert(it+3, 100)) << endl;
-	fill2.insert(it2+1, 3, 100);
+	// fill2.insert(it2+1, 3, 100);
+
+	fill2.shrink_to_fit();
+	it2 = fill2.begin();
+	ite2 = fill2.end();
+	cout << "First: " << *it2 << " (" << &(*it2) << ")" << endl;
+	cout << "Second: " << *(it2 + 1) << " (" << &(*(it2+1)) << ")"  << endl;
+	cout << "Last: " << *(ite2 - 1) << " (" << &(*(ite2 - 1)) << ")" << endl;
+	cout << "Out of range: " << *ite2 << " (" << &(*ite2) << ")" << endl;
+	cout << "Size = " << fill2.size() << " | Capacity = " << fill2.capacity() << endl;
+	while (it2 != ite2)
+	{
+		cout << &(*it2) << ": " << *it2 << endl;
+		it2++;
+	}
+	it2 = fill2.begin();
+	ite2 = fill2.end();
+	ft::vector<int> fill3(6, 10);
+	ft::vector<int>::iterator it3 = fill3.begin();
+	ft::vector<int>::iterator ite3 = fill3.end();
+	fill2.insert(it2+2, it3, ite3);
+
 	it2 = fill2.begin();
 	ite2 = fill2.end();
 	cout << "First: " << *it2 << " (" << &(*it2) << ")" << endl;
