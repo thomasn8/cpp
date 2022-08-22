@@ -465,12 +465,35 @@ namespace ft
 				}
 			}
 
-			// // range (3)	
-			// template <class InputIterator>
-			// void insert(iterator position, InputIterator first, InputIterator last)
-			// {
+			// range (3)	
+			template <class InputIterator>
+			void insert(iterator position, InputIterator first, InputIterator last)
+			{
+				size_type n = last - first;
+				if (this->_n + n > this->_c)
+				{
 
-			// }
+				}
+				else
+				{
+					// 1 - 2 - 3 - 4 - 5 - 6
+					//         ^
+					// 
+					iterator it = this->begin();
+					iterator ite = this->end();
+					size_type index = this->get_index(position);
+					size_type dist = this->_last - position + 1;
+					for (size_type i = 0; i < dist; i++)
+					{
+						new_index = index + n + i;
+						this->_alloc.construct(this->_first + new_index, *(it_cpy + new_index - n));
+					}
+					for (size_type i = 0; i < n; i++)
+						this->_alloc.construct(&this->_first[this->get_index(position++)], val);
+					this->_last = this->_first + new_index;
+					this->_n += n;
+				}
+			}
 
 
 			template <typename iterator>
