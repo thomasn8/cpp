@@ -473,7 +473,7 @@ int main()
 
 
 	fill2.swap(fill);
-	
+
 	it = fill.begin();
 	ite = fill.end();
 	cout << "First: " << *it << " (" << &(*it) << ")" << endl;
@@ -498,6 +498,36 @@ int main()
 		cout << &(*it2) << ": " << *it2 << endl;
 		it2++;
 	}
+
+	cout << "TEST1" << endl;
+	ft::vector<int> & fill_ref = fill;
+	ft::vector<int> & fill2_ref = fill2;
+	ft::swap<int>(fill_ref, fill2_ref);
+	it = fill.begin();
+	ite = fill.end();
+	cout << "First: " << *it << " (" << &(*it) << ")" << endl;
+	cout << "Second: " << *(it + 1) << " (" << &(*(it+1)) << ")"  << endl;
+	cout << "Last: " << *(ite - 1) << " (" << &(*(ite - 1)) << ")" << endl;
+	cout << "Out of range: " << *ite << " (" << &(*ite) << ")" << endl;
+	cout << "Size = " << fill.size() << " | Capacity = " << fill.capacity() << endl;
+	while (it != ite)
+	{
+		cout << &(*it) << ": " << *it << endl;
+		it++;
+	}
+	it2 = fill2.begin();
+	ite2 = fill2.end();
+	cout << "First: " << *it2 << " (" << &(*it2) << ")" << endl;
+	cout << "Second: " << *(it2 + 1) << " (" << &(*(it2+1)) << ")"  << endl;
+	cout << "Last: " << *(ite2 - 1) << " (" << &(*(ite2 - 1)) << ")" << endl;
+	cout << "Out of range: " << *ite2 << " (" << &(*ite2) << ")" << endl;
+	cout << "Size = " << fill2.size() << " | Capacity = " << fill2.capacity() << endl;
+	while (it2 != ite2)
+	{
+		cout << &(*it2) << ": " << *it2 << endl;
+		it2++;
+	}
+	cout << "TEST2" << endl;
 
 	return 0;
 }

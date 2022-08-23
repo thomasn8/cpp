@@ -99,8 +99,16 @@ namespace ft
 			vector(const vector & x) :															// CONSTR #4
 			 _capacityFactor(2)
 			{
-				vector::iterator first = x.begin();
-				vector::iterator last = x.end();
+				// const_iterator first1 = x.begin();
+				// iterator first = const_cast<iterator>(first1);
+				// const_iterator last1 = x.end();
+				// iterator last = const_cast<iterator>(last1);
+				
+				// iterator first = x.begin();
+				// iterator last = x.end();
+
+				const_iterator first = x.begin();
+				const_iterator last = x.end();
 
 				this->_n = x.size();
 				this->_c = this->_n;
@@ -564,6 +572,20 @@ namespace ft
 				catch (const vector::out_of_range_error & e) { cerr << e.what() << endl; }
 			}
 	};
+
+	template <class T, class Alloc>
+	void swap(vector<T,Alloc> & x, vector<T,Alloc> & y)
+	{
+		// x et tmp correspondent à fill1
+		// y correspond à fill2
+
+		// PROBLèME : DOUBLE FREE SUR LE 1ER PTR DE FILL2
+
+		// ft::vector<T> & tmp = x;
+		ft::vector<T> tmp(x);
+		x = y;
+		y = tmp;
+	}
 
 }
 
