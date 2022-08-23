@@ -16,14 +16,19 @@ namespace ft
 	{
 		public :
 		// MEMBER TYPES
-			typedef T 											value_type;
-			typedef unsigned int 								size_type;
-			typedef allocator<value_type> 						allocator_type;
-			typedef typename allocator_type::reference 			reference;			// T &
-			typedef typename allocator_type::const_reference 	const_reference;	// const T &
-			typedef	typename allocator_type::pointer 			pointer;			// T *
-			typedef	typename allocator_type::const_pointer 		const_pointer;		// const T *
-			typedef int											difference_type;	// pour marquer les distances entre 2 ptr
+			typedef T 												value_type;
+			typedef unsigned int 									size_type;
+			typedef allocator<value_type> 							allocator_type;
+			typedef typename allocator_type::reference 				reference;			// T &
+			typedef typename allocator_type::const_reference 		const_reference;	// const T &
+			typedef	typename allocator_type::pointer 				pointer;			// T *
+			typedef	typename allocator_type::const_pointer 			const_pointer;		// const T *
+			typedef int												difference_type;	// pour marquer les distances entre 2 ptr
+			
+			typedef	ft::random_access_iterator<value_type>			iterator;
+			typedef	ft::random_access_iterator<const value_type>	const_iterator;
+			typedef	ft::reverse_iterator<iterator>					reverse_iterator;
+			typedef	ft::reverse_iterator<const_iterator>			const_reverse_iterator;
 			
 		// CONSTRUCTEURS/DESTRUCTEUR
 			explicit vector(const allocator_type & alloc = allocator_type()) 						// CONSTR #1
@@ -99,16 +104,10 @@ namespace ft
 			vector(const vector & x) :															// CONSTR #4
 			 _capacityFactor(2)
 			{
-				// const_iterator first1 = x.begin();
-				// iterator first = const_cast<iterator>(first1);
-				// const_iterator last1 = x.end();
-				// iterator last = const_cast<iterator>(last1);
-				
-				// iterator first = x.begin();
-				// iterator last = x.end();
-
-				const_iterator first = x.begin();
-				const_iterator last = x.end();
+				iterator first = x.begin();
+				iterator last = x.end();
+				// const_iterator first = x.begin();
+				// const_iterator last = x.end();
 
 				this->_n = x.size();
 				this->_c = this->_n;
@@ -138,72 +137,12 @@ namespace ft
 			}
 
 		// ITERATORS
-			// spécialisation grâce à un char pour utiliser la spécialisation NON-CONST du template random_access_iterator
-			class iterator : public ft::random_access_iterator<T, char>
-			{	
-				public : 
-					iterator & operator=(iterator const & src) { this->_p = src.getP(); return *this; }
-					iterator(const iterator & src) : ft::random_access_iterator<T, char>(src.getP()) {} 
-					iterator(T * p) { this->_p = p; }
-					iterator() { this->_p = 0; }
-					virtual ~iterator() {}
-					// SURCHARGES pour calibrer le type de retour
-					friend difference_type operator-(const iterator & a, const iterator & b) { return static_cast<int>(a._p - b._p); }
-					iterator & operator++() { ++this->_p; return *this; }
-					iterator operator++(value_type) { iterator tmp(*this); this->_p++; return tmp; }
-					iterator & operator--() { --this->_p; return *this; }
-					iterator operator--(value_type) { iterator tmp(*this); this->_p--; return tmp; }
-					bool operator==(const iterator & rhs) const { return this->_p == rhs._p; }
-					bool operator!=(const iterator & rhs) const { return this->_p != rhs._p; }
-					bool operator<(const iterator & rhs) const { return this->_p < rhs._p; }
-					bool operator<=(const iterator & rhs) const { return this->_p <= rhs._p; }
-					bool operator>(const iterator & rhs) const { return this->_p > rhs._p; }
-					bool operator>=(const iterator & rhs) const { return this->_p >= rhs._p; }
-					iterator operator+(difference_type n)	const { pointer tmp(this->_p + n); return tmp; }
-					friend iterator operator+(difference_type n, const iterator & it) { pointer tmp(it._p + n); return tmp; }
-					iterator operator-(difference_type n)	const { pointer tmp(this->_p - n); return tmp; }
-					iterator & operator+=(difference_type n) { iterator tmp(this->_p + n); this->_p = tmp.getP(); return *this; }
-					iterator & operator-=(difference_type n) { iterator tmp(this->_p - n); this->_p = tmp.getP(); return *this; }
-			};
 			iterator begin() { return iterator(this->_first); };
 			iterator end() { return iterator(this->_last + 1); };
-
-			// spécialisation grâce à un int pour utiliser spécialisation CONST du template random_access_iterator
-			class const_iterator : public ft::random_access_iterator<T, int>
-			{	
-				public : 
-					const_iterator & operator=(const_iterator const & src) { this->_p = src.getP(); return *this; }
-					const_iterator(const const_iterator & src) : ft::random_access_iterator<T, int>(src.getP()) {} 
-					const_iterator(T * p) { this->_p = p; }
-					const_iterator() { this->_p = 0; }
-					~const_iterator() {}
-					// SURCHARGES pour calibrer le type de retour
-					friend difference_type operator-(const const_iterator & a, const const_iterator & b) { return static_cast<int>(a._p - b._p); }
-					const_iterator & operator++() { ++this->_p; return *this; }
-					const_iterator operator++(value_type) { const_iterator tmp(*this); this->_p++; return tmp; }
-					const_iterator & operator--() { --this->_p; return *this; }
-					const_iterator operator--(value_type) { const_iterator tmp(*this); this->_p--; return tmp; }
-					bool operator==(const const_iterator & rhs) const { return this->_p == rhs._p; }
-					bool operator!=(const const_iterator & rhs) const { return this->_p != rhs._p; }
-					bool operator<(const const_iterator & rhs) const { return this->_p < rhs._p; }
-					bool operator<=(const const_iterator & rhs) const { return this->_p <= rhs._p; }
-					bool operator>(const const_iterator & rhs) const { return this->_p > rhs._p; }
-					bool operator>=(const const_iterator & rhs) const { return this->_p >= rhs._p; }
-					const_iterator operator+(difference_type n)	const { pointer tmp(this->_p + n); return tmp; }
-					friend const_iterator operator+(difference_type n, const const_iterator & it) { pointer tmp(it._p + n); return tmp; }
-					const_iterator operator-(difference_type n)	const { pointer tmp(this->_p - n); return tmp; }
-					const_iterator & operator+=(difference_type n) { const_iterator tmp(this->_p + n); this->_p = tmp.getP(); return *this; }
-					const_iterator & operator-=(difference_type n) { const_iterator tmp(this->_p - n); this->_p = tmp.getP(); return *this; }
-			};
 			const_iterator begin() const { return const_iterator(this->_first); }
 			const_iterator end() const { return const_iterator(this->_last + 1); }
 			const_iterator cbegin() const { return const_iterator(this->_first); }
-			const_iterator cend() const { return const_iterator(this->_last + 1); }
-
-		// REVERSE ITERATORS
-			typedef ft::reverse_iterator<typename ft::vector<T>::iterator> 			reverse_iterator;
-			typedef const ft::reverse_iterator<typename ft::vector<T>::iterator> 	const_reverse_iterator;
-			
+			const_iterator cend() const { return const_iterator(this->_last + 1); }			
 			reverse_iterator rbegin() { reverse_iterator from(this->_last + 1); return from; }
 			const_reverse_iterator rbegin() const { const_reverse_iterator from(this->_last + 1); return from; }
 			reverse_iterator rend() { reverse_iterator until(this->_first); return until; }
@@ -353,7 +292,6 @@ namespace ft
 				cout << endl << "(" << this << " - assign 2) vector reallocated / ";
 				cout << "new size = " << this->_n << endl;
 			}
-
 
 			void push_back(const value_type & val)
 			{
