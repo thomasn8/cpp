@@ -484,6 +484,18 @@ namespace ft
 				x._last = l_this;
 			}
 
+			void clear()
+			{
+				for (size_type i = 0; i < this->_n; i++)
+					this->_alloc.destroy(this->_first + i);
+				this->_alloc.deallocate(this->_first, this->_c + 1);
+				this->_pointer = this->_alloc.allocate(1);
+				this->_first = this->_pointer;
+				this->_last = --this->_pointer;
+				this->_n = 0;
+				this->_c = 0;
+			}
+
 		// ALLOCATOR
 			allocator_type get_allocator() const 				{ return this->_alloc; }
 
