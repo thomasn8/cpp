@@ -224,6 +224,8 @@ namespace ft
 			};
 
 		// ELEMENT ACCESS
+			reference operator[](size_type index)				{ return this->_first[index]; }
+			const_reference operator[](size_type index) const	{ return this->_first[index]; }
 			reference front() 						{ return *this->_first; }
 			const_reference front() const 			{ return *this->_first; }
 			reference back() 						{ return *this->_last; }
@@ -533,20 +535,22 @@ namespace ft
 
 			void swap(vector & x)
 			{
-				ft::vector<T> tmp(x.begin(), x.end());
-				x.assign(this->begin(), this->end());
-				this->assign(tmp.begin(), tmp.end());
+				size_type n_this = this->_n;
+				size_type c_this = this->_c;
+				pointer f_this = this->_first;
+				pointer l_this = this->_last;
+				this->_n = x.size();
+				this->_c = x.capacity();
+				this->_first = x.data();
+				this->_last = x.data() + x.size() - 1;
+				x._n = n_this;
+				x._c = c_this;
+				x._first = f_this;
+				x._last = l_this;
 			}
 
 		// ALLOCATOR
 			allocator_type get_allocator() const 				{ return this->_alloc; }
-
-		// SURCHARGES
-			reference operator*() 								{ return *this->_first; }
-			reference operator[](size_type index)				{ return this->_first[index]; }
-			pointer operator&() 	 							{ return &this->_first; }
-			const_reference operator*() const 					{ return *this->_first; }
-			const_reference operator[](size_type index) const	{ return this->_first[index]; }
 
 		private :
 
@@ -574,18 +578,7 @@ namespace ft
 	};
 
 	template <class T, class Alloc>
-	void swap(vector<T,Alloc> & x, vector<T,Alloc> & y)
-	{
-		// x et tmp correspondent à fill1
-		// y correspond à fill2
-
-		// PROBLèME : DOUBLE FREE SUR LE 1ER PTR DE FILL2
-
-		// ft::vector<T> & tmp = x;
-		ft::vector<T> tmp(x);
-		x = y;
-		y = tmp;
-	}
+	void swap(vector<T,Alloc> & x, vector<T,Alloc> & y) { x.swap(y); }
 
 }
 
