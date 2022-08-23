@@ -310,22 +310,22 @@ int main()
 
 	// cout << "Max size = "<<fill.max_size() << endl;
 
-	// it = fill.begin();
-	// ite = fill.end();
-	// cout << "RETURN: " << *(fill.erase(fill.begin() + 2, fill.begin() + 5) ) << endl;
+	it = fill.begin();
+	ite = fill.end();
+	cout << "RETURN: " << *(fill.erase(fill.begin() + 2, fill.begin() + 5) ) << endl;
 
-	// it = fill.begin();
-	// ite = fill.end();
-	// cout << "First: " << *it << endl;
-	// cout << "Second: " << *(it + 1) << endl;
-	// cout << "Last: " << *(ite - 1) << endl;
-	// cout << "Out of range: " << *ite << endl;
-	// cout << "Size = " << fill.size() << " | Capacity = " << fill.capacity() << endl;
-	// while (it != ite)
-	// {
-	// 	cout << &(*it) << ": " << *it << endl;
-	// 	it++;
-	// }
+	it = fill.begin();
+	ite = fill.end();
+	cout << "First: " << *it << endl;
+	cout << "Second: " << *(it + 1) << endl;
+	cout << "Last: " << *(ite - 1) << endl;
+	cout << "Out of range: " << *ite << endl;
+	cout << "Size = " << fill.size() << " | Capacity = " << fill.capacity() << endl;
+	while (it != ite)
+	{
+		cout << &(*it) << ": " << *it << endl;
+		it++;
+	}
 
 
 	// fill.resize(30);

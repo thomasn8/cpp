@@ -37,9 +37,9 @@ namespace ft
 			friend difference_type operator-(const it & a, const it & b) { return static_cast<int>(a._p - b._p); }
 
 			it & operator++() { ++this->_p; return *this; }
-			it operator++(value_type) { random_access_iterator tmp(*this); this->_p++; return tmp; }
+			it operator++(value_type) { it tmp(*this); this->_p++; return tmp; }
 			it & operator--() { --this->_p; return *this; }
-			it operator--(value_type) { random_access_iterator tmp(*this); this->_p--; return tmp; }
+			it operator--(value_type) { it tmp(*this); this->_p--; return tmp; }
 
 			bool operator==(const it & rhs) const { return this->_p == rhs._p; }
 			bool operator!=(const it & rhs) const { return this->_p != rhs._p; }
@@ -93,9 +93,9 @@ namespace ft
 			friend difference_type operator-(const it & a, const it & b) { return static_cast<int>(a._p - b._p); }
 
 			it & operator++() { ++this->_p; return *this; }
-			it operator++(value_type) { random_access_iterator tmp(*this); this->_p++; return tmp; }
+			it operator++(value_type) { it tmp(*this); this->_p++; return tmp; }
 			it & operator--() { --this->_p; return *this; }
-			it operator--(value_type) { random_access_iterator tmp(*this); this->_p--; return tmp; }
+			it operator--(value_type) { it tmp(*this); this->_p--; return tmp; }
 
 			bool operator==(const it & rhs) const { return this->_p == rhs._p; }
 			bool operator!=(const it & rhs) const { return this->_p != rhs._p; }

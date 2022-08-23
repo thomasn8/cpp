@@ -139,8 +139,23 @@ namespace ft
 					iterator(T * p) { this->_p = p; }
 					iterator() { this->_p = 0; }
 					virtual ~iterator() {}
+					// SURCHARGES
+					friend difference_type operator-(const iterator & a, const iterator & b) { return static_cast<int>(a._p - b._p); }
+					iterator & operator++() { ++this->_p; return *this; }
+					iterator operator++(value_type) { iterator tmp(*this); this->_p++; return tmp; }
+					iterator & operator--() { --this->_p; return *this; }
+					iterator operator--(value_type) { iterator tmp(*this); this->_p--; return tmp; }
+					bool operator==(const iterator & rhs) const { return this->_p == rhs._p; }
+					bool operator!=(const iterator & rhs) const { return this->_p != rhs._p; }
+					bool operator<(const iterator & rhs) const { return this->_p < rhs._p; }
+					bool operator<=(const iterator & rhs) const { return this->_p <= rhs._p; }
+					bool operator>(const iterator & rhs) const { return this->_p > rhs._p; }
+					bool operator>=(const iterator & rhs) const { return this->_p >= rhs._p; }
 					iterator operator+(difference_type n)	const { pointer tmp(this->_p + n); return tmp; }
+					friend iterator operator+(difference_type n, const iterator & it) { pointer tmp(it._p + n); return tmp; }
 					iterator operator-(difference_type n)	const { pointer tmp(this->_p - n); return tmp; }
+					iterator & operator+=(difference_type n) { iterator tmp(this->_p + n); this->_p = tmp.getP(); return *this; }
+					iterator & operator-=(difference_type n) { iterator tmp(this->_p - n); this->_p = tmp.getP(); return *this; }
 			};
 			iterator begin() { return iterator(this->_first); };
 			iterator end() { return iterator(this->_last + 1); };
@@ -154,8 +169,23 @@ namespace ft
 					const_iterator(T * p) { this->_p = p; }
 					const_iterator() { this->_p = 0; }
 					~const_iterator() {}
+					// SURCHARGES
+					friend difference_type operator-(const const_iterator & a, const const_iterator & b) { return static_cast<int>(a._p - b._p); }
+					const_iterator & operator++() { ++this->_p; return *this; }
+					const_iterator operator++(value_type) { const_iterator tmp(*this); this->_p++; return tmp; }
+					const_iterator & operator--() { --this->_p; return *this; }
+					const_iterator operator--(value_type) { const_iterator tmp(*this); this->_p--; return tmp; }
+					bool operator==(const const_iterator & rhs) const { return this->_p == rhs._p; }
+					bool operator!=(const const_iterator & rhs) const { return this->_p != rhs._p; }
+					bool operator<(const const_iterator & rhs) const { return this->_p < rhs._p; }
+					bool operator<=(const const_iterator & rhs) const { return this->_p <= rhs._p; }
+					bool operator>(const const_iterator & rhs) const { return this->_p > rhs._p; }
+					bool operator>=(const const_iterator & rhs) const { return this->_p >= rhs._p; }
 					const_iterator operator+(difference_type n)	const { pointer tmp(this->_p + n); return tmp; }
+					friend const_iterator operator+(difference_type n, const const_iterator & it) { pointer tmp(it._p + n); return tmp; }
 					const_iterator operator-(difference_type n)	const { pointer tmp(this->_p - n); return tmp; }
+					const_iterator & operator+=(difference_type n) { const_iterator tmp(this->_p + n); this->_p = tmp.getP(); return *this; }
+					const_iterator & operator-=(difference_type n) { const_iterator tmp(this->_p - n); this->_p = tmp.getP(); return *this; }
 			};
 			const_iterator begin() const { return const_iterator(this->_first); }
 			const_iterator end() const { return const_iterator(this->_last + 1); }
@@ -511,22 +541,14 @@ namespace ft
 			iterator erase(iterator first, iterator last)
 			{
 				iterator r_value = first;						
-				size_type dist = this->_last - last + 1;
-				while (dist)
-				{
-					this->_alloc.construct(first.getP(), *last);
-					dist--;
-					first++;
-					last++;
-				}
+				size_type dist = this->_last - last + 2;
+				while (--dist)
+					this->_alloc.construct((first++).getP(), *last++);
 				size_type erased = last - first;
 				this->_last -= erased;
 				this->_n -= erased;
 				while (erased)
-				{
-					this->get_allocator().destroy(this->_last - erased + 1);
-					erased--;
-				}
+					this->get_allocator().destroy(this->_last - erased-- + 1);
 				return r_value;
 			}
 
@@ -551,7 +573,7 @@ namespace ft
 			pointer			_pointer;			// random pointer for multi-usage
 
 			size_type get_index(pointer p) const { return p - this->_first; }
-			template <typename iterator>
+			// template <typename iterator>
 			size_type get_index(iterator it) { return it - this->begin(); }
 			void	capacity_error()
 			{
