@@ -1,12 +1,92 @@
-#ifndef REVERSE_ITERATOR_HPP
-# define REVERSE_ITERATOR_HPP
-
-#include "iterator_traits.hpp"
-
-using namespace std;
+#ifndef ITERATORS_HPP
+# define ITERATORS_HPP
 
 namespace ft
 {
+	class random_access_iterator_tag {};
+
+	template <typename T>
+	class random_access_iterator
+	{
+		public:
+
+		// MEMBER TYPES
+		    typedef T							value_type;
+			typedef int							difference_type;
+			typedef T *							pointer;
+			typedef T &							reference;
+			typedef random_access_iterator	 	iterator_category;
+			typedef	iterator_category			it;
+			typedef int 						SFINAE_condition;	// pour le constructeur de vector avec iterateur
+
+		// CONSTRUCTEURS/DESTRUCTEUR
+			random_access_iterator() : _p(0) {}											// default
+			random_access_iterator(pointer p) : _p(p) {}								// special
+			random_access_iterator(reference src) : _p(src.getP()) {}					// copy
+			virtual ~random_access_iterator() {}
+		
+		// ACCESSEURS
+			pointer getP() const { return this->_p; }
+			difference_type getDiff() const { return sizeof(value_type); }
+
+		// SURCHARGES
+			it & operator=(it const & src) { this->_p = src.getP(); return *this; }		// assign 
+			reference operator*() { return *_p; }
+			reference operator*() const { return *_p; }
+			reference operator[](unsigned int index) { return this->_p[index]; }	
+			pointer operator->() { return _p;  }
+			friend difference_type operator-(const it & a, const it & b) { return static_cast<int>(a._p - b._p); }
+			it & operator++() { ++this->_p; return *this; }
+			it operator++(value_type) { it tmp(*this); this->_p++; return tmp; }
+			it & operator--() { --this->_p; return *this; }
+			it operator--(value_type) { it tmp(*this); this->_p--; return tmp; }
+			bool operator==(const it & rhs) const { return this->_p == rhs._p; }
+			bool operator!=(const it & rhs) const { return this->_p != rhs._p; }
+			bool operator<(const it & rhs) const { return this->_p < rhs._p; }
+			bool operator<=(const it & rhs) const { return this->_p <= rhs._p; }
+			bool operator>(const it & rhs) const { return this->_p > rhs._p; }
+			bool operator>=(const it & rhs) const { return this->_p >= rhs._p; }
+			it operator+(difference_type n)	const { pointer tmp(this->_p + n); return tmp; }
+			friend it operator+(difference_type n, const it & it) { pointer tmp(it._p + n); return tmp; }
+			it operator-(difference_type n)	const { pointer tmp(this->_p - n); return tmp; }
+			it & operator+=(difference_type n) { it tmp(this->_p + n); this->_p = tmp.getP(); return *this; }
+			it & operator-=(difference_type n) { it tmp(this->_p - n); this->_p = tmp.getP(); return *this; }
+
+		protected :
+			pointer _p;
+	};
+
+	template<typename T>
+	struct iterator_traits
+	{
+		public :
+			typedef typename	T::difference_type 		difference_type;
+			typedef typename 	T::value_type			value_type;
+			typedef typename	T::pointer				pointer;
+			typedef typename	T::reference			reference;
+			typedef typename	T::iterator_category	iterator_category;
+	};
+	template <typename T>
+	struct iterator_traits<T *>
+	{
+		public :
+			typedef int								difference_type;
+			typedef T								value_type;
+			typedef T *								pointer;
+			typedef T &								reference;
+			typedef ft::random_access_iterator_tag	iterator_category;
+	};
+	template <typename T>
+	struct iterator_traits<const T *>
+	{
+		public :
+			typedef int								difference_type;
+			typedef T								value_type;
+			typedef const T *						pointer;
+			typedef const T &						reference;
+			typedef ft::random_access_iterator_tag	iterator_category;
+	};
+
 	template <typename Iterator>
 	class reverse_iterator : public ft::iterator_traits<Iterator>
 	{
@@ -98,3 +178,8 @@ namespace ft
 }
 
 #endif
+
+// A propos des iterator_traits :
+// https://www.codeproject.com/Articles/36530/An-Introduction-to-Iterator-Traits
+// https://en.cppreference.com/w/cpp/iterator/iterator_traits
+// https://stackoverflow.com/questions/6742008/what-are-the-typical-use-cases-of-an-iterator-trait

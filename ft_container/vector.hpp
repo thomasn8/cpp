@@ -1,11 +1,10 @@
 #ifndef VECTOR_HPP
 # define VECTOR_HPP
 
-#include "random_access_iterator.hpp"
-#include "reverse_iterator.hpp"
 #include <iostream>							// cout << 
 #include <memory>							// allocator<T>
 #include <stdexcept>						// exceptions
+#include "iterators.hpp"
 
 using namespace std;
 
@@ -24,7 +23,6 @@ namespace ft
 			typedef	typename allocator_type::pointer 				pointer;			// T *
 			typedef	typename allocator_type::const_pointer 			const_pointer;		// const T *
 			typedef int												difference_type;	// pour marquer les distances entre 2 ptr
-			
 			typedef	ft::random_access_iterator<value_type>			iterator;
 			typedef	ft::random_access_iterator<const value_type>	const_iterator;
 			typedef	ft::reverse_iterator<iterator>					reverse_iterator;
@@ -108,7 +106,6 @@ namespace ft
 				iterator last = x.end();
 				// const_iterator first = x.begin();
 				// const_iterator last = x.end();
-
 				this->_n = x.size();
 				this->_c = this->_n;
 				if (this->_c > this->max_size())

@@ -1,6 +1,5 @@
 #include "vector.hpp"
 #include "Test.hpp"
-#include "iterator_traits.hpp"
 
 using namespace std;
 
