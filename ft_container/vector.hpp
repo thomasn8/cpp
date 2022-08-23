@@ -26,7 +26,7 @@ namespace ft
 			typedef int											difference_type;	// pour marquer les distances entre 2 ptr
 			
 		// CONSTRUCTEURS/DESTRUCTEUR
-			explicit vector(const allocator_type & alloc = allocator_type()) 		// CONSTR #1
+			explicit vector(const allocator_type & alloc = allocator_type()) 						// CONSTR #1
 			: _n(0), _c(0), _capacityFactor(2)
 			{
 				this->_pointer = this->_alloc.allocate(1);
@@ -60,7 +60,7 @@ namespace ft
 			}
 			
 			// le typedef SFINAE dans random_access_iterator force le choix pour ce constructeur (car 2 args comme le #2)
-			template <typename InputIterator>													// CONSTR #3
+			template <typename InputIterator>														// CONSTR #3
 			vector(InputIterator first, InputIterator last, 
 				const allocator_type & alloc = allocator_type(), 
 				typename InputIterator::SFINAE_condition = 0) : 
@@ -139,7 +139,7 @@ namespace ft
 					iterator(T * p) { this->_p = p; }
 					iterator() { this->_p = 0; }
 					virtual ~iterator() {}
-					// SURCHARGES
+					// SURCHARGES pour calibrer le type de retour
 					friend difference_type operator-(const iterator & a, const iterator & b) { return static_cast<int>(a._p - b._p); }
 					iterator & operator++() { ++this->_p; return *this; }
 					iterator operator++(value_type) { iterator tmp(*this); this->_p++; return tmp; }
@@ -169,7 +169,7 @@ namespace ft
 					const_iterator(T * p) { this->_p = p; }
 					const_iterator() { this->_p = 0; }
 					~const_iterator() {}
-					// SURCHARGES
+					// SURCHARGES pour calibrer le type de retour
 					friend difference_type operator-(const const_iterator & a, const const_iterator & b) { return static_cast<int>(a._p - b._p); }
 					const_iterator & operator++() { ++this->_p; return *this; }
 					const_iterator operator++(value_type) { const_iterator tmp(*this); this->_p++; return tmp; }
@@ -207,27 +207,21 @@ namespace ft
 			class length_error : public std::exception
 			{
 				public:
-					virtual const char* what() const throw()
-					{
-						return ("Allocation impossible: capacity exceeded");
-					}
+					virtual const char* what() const throw() { return ("Allocation impossible: capacity exceeded"); }
 			};
 			class out_of_range_error : public std::exception
 			{
 				public:
-					virtual const char* what() const throw()
-					{
-						return ("Error: out of range");
-					}
+					virtual const char* what() const throw() { return ("Error: out of range"); }
 			};
 
 		// ELEMENT ACCESS
-			reference front() 									{ return *this->_first; }
-			const_reference front() const 						{ return *this->_first; }
-			reference back() 									{ return *this->_last; }
-			const_reference back() const 						{ return *this->_last; }
-			value_type * data() 									{ return this->_first; }
-			const value_type * data() const 						{ return this->_first; }
+			reference front() 						{ return *this->_first; }
+			const_reference front() const 			{ return *this->_first; }
+			reference back() 						{ return *this->_last; }
+			const_reference back() const 			{ return *this->_last; }
+			value_type * data() 					{ return this->_first; }
+			const value_type * data() const 		{ return this->_first; }
 			reference at(size_type n)
 			{
 				if (n >= this->_n)
@@ -242,10 +236,10 @@ namespace ft
 			}
 
 		// CAPACITY
-			size_type size() const 								{ return this->_n; }
-			bool empty() const 									{ return bool(!this->_n); }
-			size_type capacity() const							{ return this->_c; }
-			size_type max_size() const							{ return this->_alloc.max_size(); }
+			size_type size() const 					{ return this->_n; }
+			bool empty() const 						{ return bool(!this->_n); }
+			size_type capacity() const				{ return this->_c; }
+			size_type max_size() const				{ return this->_alloc.max_size(); }
 			
 			void shrink_to_fit()
 			{
@@ -320,10 +314,7 @@ namespace ft
 				this->_pointer = this->_alloc.allocate(n + 1);
 				pointer new_first = this->_pointer;
 				for (size_type i = 0; i < n; i++)
-				{
-					this->_alloc.construct(this->_pointer, val);
-					this->_pointer++;
-				}
+					this->_alloc.construct(this->_pointer++, val);
 				this->_alloc.deallocate(this->_first, this->_c + 1);
 				this->_first = new_first;
 				this->_last = --this->_pointer;
@@ -343,11 +334,7 @@ namespace ft
 				this->_pointer = this->_alloc.allocate(n + 1);
 				pointer new_first = this->_pointer;
 				while (first != last)
-				{
-					this->_alloc.construct(this->_pointer, *first);
-					first++;
-					this->_pointer++;
-				}
+					this->_alloc.construct(this->_pointer++, *first++);
 				this->_alloc.deallocate(this->_first, this->_c + 1);
 				this->_first = new_first;
 				this->_last = --this->_pointer;
@@ -361,10 +348,7 @@ namespace ft
 			void push_back(const value_type & val)
 			{
 				if (this->_n + 1 <= this->_c)
-				{
-					this->_alloc.construct(this->_last + 1, val);
-					this->_last++;
-				}
+					this->_alloc.construct(this->_last++ + 1, val);
 				else
 				{
 					size_type new_capacity = this->_c * this->_capacityFactor;
@@ -375,11 +359,7 @@ namespace ft
 					this->_pointer = this->_alloc.allocate(new_capacity + 1);
 					pointer new_first = this->_pointer;
 					while (old_first != old_last)
-					{
-						this->_alloc.construct(this->_pointer, *old_first);
-						old_first++;
-						this->_pointer++;
-					}
+						this->_alloc.construct(this->_pointer++, *old_first++);
 					this->_alloc.construct(this->_pointer, val);
 					this->_alloc.deallocate(this->_first, this->_c + 1);
 					this->_first = new_first;
@@ -402,7 +382,6 @@ namespace ft
 				}
 			}
 
-			template <typename iterator>
 			iterator insert(iterator position, const value_type & val)
 			{
 				iterator r_value;
@@ -442,7 +421,6 @@ namespace ft
 				return r_value;
 			}
 
-			template <typename iterator>
 			void insert(iterator position, size_type n, const value_type & val)
 			{
 				iterator it = this->begin();
@@ -519,25 +497,18 @@ namespace ft
 				this->_n += n;
 			}
 
-
-			template <typename iterator>
 			iterator erase(iterator position)
 			{
 				iterator r_value = position;
-				size_type dist = this->_last - position;
-				while (dist)
-				{
-					this->_alloc.construct(position.getP(), *(position + 1));
-					dist--;
-					position++;
-				}
+				size_type dist = this->_last - position + 1;
+				while (--dist)
+					this->_alloc.construct(position.getP(), *(position++ + 1));
 				this->get_allocator().destroy(this->_last);
 				this->_last--;
 				this->_n--;
 				return r_value;
 			}
 
-			template <typename iterator>
 			iterator erase(iterator first, iterator last)
 			{
 				iterator r_value = first;						
@@ -550,6 +521,13 @@ namespace ft
 				while (erased)
 					this->get_allocator().destroy(this->_last - erased-- + 1);
 				return r_value;
+			}
+
+			void swap(vector & x)
+			{
+				ft::vector<T> tmp(x.begin(), x.end());
+				x.assign(this->begin(), this->end());
+				this->assign(tmp.begin(), tmp.end());
 			}
 
 		// ALLOCATOR
@@ -573,31 +551,18 @@ namespace ft
 			pointer			_pointer;			// random pointer for multi-usage
 
 			size_type get_index(pointer p) const { return p - this->_first; }
-			// template <typename iterator>
 			size_type get_index(iterator it) { return it - this->begin(); }
+			
 			void	capacity_error()
 			{
-				try
-				{
-					throw vector::length_error();
-				}
-				catch (const vector::length_error & e)
-				{
-					cerr << e.what() << endl;
-				}
+				try { throw vector::length_error(); }
+				catch (const vector::length_error & e) { cerr << e.what() << endl; }
 			}
 			void	range_error()
 			{
-				try
-				{
-					throw vector::out_of_range_error();
-				}
-				catch (const vector::out_of_range_error & e)
-				{
-					cerr << e.what() << endl;
-				}
+				try { throw vector::out_of_range_error(); }
+				catch (const vector::out_of_range_error & e) { cerr << e.what() << endl; }
 			}
-
 	};
 
 }

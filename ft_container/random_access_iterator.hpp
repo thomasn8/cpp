@@ -56,7 +56,6 @@ namespace ft
 
 		protected :
 			pointer _p;
-
 	};
 
 
@@ -112,7 +111,6 @@ namespace ft
 
 		protected :
 			pointer _p;
-
 	};
 
 }
