@@ -327,6 +327,12 @@ namespace ft
 				}
 			}
 
+			template <class... Args>
+			iterator emplace(const_iterator position, Args&&... args)
+			{
+
+			}
+
 			iterator insert(iterator position, const value_type & val)
 			{
 				iterator r_value;
