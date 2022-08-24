@@ -538,7 +538,6 @@ int main()
 		cout << &(*it2) << ": " << *it2 << endl;
 		it2++;
 	}
-
 	return 0;
 }
 

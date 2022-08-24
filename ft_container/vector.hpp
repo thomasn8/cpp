@@ -327,12 +327,6 @@ namespace ft
 				}
 			}
 
-			template <class... Args>
-			iterator emplace(const_iterator position, Args&&... args)
-			{
-
-			}
-
 			iterator insert(iterator position, const value_type & val)
 			{
 				iterator r_value;
@@ -532,6 +526,50 @@ namespace ft
 
 	template <class T, class Alloc>
 	void swap(vector<T,Alloc> & x, vector<T,Alloc> & y) { x.swap(y); }
+
+// The equality comparison (operator==) is performed by first comparing sizes,
+// and if they match, the elements are compared sequentially using operator==, 
+// stopping at the first mismatch (as if using algorithm equal).
+	template <class T, class Alloc>
+	bool operator==(const vector<T,Alloc> & lhs, const vector<T,Alloc> & rhs)
+	{
+		if (lhs.size() != rhs.size())
+			return false;
+		while
+	}
+
+	template <class T, class Alloc>
+	bool operator!=(const vector<T,Alloc> & lhs, const vector<T,Alloc> & rhs)
+	{
+		return lhs.size() != rhs.size();
+	}
+
+// The less-than comparison (operator<) behaves as if using algorithm lexicographical_compare, 
+// which compares the elements sequentially using operator< in a reciprocal manner 
+// (i.e., checking both a<b and b<a) and stopping at the first occurrence.
+	template <class T, class Alloc>
+	bool operator<(const vector<T,Alloc> & lhs, const vector<T,Alloc> & rhs)
+	{
+
+	}
+
+	template <class T, class Alloc>
+	bool operator<=(const vector<T,Alloc> & lhs, const vector<T,Alloc> & rhs)
+	{
+
+	}
+
+	template <class T, class Alloc>
+	bool operator>(const vector<T,Alloc> & lhs, const vector<T,Alloc> & rhs)
+	{
+
+	}
+
+	template <class T, class Alloc>
+	bool operator>=(const vector<T,Alloc> & lhs, const vector<T,Alloc> & rhs)
+	{
+
+	}
 
 }
 
