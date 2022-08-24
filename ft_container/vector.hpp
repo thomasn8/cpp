@@ -527,30 +527,58 @@ namespace ft
 	template <class T, class Alloc>
 	void swap(vector<T,Alloc> & x, vector<T,Alloc> & y) { x.swap(y); }
 
-// The equality comparison (operator==) is performed by first comparing sizes,
-// and if they match, the elements are compared sequentially using operator==, 
-// stopping at the first mismatch (as if using algorithm equal).
 	template <class T, class Alloc>
 	bool operator==(const vector<T,Alloc> & lhs, const vector<T,Alloc> & rhs)
 	{
 		if (lhs.size() != rhs.size())
 			return false;
-		while
+		for (size_type i = 0; i < lhs.size(); i++)
+		{
+			if (lhs.at(i) != rhs.at(i))
+				return false;
+		}
+		return true;
 	}
 
 	template <class T, class Alloc>
 	bool operator!=(const vector<T,Alloc> & lhs, const vector<T,Alloc> & rhs)
 	{
-		return lhs.size() != rhs.size();
+		if (lhs.size() == rhs.size())
+			return false;
+		for (size_type i = 0; i < lhs.size(); i++)
+		{
+			if (lhs.at(i) == rhs.at(i))
+				return false;
+		}
+		return true;
 	}
 
 // The less-than comparison (operator<) behaves as if using algorithm lexicographical_compare, 
 // which compares the elements sequentially using operator< in a reciprocal manner 
 // (i.e., checking both a<b and b<a) and stopping at the first occurrence.
+
+// If both sequences compare equal until one of them ends, the shorter sequence is lexicographically less than the longer one.
 	template <class T, class Alloc>
 	bool operator<(const vector<T,Alloc> & lhs, const vector<T,Alloc> & rhs)
 	{
-
+		if (lhs.size() < rhs.size())
+		{
+			for (size_type i = 0; i < lhs.size(); i++)
+			{
+				if (lhs.at(i) >= rhs.at(i))
+					return false;
+			}
+			return true;
+		}
+		else
+		{
+			for (size_type i = 0; i < lhs.size(); i++)
+			{
+				if (lhs.at(i) >= rhs.at(i))
+					return false;
+			}
+			return false;
+		}
 	}
 
 	template <class T, class Alloc>
