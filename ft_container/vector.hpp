@@ -130,7 +130,7 @@ namespace ft
 			virtual ~vector() 																	// DESTR #1
 			{
 				this->get_allocator().deallocate(this->_first, this->size());
-				cout << endl << "(" << this << " - default) vector destroyed:" << endl << "from " << this->_first << ", size = " << this->size() << endl;
+				cout << endl << "(" << this << " - default) vector destroyed" << endl;
 			}
 
 		// ITERATORS
@@ -206,8 +206,6 @@ namespace ft
 					this->_first = new_first;
 					this->_last = --this->_pointer;
 					this->_c = this->_n;
-					cout << endl << "(" << this << " - shrink_to_fit) vector reallocated / ";
-					cout << "new capacity = " << this->_c << endl;
 				}
 			}
 
@@ -231,8 +229,6 @@ namespace ft
 					this->_first = new_first;
 					this->_last = --this->_pointer;
 					this->_c = n;
-					cout << endl << "(" << this << " - push_back) vector reallocated / ";
-					cout << "new capacity = " << this->_c << endl;
 				}
 			}
 
@@ -266,8 +262,6 @@ namespace ft
 				this->_last = --this->_pointer;
 				this->_n = n;
 				this->_c = this->_n;
-				cout << endl << "(" << this << " - assign 1) vector reallocated / ";
-				cout << "new size = " << this->_n << endl;
 			}
 			
 			template <class InputIterator>
@@ -286,8 +280,6 @@ namespace ft
 				this->_last = --this->_pointer;
 				this->_n = n;
 				this->_c = this->_n;
-				cout << endl << "(" << this << " - assign 2) vector reallocated / ";
-				cout << "new size = " << this->_n << endl;
 			}
 
 			void push_back(const value_type & val)
@@ -310,8 +302,6 @@ namespace ft
 					this->_first = new_first;
 					this->_last = this->_pointer;
 					this->_c = new_capacity;
-					cout << endl << "(" << this << " - push_back) vector reallocated / ";
-					cout << "new capacity = " << this->_c << endl;
 				}
 				this->_n++;
 			}
@@ -320,10 +310,8 @@ namespace ft
 			{
 				if (this->_n > 0)
 				{
-					this->_alloc.destroy(this->_last);
+					this->_alloc.destroy(this->_last--);
 					this->_n--;
-					this->_last--;
-					cout << endl << "(" << this << " - pop_back) new size = " << this->_n << endl;
 				}
 			}
 
@@ -556,7 +544,8 @@ namespace ft
 	template <class T, class Alloc>
 	bool operator<(const vector<T,Alloc> & lhs, const vector<T,Alloc> & rhs)
 	{
-		lhs.size() < rhs.size() ? unsigned small = lhs.size() : unsigned small = rhs.size();
+		unsigned small;
+		lhs.size() < rhs.size() ? small = lhs.size() : small = rhs.size();
 		for (unsigned i = 0; i < small; i++)
 		{
 			if (lhs.at(i) >= rhs.at(i))
@@ -570,7 +559,8 @@ namespace ft
 	template <class T, class Alloc>
 	bool operator<=(const vector<T,Alloc> & lhs, const vector<T,Alloc> & rhs)
 	{
-		lhs.size() < rhs.size() ? unsigned small = lhs.size() : unsigned small = rhs.size();
+		unsigned small;
+		lhs.size() < rhs.size() ? small = lhs.size() : small = rhs.size();
 		for (unsigned i = 0; i < small; i++)
 		{
 			if (lhs.at(i) > rhs.at(i))
@@ -584,7 +574,8 @@ namespace ft
 	template <class T, class Alloc>
 	bool operator>(const vector<T,Alloc> & lhs, const vector<T,Alloc> & rhs)
 	{
-		lhs.size() < rhs.size() ? unsigned small = lhs.size() : unsigned small = rhs.size();
+		unsigned small;
+		lhs.size() < rhs.size() ? small = lhs.size() : small = rhs.size();
 		for (unsigned i = 0; i < small; i++)
 		{
 			if (lhs.at(i) <= rhs.at(i))
@@ -598,7 +589,8 @@ namespace ft
 	template <class T, class Alloc>
 	bool operator>=(const vector<T,Alloc> & lhs, const vector<T,Alloc> & rhs)
 	{
-		lhs.size() < rhs.size() ? unsigned small = lhs.size() : unsigned small = rhs.size();
+		unsigned small;
+		lhs.size() < rhs.size() ? small = lhs.size() : small = rhs.size();
 		for (unsigned i = 0; i < small; i++)
 		{
 			if (lhs.at(i) < rhs.at(i))
