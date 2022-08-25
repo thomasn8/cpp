@@ -1,8 +1,6 @@
 #ifndef UTILS_HPP
 # define UTILS_HPP
 
-// #include <functional>		// comparisons
-
 namespace ft
 {
 // ENABLE_IF
