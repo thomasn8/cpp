@@ -1,5 +1,5 @@
 #include "vector.hpp"
-#include "Test.hpp"
+#include "class_test/Test.hpp"
 
 using namespace std;
 

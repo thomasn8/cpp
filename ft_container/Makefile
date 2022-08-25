@@ -1,5 +1,5 @@
-SRCS		=		main.cpp \
-					Test.cpp \
+SRCS		=		main.cpp 			\
+					class_test/Test.cpp	\
 
 OBJS		= ${SRCS:.cpp=.o}
 CC			= c++
