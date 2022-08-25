@@ -1,9 +1,6 @@
 #ifndef PAIR_HPP
 # define PAIR_HPP
 
-#include <iostream>
-using namespace std;
-
 namespace ft
 {
 	template <class T1, class T2> 

@@ -1,4 +1,5 @@
 #include "vector.hpp"
+#include "map.hpp"
 #include "pair.hpp"
 #include "class_test/Test.hpp"
 
@@ -600,7 +601,7 @@ int main()
 	cout << "	#1 = " << p4._first << "	";
 	cout << "	#2 = " << p4._second << endl;
 
-	cout << endl << endl;
+	cout << endl;
 	ft::pair<int,char> foo2(10,'z');
 	ft::pair<int,char> bar2(90,'a');
 	if (foo2==bar2) std::cout << "foo and bar are equal\n";
