@@ -532,7 +532,7 @@ namespace ft
 	{
 		if (lhs.size() != rhs.size())
 			return false;
-		for (size_type i = 0; i < lhs.size(); i++)
+		for (unsigned i = 0; i < lhs.size(); i++)
 		{
 			if (lhs.at(i) != rhs.at(i))
 				return false;
@@ -543,60 +543,70 @@ namespace ft
 	template <class T, class Alloc>
 	bool operator!=(const vector<T,Alloc> & lhs, const vector<T,Alloc> & rhs)
 	{
-		if (lhs.size() == rhs.size())
-			return false;
-		for (size_type i = 0; i < lhs.size(); i++)
+		if (lhs.size() != rhs.size())
+			return true;
+		for (unsigned i = 0; i < lhs.size(); i++)
 		{
-			if (lhs.at(i) == rhs.at(i))
-				return false;
+			if (lhs.at(i) != rhs.at(i))
+				return true;
 		}
-		return true;
+		return false;
 	}
 
-// The less-than comparison (operator<) behaves as if using algorithm lexicographical_compare, 
-// which compares the elements sequentially using operator< in a reciprocal manner 
-// (i.e., checking both a<b and b<a) and stopping at the first occurrence.
-
-// If both sequences compare equal until one of them ends, the shorter sequence is lexicographically less than the longer one.
 	template <class T, class Alloc>
 	bool operator<(const vector<T,Alloc> & lhs, const vector<T,Alloc> & rhs)
 	{
-		if (lhs.size() < rhs.size())
+		lhs.size() < rhs.size() ? unsigned small = lhs.size() : unsigned small = rhs.size();
+		for (unsigned i = 0; i < small; i++)
 		{
-			for (size_type i = 0; i < lhs.size(); i++)
-			{
-				if (lhs.at(i) >= rhs.at(i))
-					return false;
-			}
+			if (lhs.at(i) >= rhs.at(i))
+				return false;
+		}
+		if (lhs.size() <= rhs.size())
 			return true;
-		}
-		else
-		{
-			for (size_type i = 0; i < lhs.size(); i++)
-			{
-				if (lhs.at(i) >= rhs.at(i))
-					return false;
-			}
-			return false;
-		}
+		return false;
 	}
 
 	template <class T, class Alloc>
 	bool operator<=(const vector<T,Alloc> & lhs, const vector<T,Alloc> & rhs)
 	{
-
+		lhs.size() < rhs.size() ? unsigned small = lhs.size() : unsigned small = rhs.size();
+		for (unsigned i = 0; i < small; i++)
+		{
+			if (lhs.at(i) > rhs.at(i))
+				return false;
+		}
+		if (lhs.size() <= rhs.size())
+			return true;
+		return false;
 	}
 
 	template <class T, class Alloc>
 	bool operator>(const vector<T,Alloc> & lhs, const vector<T,Alloc> & rhs)
 	{
-
+		lhs.size() < rhs.size() ? unsigned small = lhs.size() : unsigned small = rhs.size();
+		for (unsigned i = 0; i < small; i++)
+		{
+			if (lhs.at(i) <= rhs.at(i))
+				return false;
+		}
+		if (lhs.size() >= rhs.size())
+			return true;
+		return false;
 	}
 
 	template <class T, class Alloc>
 	bool operator>=(const vector<T,Alloc> & lhs, const vector<T,Alloc> & rhs)
 	{
-
+		lhs.size() < rhs.size() ? unsigned small = lhs.size() : unsigned small = rhs.size();
+		for (unsigned i = 0; i < small; i++)
+		{
+			if (lhs.at(i) < rhs.at(i))
+				return false;
+		}
+		if (lhs.size() >= rhs.size())
+			return true;
+		return false;
 	}
 
 }
