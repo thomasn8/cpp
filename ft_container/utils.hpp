@@ -1,6 +1,8 @@
 #ifndef UTILS_HPP
 # define UTILS_HPP
 
+#include <functional>		// comparisons
+
 namespace ft
 {
 // ENABLE_IF
@@ -32,6 +34,65 @@ namespace ft
 	struct is_integral<bool> { const static bool value = true; };
 	template<>
 	struct is_integral<wchar_t> { const static bool value = true; };
+
+// EQUALITY COMPARE
+	template <typename InputIterator1, typename InputIterator2>
+	bool equal(InputIterator1 first1, InputIterator1 last1,
+		InputIterator2 first2)
+	{
+		while (first1 != last1) 
+		{
+			if (!(*first1++ == *first2++))
+				return false;
+		}
+		return true;
+	}
+
+	template <typename InputIterator1, typename InputIterator2, typename BinaryPredicate>
+	bool equal(InputIterator1 first1, InputIterator1 last1,
+		InputIterator2 first2, BinaryPredicate pred)
+	{
+		while (first1 != last1) 
+		{
+			if (!pred(*first1++, *first2++))
+				return false;
+		}
+		return true;
+	}
+
+// LEXICOGRAPHICAL COMPARE
+	template <typename InputIterator1, typename InputIterator2>
+	bool lexicographical_compare(InputIterator1 first1, InputIterator1 last1,
+		InputIterator2 first2, InputIterator2 last2)
+	{
+		while (first1 != last1)
+		{
+			if (first2 == last2 || *first2 < *first1)
+				return false;				
+			else if (*first1 < *first2)
+				return true;
+			++first1; 
+			++first2;
+		}
+		return (first2 != last2);
+	}
+
+	template <typename InputIterator1, typename InputIterator2, typename Compare>
+	bool lexicographical_compare(InputIterator1 first1, InputIterator1 last1,
+		InputIterator2 first2, InputIterator2 last2, Compare comp)
+	{
+		while (first1 != last1)
+		{
+			if (first2 == last2 || comp(*first2, *first1))
+				return false;
+			else if (comp(*first1, *first2))
+				return true;
+			++first1; 
+			++first2;
+		}
+		return (first2 != last2);
+	}
+
 }
 
 #endif

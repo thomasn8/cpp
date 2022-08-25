@@ -4,6 +4,8 @@
 #include <iostream>			// cout << 
 #include <memory>			// allocator<T>
 #include <stdexcept>		// exceptions
+#include <functional>		// comparisons
+#include <cmath>
 #include "iterators.hpp"
 #include "utils.hpp"
 
@@ -519,85 +521,54 @@ namespace ft
 	{
 		if (lhs.size() != rhs.size())
 			return false;
-		for (unsigned i = 0; i < lhs.size(); i++)
-		{
-			if (lhs.at(i) != rhs.at(i))
-				return false;
-		}
-		return true;
+		// return ft::equal<vector<T,Alloc>::const_iterator, vector<T,Alloc>::const_iterator>(lhs.begin(), lhs.end(), rhs.begin());
+		return ft::equal(lhs.begin(), lhs.end(), rhs.begin());
+		// for (unsigned i = 0; i < lhs.size(); i++)
+		// {
+		// 	if (lhs.at(i) != rhs.at(i))
+		// 		return false;
+		// }
+		// return true;
 	}
 
 	template <class T, class Alloc>
 	bool operator!=(const vector<T,Alloc> & lhs, const vector<T,Alloc> & rhs)
 	{
-		if (lhs.size() != rhs.size())
-			return true;
-		for (unsigned i = 0; i < lhs.size(); i++)
-		{
-			if (lhs.at(i) != rhs.at(i))
-				return true;
-		}
-		return false;
+		return !(lhs == rhs);
+		// if (lhs.size() != rhs.size())
+		// 	return true;
+		// // return !(ft::equal<vector<T,Alloc>::const_iterator, vector<T,Alloc>::const_iterator>(lhs.begin(), lhs.end(), rhs.begin()));
+		// return !(ft::equal(lhs.begin(), lhs.end(), rhs.begin()));
+		// // for (unsigned i = 0; i < lhs.size(); i++)
+		// // {
+		// // 	if (lhs.at(i) != rhs.at(i))
+		// // 		return true;
+		// // }
+		// // return false;
 	}
 
 	template <class T, class Alloc>
 	bool operator<(const vector<T,Alloc> & lhs, const vector<T,Alloc> & rhs)
 	{
-		unsigned small;
-		lhs.size() < rhs.size() ? small = lhs.size() : small = rhs.size();
-		for (unsigned i = 0; i < small; i++)
-		{
-			if (lhs.at(i) >= rhs.at(i))
-				return false;
-		}
-		if (lhs.size() <= rhs.size())
-			return true;
-		return false;
+		return ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
 	}
 
 	template <class T, class Alloc>
 	bool operator<=(const vector<T,Alloc> & lhs, const vector<T,Alloc> & rhs)
 	{
-		unsigned small;
-		lhs.size() < rhs.size() ? small = lhs.size() : small = rhs.size();
-		for (unsigned i = 0; i < small; i++)
-		{
-			if (lhs.at(i) > rhs.at(i))
-				return false;
-		}
-		if (lhs.size() <= rhs.size())
-			return true;
-		return false;
+		return ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end(), std::less_equal<T>());
 	}
 
 	template <class T, class Alloc>
 	bool operator>(const vector<T,Alloc> & lhs, const vector<T,Alloc> & rhs)
 	{
-		unsigned small;
-		lhs.size() < rhs.size() ? small = lhs.size() : small = rhs.size();
-		for (unsigned i = 0; i < small; i++)
-		{
-			if (lhs.at(i) <= rhs.at(i))
-				return false;
-		}
-		if (lhs.size() >= rhs.size())
-			return true;
-		return false;
+		return ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end(), std::greater<T>());
 	}
 
 	template <class T, class Alloc>
 	bool operator>=(const vector<T,Alloc> & lhs, const vector<T,Alloc> & rhs)
 	{
-		unsigned small;
-		lhs.size() < rhs.size() ? small = lhs.size() : small = rhs.size();
-		for (unsigned i = 0; i < small; i++)
-		{
-			if (lhs.at(i) < rhs.at(i))
-				return false;
-		}
-		if (lhs.size() >= rhs.size())
-			return true;
-		return false;
+		return ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end(), std::greater_equal<T>());
 	}
 
 }

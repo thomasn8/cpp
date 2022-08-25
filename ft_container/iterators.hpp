@@ -178,8 +178,3 @@ namespace ft
 }
 
 #endif
-
-// A propos des iterator_traits :
-// https://www.codeproject.com/Articles/36530/An-Introduction-to-Iterator-Traits
-// https://en.cppreference.com/w/cpp/iterator/iterator_traits
-// https://stackoverflow.com/questions/6742008/what-are-the-typical-use-cases-of-an-iterator-trait
