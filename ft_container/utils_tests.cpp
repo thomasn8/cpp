@@ -13,6 +13,8 @@ namespace ft
 
 
 	/////////////////////////// Is integer
+	// It is a struct<T>, whose constexpr bool value member is set to true if T is an “integral type” 
+	// (or any const, volatile and reference to it) and false otherwise.
 	template<typename T>
 	struct is_integral { const static bool value = false; };
 	template<>
@@ -45,8 +47,8 @@ namespace ft
 // 
 // =>
 // 
-// ft::enable_if< TRUE, bool >::type	=> existe
 // ft::enable_if< FALSE, bool >::type	=> existe pas
+// ft::enable_if< TRUE, bool >::type	=> existe
 
 template <class T>
 typename ft::enable_if< ft::is_integral<T>::value, bool >::type is_odd (T i)
