@@ -584,13 +584,7 @@ int main()
 	cout << "	#2 = " << p7._second << endl;
 	ft::make_pair<float,float>(1.1f,2.2f);
 	
-	// p2.swap(p3);
-	// cout << "Paire2 ";
-	// cout << "	#1 = " << p2._first << "	";
-	// cout << "	#2 = " << p2._second << endl;
-	// cout << "Paire3 ";
-	// cout << "	#1 = " << p3._first << "	";
-	// cout << "	#2 = " << p3._second << endl;
+	cout << endl;
 	p2.swap(p4);
 	cout << "Paire2 ";
 	cout << "	#1 = " << p2._first << "	";
@@ -598,6 +592,23 @@ int main()
 	cout << "Paire4 ";
 	cout << "	#1 = " << p4._first << "	";
 	cout << "	#2 = " << p4._second << endl;
+	ft::swap(p2, p4);
+	cout << "Paire2 ";
+	cout << "	#1 = " << p2._first << "	";
+	cout << "	#2 = " << p2._second << endl;
+	cout << "Paire4 ";
+	cout << "	#1 = " << p4._first << "	";
+	cout << "	#2 = " << p4._second << endl;
+
+	cout << endl << endl;
+	ft::pair<int,char> foo2(10,'z');
+	ft::pair<int,char> bar2(90,'a');
+	if (foo2==bar2) std::cout << "foo and bar are equal\n";
+	if (foo2!=bar2) std::cout << "foo and bar are not equal\n";
+	if (foo2< bar2) std::cout << "foo is less than bar\n";
+	if (foo2> bar2) std::cout << "foo is greater than bar\n";
+	if (foo2<=bar2) std::cout << "foo is less than or equal to bar\n";
+	if (foo2>=bar2) std::cout << "foo is greater than or equal to bar\n";
 
 	return 0;
 }
