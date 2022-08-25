@@ -4,8 +4,6 @@
 #include <iostream>			// cout << 
 #include <memory>			// allocator<T>
 #include <stdexcept>		// exceptions
-#include <functional>		// comparisons
-#include <cmath>
 #include "iterators.hpp"
 #include "utils.hpp"
 
@@ -70,8 +68,7 @@ namespace ft
 		template <typename InputIterator>														// CONSTR #3
 		vector(InputIterator first, InputIterator last, 
 			const allocator_type & alloc = allocator_type(), 
-			// typename InputIterator::SFINAE_condition = 0,
-			typename ft::enable_if< !ft::is_integral<InputIterator>::value, bool >::type = 0) : 
+			typename InputIterator::SFINAE_condition = 0) : 
 			_capacityFactor(2)
 		{
 			this->_n = last - first;
@@ -519,34 +516,34 @@ namespace ft
 
 // RELATIONAL OPERATORS
 	template <class T, class Alloc>
-	bool operator==(const vector<T,Alloc> & lhs, const vector<T,Alloc> & rhs)
+	bool operator==(const vector<T, Alloc> & lhs, const vector<T, Alloc> & rhs)
 	{
 		if (lhs.size() != rhs.size())
 			return false;
 		return ft::equal(lhs.begin(), lhs.end(), rhs.begin());
 	}
 	template <class T, class Alloc>
-	bool operator!=(const vector<T,Alloc> & lhs, const vector<T,Alloc> & rhs)
+	bool operator!=(const vector<T, Alloc> & lhs, const vector<T,Alloc> & rhs)
 	{
 		return !(lhs == rhs);
 	}
 	template <class T, class Alloc>
-	bool operator<(const vector<T,Alloc> & lhs, const vector<T,Alloc> & rhs)
+	bool operator<(const vector<T, Alloc> & lhs, const vector<T, Alloc> & rhs)
 	{
 		return ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
 	}
 	template <class T, class Alloc>
-	bool operator<=(const vector<T,Alloc> & lhs, const vector<T,Alloc> & rhs)
+	bool operator<=(const vector<T, Alloc> & lhs, const vector<T, Alloc> & rhs)
 	{
 		return ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end(), std::less_equal<T>());
 	}
 	template <class T, class Alloc>
-	bool operator>(const vector<T,Alloc> & lhs, const vector<T,Alloc> & rhs)
+	bool operator>(const vector<T, Alloc> & lhs, const vector<T, Alloc> & rhs)
 	{
 		return ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end(), std::greater<T>());
 	}
 	template <class T, class Alloc>
-	bool operator>=(const vector<T,Alloc> & lhs, const vector<T,Alloc> & rhs)
+	bool operator>=(const vector<T, Alloc> & lhs, const vector<T, Alloc> & rhs)
 	{
 		return ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end(), std::greater_equal<T>());
 	}

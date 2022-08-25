@@ -1,7 +1,7 @@
 #ifndef UTILS_HPP
 # define UTILS_HPP
 
-#include <functional>		// comparisons
+// #include <functional>		// comparisons
 
 namespace ft
 {
