@@ -23,31 +23,31 @@ namespace ft
 		random_access_iterator(reference src) : _p(src.getP()) {}					// copy
 		virtual ~random_access_iterator() {}
 	// SURCHARGES
-		it & operator=(it const & src) { this->_p = src.getP(); return *this; }		// assign 
+		it & operator=(it const & src) { _p = src.getP(); return *this; }		// assign 
 		reference operator*() { return *_p; }
 		reference operator*() const { return *_p; }
-		reference operator[](unsigned int index) { return this->_p[index]; }	
+		reference operator[](unsigned int index) { return _p[index]; }	
 		pointer operator->() { return _p;  }
 		friend difference_type operator-(const it & a, const it & b) { return static_cast<int>(a._p - b._p); }
-		it & operator++() { ++this->_p; return *this; }
-		it operator++(value_type) { it tmp(*this); this->_p++; return tmp; }
-		it & operator--() { --this->_p; return *this; }
-		it operator--(value_type) { it tmp(*this); this->_p--; return tmp; }
-		bool operator==(const it & rhs) const { return this->_p == rhs._p; }
-		bool operator!=(const it & rhs) const { return this->_p != rhs._p; }
-		bool operator<(const it & rhs) const { return this->_p < rhs._p; }
-		bool operator<=(const it & rhs) const { return this->_p <= rhs._p; }
-		bool operator>(const it & rhs) const { return this->_p > rhs._p; }
-		bool operator>=(const it & rhs) const { return this->_p >= rhs._p; }
-		it operator+(difference_type n)	const { pointer tmp(this->_p + n); return tmp; }
+		it & operator++() { ++_p; return *this; }
+		it operator++(value_type) { it tmp(*this); _p++; return tmp; }
+		it & operator--() { --_p; return *this; }
+		it operator--(value_type) { it tmp(*this); _p--; return tmp; }
+		bool operator==(const it & rhs) const { return _p == rhs._p; }
+		bool operator!=(const it & rhs) const { return _p != rhs._p; }
+		bool operator<(const it & rhs) const { return _p < rhs._p; }
+		bool operator<=(const it & rhs) const { return _p <= rhs._p; }
+		bool operator>(const it & rhs) const { return _p > rhs._p; }
+		bool operator>=(const it & rhs) const { return _p >= rhs._p; }
+		it operator+(difference_type n)	const { pointer tmp(_p + n); return tmp; }
 		friend it operator+(difference_type n, const it & it) { pointer tmp(it._p + n); return tmp; }
-		it operator-(difference_type n)	const { pointer tmp(this->_p - n); return tmp; }
-		it & operator+=(difference_type n) { it tmp(this->_p + n); this->_p = tmp.getP(); return *this; }
-		it & operator-=(difference_type n) { it tmp(this->_p - n); this->_p = tmp.getP(); return *this; }
+		it operator-(difference_type n)	const { pointer tmp(_p - n); return tmp; }
+		it & operator+=(difference_type n) { it tmp(_p + n); _p = tmp.getP(); return *this; }
+		it & operator-=(difference_type n) { it tmp(_p - n); _p = tmp.getP(); return *this; }
 
 		protected :
 		pointer _p;
-		pointer getP() const { return this->_p; }
+		pointer getP() const { return _p; }
 		difference_type getDiff() const { return sizeof(value_type); }
 	};
 
@@ -71,20 +71,20 @@ namespace ft
 		bidirectional_iterator(reference src) : _p(src.getP()) {}					// copy
 		virtual ~bidirectional_iterator() {}
 	// SURCHARGES
-		it & operator=(it const & src) { this->_p = src.getP(); return *this; }		// assign 
-		bool operator==(const it & rhs) const { return this->_p == rhs._p; }
-		bool operator!=(const it & rhs) const { return this->_p != rhs._p; }
+		it & operator=(it const & src) { _p = src.getP(); return *this; }		// assign 
+		bool operator==(const it & rhs) const { return _p == rhs._p; }
+		bool operator!=(const it & rhs) const { return _p != rhs._p; }
 		reference operator*() { return *_p; }
 		reference operator*() const { return *_p; }
 		pointer operator->() { return _p;  }
-		it & operator++() { ++this->_p; return *this; }
-		it operator++(int) { it tmp(*this); this->_p++; return tmp; }
-		it & operator--() { --this->_p; return *this; }
-		it operator--(int) { it tmp(*this); this->_p--; return tmp; }
+		it & operator++() { ++_p; return *this; }
+		it operator++(int) { it tmp(*this); _p++; return tmp; }
+		it & operator--() { --_p; return *this; }
+		it operator--(int) { it tmp(*this); _p--; return tmp; }
 	
 		protected:
 		pointer _p;
-		pointer getP() const { return this->_p; }
+		pointer getP() const { return _p; }
 		difference_type getDiff() const { return sizeof(value_type); }
 	};
 
@@ -133,40 +133,40 @@ namespace ft
 		typedef	iterator_category											rev_it;
 
 	// CONSTRUCTEURS/DESTRUCTEUR
-		reverse_iterator(void) { this->_iterator = iterator_type(); }
+		reverse_iterator(void) { _iterator = iterator_type(); }
 		explicit reverse_iterator(iterator_type it) : _iterator(it) {}
-		reverse_iterator(const reverse_iterator<iterator_type> & rev_it) { this->_iterator = rev_it._iterator; }
+		reverse_iterator(const reverse_iterator<iterator_type> & rev_it) { _iterator = rev_it._iterator; }
 		virtual ~reverse_iterator() {}
 	// MEMBER FUNCTION
-		iterator_type base() const { return this->_iterator; }
+		iterator_type base() const { return _iterator; }
 	// SURCHARGES
-		rev_it & operator=(const iterator_type & src) { this->_iterator = src; return *this; }
-		rev_it & operator=(const reverse_iterator<Iterator> & src) { this->_iterator = src._iterator; return *this; }
-		value_type operator*() { return *(this->_iterator - 1); }
-		value_type operator*() const { return *(this->_iterator - 1); }
-		value_type operator[](unsigned int index) { return *(this->_iterator - (index + 1)); }
-		pointer operator->() { return (this->_iterator - 1);  }
+		rev_it & operator=(const iterator_type & src) { _iterator = src; return *this; }
+		rev_it & operator=(const reverse_iterator<Iterator> & src) { _iterator = src._iterator; return *this; }
+		value_type operator*() { return *(_iterator - 1); }
+		value_type operator*() const { return *(_iterator - 1); }
+		value_type operator[](unsigned int index) { return *(_iterator - (index + 1)); }
+		pointer operator->() { return (_iterator - 1);  }
 		friend difference_type operator-(const reverse_iterator<iterator_type> & a, const reverse_iterator<iterator_type> & b) 
 		{ 
 			return static_cast<int>(b._iterator - a._iterator);
 		}
-		rev_it & operator++() { --this->_iterator; return *this; }
+		rev_it & operator++() { --_iterator; return *this; }
 		rev_it operator++(value_type)
 		{
-			iterator_type tmp = this->_iterator;
-			this->_iterator--;
+			iterator_type tmp = _iterator;
+			_iterator--;
 			return reverse_iterator<iterator_type>(tmp);
 		}
-		rev_it & operator--() { ++this->_iterator; return *this; }
+		rev_it & operator--() { ++_iterator; return *this; }
 		rev_it operator--(value_type) 
 		{
-			iterator_type tmp = this->_iterator;
-			this->_iterator++;
+			iterator_type tmp = _iterator;
+			_iterator++;
 			return reverse_iterator<iterator_type>(tmp);
 		}
 		rev_it operator+(difference_type n)	const
 		{
-			iterator_type tmp = this->_iterator;
+			iterator_type tmp = _iterator;
 			tmp -= n;
 			return reverse_iterator<iterator_type>(tmp);
 		}
@@ -178,12 +178,12 @@ namespace ft
 		}
 		rev_it operator-(difference_type n) const
 		{
-			iterator_type tmp = this->_iterator;
+			iterator_type tmp = _iterator;
 			tmp += n;
 			return reverse_iterator<iterator_type>(tmp);
 		}
-		rev_it & operator+=(difference_type n) { this->_iterator -= n; return *this; }
-		rev_it & operator-=(difference_type n) { this->_iterator += n; return *this; }
+		rev_it & operator+=(difference_type n) { _iterator -= n; return *this; }
+		rev_it & operator-=(difference_type n) { _iterator += n; return *this; }
 	// NON-MEMBER FUNCTION OVERLOADS
 		friend bool operator==(const reverse_iterator<Iterator>& lhs,
 			const reverse_iterator<Iterator>& rhs) { return lhs._iterator == rhs._iterator; }

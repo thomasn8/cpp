@@ -33,9 +33,9 @@ namespace ft
 		explicit vector(const allocator_type & alloc = allocator_type()) 						// CONSTR #1
 		: _n(0), _c(0), _capacityFactor(2), _alloc(alloc)
 		{
-			this->_pointer = this->_alloc.allocate(1);
-			this->_first = this->_pointer;
-			this->_last = --this->_pointer;
+			_pointer = _alloc.allocate(1);
+			_first = _pointer;
+			_last = --_pointer;
 			cout << endl << "(" << this << " - null) vector created" << endl;
 		}
 
@@ -43,21 +43,21 @@ namespace ft
 			const allocator_type & alloc = allocator_type())
 		: _n(n), _c(n), _capacityFactor(2), _alloc(alloc)
 		{
-			if (n > this->max_size())
+			if (n > max_size())
 			{
-				this->capacity_error();
+				capacity_error();
 				return;
 			}
-			this->_pointer = this->_alloc.allocate(n + 1);
-			this->_first = this->_pointer;
+			_pointer = _alloc.allocate(n + 1);
+			_first = _pointer;
 			for (size_type i = 0; i < n; i++)
 			{
-				// this->_alloc.construct(this->_pointer, val+i);
-				this->_alloc.construct(this->_pointer, val);
-				this->_pointer++;
+				// _alloc.construct(_pointer, val+i);
+				_alloc.construct(_pointer, val);
+				_pointer++;
 			}
-			this->_pointer--;
-			this->_last = this->_pointer;
+			_pointer--;
+			_last = _pointer;
 			cout << endl << "(" << this << " - fill) vector created" << endl;
 		}
 		
@@ -69,31 +69,31 @@ namespace ft
 			typename InputIterator::SFINAE_condition = 0) : 
 			_capacityFactor(2), _alloc(alloc)
 		{
-			this->_n = last - first;
-			this->_c = this->_n;
-			if (this->_c > this->max_size())
+			_n = last - first;
+			_c = _n;
+			if (_c > max_size())
 			{
-				this->capacity_error();
+				capacity_error();
 				return;
 			}
-			if (this->_n)
+			if (_n)
 			{
-				this->_pointer = this->_alloc.allocate(this->_n + 1);
-				this->_first = this->_pointer;
+				_pointer = _alloc.allocate(_n + 1);
+				_first = _pointer;
 				while (first != last)
 				{
-					this->_alloc.construct(this->_pointer, *first);
+					_alloc.construct(_pointer, *first);
 					++first;
-					this->_pointer++;
+					_pointer++;
 				}
-				this->_pointer--;
-				this->_last = this->_pointer;
+				_pointer--;
+				_last = _pointer;
 			}
 			else
 			{
-				this->_pointer = this->_alloc.allocate(1);
-				this->_first = this->_pointer;
-				this->_last = --this->_pointer;
+				_pointer = _alloc.allocate(1);
+				_first = _pointer;
+				_last = --_pointer;
 			}
 			cout << endl << "(" << this << " - range) vector created" << endl;
 		}
@@ -103,45 +103,45 @@ namespace ft
 		{
 			iterator first = x.begin();
 			iterator last = x.end();
-			this->_n = x.size();
-			this->_c = this->_n;
-			if (this->_c > this->max_size())
+			_n = x.size();
+			_c = _n;
+			if (_c > max_size())
 			{
-				this->capacity_error();
+				capacity_error();
 				return;
 			}
-			this->_pointer = x.get_allocator().allocate(this->_n + 1);
-			this->_first = this->_pointer;
+			_pointer = x.get_allocator().allocate(_n + 1);
+			_first = _pointer;
 			while (first != last)
 			{
-				x.get_allocator().construct(this->_pointer, *first);
+				x.get_allocator().construct(_pointer, *first);
 				++first;
-				this->_pointer++;
+				_pointer++;
 			}
-			this->_pointer--;
-			this->_last = this->_pointer;
+			_pointer--;
+			_last = _pointer;
 			cout << endl << "(" << this << " - copy) vector created" << endl;
 		}
 
 		virtual ~vector() 																	// DESTR #1
 		{
-			this->get_allocator().deallocate(this->_first, this->size());
+			get_allocator().deallocate(_first, size());
 			cout << endl << "(" << this << " - default) vector destroyed" << endl;
 		}
 
 	// ITERATORS
-		iterator begin() { return iterator(this->_first); };
-		iterator end() { return iterator(this->_last + 1); };
-		const_iterator begin() const { return const_iterator(this->_first); }
-		const_iterator end() const { return const_iterator(this->_last + 1); }
-		const_iterator cbegin() const { return const_iterator(this->_first); }
-		const_iterator cend() const { return const_iterator(this->_last + 1); }			
-		reverse_iterator rbegin() { reverse_iterator from(this->_last + 1); return from; }
-		const_reverse_iterator rbegin() const { const_reverse_iterator from(this->_last + 1); return from; }
-		reverse_iterator rend() { reverse_iterator until(this->_first); return until; }
-		const_reverse_iterator rend() const { const_reverse_iterator until(this->_first); return until; }
-		const_reverse_iterator crbegin() const { const_reverse_iterator from(this->_last + 1); return from; }
-		const_reverse_iterator crend() const { const_reverse_iterator until(this->_first); return until; }
+		iterator begin() { return iterator(_first); };
+		iterator end() { return iterator(_last + 1); };
+		const_iterator begin() const { return const_iterator(_first); }
+		const_iterator end() const { return const_iterator(_last + 1); }
+		const_iterator cbegin() const { return const_iterator(_first); }
+		const_iterator cend() const { return const_iterator(_last + 1); }			
+		reverse_iterator rbegin() { reverse_iterator from(_last + 1); return from; }
+		const_reverse_iterator rbegin() const { const_reverse_iterator from(_last + 1); return from; }
+		reverse_iterator rend() { reverse_iterator until(_first); return until; }
+		const_reverse_iterator rend() const { const_reverse_iterator until(_first); return until; }
+		const_reverse_iterator crbegin() const { const_reverse_iterator from(_last + 1); return from; }
+		const_reverse_iterator crend() const { const_reverse_iterator until(_first); return until; }
 	
 	// ERRORS
 		class length_error : public std::exception
@@ -156,311 +156,311 @@ namespace ft
 		};
 
 	// ELEMENT ACCESS
-		reference operator[](size_type index)				{ return this->_first[index]; }
-		const_reference operator[](size_type index) const	{ return this->_first[index]; }
-		reference front() 						{ return *this->_first; }
-		const_reference front() const 			{ return *this->_first; }
-		reference back() 						{ return *this->_last; }
-		const_reference back() const 			{ return *this->_last; }
-		value_type * data() 					{ return this->_first; }
-		const value_type * data() const 		{ return this->_first; }
+		reference operator[](size_type index)				{ return _first[index]; }
+		const_reference operator[](size_type index) const	{ return _first[index]; }
+		reference front() 						{ return *_first; }
+		const_reference front() const 			{ return *_first; }
+		reference back() 						{ return *_last; }
+		const_reference back() const 			{ return *_last; }
+		value_type * data() 					{ return _first; }
+		const value_type * data() const 		{ return _first; }
 		reference at(size_type n)
 		{
-			if (n >= this->_n)
-				this->range_error();
-			return *(this->_first + n);
+			if (n >= _n)
+				range_error();
+			return *(_first + n);
 		}
 		const_reference at(size_type n) const
 		{
-			if (n >= this->_n)
-				this->range_error();
-			return *(this->_first + n);
+			if (n >= _n)
+				range_error();
+			return *(_first + n);
 		}
 
 	// CAPACITY
-		size_type size() const 					{ return this->_n; }
-		bool empty() const 						{ return bool(!this->_n); }
-		size_type capacity() const				{ return this->_c; }
-		size_type max_size() const				{ return this->_alloc.max_size(); }
+		size_type size() const 					{ return _n; }
+		bool empty() const 						{ return bool(!_n); }
+		size_type capacity() const				{ return _c; }
+		size_type max_size() const				{ return _alloc.max_size(); }
 		
 		void shrink_to_fit()
 		{
-			size_type distance = this->_c - this->_n;
+			size_type distance = _c - _n;
 			if (distance > 0)
 			{
-				iterator old_first = this->begin();
-				iterator old_last = this->end();
-				this->_pointer = this->_alloc.allocate(this->_n + 1);
-				pointer new_first = this->_pointer;
+				iterator old_first = begin();
+				iterator old_last = end();
+				_pointer = _alloc.allocate(_n + 1);
+				pointer new_first = _pointer;
 				while (old_first != old_last)
 				{
-					this->_alloc.construct(this->_pointer, *old_first);
+					_alloc.construct(_pointer, *old_first);
 					old_first++;
-					this->_pointer++;
+					_pointer++;
 				}
-				this->_alloc.deallocate(this->_first, this->_c + 1);
-				this->_first = new_first;
-				this->_last = --this->_pointer;
-				this->_c = this->_n;
+				_alloc.deallocate(_first, _c + 1);
+				_first = new_first;
+				_last = --_pointer;
+				_c = _n;
 			}
 		}
 
 		void reserve(size_type n)
 		{
-			if (n > this->max_size())
-				return this->capacity_error();
-			if (n > this->_c)
+			if (n > max_size())
+				return capacity_error();
+			if (n > _c)
 			{
-				iterator old_first = this->begin();
-				iterator old_last = this->end();
-				this->_pointer = this->_alloc.allocate(n + 1);
-				pointer new_first = this->_pointer;
+				iterator old_first = begin();
+				iterator old_last = end();
+				_pointer = _alloc.allocate(n + 1);
+				pointer new_first = _pointer;
 				while (old_first != old_last)
 				{
-					this->_alloc.construct(this->_pointer, *old_first);
+					_alloc.construct(_pointer, *old_first);
 					old_first++;
-					this->_pointer++;
+					_pointer++;
 				}
-				this->_alloc.deallocate(this->_first, this->_c + 1);
-				this->_first = new_first;
-				this->_last = --this->_pointer;
-				this->_c = n;
+				_alloc.deallocate(_first, _c + 1);
+				_first = new_first;
+				_last = --_pointer;
+				_c = n;
 			}
 		}
 
 		void resize(size_type n, value_type val = value_type())
 		{
-			if (n < this->_n)
+			if (n < _n)
 			{
-				iterator first(this->_first + n);
-				iterator last = this->end();
+				iterator first(_first + n);
+				iterator last = end();
 				erase(first, last);
 			}
-			else if (n > this->_n)
+			else if (n > _n)
 			{
-				size_type diff = n - this->_n;
+				size_type diff = n - _n;
 				for (size_type i = 0; i < diff; i++)
-					this->push_back(val);
+					push_back(val);
 			}
 		}
 
 	// MODIFIERS
 		void assign(size_type n, const value_type & val)
 		{
-			iterator old_first = this->begin();
-			iterator old_last = this->end();
-			this->_pointer = this->_alloc.allocate(n + 1);
-			pointer new_first = this->_pointer;
+			iterator old_first = begin();
+			iterator old_last = end();
+			_pointer = _alloc.allocate(n + 1);
+			pointer new_first = _pointer;
 			for (size_type i = 0; i < n; i++)
-				this->_alloc.construct(this->_pointer++, val);
-			this->_alloc.deallocate(this->_first, this->_c + 1);
-			this->_first = new_first;
-			this->_last = --this->_pointer;
-			this->_n = n;
-			this->_c = this->_n;
+				_alloc.construct(_pointer++, val);
+			_alloc.deallocate(_first, _c + 1);
+			_first = new_first;
+			_last = --_pointer;
+			_n = n;
+			_c = _n;
 		}
 		
 		template <class InputIterator>
 		void assign(InputIterator first, InputIterator last, 
 			typename InputIterator::SFINAE_condition = 0)
 		{
-			iterator old_first = this->begin();
-			iterator old_last = this->end();
+			iterator old_first = begin();
+			iterator old_last = end();
 			size_type n = last - first;
-			this->_pointer = this->_alloc.allocate(n + 1);
-			pointer new_first = this->_pointer;
+			_pointer = _alloc.allocate(n + 1);
+			pointer new_first = _pointer;
 			while (first != last)
-				this->_alloc.construct(this->_pointer++, *first++);
-			this->_alloc.deallocate(this->_first, this->_c + 1);
-			this->_first = new_first;
-			this->_last = --this->_pointer;
-			this->_n = n;
-			this->_c = this->_n;
+				_alloc.construct(_pointer++, *first++);
+			_alloc.deallocate(_first, _c + 1);
+			_first = new_first;
+			_last = --_pointer;
+			_n = n;
+			_c = _n;
 		}
 
 		void push_back(const value_type & val)
 		{
-			if (this->_n + 1 <= this->_c)
-				this->_alloc.construct(this->_last++ + 1, val);
+			if (_n + 1 <= _c)
+				_alloc.construct(_last++ + 1, val);
 			else
 			{
-				size_type new_capacity = this->_c * this->_capacityFactor;
-				if (new_capacity > this->max_size())
-					return this->capacity_error();
-				iterator old_first = this->begin();
-				iterator old_last = this->end();
-				this->_pointer = this->_alloc.allocate(new_capacity + 1);
-				pointer new_first = this->_pointer;
+				size_type new_capacity = _c * _capacityFactor;
+				if (new_capacity > max_size())
+					return capacity_error();
+				iterator old_first = begin();
+				iterator old_last = end();
+				_pointer = _alloc.allocate(new_capacity + 1);
+				pointer new_first = _pointer;
 				while (old_first != old_last)
-					this->_alloc.construct(this->_pointer++, *old_first++);
-				this->_alloc.construct(this->_pointer, val);
-				this->_alloc.deallocate(this->_first, this->_c + 1);
-				this->_first = new_first;
-				this->_last = this->_pointer;
-				this->_c = new_capacity;
+					_alloc.construct(_pointer++, *old_first++);
+				_alloc.construct(_pointer, val);
+				_alloc.deallocate(_first, _c + 1);
+				_first = new_first;
+				_last = _pointer;
+				_c = new_capacity;
 			}
-			this->_n++;
+			_n++;
 		}
 
 		void pop_back()
 		{
-			if (this->_n > 0)
+			if (_n > 0)
 			{
-				this->_alloc.destroy(this->_last--);
-				this->_n--;
+				_alloc.destroy(_last--);
+				_n--;
 			}
 		}
 
 		iterator insert(iterator position, const value_type & val)
 		{
 			iterator r_value;
-			if (this->_n == this->_c)
+			if (_n == _c)
 			{
-				iterator it = this->begin();
-				this->_pointer = this->_alloc.allocate(this->_n + 2);
-				pointer f = this->_pointer;
+				iterator it = begin();
+				_pointer = _alloc.allocate(_n + 2);
+				pointer f = _pointer;
 				while (it != position)
-					this->_alloc.construct(this->_pointer++, *it++);
-				r_value = this->_pointer;
-				this->_alloc.construct(this->_pointer, val);
-				this->_pointer++;
-				while (it != this->_last + 1)
-					this->_alloc.construct(this->_pointer++, *it++);
-				this->_alloc.deallocate(this->_first, this->_c + 1);
-				this->_c++;
-				this->_last = this->_pointer - 1;
-				this->_first = f;
+					_alloc.construct(_pointer++, *it++);
+				r_value = _pointer;
+				_alloc.construct(_pointer, val);
+				_pointer++;
+				while (it != _last + 1)
+					_alloc.construct(_pointer++, *it++);
+				_alloc.deallocate(_first, _c + 1);
+				_c++;
+				_last = _pointer - 1;
+				_first = f;
 			}
 			else
 			{
 				r_value = position;
 				value_type tmp = *position;
 				value_type tmp2;
-				this->_alloc.construct(position.getP(), val);
-				while (position != this->_last + 1)
+				_alloc.construct(position.getP(), val);
+				while (position != _last + 1)
 				{
 					tmp2 = *(++position);
-					this->_alloc.construct(position.getP(), tmp);
+					_alloc.construct(position.getP(), tmp);
 					tmp = tmp2;
 				}
-				this->_last++;
+				_last++;
 			}
-			this->_n++;
+			_n++;
 			return r_value;
 		}
 
 		void insert(iterator position, size_type n, const value_type & val)
 		{
-			iterator it = this->begin();
-			if (this->_n + n > this->_c)
+			iterator it = begin();
+			if (_n + n > _c)
 			{
-				this->_pointer = this->_alloc.allocate(this->_n + n + 1);
-				pointer f = this->_pointer;
+				_pointer = _alloc.allocate(_n + n + 1);
+				pointer f = _pointer;
 				while (it != position)
-					this->_alloc.construct(this->_pointer++, *it++);
+					_alloc.construct(_pointer++, *it++);
 				for (size_type i = 0; i < n; i++)
-					this->_alloc.construct(this->_pointer++, val);
-				while (it != this->_last + 1)
-					this->_alloc.construct(this->_pointer++, *it++);
-				this->_alloc.deallocate(this->_first, this->_c + 1);
-				this->_c += n;
-				this->_last = this->_pointer - 1;
-				this->_first = f;
+					_alloc.construct(_pointer++, val);
+				while (it != _last + 1)
+					_alloc.construct(_pointer++, *it++);
+				_alloc.deallocate(_first, _c + 1);
+				_c += n;
+				_last = _pointer - 1;
+				_first = f;
 			}
 			else
 			{
-				vector<T> cpy(it, this->end());
+				vector<T> cpy(it, end());
 				iterator it_cpy = cpy.begin();
-				size_type index = this->get_index(position);
+				size_type index = get_index(position);
 				size_type new_index;
-				size_type dist = this->_last - position + 1;
+				size_type dist = _last - position + 1;
 				for (size_type i = 0; i < dist; i++)
 				{
 					new_index = index + n + i;
-					this->_alloc.construct(this->_first + new_index, *(it_cpy + new_index - n));
+					_alloc.construct(_first + new_index, *(it_cpy + new_index - n));
 				}
 				for (size_type i = 0; i < n; i++)
-					this->_alloc.construct(&this->_first[this->get_index(position++)], val);
-				this->_last = this->_first + new_index;
+					_alloc.construct(&_first[get_index(position++)], val);
+				_last = _first + new_index;
 			}
-			this->_n += n;
+			_n += n;
 		}
 
 		template <class InputIterator>
 		void insert(iterator position, InputIterator first, InputIterator last)
 		{
 			size_type n = last - first;
-			iterator it = this->begin();
-			if (this->_n + n > this->_c)
+			iterator it = begin();
+			if (_n + n > _c)
 			{
-				this->_pointer = this->_alloc.allocate(this->_n + n + 1);
-				pointer f = this->_pointer;
+				_pointer = _alloc.allocate(_n + n + 1);
+				pointer f = _pointer;
 				while (it != position)
-					this->_alloc.construct(this->_pointer++, *it++);
+					_alloc.construct(_pointer++, *it++);
 				for (size_type i = 0; i < n; i++)
-					this->_alloc.construct(this->_pointer++, *first++);
-				while (it != this->_last + 1)
-					this->_alloc.construct(this->_pointer++, *it++);
-				this->_alloc.deallocate(this->_first, this->_c + 1);
-				this->_c += n;
-				this->_last = this->_pointer - 1;
-				this->_first = f;
+					_alloc.construct(_pointer++, *first++);
+				while (it != _last + 1)
+					_alloc.construct(_pointer++, *it++);
+				_alloc.deallocate(_first, _c + 1);
+				_c += n;
+				_last = _pointer - 1;
+				_first = f;
 			}
 			else
 			{
-				vector<T> cpy(it, this->end());
+				vector<T> cpy(it, end());
 				iterator it_cpy = cpy.begin();
-				size_type index = this->get_index(position);
-				size_type dist = this->_last - position + 1;
+				size_type index = get_index(position);
+				size_type dist = _last - position + 1;
 				size_type new_index;
 				for (size_type i = 0; i < dist; i++)
 				{
 					new_index = index + n + i;
-					this->_alloc.construct(this->_first + new_index, *(it_cpy + new_index - n));
+					_alloc.construct(_first + new_index, *(it_cpy + new_index - n));
 				}
 				for (size_type i = 0; i < n; i++)
-					this->_alloc.construct(&this->_first[this->get_index(position++)], *first++);
-				this->_last = this->_first + new_index;
+					_alloc.construct(&_first[get_index(position++)], *first++);
+				_last = _first + new_index;
 			}
-			this->_n += n;
+			_n += n;
 		}
 
 		iterator erase(iterator position)
 		{
 			iterator r_value = position;
-			size_type dist = this->_last - position + 1;
+			size_type dist = _last - position + 1;
 			while (--dist)
-				this->_alloc.construct(position.getP(), *(position++ + 1));
-			this->get_allocator().destroy(this->_last);
-			this->_last--;
-			this->_n--;
+				_alloc.construct(&*position, *(position++ + 1));
+			get_allocator().destroy(_last);
+			_last--;
+			_n--;
 			return r_value;
 		}
 
 		iterator erase(iterator first, iterator last)
 		{
 			iterator r_value = first;						
-			size_type dist = this->_last - last + 2;
+			size_type dist = _last - last + 2;
 			while (--dist)
-				this->_alloc.construct((first++).getP(), *last++);
+				_alloc.construct(&*first++, *last++);
 			size_type erased = last - first;
-			this->_last -= erased;
-			this->_n -= erased;
+			_last -= erased;
+			_n -= erased;
 			while (erased)
-				this->get_allocator().destroy(this->_last - erased-- + 1);
+				get_allocator().destroy(_last - erased-- + 1);
 			return r_value;
 		}
 
 		void swap(vector & x)
 		{
-			size_type n_this = this->_n;
-			size_type c_this = this->_c;
-			pointer f_this = this->_first;
-			pointer l_this = this->_last;
-			this->_n = x.size();
-			this->_c = x.capacity();
-			this->_first = x.data();
-			this->_last = x.data() + x.size() - 1;
+			size_type n_this = _n;
+			size_type c_this = _c;
+			pointer f_this = _first;
+			pointer l_this = _last;
+			_n = x.size();
+			_c = x.capacity();
+			_first = x.data();
+			_last = x.data() + x.size() - 1;
 			x._n = n_this;
 			x._c = c_this;
 			x._first = f_this;
@@ -469,18 +469,18 @@ namespace ft
 
 		void clear()
 		{
-			for (size_type i = 0; i < this->_n; i++)
-				this->_alloc.destroy(this->_first + i);
-			this->_alloc.deallocate(this->_first, this->_c + 1);
-			this->_pointer = this->_alloc.allocate(1);
-			this->_first = this->_pointer;
-			this->_last = --this->_pointer;
-			this->_n = 0;
-			this->_c = 0;
+			for (size_type i = 0; i < _n; i++)
+				_alloc.destroy(_first + i);
+			_alloc.deallocate(_first, _c + 1);
+			_pointer = _alloc.allocate(1);
+			_first = _pointer;
+			_last = --_pointer;
+			_n = 0;
+			_c = 0;
 		}
 
 	// ALLOCATOR
-		allocator_type get_allocator() const 				{ return this->_alloc; }
+		allocator_type get_allocator() const 				{ return _alloc; }
 
 		private :
 		Alloc			_alloc;				// the default allocator
@@ -491,8 +491,8 @@ namespace ft
 		pointer			_last;				// last element
 		pointer			_pointer;			// random pointer for multi-usage
 
-		size_type get_index(pointer p) const { return p - this->_first; }
-		size_type get_index(iterator it) { return it - this->begin(); }
+		size_type get_index(pointer p) const { return p - _first; }
+		size_type get_index(iterator it) { return it - begin(); }
 		
 		void	capacity_error()
 		{
