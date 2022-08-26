@@ -30,6 +30,10 @@ The mapped values in a map can be accessed directly by their corresponding key u
 
 Maps are typically implemented as binary search trees.
 
+MEMORY MANAGEMENT :
+https://stackoverflow.com/questions/11528911/how-is-a-stl-map-allocated-stack-or-heap
+https://cs.stackexchange.com/questions/144045/how-c-and-alike-maps-are-actually-stored-in-memory
+
 */
 
 namespace ft
@@ -66,27 +70,24 @@ namespace ft
 	// CONSTRUCTORS
 		explicit map(const key_compare & comp = key_compare(), 
 		const allocator_type & alloc = allocator_type()) :
-		_alloc(alloc), _comp(comp), _n(0), _c(0), _first(NULL), _last(NULL) {}
+		_alloc(alloc), _comp(comp), _n(0), _first(NULL), _last(NULL) {}
 
-		// no known conversion from 'int' to
-    	// 'const value_type' (aka 'const pair<const int, char>') for 2nd argument
-
-		template <class InputIterator>
-		map(InputIterator first, InputIterator last, 
-		const key_compare & comp = key_compare(), const allocator_type & alloc = allocator_type())
-		{
-			size_type n = _distance<InputIterator>(first, last);
-			if (n)
-			{
-				_first = _alloc.allocate(n + 1);
-				_ptr = _first;
-				// while (first != last)
-				// 	_alloc.construct(_ptr++, *first++);
-				// _last = --_ptr;
-				// _n = n;
-				// _c = n;
-			}
-		}
+		// template <class InputIterator>
+		// map(InputIterator first, InputIterator last, 
+		// const key_compare & comp = key_compare(), const allocator_type & alloc = allocator_type())
+		// {
+		// 	size_type n = _distance<InputIterator>(first, last);
+		// 	if (n)
+		// 	{
+		// 		first = _alloc.allocate(n + 1);
+		// 		_ptr = _first;
+		// 		// while (first != last)
+		// 		// 	_alloc.construct(_ptr++, *first++);
+		// 		// _last = --_ptr;
+		// 		// _n = n;
+		// 		// _c = n;
+		// 	}
+		// }
 
 		// // copy (3)
 		// map(const map& x)
@@ -101,34 +102,34 @@ namespace ft
 		// The pair::second element in the pair is set to true if a new element was inserted or false 
 		// if an equivalent key already existed.
 
-		// pair<iterator,bool> insert(const value_type & val)
-		void insert(const value_type & val)
+		// void insert(const value_type & val)
+		pair<iterator,bool> insert(const value_type & val)
 		{
-			if (!_n)
-			{
-				_first = _alloc.allocate(2);
-				_ptr = _first;
-				_alloc.construct(_ptr, val);
-				_last = _first;
-				_c = 1;
-			}
-			else if (_n == _c)
+			iterator key_check = _check_keys(val.first);
+			if (key_check != NULL)
+				return pair<iterator,bool>(key_check, false);
+			if (_n)
 			{
 				iterator it = this->begin();
 				iterator ite = this->end();
 				pointer f = _first;
-				_first = _alloc.allocate(_n * REALLAOC_FACTOR + 1);
+				_first = _alloc.allocate(_n + 2);
 				_ptr = _first;
 				while (it != ite)
 					_alloc.construct(_ptr++, *it++);
 				_alloc.construct(_ptr, val);
 				_last = _ptr;
-				_alloc.deallocate(f, _c + 1);
-				_c *= REALLAOC_FACTOR;
+				_alloc.deallocate(f, _n + 1);
 			}
 			else
-				_alloc.construct(++_last, val);
+			{
+				_first = _alloc.allocate(2);
+				_ptr = _first;
+				_alloc.construct(_ptr, val);
+				_last = _first;
+			}
 			_n++;
+			return pair<iterator,bool>(key_check, false);
 		}
 
 		// iterator insert (iterator position, const value_type& val)
@@ -145,15 +146,14 @@ namespace ft
 		void details()
 		{
 			cout << endl << "----------------------- DETAILS ------------------------" << endl;
-			cout << "Size = " << this->size() << " | " << "Capacity = " << this->capacity();
-			cout << " | Sizeof(value_type) = " << sizeof(value_type) << endl << endl;
+			cout << "Size = " << this->size() << " | Sizeof(value_type) = " << sizeof(value_type) << endl << endl;
 			if (_n)
 			{
 				iterator it = this->begin();
 				iterator ite = this->end();
 				while (it != ite)
 				{
-					cout << "It = " << &*it << " = " << (*it)._first << " | " << (*it)._second << endl;
+					cout << "It  = " << &*it << " = " << (*it).first << " | " << (*it).second << endl;
 					it++;
 				}
 				cout << "Ite = " << &*ite << endl;
@@ -172,7 +172,7 @@ namespace ft
 	// 		// if (cas 2.)
 	// 			// (*((insert(make_pair(k,mapped_type()))).first)).second;
 	// 			ft::pair<key_type,mapped_type> new_pr = ft::make_pair(k, mapped_type());
-	// 			new_pr._second = ;
+	// 			new_pr.second = ;
 	// 			return new_pr;
 	// 	}
 
@@ -184,13 +184,11 @@ namespace ft
 
 	// ACCESSORS
 		size_type size() const 		{ return _n; }
-		size_type capacity() const	{ return _c; }
 
 		private:
 		allocator_type	_alloc;
-		key_compare		_comp;			
+		key_compare		_comp;
 		size_type		_n;
-		size_type		_c;
 		pointer			_first;
 		pointer			_last;
 		pointer			_ptr;
@@ -205,6 +203,22 @@ namespace ft
 				n++;
 			}
 			return n;
+		}
+
+		iterator _check_keys(key_type key)
+		{
+			iterator it = this->begin();
+			iterator ite = this->end();
+			if (_n)
+			{
+				while (it != ite)
+				{
+					if (key == (*it).first)
+						return it;
+					it++;
+				}
+			}
+			return NULL;
 		}
 
 	};

@@ -7,6 +7,27 @@
 
 using namespace std;
 
+template<class T1, class T2>
+void details(std::map<T1,T2> m)
+{
+	cout << endl << "----------------------- DETAILS ------------------------" << endl;
+	cout << "Size = " << m.size() << " | Sizeof(value_type) = " << sizeof(typename std::map<T1,T2>::value_type) << endl << endl;
+	if (m.size())
+	{
+		typename std::map<T1,T2>::iterator it = m.begin();
+		typename std::map<T1,T2>::iterator ite = m.end();
+		while (it != ite)
+		{
+			cout << "It  = " << &*it << " = " << (*it).first << " | " << (*it).second << endl;
+			it++;
+		}
+		cout << "Ite = " << &*ite << endl;
+	}
+	else
+		cout << "container is empty" << endl << endl;
+	cout << "--------------------------------------------------------" << endl;
+}
+
 int main()
 {
 	cout << endl;
@@ -22,8 +43,47 @@ int main()
 	ft1.insert(ft::pair<char,int>('c',400));
 	ft1.details();
 
+	ft1.insert(ft::pair<char,int>('c',400));	// DOIT ETRE REFUSE CAR KEY 'c' EXISTE DEJA
+	ft1.details();
+
 	ft1.insert(ft::pair<char,int>('d',800));
 	ft1.details();
+
+	ft1.insert(ft::pair<char,int>('e',1600));
+	ft1.details();
+
+	ft1.insert(ft::pair<char,int>('f',3200));
+	ft1.details();
+
+	ft1.insert(ft::pair<char,int>('g',6400));
+	ft1.details();
+
+	// cout << endl;
+	// cout << "--------------------------------------------------------" << endl; 
+	// cout << endl;
+	// std::map<char,int> std1;
+	// details(std1);
+
+	// std1.insert(std::pair<char,int>('a',100));
+	// details(std1);
+
+	// std1.insert(std::pair<char,int>('b',200));
+	// details(std1);
+	
+	// std1.insert(std::pair<char,int>('c',400));
+	// details(std1);
+
+	// std1.insert(std::pair<char,int>('d',800));
+	// details(std1);
+
+	// std1.insert(std::pair<char,int>('e',1600));
+	// details(std1);
+
+	// std1.insert(std::pair<char,int>('f',3200));
+	// details(std1);
+
+	// std1.insert(std::pair<char,int>('g',6400));
+	// details(std1);
 
 	// ft::map<char,int> ft2;
 	// ft2['a']=10;

@@ -10,23 +10,23 @@ namespace ft
 		typedef T1	first_type;
 		typedef T2	second_type;
 		
-		first_type 	_first;
-		second_type	_second;
+		first_type 	first;
+		second_type	second;
 
-		pair() : _first(first_type()), _second(second_type()) {}
+		pair() : first(first_type()), second(second_type()) {}
 		template<class U, class V> 
-		pair(const pair<U, V> & pr) : _first(pr._first), _second(pr._second) {}
-		pair(const first_type & a, const second_type & b) : _first(a), _second(b) {}
-		pair & operator=(const pair & pr) { this->_first = pr._first; this->_second = pr._second; return *this; }
+		pair(const pair<U, V> & pr) : first(pr.first), second(pr.second) {}
+		pair(const first_type & a, const second_type & b) : first(a), second(b) {}
+		pair & operator=(const pair & pr) { this->first = pr.first; this->second = pr.second; return *this; }
 		~pair() {}
 
 		void swap(pair & pr)
 		{
 			pair<first_type, second_type> tmp = pr;
-			pr._first = this->_first;
-			pr._second = this->_second;
-			this->_first = tmp._first;
-			this->_second = tmp._second;
+			pr.first = this->first;
+			pr.second = this->second;
+			this->first = tmp.first;
+			this->second = tmp.second;
 		}
 
 	};
@@ -44,7 +44,7 @@ namespace ft
 
 	template<class T1, class T2>
 	bool operator==(const pair<T1, T2> & lhs, const pair<T1, T2> & rhs) 
-	{ return lhs._first == rhs._first && lhs._second == rhs._second; }
+	{ return lhs.first == rhs.first && lhs.second == rhs.second; }
 
 	template<class T1, class T2>
 	bool operator!=(const pair<T1, T2> & lhs, const pair<T1, T2> & rhs)
@@ -52,19 +52,19 @@ namespace ft
 
 	template <class T1, class T2>
 	bool operator<(const pair<T1,T2> & lhs, const pair<T1,T2> & rhs)
-	{ return lhs._first < rhs._first || (lhs._first == rhs._first && lhs._second < rhs._second); }
+	{ return lhs.first < rhs.first || (lhs.first == rhs.first && lhs.second < rhs.second); }
 
 	template<class T1, class T2>
 	bool operator<=(const pair<T1, T2> & lhs, const pair<T1, T2> & rhs)
-	{ return lhs._first <= rhs._first; }
+	{ return lhs.first <= rhs.first; }
 
 	template<class T1, class T2>
 	bool operator>(const pair<T1, T2> & lhs, const pair<T1,T2> & rhs)
-	{ return lhs._first > rhs._first || (lhs._first == rhs._first && lhs._second > rhs._second); }
+	{ return lhs.first > rhs.first || (lhs.first == rhs.first && lhs.second > rhs.second); }
 
 	template<class T1, class T2>
 	bool operator>=(const pair<T1, T2> & lhs, const pair<T1, T2> & rhs)
-	{ return lhs._first >= rhs._first; }
+	{ return lhs.first >= rhs.first; }
 }
 
 #endif
