@@ -1,32 +1,12 @@
+#include <iostream>
+using namespace std;
+#include <vector>
+#include <map>
 #include "vector.hpp"
 #include "map.hpp"
 #include "pair.hpp"
+#include "container_details.hpp"
 #include "class_test/Test.hpp"
-#include <vector>
-#include <map>
-
-using namespace std;
-
-template<class T1, class T2>
-void details(std::map<T1,T2> m)
-{
-	cout << endl << "----------------------- DETAILS ------------------------" << endl;
-	cout << "Size = " << m.size() << " | Sizeof(value_type) = " << sizeof(typename std::map<T1,T2>::value_type) << endl << endl;
-	if (m.size())
-	{
-		typename std::map<T1,T2>::iterator it = m.begin();
-		typename std::map<T1,T2>::iterator ite = m.end();
-		while (it != ite)
-		{
-			cout << "It  " << &*it << ": " << (*it).first << " | " << (*it).second << endl;
-			it++;
-		}
-		cout << "Ite " << &*ite << endl;
-	}
-	else
-		cout << "container is empty" << endl << endl;
-	cout << "--------------------------------------------------------" << endl;
-}
 
 int main()
 {
@@ -62,23 +42,23 @@ int main()
 	// ft1.details();
 
 	ft1['z'] = -100;
-	ft1.details();
+	ft::map_details(ft1);
 
 	ft::map<char,int> ft2(ft1.begin(), ft1.end());
-	ft2.details();
+	ft::map_details(ft2);
 
 	ft::map<char,int> ft3(ft1);
-	ft3.details();
+	ft::map_details(ft3);
 
 	ft::map<char,int> ft4 = ft1;
-	ft4.details();
+	ft::map_details(ft4);
 
 	ft::map<char,int> ft5;
-	ft5.details();
+	ft::map_details(ft5);
 	ft5.insert(ft::pair<char,int>('m',10000));
-	ft5.details();
+	ft::map_details(ft5);
 	ft5 = ft1;
-	ft5.details();
+	ft::map_details(ft5);
 
 	return 0;
 }

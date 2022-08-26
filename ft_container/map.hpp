@@ -1,14 +1,13 @@
 #ifndef MAP_HPP
 # define MAP_HPP
 
-#include <iostream>			// cout << 
-#include <memory>			// allocator<T>
-#include <stdexcept>		// exceptions
+#include <iostream>
+using namespace std;
+#include <memory>
+#include <stdexcept>
 #include "iterators.hpp"
 #include "pair.hpp"
-#include "utils.hpp"
-
-using namespace std;
+// #include "utils.hpp"
 
 #define REALLAOC_FACTOR 2
 
@@ -183,26 +182,6 @@ namespace ft
 		// {
 
 		// }
-
-		void details()
-		{
-			cout << endl << "----------------------- DETAILS ------------------------" << endl;
-			cout << "Size = " << size() << " | Sizeof(value_type) = " << sizeof(value_type) << endl << endl;
-			if (_n)
-			{
-				iterator it = begin();
-				iterator ite = end();
-				while (it != ite)
-				{
-					cout << "It  " << &*it << " ->   " << (*it).first << " | " << (*it).second << endl;
-					it++;
-				}
-				cout << "Ite " << &*ite << endl;
-			}
-			else
-				cout << "container is empty" << endl << endl;
-			cout << "--------------------------------------------------------" << endl;
-		}
 
 	// ITERATORS
 		iterator begin() 				{ return iterator(_first); }

@@ -1,13 +1,12 @@
 #ifndef VECTOR_HPP
 # define VECTOR_HPP
 
-#include <iostream>			// cout << 
-#include <memory>			// allocator<T>
-#include <stdexcept>		// exceptions
+#include <iostream>
+using namespace std;
+#include <memory>
+#include <stdexcept>
 #include "iterators.hpp"
 #include "utils.hpp"
-
-using namespace std;
 
 namespace ft
 {
@@ -33,10 +32,9 @@ namespace ft
 		explicit vector(const allocator_type & alloc = allocator_type()) 						// CONSTR #1
 		: _n(0), _c(0), _capacityFactor(2), _alloc(alloc)
 		{
-			_pointer = _alloc.allocate(1);
-			_first = _pointer;
-			_last = --_pointer;
-			cout << endl << "(" << this << " - null) vector created" << endl;
+			_ptr = _alloc.allocate(1);
+			_first = _ptr;
+			_last = --_ptr;
 		}
 
 		explicit vector(size_type n, const value_type & val = value_type(), 					// CONSTR #2
@@ -48,17 +46,16 @@ namespace ft
 				capacity_error();
 				return;
 			}
-			_pointer = _alloc.allocate(n + 1);
-			_first = _pointer;
+			_ptr = _alloc.allocate(n + 1);
+			_first = _ptr;
 			for (size_type i = 0; i < n; i++)
 			{
-				// _alloc.construct(_pointer, val+i);
-				_alloc.construct(_pointer, val);
-				_pointer++;
+				// _alloc.construct(_ptr, val+i);
+				_alloc.construct(_ptr, val);
+				_ptr++;
 			}
-			_pointer--;
-			_last = _pointer;
-			cout << endl << "(" << this << " - fill) vector created" << endl;
+			_ptr--;
+			_last = _ptr;
 		}
 		
 		// le typedef SFINAE dans random_access_iterator force le choix pour ce constructeur 
@@ -78,24 +75,23 @@ namespace ft
 			}
 			if (_n)
 			{
-				_pointer = _alloc.allocate(_n + 1);
-				_first = _pointer;
+				_ptr = _alloc.allocate(_n + 1);
+				_first = _ptr;
 				while (first != last)
 				{
-					_alloc.construct(_pointer, *first);
+					_alloc.construct(_ptr, *first);
 					++first;
-					_pointer++;
+					_ptr++;
 				}
-				_pointer--;
-				_last = _pointer;
+				_ptr--;
+				_last = _ptr;
 			}
 			else
 			{
-				_pointer = _alloc.allocate(1);
-				_first = _pointer;
-				_last = --_pointer;
+				_ptr = _alloc.allocate(1);
+				_first = _ptr;
+				_last = --_ptr;
 			}
-			cout << endl << "(" << this << " - range) vector created" << endl;
 		}
 
 		vector(const vector & x) :															// CONSTR #4
@@ -110,29 +106,27 @@ namespace ft
 				capacity_error();
 				return;
 			}
-			_pointer = x.get_allocator().allocate(_n + 1);
-			_first = _pointer;
+			_ptr = x.get_allocator().allocate(_n + 1);
+			_first = _ptr;
 			while (first != last)
 			{
-				x.get_allocator().construct(_pointer, *first);
+				x.get_allocator().construct(_ptr, *first);
 				++first;
-				_pointer++;
+				_ptr++;
 			}
-			_pointer--;
-			_last = _pointer;
-			cout << endl << "(" << this << " - copy) vector created" << endl;
+			_ptr--;
+			_last = _ptr;
 		}
 
 		virtual ~vector() 																	// DESTR #1
 		{
 			if (_last >= _first)
 			{
-				_pointer = _first;
-				while (_pointer != _last)
-					_alloc.destroy(_pointer++);
+				_ptr = _first;
+				while (_ptr != _last)
+					_alloc.destroy(_ptr++);
 			}
 			_alloc.deallocate(_first, size()+1);
-			cout << endl << "(" << this << " - default) vector destroyed" << endl;
 		}
 
 	// ITERATORS
@@ -196,17 +190,17 @@ namespace ft
 			{
 				iterator old_first = begin();
 				iterator old_last = end();
-				_pointer = _alloc.allocate(_n + 1);
-				pointer new_first = _pointer;
+				_ptr = _alloc.allocate(_n + 1);
+				pointer new_first = _ptr;
 				while (old_first != old_last)
 				{
-					_alloc.construct(_pointer, *old_first);
+					_alloc.construct(_ptr, *old_first);
 					old_first++;
-					_pointer++;
+					_ptr++;
 				}
 				_alloc.deallocate(_first, _c + 1);
 				_first = new_first;
-				_last = --_pointer;
+				_last = --_ptr;
 				_c = _n;
 			}
 		}
@@ -219,17 +213,17 @@ namespace ft
 			{
 				iterator old_first = begin();
 				iterator old_last = end();
-				_pointer = _alloc.allocate(n + 1);
-				pointer new_first = _pointer;
+				_ptr = _alloc.allocate(n + 1);
+				pointer new_first = _ptr;
 				while (old_first != old_last)
 				{
-					_alloc.construct(_pointer, *old_first);
+					_alloc.construct(_ptr, *old_first);
 					old_first++;
-					_pointer++;
+					_ptr++;
 				}
 				_alloc.deallocate(_first, _c + 1);
 				_first = new_first;
-				_last = --_pointer;
+				_last = --_ptr;
 				_c = n;
 			}
 		}
@@ -255,13 +249,13 @@ namespace ft
 		{
 			iterator old_first = begin();
 			iterator old_last = end();
-			_pointer = _alloc.allocate(n + 1);
-			pointer new_first = _pointer;
+			_ptr = _alloc.allocate(n + 1);
+			pointer new_first = _ptr;
 			for (size_type i = 0; i < n; i++)
-				_alloc.construct(_pointer++, val);
+				_alloc.construct(_ptr++, val);
 			_alloc.deallocate(_first, _c + 1);
 			_first = new_first;
-			_last = --_pointer;
+			_last = --_ptr;
 			_n = n;
 			_c = _n;
 		}
@@ -273,13 +267,13 @@ namespace ft
 			iterator old_first = begin();
 			iterator old_last = end();
 			size_type n = last - first;
-			_pointer = _alloc.allocate(n + 1);
-			pointer new_first = _pointer;
+			_ptr = _alloc.allocate(n + 1);
+			pointer new_first = _ptr;
 			while (first != last)
-				_alloc.construct(_pointer++, *first++);
+				_alloc.construct(_ptr++, *first++);
 			_alloc.deallocate(_first, _c + 1);
 			_first = new_first;
-			_last = --_pointer;
+			_last = --_ptr;
 			_n = n;
 			_c = _n;
 		}
@@ -295,14 +289,14 @@ namespace ft
 					return capacity_error();
 				iterator old_first = begin();
 				iterator old_last = end();
-				_pointer = _alloc.allocate(new_capacity + 1);
-				pointer new_first = _pointer;
+				_ptr = _alloc.allocate(new_capacity + 1);
+				pointer new_first = _ptr;
 				while (old_first != old_last)
-					_alloc.construct(_pointer++, *old_first++);
-				_alloc.construct(_pointer, val);
+					_alloc.construct(_ptr++, *old_first++);
+				_alloc.construct(_ptr, val);
 				_alloc.deallocate(_first, _c + 1);
 				_first = new_first;
-				_last = _pointer;
+				_last = _ptr;
 				_c = new_capacity;
 			}
 			_n++;
@@ -323,18 +317,18 @@ namespace ft
 			if (_n == _c)
 			{
 				iterator it = begin();
-				_pointer = _alloc.allocate(_n + 2);
-				pointer f = _pointer;
+				_ptr = _alloc.allocate(_n + 2);
+				pointer f = _ptr;
 				while (it != position)
-					_alloc.construct(_pointer++, *it++);
-				r_value = _pointer;
-				_alloc.construct(_pointer, val);
-				_pointer++;
+					_alloc.construct(_ptr++, *it++);
+				r_value = _ptr;
+				_alloc.construct(_ptr, val);
+				_ptr++;
 				while (it != _last + 1)
-					_alloc.construct(_pointer++, *it++);
+					_alloc.construct(_ptr++, *it++);
 				_alloc.deallocate(_first, _c + 1);
 				_c++;
-				_last = _pointer - 1;
+				_last = _ptr - 1;
 				_first = f;
 			}
 			else
@@ -360,17 +354,17 @@ namespace ft
 			iterator it = begin();
 			if (_n + n > _c)
 			{
-				_pointer = _alloc.allocate(_n + n + 1);
-				pointer f = _pointer;
+				_ptr = _alloc.allocate(_n + n + 1);
+				pointer f = _ptr;
 				while (it != position)
-					_alloc.construct(_pointer++, *it++);
+					_alloc.construct(_ptr++, *it++);
 				for (size_type i = 0; i < n; i++)
-					_alloc.construct(_pointer++, val);
+					_alloc.construct(_ptr++, val);
 				while (it != _last + 1)
-					_alloc.construct(_pointer++, *it++);
+					_alloc.construct(_ptr++, *it++);
 				_alloc.deallocate(_first, _c + 1);
 				_c += n;
-				_last = _pointer - 1;
+				_last = _ptr - 1;
 				_first = f;
 			}
 			else
@@ -399,17 +393,17 @@ namespace ft
 			iterator it = begin();
 			if (_n + n > _c)
 			{
-				_pointer = _alloc.allocate(_n + n + 1);
-				pointer f = _pointer;
+				_ptr = _alloc.allocate(_n + n + 1);
+				pointer f = _ptr;
 				while (it != position)
-					_alloc.construct(_pointer++, *it++);
+					_alloc.construct(_ptr++, *it++);
 				for (size_type i = 0; i < n; i++)
-					_alloc.construct(_pointer++, *first++);
+					_alloc.construct(_ptr++, *first++);
 				while (it != _last + 1)
-					_alloc.construct(_pointer++, *it++);
+					_alloc.construct(_ptr++, *it++);
 				_alloc.deallocate(_first, _c + 1);
 				_c += n;
-				_last = _pointer - 1;
+				_last = _ptr - 1;
 				_first = f;
 			}
 			else
@@ -478,9 +472,9 @@ namespace ft
 			for (size_type i = 0; i < _n; i++)
 				_alloc.destroy(_first + i);
 			_alloc.deallocate(_first, _c + 1);
-			_pointer = _alloc.allocate(1);
-			_first = _pointer;
-			_last = --_pointer;
+			_ptr = _alloc.allocate(1);
+			_first = _ptr;
+			_last = --_ptr;
 			_n = 0;
 			_c = 0;
 		}
@@ -495,7 +489,7 @@ namespace ft
 		size_type		_capacityFactor;	// incremental factor for capacity reallocation
 		pointer			_first;				// first element
 		pointer			_last;				// last element
-		pointer			_pointer;			// random pointer for multi-usage
+		pointer			_ptr;			// random pointer for multi-usage
 
 		size_type get_index(pointer p) const { return p - _first; }
 		size_type get_index(iterator it) { return it - begin(); }
