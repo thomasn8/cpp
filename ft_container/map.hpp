@@ -37,13 +37,7 @@ https://cs.stackexchange.com/questions/144045/how-c-and-alike-maps-are-actually-
 */
 
 namespace ft
-{
-	// template <class Key,										// map::key_type
-    //        	class T,										// map::mapped_type
-    //        	class Compare = less<Key>,						// map::key_compare
-    //        	class Alloc = allocator<pair<const Key,T> >		// map::allocator_type
-    //        	> class map;
-	
+{	
 	template < class Key, class T, class Compare = less<Key>, class Alloc = allocator< pair< const Key,T> > >
 	class map
 	{
@@ -96,10 +90,6 @@ namespace ft
 		// }
 
 		~map() {}
-
-		// 1. if k matches the key of an element in the container, the function returns a reference to its mapped value.
-		// 2. if k does not match the key of any element in the container, the function inserts a new element 
-		//    with that key and returns a reference to its mapped value.
 
 		mapped_type & operator[](const key_type & k)
 		{
@@ -211,7 +201,6 @@ namespace ft
 				}
 			}
 			return NULL;
-			// return this->begin();
 		}
 
 	};
