@@ -177,7 +177,6 @@ int main()
 	// 	cout << &assign[i] << ": " << assign[i] << endl;
 	// }
 
-	// cout << endl << "HERE: " << it.getP() << endl;
 	// cout << endl << "HERE: " << &(*it) << endl;
 	// for (int i = 0; i < 10; i++)
 	// {

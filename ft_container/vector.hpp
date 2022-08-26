@@ -31,18 +31,17 @@ namespace ft
 		
 	// CONSTRUCTEURS/DESTRUCTEUR
 		explicit vector(const allocator_type & alloc = allocator_type()) 						// CONSTR #1
-		: _n(0), _c(0), _capacityFactor(2)
+		: _n(0), _c(0), _capacityFactor(2), _alloc(alloc)
 		{
 			this->_pointer = this->_alloc.allocate(1);
 			this->_first = this->_pointer;
 			this->_last = --this->_pointer;
-			this->_alloc = alloc;
 			cout << endl << "(" << this << " - null) vector created" << endl;
 		}
 
 		explicit vector(size_type n, const value_type & val = value_type(), 					// CONSTR #2
 			const allocator_type & alloc = allocator_type())
-		: _n(n), _c(n), _capacityFactor(2)
+		: _n(n), _c(n), _capacityFactor(2), _alloc(alloc)
 		{
 			if (n > this->max_size())
 			{
@@ -59,7 +58,6 @@ namespace ft
 			}
 			this->_pointer--;
 			this->_last = this->_pointer;
-			this->_alloc = alloc;
 			cout << endl << "(" << this << " - fill) vector created" << endl;
 		}
 		
@@ -69,7 +67,7 @@ namespace ft
 		vector(InputIterator first, InputIterator last, 
 			const allocator_type & alloc = allocator_type(), 
 			typename InputIterator::SFINAE_condition = 0) : 
-			_capacityFactor(2)
+			_capacityFactor(2), _alloc(alloc)
 		{
 			this->_n = last - first;
 			this->_c = this->_n;
@@ -97,12 +95,11 @@ namespace ft
 				this->_first = this->_pointer;
 				this->_last = --this->_pointer;
 			}
-			this->_alloc = alloc;
 			cout << endl << "(" << this << " - range) vector created" << endl;
 		}
 
 		vector(const vector & x) :															// CONSTR #4
-			_capacityFactor(2)
+			_capacityFactor(2), _alloc(x.get_allocator())
 		{
 			iterator first = x.begin();
 			iterator last = x.end();
@@ -123,7 +120,6 @@ namespace ft
 			}
 			this->_pointer--;
 			this->_last = this->_pointer;
-			this->_alloc = x.get_allocator();
 			cout << endl << "(" << this << " - copy) vector created" << endl;
 		}
 

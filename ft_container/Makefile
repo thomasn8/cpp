@@ -1,5 +1,8 @@
-SRCS		=		main.cpp 			\
-					class_test/Test.cpp	\
+#SRCS		=		main_vector.cpp 	\
+					class_test/Test.cpp
+
+SRCS		=		main_map.cpp	 	\
+					class_test/Test.cpp
 
 OBJS		= ${SRCS:.cpp=.o}
 CC			= c++
