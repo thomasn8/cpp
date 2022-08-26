@@ -38,7 +38,8 @@ https://cs.stackexchange.com/questions/144045/how-c-and-alike-maps-are-actually-
 
 namespace ft
 {	
-	template < class Key, class T, class Compare = less<Key>, class Alloc = allocator< pair< const Key,T> > >
+	template < class Key, class T, 
+	class Compare = less<Key>, class Alloc = allocator< pair< const Key,T> > >
 	class map
 	{
 		public:
@@ -66,30 +67,75 @@ namespace ft
 		const allocator_type & alloc = allocator_type()) :
 		_alloc(alloc), _comp(comp), _n(0), _first(NULL), _last(NULL) {}
 
-		// template <class InputIterator>
-		// map(InputIterator first, InputIterator last, 
-		// const key_compare & comp = key_compare(), const allocator_type & alloc = allocator_type())
-		// {
-		// 	size_type n = _distance<InputIterator>(first, last);
-		// 	if (n)
-		// 	{
-		// 		first = _alloc.allocate(n + 1);
-		// 		_ptr = _first;
-		// 		// while (first != last)
-		// 		// 	_alloc.construct(_ptr++, *first++);
-		// 		// _last = --_ptr;
-		// 		// _n = n;
-		// 		// _c = n;
-		// 	}
-		// }
+		template <class InputIterator>
+		map(InputIterator first, InputIterator last, 
+		const key_compare & comp = key_compare(), const allocator_type & alloc = allocator_type()) :
+		_alloc(alloc), _comp(comp)
+		{
+			size_type n = _distance<InputIterator>(first, last);
+			if (n)
+			{
+				_first = _alloc.allocate(n + 1);
+				_ptr = _first;
+				while (first != last)
+					_alloc.construct(_ptr++, *first++);
+				_last = --_ptr;
+				_n = n;
+			}
+		}
 
-		// // copy (3)
-		// map(const map& x)
-		// {
+		map(const map & x) :
+		_alloc(x.get_allocator()), _comp(x.key_comp()), _n(x.size()), _first(NULL), _last(NULL)
+		{
+			if (_n)
+			{
+				const_iterator it = x.begin();
+				const_iterator ite = x.end();
+				_first = _alloc.allocate(_n + 1);
+				_ptr = _first;
+				while (it != ite)
+					_alloc.construct(_ptr++, *it++);
+				_last = --_ptr;
+			}
+		}
 
-		// }
+		map & operator=(const map & x)
+		{
+			if (_n)
+			{
+				_ptr = _first;
+				while (_first != _last)
+					_alloc.destroy(_first++);
+				_alloc.deallocate(_ptr, _n + 1);
+				_n = 0;
+				_first = NULL;
+				_last = NULL;
+			}
+			if (x.size())
+			{
+				_comp = x.key_comp();
+				_n = x.size();
+				const_iterator it = x.begin();
+				const_iterator ite = x.end();
+				_first = _alloc.allocate(_n + 1);
+				_ptr = _first;
+				while (it != ite)
+					_alloc.construct(_ptr++, *it++);
+				_last = --_ptr;
+			}
+			return *this;
+		}
 
-		~map() {}
+		~map()
+		{
+			if (_n)
+			{
+				_ptr = _first;
+				while (_first != _last)
+					_alloc.destroy(_first++);
+				_alloc.deallocate(_ptr, _n + 1);
+			}
+		}
 
 		mapped_type & operator[](const key_type & k)
 		{
@@ -105,8 +151,8 @@ namespace ft
 				return pair<iterator,bool>(key_check, false);
 			if (_n)
 			{
-				iterator it = this->begin();
-				iterator ite = this->end();
+				iterator it = begin();
+				iterator ite = end();
 				pointer f = _first;
 				_first = _alloc.allocate(_n + 2);
 				_ptr = _first;
@@ -141,17 +187,17 @@ namespace ft
 		void details()
 		{
 			cout << endl << "----------------------- DETAILS ------------------------" << endl;
-			cout << "Size = " << this->size() << " | Sizeof(value_type) = " << sizeof(value_type) << endl << endl;
+			cout << "Size = " << size() << " | Sizeof(value_type) = " << sizeof(value_type) << endl << endl;
 			if (_n)
 			{
-				iterator it = this->begin();
-				iterator ite = this->end();
+				iterator it = begin();
+				iterator ite = end();
 				while (it != ite)
 				{
-					cout << "It  = " << &*it << " = " << (*it).first << " | " << (*it).second << endl;
+					cout << "It  " << &*it << " ->   " << (*it).first << " | " << (*it).second << endl;
 					it++;
 				}
-				cout << "Ite = " << &*ite << endl;
+				cout << "Ite " << &*ite << endl;
 			}
 			else
 				cout << "container is empty" << endl << endl;
@@ -161,13 +207,20 @@ namespace ft
 	// ITERATORS
 		iterator begin() 				{ return iterator(_first); }
 		const_iterator begin() const 	{ return const_iterator(_first); }
-		iterator end() 					{ return iterator(_last+1); }
-		const_iterator end() const 		{ return const_iterator(_last+1); }
+		iterator end() 					{ if (_n) return iterator(_last+1); return (_last);}
+		const_iterator end() const 		{ if (_n) return const_iterator(_last+1); return (_last);}
 
 	// ACCESSORS
 		size_type size() const 		{ return _n; }
 
+	// OBSERVERS
+		key_compare key_comp() const { return _comp; }
+
+	// ALLOCATOR
+		allocator_type get_allocator() const { return _alloc; }
+
 		private:
+
 		allocator_type	_alloc;
 		key_compare		_comp;
 		size_type		_n;
@@ -189,10 +242,10 @@ namespace ft
 
 		iterator _check_keys(key_type key)
 		{
-			iterator it = this->begin();
-			iterator ite = this->end();
 			if (_n)
 			{
+				iterator it = begin();
+				iterator ite = end();
 				while (it != ite)
 				{
 					if (key == (*it).first)
@@ -202,7 +255,6 @@ namespace ft
 			}
 			return NULL;
 		}
-
 	};
 }
 
