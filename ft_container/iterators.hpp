@@ -52,7 +52,7 @@ namespace ft
 	};
 
 	class bidirectional_iterator_tag {};
-	
+
 	template <typename T>
 	class bidirectional_iterator
 	{
@@ -78,9 +78,9 @@ namespace ft
 		reference operator*() const { return *_p; }
 		pointer operator->() { return _p;  }
 		it & operator++() { ++this->_p; return *this; }
-		it operator++(value_type) { it tmp(*this); this->_p++; return tmp; }
+		it operator++(int) { it tmp(*this); this->_p++; return tmp; }
 		it & operator--() { --this->_p; return *this; }
-		it operator--(value_type) { it tmp(*this); this->_p--; return tmp; }
+		it operator--(int) { it tmp(*this); this->_p--; return tmp; }
 	
 		protected:
 		pointer _p;

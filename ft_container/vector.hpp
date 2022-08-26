@@ -319,7 +319,6 @@ namespace ft
 				iterator it = this->begin();
 				this->_pointer = this->_alloc.allocate(this->_n + 2);
 				pointer f = this->_pointer;
-				cout << endl;
 				while (it != position)
 					this->_alloc.construct(this->_pointer++, *it++);
 				r_value = this->_pointer;

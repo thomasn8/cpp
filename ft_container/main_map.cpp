@@ -9,17 +9,30 @@ using namespace std;
 
 int main()
 {
+	cout << endl;
 	ft::map<char,int> ft1;
+	ft1.details();
+
+	ft1.insert(ft::pair<char,int>('a',100));
+	ft1.details();
+
+	ft1.insert(ft::pair<char,int>('b',200));
+	ft1.details();
 	
-	std::map<char,int> std1;
-	std1['a']=10;
-	std1['b']=30;
-	std1['c']=50;
-	std1['d']=70;
-	std::map<char,int>::iterator it = std1.begin();
-	std::map<char,int>::iterator ite = std1.end();
-	unsigned n = ite - it;
-	// ft::map<char,int> ft2(it, ite);
+	ft1.insert(ft::pair<char,int>('c',400));
+	ft1.details();
+
+	ft1.insert(ft::pair<char,int>('d',800));
+	ft1.details();
+
+	// ft::map<char,int> ft2;
+	// ft2['a']=10;
+	// ft2['b']=30;
+	// ft2['c']=50;
+	// ft2['d']=70;
+	// ft::map<char,int>::iterator it = ft2.begin();
+	// ft::map<char,int>::iterator ite = ft2.end();
+	// ft::map<char,int> ft3(it, ite);
 
 
 
@@ -31,3 +44,64 @@ int main()
 
 	return 0;
 }
+
+// int main()
+// {
+// 	ft::pair<int, char> p1;
+// 	cout << "Paire1: ";
+// 	cout << "	#1 = " << p1._first << "	";
+// 	cout << "	#2 = " << p1._second << endl;
+// 	ft::pair<int, Test> p2(p1);
+// 	cout << "Paire2 ";
+// 	cout << "	#1 = " << p2._first << "	";
+// 	cout << "	#2 = " << p2._second << endl;
+// 	ft::pair<int, float> p3(1, 4.31f);
+// 	cout << "Paire3 ";
+// 	cout << "	#1 = " << p3._first << "	";
+// 	cout << "	#2 = " << p3._second << endl;
+// 	ft::pair<int, Test> p4(p3);
+// 	cout << "Paire4 ";
+// 	cout << "	#1 = " << p4._first << "	";
+// 	cout << "	#2 = " << p4._second << endl;
+// 	ft::pair<char, Test> p5;
+// 	cout << "Paire5 ";
+// 	cout << "	#1 = " << p5._first << "	";
+// 	cout << "	#2 = " << p5._second << endl;
+// 	ft::pair<float, char> p6 = p3;
+// 	cout << "Paire6 ";
+// 	cout << "	#1 = " << p6._first << "	";
+// 	cout << "	#2 = " << p6._second << endl;
+// 	ft::pair<float, float> p7 = ft::make_pair<float,float>(1.1f,2.2f);
+// 	cout << "Paire7 ";
+// 	cout << "	#1 = " << p7._first << "	";
+// 	cout << "	#2 = " << p7._second << endl;
+// 	ft::make_pair<float,float>(1.1f,2.2f);
+	
+// 	cout << endl;
+// 	p2.swap(p4);
+// 	cout << "Paire2 ";
+// 	cout << "	#1 = " << p2._first << "	";
+// 	cout << "	#2 = " << p2._second << endl;
+// 	cout << "Paire4 ";
+// 	cout << "	#1 = " << p4._first << "	";
+// 	cout << "	#2 = " << p4._second << endl;
+// 	ft::swap(p2, p4);
+// 	cout << "Paire2 ";
+// 	cout << "	#1 = " << p2._first << "	";
+// 	cout << "	#2 = " << p2._second << endl;
+// 	cout << "Paire4 ";
+// 	cout << "	#1 = " << p4._first << "	";
+// 	cout << "	#2 = " << p4._second << endl;
+
+// 	cout << endl;
+// 	ft::pair<int,char> foo2(10,'z');
+// 	ft::pair<int,char> bar2(90,'a');
+// 	if (foo2==bar2) std::cout << "foo and bar are equal\n";
+// 	if (foo2!=bar2) std::cout << "foo and bar are not equal\n";
+// 	if (foo2< bar2) std::cout << "foo is less than bar\n";
+// 	if (foo2> bar2) std::cout << "foo is greater than bar\n";
+// 	if (foo2<=bar2) std::cout << "foo is less than or equal to bar\n";
+// 	if (foo2>=bar2) std::cout << "foo is greater than or equal to bar\n";
+
+// 	return 0;
+// }

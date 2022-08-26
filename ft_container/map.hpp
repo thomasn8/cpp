@@ -10,6 +10,8 @@
 
 using namespace std;
 
+#define REALLAOC_FACTOR 2
+
 /* 
 
 Maps are associative containers that store elements formed by a combination of a key value and a mapped value, following a specific order.
@@ -73,8 +75,17 @@ namespace ft
 		map(InputIterator first, InputIterator last, 
 		const key_compare & comp = key_compare(), const allocator_type & alloc = allocator_type())
 		{
-			size_type n = last - first;
-			_ptr = _alloc.allocate(n);
+			size_type n = _distance<InputIterator>(first, last);
+			if (n)
+			{
+				_first = _alloc.allocate(n + 1);
+				_ptr = _first;
+				// while (first != last)
+				// 	_alloc.construct(_ptr++, *first++);
+				// _last = --_ptr;
+				// _n = n;
+				// _c = n;
+			}
 		}
 
 		// // copy (3)
@@ -85,6 +96,96 @@ namespace ft
 
 		~map() {}
 
+		// The single element versions (1) return a pair, with its member pair::first set to an iterator pointing to 
+		// either the newly inserted element or to the element with an equivalent key in the map. 
+		// The pair::second element in the pair is set to true if a new element was inserted or false 
+		// if an equivalent key already existed.
+
+		// pair<iterator,bool> insert(const value_type & val)
+		void insert(const value_type & val)
+		{
+			if (!_n)
+			{
+				_first = _alloc.allocate(2);
+				_ptr = _first;
+				_alloc.construct(_ptr, val);
+				_last = _first;
+				_c = 1;
+			}
+			else if (_n == _c)
+			{
+				iterator it = this->begin();
+				iterator ite = this->end();
+				pointer f = _first;
+				_first = _alloc.allocate(_n * REALLAOC_FACTOR + 1);
+				_ptr = _first;
+				while (it != ite)
+					_alloc.construct(_ptr++, *it++);
+				_alloc.construct(_ptr, val);
+				_last = _ptr;
+				_alloc.deallocate(f, _c + 1);
+				_c *= REALLAOC_FACTOR;
+			}
+			else
+				_alloc.construct(++_last, val);
+			_n++;
+		}
+
+		// iterator insert (iterator position, const value_type& val)
+		// {
+
+		// }
+
+		// template <class InputIterator>
+		// void insert (InputIterator first, InputIterator last)
+		// {
+
+		// }
+
+		void details()
+		{
+			cout << endl << "----------------------- DETAILS ------------------------" << endl;
+			cout << "Size = " << this->size() << " | " << "Capacity = " << this->capacity();
+			cout << " | Sizeof(value_type) = " << sizeof(value_type) << endl << endl;
+			if (_n)
+			{
+				iterator it = this->begin();
+				iterator ite = this->end();
+				while (it != ite)
+				{
+					cout << "It = " << &*it << " = " << (*it)._first << " | " << (*it)._second << endl;
+					it++;
+				}
+				cout << "Ite = " << &*ite << endl;
+			}
+			else
+				cout << "container is empty" << endl << endl;
+			cout << "--------------------------------------------------------" << endl;
+		}
+
+
+	// // 1. if k matches the key of an element in the container, the function returns a reference to its mapped value.
+	// // 2. if k does not match the key of any element in the container, the function inserts a new element 
+	// //    with that key and returns a reference to its mapped value.
+	// 	mapped_type & operator[](const key_type & k)
+	// 	{
+	// 		// if (cas 2.)
+	// 			// (*((insert(make_pair(k,mapped_type()))).first)).second;
+	// 			ft::pair<key_type,mapped_type> new_pr = ft::make_pair(k, mapped_type());
+	// 			new_pr._second = ;
+	// 			return new_pr;
+	// 	}
+
+	// ITERATORS
+		iterator begin() 				{ return iterator(_first); }
+		const_iterator begin() const 	{ return const_iterator(_first); }
+		iterator end() 					{ return iterator(_last+1); }
+		const_iterator end() const 		{ return const_iterator(_last+1); }
+
+	// ACCESSORS
+		size_type size() const 		{ return _n; }
+		size_type capacity() const	{ return _c; }
+
 		private:
 		allocator_type	_alloc;
 		key_compare		_comp;			
@@ -93,6 +194,18 @@ namespace ft
 		pointer			_first;
 		pointer			_last;
 		pointer			_ptr;
+
+		template <class InputIterator>
+		size_type _distance(InputIterator first, InputIterator last) const
+		{
+			size_type n = 0;
+			while (first != last)
+			{
+				first++;
+				n++;
+			}
+			return n;
+		}
 
 	};
 }

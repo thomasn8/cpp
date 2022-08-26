@@ -554,62 +554,6 @@ int main()
 	if (foo>=bar) std::cout << "foo is greater than or equal to bar\n";
 	if (foo>=bar) std::cout << "foo is greater than or equal to bar\n";
 
-	ft::pair<int, char> p1;
-	cout << "Paire1: ";
-	cout << "	#1 = " << p1._first << "	";
-	cout << "	#2 = " << p1._second << endl;
-	ft::pair<int, Test> p2(p1);
-	cout << "Paire2 ";
-	cout << "	#1 = " << p2._first << "	";
-	cout << "	#2 = " << p2._second << endl;
-	ft::pair<int, float> p3(1, 4.31f);
-	cout << "Paire3 ";
-	cout << "	#1 = " << p3._first << "	";
-	cout << "	#2 = " << p3._second << endl;
-	ft::pair<int, Test> p4(p3);
-	cout << "Paire4 ";
-	cout << "	#1 = " << p4._first << "	";
-	cout << "	#2 = " << p4._second << endl;
-	ft::pair<char, Test> p5;
-	cout << "Paire5 ";
-	cout << "	#1 = " << p5._first << "	";
-	cout << "	#2 = " << p5._second << endl;
-	ft::pair<float, char> p6 = p3;
-	cout << "Paire6 ";
-	cout << "	#1 = " << p6._first << "	";
-	cout << "	#2 = " << p6._second << endl;
-	ft::pair<float, float> p7 = ft::make_pair<float,float>(1.1f,2.2f);
-	cout << "Paire7 ";
-	cout << "	#1 = " << p7._first << "	";
-	cout << "	#2 = " << p7._second << endl;
-	ft::make_pair<float,float>(1.1f,2.2f);
-	
-	cout << endl;
-	p2.swap(p4);
-	cout << "Paire2 ";
-	cout << "	#1 = " << p2._first << "	";
-	cout << "	#2 = " << p2._second << endl;
-	cout << "Paire4 ";
-	cout << "	#1 = " << p4._first << "	";
-	cout << "	#2 = " << p4._second << endl;
-	ft::swap(p2, p4);
-	cout << "Paire2 ";
-	cout << "	#1 = " << p2._first << "	";
-	cout << "	#2 = " << p2._second << endl;
-	cout << "Paire4 ";
-	cout << "	#1 = " << p4._first << "	";
-	cout << "	#2 = " << p4._second << endl;
-
-	cout << endl;
-	ft::pair<int,char> foo2(10,'z');
-	ft::pair<int,char> bar2(90,'a');
-	if (foo2==bar2) std::cout << "foo and bar are equal\n";
-	if (foo2!=bar2) std::cout << "foo and bar are not equal\n";
-	if (foo2< bar2) std::cout << "foo is less than bar\n";
-	if (foo2> bar2) std::cout << "foo is greater than bar\n";
-	if (foo2<=bar2) std::cout << "foo is less than or equal to bar\n";
-	if (foo2>=bar2) std::cout << "foo is greater than or equal to bar\n";
-
 	return 0;
 }
 
