@@ -97,12 +97,26 @@ namespace ft
 
 		~map() {}
 
-		// The single element versions (1) return a pair, with its member pair::first set to an iterator pointing to 
-		// either the newly inserted element or to the element with an equivalent key in the map. 
-		// The pair::second element in the pair is set to true if a new element was inserted or false 
-		// if an equivalent key already existed.
+		// 1. if k matches the key of an element in the container, the function returns a reference to its mapped value.
+		// 2. if k does not match the key of any element in the container, the function inserts a new element 
+		//    with that key and returns a reference to its mapped value.
 
-		// void insert(const value_type & val)
+		// first['a']=10;
+		mapped_type & operator[](const key_type & k)
+		{
+			value_type new_pr = ft::make_pair(k, mapped_type());
+			// new_pr.second = ;
+				
+			pair<iterator,bool> check = insert(new_pr);
+			if (check.second == false)
+				return *(check.first);
+				// return (*check).first;
+			return new_pr.second;
+			// return mapped_type(new_pr.second);
+			
+			// return (*((this->insert(make_pair(k,mapped_type()))).first)).second;
+		}
+
 		pair<iterator,bool> insert(const value_type & val)
 		{
 			iterator key_check = _check_keys(val.first);
@@ -129,7 +143,7 @@ namespace ft
 				_last = _first;
 			}
 			_n++;
-			return pair<iterator,bool>(key_check, false);
+			return pair<iterator,bool>(key_check, true);
 		}
 
 		// iterator insert (iterator position, const value_type& val)
@@ -162,19 +176,6 @@ namespace ft
 				cout << "container is empty" << endl << endl;
 			cout << "--------------------------------------------------------" << endl;
 		}
-
-
-	// // 1. if k matches the key of an element in the container, the function returns a reference to its mapped value.
-	// // 2. if k does not match the key of any element in the container, the function inserts a new element 
-	// //    with that key and returns a reference to its mapped value.
-	// 	mapped_type & operator[](const key_type & k)
-	// 	{
-	// 		// if (cas 2.)
-	// 			// (*((insert(make_pair(k,mapped_type()))).first)).second;
-	// 			ft::pair<key_type,mapped_type> new_pr = ft::make_pair(k, mapped_type());
-	// 			new_pr.second = ;
-	// 			return new_pr;
-	// 	}
 
 	// ITERATORS
 		iterator begin() 				{ return iterator(_first); }
