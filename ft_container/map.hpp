@@ -103,30 +103,9 @@ namespace ft
 
 		mapped_type & operator[](const key_type & k)
 		{
-			// return (*((this->insert(make_pair(k,mapped_type()))).first)).second;
-
-			value_type new_pr = ft::make_pair(k, mapped_type());		// first['a']=10;
-			// new_pr.second = ;										// COMMENT CHOPER LA VALEUR APRES LE = 
-				
-			pair<iterator,bool> check = insert(new_pr);
-
-			iterator same_key = check.first;
-			// value_type same = *same_key;
-			
-			return (*same_key).second;
-			
-			// if (same_key != NULL)
-			// {
-			// 	cout << "TEST: " << (*same_key).first << endl;
-			// 	cout << "TEST: " << (*same_key).second << endl;
-			// 	// cout << "TEST: " << same.first << endl;
-			// 	// cout << "TEST: " << same.second << endl;
-			// 	return (*same_key).second;
-			// }
-
-			// if (check.second == false)
-			// 	return (*same_key).second;
-			// return new_pr.second;
+			value_type new_pr = ft::make_pair(k, mapped_type());
+			pair<iterator,bool> checked = insert(new_pr);
+			return (*checked.first).second;
 		}
 
 		pair<iterator,bool> insert(const value_type & val)
@@ -155,7 +134,7 @@ namespace ft
 				_last = _first;
 			}
 			_n++;
-			return pair<iterator,bool>(key_check, true);
+			return pair<iterator,bool>(iterator(_ptr), true);
 		}
 
 		// iterator insert (iterator position, const value_type& val)
@@ -231,7 +210,8 @@ namespace ft
 					it++;
 				}
 			}
-			return this->begin();
+			return NULL;
+			// return this->begin();
 		}
 
 	};
