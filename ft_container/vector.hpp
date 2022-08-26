@@ -125,7 +125,13 @@ namespace ft
 
 		virtual ~vector() 																	// DESTR #1
 		{
-			get_allocator().deallocate(_first, size());
+			if (_last >= _first)
+			{
+				_pointer = _first;
+				while (_pointer != _last)
+					_alloc.destroy(_pointer++);
+			}
+			_alloc.deallocate(_first, size()+1);
 			cout << endl << "(" << this << " - default) vector destroyed" << endl;
 		}
 
