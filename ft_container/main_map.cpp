@@ -61,6 +61,9 @@ int main()
 	ft1['z'] = -100;
 	ft1.details();
 
+	ft1['z'] = -100;
+	ft1.details();
+
 	// cout << endl;
 	// cout << "--------------------------------------------------------" << endl; 
 	// cout << endl;

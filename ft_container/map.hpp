@@ -101,20 +101,32 @@ namespace ft
 		// 2. if k does not match the key of any element in the container, the function inserts a new element 
 		//    with that key and returns a reference to its mapped value.
 
-		// first['a']=10;
 		mapped_type & operator[](const key_type & k)
 		{
-			value_type new_pr = ft::make_pair(k, mapped_type());
-			// new_pr.second = ;
+			// return (*((this->insert(make_pair(k,mapped_type()))).first)).second;
+
+			value_type new_pr = ft::make_pair(k, mapped_type());		// first['a']=10;
+			// new_pr.second = ;										// COMMENT CHOPER LA VALEUR APRES LE = 
 				
 			pair<iterator,bool> check = insert(new_pr);
-			if (check.second == false)
-				return *(check.first);
-				// return (*check).first;
-			return new_pr.second;
-			// return mapped_type(new_pr.second);
+
+			iterator same_key = check.first;
+			// value_type same = *same_key;
 			
-			// return (*((this->insert(make_pair(k,mapped_type()))).first)).second;
+			return (*same_key).second;
+			
+			// if (same_key != NULL)
+			// {
+			// 	cout << "TEST: " << (*same_key).first << endl;
+			// 	cout << "TEST: " << (*same_key).second << endl;
+			// 	// cout << "TEST: " << same.first << endl;
+			// 	// cout << "TEST: " << same.second << endl;
+			// 	return (*same_key).second;
+			// }
+
+			// if (check.second == false)
+			// 	return (*same_key).second;
+			// return new_pr.second;
 		}
 
 		pair<iterator,bool> insert(const value_type & val)
@@ -219,7 +231,7 @@ namespace ft
 					it++;
 				}
 			}
-			return NULL;
+			return this->begin();
 		}
 
 	};
