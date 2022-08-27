@@ -59,6 +59,9 @@ int main()
 	ft::map_details(ft5);
 	ft5 = ft1;
 	ft::map_details(ft5);
+	cout << "TEST DES [] : " << ft5['a'] << "|" << ft5['z'] << endl;
+	ft::map_details(ft5);
+
 
 	return 0;
 }

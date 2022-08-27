@@ -1,6 +1,7 @@
 #include "vector.hpp"
 #include "map.hpp"
 #include "pair.hpp"
+#include "container_details.hpp"
 #include "class_test/Test.hpp"
 
 using namespace std;
@@ -553,6 +554,16 @@ int main()
 	if (foo>=bar) std::cout << "foo is greater than or equal to bar\n";
 	if (foo>=bar) std::cout << "foo is greater than or equal to bar\n";
 	if (foo>=bar) std::cout << "foo is greater than or equal to bar\n";
+
+	ft::vector_details(fill);
+
+	ft::vector<int> ft;
+	// ft::vector_details(ft);
+	cout << &*ft.begin() << endl;
+	
+	std::vector<int> std;
+	vector_details(std);
+	cout << &*std.begin() << endl;
 
 	return 0;
 }

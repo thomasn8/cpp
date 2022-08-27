@@ -7,9 +7,7 @@ using namespace std;
 #include <stdexcept>
 #include "iterators.hpp"
 #include "pair.hpp"
-// #include "utils.hpp"
-
-#define REALLAOC_FACTOR 2
+#include "utils.hpp"
 
 /* 
 

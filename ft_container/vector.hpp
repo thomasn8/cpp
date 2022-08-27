@@ -29,7 +29,7 @@ namespace ft
 		typedef	ft::reverse_iterator<const_iterator>			const_reverse_iterator;
 		
 	// CONSTRUCTEURS/DESTRUCTEUR
-		explicit vector(const allocator_type & alloc = allocator_type()) 						// CONSTR #1
+		explicit vector(const allocator_type & alloc = allocator_type())
 		: _n(0), _c(0), _capacityFactor(2), _alloc(alloc)
 		{
 			_ptr = _alloc.allocate(1);
@@ -37,7 +37,7 @@ namespace ft
 			_last = --_ptr;
 		}
 
-		explicit vector(size_type n, const value_type & val = value_type(), 					// CONSTR #2
+		explicit vector(size_type n, const value_type & val = value_type(),
 			const allocator_type & alloc = allocator_type())
 		: _n(n), _c(n), _capacityFactor(2), _alloc(alloc)
 		{
@@ -60,7 +60,7 @@ namespace ft
 		
 		// le typedef SFINAE dans random_access_iterator force le choix pour ce constructeur 
 		// car constructeur à 2 args comme le #2
-		template <typename InputIterator>														// CONSTR #3
+		template <typename InputIterator>
 		vector(InputIterator first, InputIterator last, 
 			const allocator_type & alloc = allocator_type(), 
 			typename InputIterator::SFINAE_condition = 0) : 
@@ -94,7 +94,7 @@ namespace ft
 			}
 		}
 
-		vector(const vector & x) :															// CONSTR #4
+		vector(const vector & x) :
 			_capacityFactor(2), _alloc(x.get_allocator())
 		{
 			iterator first = x.begin();
@@ -118,7 +118,16 @@ namespace ft
 			_last = _ptr;
 		}
 
-		virtual ~vector() 																	// DESTR #1
+		// vector & operator=(const vector & x)
+		// {
+		// 	if (x.size())
+		// 	{
+		// 		if (x.capacity)
+		// 	}
+		// 	return *this;
+		// }
+
+		virtual ~vector()
 		{
 			if (_last >= _first)
 			{
@@ -158,12 +167,12 @@ namespace ft
 	// ELEMENT ACCESS
 		reference operator[](size_type index)				{ return _first[index]; }
 		const_reference operator[](size_type index) const	{ return _first[index]; }
-		reference front() 						{ return *_first; }
-		const_reference front() const 			{ return *_first; }
-		reference back() 						{ return *_last; }
-		const_reference back() const 			{ return *_last; }
-		value_type * data() 					{ return _first; }
-		const value_type * data() const 		{ return _first; }
+		reference front() 									{ return *_first; }
+		const_reference front() const 						{ return *_first; }
+		reference back() 									{ return *_last; }
+		const_reference back() const 						{ return *_last; }
+		value_type * data() 								{ return _first; }
+		const value_type * data() const 					{ return _first; }
 		reference at(size_type n)
 		{
 			if (n >= _n)

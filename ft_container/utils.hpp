@@ -3,7 +3,6 @@
 
 #include <iostream>
 using namespace std;
-#include "map.hpp"
 
 namespace ft
 {
@@ -93,30 +92,6 @@ namespace ft
 			++first2;
 		}
 		return (first2 != last2);
-	}
-
-// AFFICHE LE DETAIL D'UN FT::MAP CONTAINER
-	// class map {};
-
-	template<class T1, class T2>
-	void map_details(ft::map<T1,T2> m)
-	{
-		cout << endl << "----------------------- DETAILS ------------------------" << endl;
-		cout << "Size = " << m.size() << " | Sizeof(value_type) = " << sizeof(typename ft::map<T1,T2>::value_type) << endl << endl;
-		if (m.size())
-		{
-			typename ft::map<T1,T2>::iterator it = m.begin();
-			typename ft::map<T1,T2>::iterator ite = m.end();
-			while (it != ite)
-			{
-				cout << "It  " << &*it << ": " << (*it).first << " | " << (*it).second << endl;
-				it++;
-			}
-			cout << "Ite " << &*ite << endl;
-		}
-		else
-			cout << "container is empty" << endl << endl;
-		cout << "--------------------------------------------------------" << endl;
 	}
 }
 
