@@ -36,8 +36,8 @@ namespace ft
 			const allocator_type & alloc = allocator_type()) :
 			_n(n), _c(n), _capacityFactor(2), _alloc(alloc), _first(NULL), _last(NULL)
 		{
-			if (_n + 1 > max_size())
-				return capacity_error();
+			if (capacity_error(_n))
+				return;
 			if (_n)
 			{
 				_first = _alloc.allocate(_c + 1);
@@ -56,8 +56,8 @@ namespace ft
 		{
 			_n = last - first;
 			_c = _n;
-			if (_c + 1 > max_size())
-				return capacity_error();
+			if (capacity_error(_c))
+				return;
 			if (_n)
 			{
 				_first = _alloc.allocate(_c + 1);
@@ -74,8 +74,8 @@ namespace ft
 		{
 			if (_n)
 			{
-				if (_c + 1 > max_size())
-					return capacity_error();
+				if (capacity_error(_c))
+					return;
 				const_iterator first = x.begin();
 				const_iterator last = x.end();
 				_first = _alloc.allocate(_c + 1);
@@ -179,8 +179,8 @@ namespace ft
 
 		void reserve(size_type n)
 		{
-			if (n > max_size())
-				return capacity_error();
+			if (capacity_error(n))
+				return;
 			if (n > _c)
 			{
 				iterator old_first = begin();
@@ -240,8 +240,8 @@ namespace ft
 				}
 				else
 				{
-					if (_n + 1 > max_size())
-						return capacity_error();
+					if (capacity_error(_n))
+						return;
 					clear();
 					_first = _alloc.allocate(size + 1);
 					_ptr = _first;
@@ -276,8 +276,8 @@ namespace ft
 				}
 				else
 				{
-					if (_n + 1 > max_size())
-						return capacity_error();
+					if (capacity_error(_n))
+						return;
 					clear();
 					_first = _alloc.allocate(n + 1);
 					_ptr = _first;
@@ -296,8 +296,8 @@ namespace ft
 				_alloc.construct(++_last, val);
 			else
 			{
-				if (_n * _capacityFactor + 1 > max_size())
-					return capacity_error();
+				if (capacity_error(_n * _capacityFactor))
+					return;
 				reserve(_n * _capacityFactor);
 				_alloc.construct(++_last, val);
 			}
@@ -319,6 +319,8 @@ namespace ft
 			if (_n + 1 > _c)
 			{
 				iterator it = begin();
+				if (capacity_error(_n * _capacityFactor))
+					return;
 				_ptr = _alloc.allocate(_n * _capacityFactor + 1);
 				pointer f = _ptr;
 				while (it != position)
@@ -361,8 +363,8 @@ namespace ft
 			{
 				value_type c;
 				_n + n < _c ? c = _n * _capacityFactor : c = _n + n;
-				if (c + 1 > max_size())
-					return capacity_error();
+				if (capacity_error(c))
+					return;
 				_ptr = _alloc.allocate(c + 1);
 				pointer f = _ptr;
 				while (it != position)
@@ -410,8 +412,8 @@ namespace ft
 			{
 				value_type c;
 				_n + n < _c ? c = _n * _capacityFactor : c = _n + n;
-				if (c + 1 > max_size())
-					return capacity_error();
+				if (capacity_error(c))
+					return;
 				_ptr = _alloc.allocate(c + 1);
 				pointer f = _ptr;
 				while (it != position)
@@ -471,7 +473,7 @@ namespace ft
 			_last -= erased;
 			_n -= erased;
 			while (erased)
-				get_allocator().destroy(_last - erased-- + 1);
+				_alloc.destroy(_last - erased-- + 1);
 			return itr;
 		}
 
@@ -504,7 +506,7 @@ namespace ft
 		}
 
 	// ALLOCATOR
-		allocator_type get_allocator() const 				{ return _alloc; }
+		allocator_type get_allocator() const { return _alloc; }
 
 		private :
 		Alloc			_alloc;				// the default allocator
@@ -518,13 +520,7 @@ namespace ft
 		size_type get_index(pointer p) const { return p - _first; }
 		size_type get_index(iterator it) { return it - begin(); }
 		
-		// void	capacity_error()
-		// {
-		// 	try { throw vector::length_error(); }
-		// 	catch (const vector::length_error & e) { cerr << e.what() << endl; }
-		// }
-
-		bool	capacity_check(size_type c)
+		bool	capacity_error(size_type c)
 		{
 			try 
 			{

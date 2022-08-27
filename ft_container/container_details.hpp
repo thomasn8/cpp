@@ -1,8 +1,12 @@
 #ifndef CONTAINER_DETAILS_HPP
 # define CONTAINER_DETAILS_HPP
 
+#include <iostream>
+using namespace std;
 #include <vector>
 #include <map>
+#include "vector.hpp"
+#include "map.hpp"
 
 namespace ft
 {
