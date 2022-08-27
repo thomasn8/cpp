@@ -29,33 +29,23 @@ namespace ft
 		typedef	ft::reverse_iterator<const_iterator>			const_reverse_iterator;
 		
 	// CONSTRUCTEURS/DESTRUCTEUR
-		explicit vector(const allocator_type & alloc = allocator_type())
-		: _n(0), _c(0), _capacityFactor(2), _alloc(alloc)
-		{
-			_ptr = _alloc.allocate(1);
-			_first = _ptr;
-			_last = --_ptr;
-		}
+		explicit vector(const allocator_type & alloc = allocator_type()) :
+			_n(0), _c(0), _capacityFactor(2), _alloc(alloc), _first(NULL), _last(NULL) {}
 
 		explicit vector(size_type n, const value_type & val = value_type(),
-			const allocator_type & alloc = allocator_type())
-		: _n(n), _c(n), _capacityFactor(2), _alloc(alloc)
+			const allocator_type & alloc = allocator_type()) :
+			_n(n), _c(n), _capacityFactor(2), _alloc(alloc), _first(NULL), _last(NULL)
 		{
-			if (n > max_size())
+			if (_n > max_size())
+				return capacity_error();
+			if (_n)
 			{
-				capacity_error();
-				return;
+				_first = _alloc.allocate(_c + 1);
+				_ptr = _first;
+				for (size_type i = 0; i < _n; i++)
+					_alloc.construct(_ptr++, val);
+				_last = --_ptr;
 			}
-			_ptr = _alloc.allocate(n + 1);
-			_first = _ptr;
-			for (size_type i = 0; i < n; i++)
-			{
-				// _alloc.construct(_ptr, val+i);
-				_alloc.construct(_ptr, val);
-				_ptr++;
-			}
-			_ptr--;
-			_last = _ptr;
 		}
 		
 		// le typedef SFINAE dans random_access_iterator force le choix pour ce constructeur 
@@ -64,93 +54,98 @@ namespace ft
 		vector(InputIterator first, InputIterator last, 
 			const allocator_type & alloc = allocator_type(), 
 			typename InputIterator::SFINAE_condition = 0) : 
-			_capacityFactor(2), _alloc(alloc)
+			_n(0), _c(0), _capacityFactor(2), _alloc(alloc), _first(NULL), _last(NULL)
 		{
 			_n = last - first;
 			_c = _n;
 			if (_c > max_size())
-			{
-				capacity_error();
-				return;
-			}
+				return capacity_error();
 			if (_n)
 			{
-				_ptr = _alloc.allocate(_n + 1);
-				_first = _ptr;
+				_first = _alloc.allocate(_c + 1);
+				_ptr = _first;
 				while (first != last)
-				{
-					_alloc.construct(_ptr, *first);
-					++first;
-					_ptr++;
-				}
-				_ptr--;
-				_last = _ptr;
-			}
-			else
-			{
-				_ptr = _alloc.allocate(1);
-				_first = _ptr;
+					_alloc.construct(_ptr++, *first++);
 				_last = --_ptr;
 			}
 		}
 
 		vector(const vector & x) :
-			_capacityFactor(2), _alloc(x.get_allocator())
+			_n(x.size()), _c(x.size()), _capacityFactor(2), 
+			_alloc(x.get_allocator()), _first(NULL), _last(NULL)
 		{
-			iterator first = x.begin();
-			iterator last = x.end();
-			_n = x.size();
-			_c = _n;
-			if (_c > max_size())
+			if (_n)
 			{
-				capacity_error();
-				return;
+				if (_c > max_size())
+					return capacity_error();
+				const_iterator first = x.begin();
+				const_iterator last = x.end();
+				_first = _alloc.allocate(_c + 1);
+				_ptr = _first;
+				while (first != last)
+					_alloc.construct(_ptr++, *first++);
+				_last = --_ptr;
 			}
-			_ptr = x.get_allocator().allocate(_n + 1);
-			_first = _ptr;
-			while (first != last)
-			{
-				x.get_allocator().construct(_ptr, *first);
-				++first;
-				_ptr++;
-			}
-			_ptr--;
-			_last = _ptr;
 		}
 
-		// vector & operator=(const vector & x)
-		// {
-		// 	if (x.size())
-		// 	{
-		// 		if (x.capacity)
-		// 	}
-		// 	return *this;
-		// }
+		vector & operator=(const vector & x)
+		{
+			size_type x_size = x.size();
+			if (!x_size)
+				clear();
+			else
+			{
+				const_iterator first = x.begin();
+				const_iterator last = x.end();
+				if (x_size <= _c)	// évalue si une réallocation est nécessaire
+				{
+					_ptr = _first;
+					while (first != last)
+						_alloc.construct(_ptr++, *first++);
+					_last = --_ptr;
+					size_type to_destroy = _n - x_size;
+					for (size_type i = 0; i < to_destroy; i++)
+						_alloc.destroy(++_ptr + i);
+					_n = x_size;
+				}
+				else
+				{
+					clear();
+					_first = _alloc.allocate(x_size + 1);
+					_ptr = _first;
+					while (first != last)
+						_alloc.construct(_ptr++, *first++);
+					_last = --_ptr;
+					_n = x_size;
+					_c = x_size;
+				}
+			}
+			return *this;
+		}
 
 		virtual ~vector()
 		{
-			if (_last >= _first)
+			if (_n)
 			{
-				_ptr = _first;
-				while (_ptr != _last)
-					_alloc.destroy(_ptr++);
+				for (size_type i = 0; i < _n; i++)
+					_alloc.destroy(_first + i);
+				_alloc.deallocate(_first, _c + 1);
 			}
-			_alloc.deallocate(_first, size()+1);
 		}
 
 	// ITERATORS
-		iterator begin() { return iterator(_first); };
-		iterator end() { return iterator(_last + 1); };
-		const_iterator begin() const { return const_iterator(_first); }
-		const_iterator end() const { return const_iterator(_last + 1); }
-		const_iterator cbegin() const { return const_iterator(_first); }
-		const_iterator cend() const { return const_iterator(_last + 1); }			
-		reverse_iterator rbegin() { reverse_iterator from(_last + 1); return from; }
-		const_reverse_iterator rbegin() const { const_reverse_iterator from(_last + 1); return from; }
-		reverse_iterator rend() { reverse_iterator until(_first); return until; }
-		const_reverse_iterator rend() const { const_reverse_iterator until(_first); return until; }
-		const_reverse_iterator crbegin() const { const_reverse_iterator from(_last + 1); return from; }
-		const_reverse_iterator crend() const { const_reverse_iterator until(_first); return until; }
+		iterator begin() 						{ return iterator(_first); }
+		iterator end() 							{ if (_n) return iterator(_last + 1); return _last; }
+		const_iterator begin() const 			{ return const_iterator(_first); }
+		const_iterator end() const 				{ if (_n) return const_iterator(_last + 1);  return _last; }
+		const_iterator cbegin() const 			{ return const_iterator(_first); }
+		const_iterator cend() const 			{ if (_n) return const_iterator(_last + 1); return _last; }			
+		reverse_iterator rbegin() 				{ if (_n) return reverse_iterator(_last + 1); return _last; }
+		const_reverse_iterator rbegin() const 	{ if (_n) return const_reverse_iterator(_last + 1); return _last; }
+		reverse_iterator rend() 				{ return reverse_iterator(_first); }
+		const_reverse_iterator rend() const 	{ return const_reverse_iterator(_first); }
+		const_reverse_iterator crbegin() const	{ if (_n) return const_reverse_iterator(_last + 1); return _last; }
+		const_reverse_iterator crend() const	{ return const_reverse_iterator(_first); }
 	
 	// ERRORS
 		class length_error : public std::exception
@@ -202,14 +197,12 @@ namespace ft
 				_ptr = _alloc.allocate(_n + 1);
 				pointer new_first = _ptr;
 				while (old_first != old_last)
-				{
-					_alloc.construct(_ptr, *old_first);
-					old_first++;
-					_ptr++;
-				}
-				_alloc.deallocate(_first, _c + 1);
+					_alloc.construct(_ptr++, *old_first++);
+				size_type n = _n;
+				clear();
 				_first = new_first;
 				_last = --_ptr;
+				_n = n;
 				_c = _n;
 			}
 		}
@@ -225,14 +218,12 @@ namespace ft
 				_ptr = _alloc.allocate(n + 1);
 				pointer new_first = _ptr;
 				while (old_first != old_last)
-				{
-					_alloc.construct(_ptr, *old_first);
-					old_first++;
-					_ptr++;
-				}
-				_alloc.deallocate(_first, _c + 1);
+					_alloc.construct(_ptr++, *old_first++);
+				size_type size = _n;
+				clear();
 				_first = new_first;
 				_last = --_ptr;
+				_n = size;
 				_c = n;
 			}
 		}
@@ -481,9 +472,8 @@ namespace ft
 			for (size_type i = 0; i < _n; i++)
 				_alloc.destroy(_first + i);
 			_alloc.deallocate(_first, _c + 1);
-			_ptr = _alloc.allocate(1);
-			_first = _ptr;
-			_last = --_ptr;
+			_first = NULL;
+			_last = NULL;
 			_n = 0;
 			_c = 0;
 		}

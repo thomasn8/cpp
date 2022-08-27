@@ -67,7 +67,7 @@ namespace ft
 		template <class InputIterator>
 		map(InputIterator first, InputIterator last, 
 		const key_compare & comp = key_compare(), const allocator_type & alloc = allocator_type()) :
-		_alloc(alloc), _comp(comp)
+		_alloc(alloc), _comp(comp), _n(0), _first(NULL), _last(NULL)
 		{
 			size_type n = _distance<InputIterator>(first, last);
 			if (n)
@@ -183,8 +183,8 @@ namespace ft
 
 	// ITERATORS
 		iterator begin() 				{ return iterator(_first); }
-		const_iterator begin() const 	{ return const_iterator(_first); }
 		iterator end() 					{ if (_n) return iterator(_last+1); return (_last);}
+		const_iterator begin() const 	{ return const_iterator(_first); }
 		const_iterator end() const 		{ if (_n) return const_iterator(_last+1); return (_last);}
 
 	// ACCESSORS
