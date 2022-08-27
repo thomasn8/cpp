@@ -1,12 +1,10 @@
 #include <iostream>
 using namespace std;
-#include <vector>
 #include <map>
-#include "vector.hpp"
-#include "map.hpp"
-#include "pair.hpp"
-#include "container_details.hpp"
-#include "class_test/Test.hpp"
+#include "../map.hpp"
+#include "../pair.hpp"
+#include "../container_details.hpp"
+#include "../class_test/Test.hpp"
 
 int main()
 {

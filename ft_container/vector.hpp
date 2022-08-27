@@ -48,8 +48,6 @@ namespace ft
 			}
 		}
 		
-		// le typedef SFINAE dans random_access_iterator force le choix pour ce constructeur 
-		// car constructeur à 2 args comme le #2
 		template <typename InputIterator>
 		vector(InputIterator first, InputIterator last, 
 			const allocator_type & alloc = allocator_type(), 
@@ -90,36 +88,8 @@ namespace ft
 
 		vector & operator=(const vector & x)
 		{
-			size_type x_size = x.size();
-			if (!x_size)
-				clear();
-			else
-			{
-				const_iterator first = x.begin();
-				const_iterator last = x.end();
-				if (x_size <= _c)	// évalue si une réallocation est nécessaire
-				{
-					_ptr = _first;
-					while (first != last)
-						_alloc.construct(_ptr++, *first++);
-					_last = --_ptr;
-					size_type to_destroy = _n - x_size;
-					for (size_type i = 0; i < to_destroy; i++)
-						_alloc.destroy(++_ptr + i);
-					_n = x_size;
-				}
-				else
-				{
-					clear();
-					_first = _alloc.allocate(x_size + 1);
-					_ptr = _first;
-					while (first != last)
-						_alloc.construct(_ptr++, *first++);
-					_last = --_ptr;
-					_n = x_size;
-					_c = x_size;
-				}
-			}
+			// assign<iterator>(x.begin(), x.end());
+			assign(x.begin(), x.end());
 			return *this;
 		}
 
@@ -245,59 +215,91 @@ namespace ft
 		}
 
 	// MODIFIERS
-		void assign(size_type n, const value_type & val)
-		{
-			iterator old_first = begin();
-			iterator old_last = end();
-			_ptr = _alloc.allocate(n + 1);
-			pointer new_first = _ptr;
-			for (size_type i = 0; i < n; i++)
-				_alloc.construct(_ptr++, val);
-			_alloc.deallocate(_first, _c + 1);
-			_first = new_first;
-			_last = --_ptr;
-			_n = n;
-			_c = _n;
-		}
-		
 		template <class InputIterator>
 		void assign(InputIterator first, InputIterator last, 
 			typename InputIterator::SFINAE_condition = 0)
 		{
-			iterator old_first = begin();
-			iterator old_last = end();
-			size_type n = last - first;
-			_ptr = _alloc.allocate(n + 1);
-			pointer new_first = _ptr;
-			while (first != last)
-				_alloc.construct(_ptr++, *first++);
-			_alloc.deallocate(_first, _c + 1);
-			_first = new_first;
-			_last = --_ptr;
-			_n = n;
-			_c = _n;
+			size_type size = last - first;
+			if (!size)
+				clear();
+			else
+			{
+				if (_n > max_size())
+					return capacity_error();
+				if (size <= _c)
+				{
+					_ptr = _first;
+					while (first != last)
+					{
+						_alloc.destroy(_ptr);
+						_alloc.construct(_ptr++, *first++);
+					}
+					_last = --_ptr;
+					size_type to_destroy = _n - size;
+					for (size_type i = 0; i < to_destroy; i++)
+						_alloc.destroy(++_ptr + i);
+					_n = size;
+				}
+				else
+				{
+					clear();
+					_first = _alloc.allocate(size + 1);
+					_ptr = _first;
+					while (first != last)
+						_alloc.construct(_ptr++, *first++);
+					_last = --_ptr;
+					_n = size;
+					_c = size;
+				}
+			}
+		}
+
+		void assign(size_type n, const value_type & val)
+		{
+			if (!n)
+				clear();
+			else
+			{
+				if (_n > max_size())
+					return capacity_error();
+				if (n <= _c)
+				{
+					_ptr = _first;
+					while (first != last)
+					{
+						_alloc.destroy(_ptr);
+						_alloc.construct(_ptr++, *first++);
+					}
+					_last = --_ptr;
+					size_type to_destroy = _n - n;
+					for (size_type i = 0; i < to_destroy; i++)
+						_alloc.destroy(++_ptr + i);
+					_n = n;
+				}
+				else
+				{
+					clear();
+					_first = _alloc.allocate(n + 1);
+					_ptr = _first;
+					while (first != last)
+						_alloc.construct(_ptr++, val);
+					_last = --_ptr;
+					_n = n;
+					_c = n;
+				}
+			}
 		}
 
 		void push_back(const value_type & val)
 		{
 			if (_n + 1 <= _c)
-				_alloc.construct(_last++ + 1, val);
+				_alloc.construct(++_last, val);
 			else
 			{
-				size_type new_capacity = _c * _capacityFactor;
-				if (new_capacity > max_size())
+				if (c > max_size())
 					return capacity_error();
-				iterator old_first = begin();
-				iterator old_last = end();
-				_ptr = _alloc.allocate(new_capacity + 1);
-				pointer new_first = _ptr;
-				while (old_first != old_last)
-					_alloc.construct(_ptr++, *old_first++);
-				_alloc.construct(_ptr, val);
-				_alloc.deallocate(_first, _c + 1);
-				_first = new_first;
-				_last = _ptr;
-				_c = new_capacity;
+				reserve(_n * _capacityFactor);
+				_alloc.construct(++last, val);
 			}
 			_n++;
 		}
@@ -313,40 +315,43 @@ namespace ft
 
 		iterator insert(iterator position, const value_type & val)
 		{
-			iterator r_value;
-			if (_n == _c)
+			iterator itr;
+			if (_n + 1 > _c)
 			{
 				iterator it = begin();
-				_ptr = _alloc.allocate(_n + 2);
+				_ptr = _alloc.allocate(_n * _capacityFactor + 1);
 				pointer f = _ptr;
 				while (it != position)
 					_alloc.construct(_ptr++, *it++);
-				r_value = _ptr;
-				_alloc.construct(_ptr, val);
-				_ptr++;
+				itr = _ptr;
+				_alloc.construct(_ptr++, val);
 				while (it != _last + 1)
 					_alloc.construct(_ptr++, *it++);
-				_alloc.deallocate(_first, _c + 1);
-				_c++;
+				size_type n = _n;
+				clear();
+				_c = n * _capacityFactor;
+				_n = n + 1;
 				_last = _ptr - 1;
 				_first = f;
 			}
 			else
 			{
-				r_value = position;
+				itr = position;
 				value_type tmp = *position;
 				value_type tmp2;
+				_alloc.destroy(position.getP());
 				_alloc.construct(position.getP(), val);
 				while (position != _last + 1)
 				{
 					tmp2 = *(++position);
+					_alloc.destroy(position.getP());
 					_alloc.construct(position.getP(), tmp);
 					tmp = tmp2;
 				}
 				_last++;
+				_n++;
 			}
-			_n++;
-			return r_value;
+			return itr;
 		}
 
 		void insert(iterator position, size_type n, const value_type & val)
@@ -354,7 +359,9 @@ namespace ft
 			iterator it = begin();
 			if (_n + n > _c)
 			{
-				_ptr = _alloc.allocate(_n + n + 1);
+				value_type c;
+				_n + n < _c ? c = _n * _capacityFactor : c = _n + n;
+				_ptr = _alloc.allocate(c + 1);
 				pointer f = _ptr;
 				while (it != position)
 					_alloc.construct(_ptr++, *it++);
@@ -362,8 +369,10 @@ namespace ft
 					_alloc.construct(_ptr++, val);
 				while (it != _last + 1)
 					_alloc.construct(_ptr++, *it++);
-				_alloc.deallocate(_first, _c + 1);
-				_c += n;
+				size_type s = _n;
+				clear();
+				_c = c;
+				_n = s + n;
 				_last = _ptr - 1;
 				_first = f;
 			}
@@ -372,18 +381,22 @@ namespace ft
 				vector<T> cpy(it, end());
 				iterator it_cpy = cpy.begin();
 				size_type index = get_index(position);
-				size_type new_index;
 				size_type dist = _last - position + 1;
+				size_type new_index;
 				for (size_type i = 0; i < dist; i++)
 				{
 					new_index = index + n + i;
+					_alloc.destroy(_first + new_index);
 					_alloc.construct(_first + new_index, *(it_cpy + new_index - n));
 				}
 				for (size_type i = 0; i < n; i++)
+				{
+					_alloc.destroy(&_first[get_index(position)]);
 					_alloc.construct(&_first[get_index(position++)], val);
+				}
 				_last = _first + new_index;
+				_n += n;
 			}
-			_n += n;
 		}
 
 		template <class InputIterator>
@@ -393,7 +406,9 @@ namespace ft
 			iterator it = begin();
 			if (_n + n > _c)
 			{
-				_ptr = _alloc.allocate(_n + n + 1);
+				value_type c;
+				_n + n < _c ? c = _n * _capacityFactor : c = _n + n;
+				_ptr = _alloc.allocate(c + 1);
 				pointer f = _ptr;
 				while (it != position)
 					_alloc.construct(_ptr++, *it++);
@@ -401,8 +416,10 @@ namespace ft
 					_alloc.construct(_ptr++, *first++);
 				while (it != _last + 1)
 					_alloc.construct(_ptr++, *it++);
-				_alloc.deallocate(_first, _c + 1);
-				_c += n;
+				size_type s = _n;
+				clear();
+				_c += c;
+				_n = s + n;
 				_last = _ptr - 1;
 				_first = f;
 			}
@@ -416,30 +433,33 @@ namespace ft
 				for (size_type i = 0; i < dist; i++)
 				{
 					new_index = index + n + i;
+					_alloc.destroy(_first + new_index);
 					_alloc.construct(_first + new_index, *(it_cpy + new_index - n));
 				}
 				for (size_type i = 0; i < n; i++)
+				{
+					_alloc.destroy(&_first[get_index(position)]);
 					_alloc.construct(&_first[get_index(position++)], *first++);
+				}
 				_last = _first + new_index;
+				_n += n;
 			}
-			_n += n;
 		}
 
 		iterator erase(iterator position)
 		{
-			iterator r_value = position;
+			iterator itr = position;
 			size_type dist = _last - position + 1;
 			while (--dist)
 				_alloc.construct(&*position, *(position++ + 1));
-			get_allocator().destroy(_last);
-			_last--;
+			_alloc.destroy(_last--);
 			_n--;
-			return r_value;
+			return itr;
 		}
 
 		iterator erase(iterator first, iterator last)
 		{
-			iterator r_value = first;						
+			iterator itr = first;						
 			size_type dist = _last - last + 2;
 			while (--dist)
 				_alloc.construct(&*first++, *last++);
@@ -448,23 +468,24 @@ namespace ft
 			_n -= erased;
 			while (erased)
 				get_allocator().destroy(_last - erased-- + 1);
-			return r_value;
+			return itr;
 		}
 
 		void swap(vector & x)
 		{
-			size_type n_this = _n;
-			size_type c_this = _c;
-			pointer f_this = _first;
-			pointer l_this = _last;
+			size_type n = _n;
+			size_type c = _c;
+			pointer f = _first;
+			pointer l = _last;
 			_n = x.size();
 			_c = x.capacity();
 			_first = x.data();
-			_last = x.data() + x.size() - 1;
-			x._n = n_this;
-			x._c = c_this;
-			x._first = f_this;
-			x._last = l_this;
+			// _last = x.data() + x.size() - 1;
+			_last = &x.back();
+			x._n = n;
+			x._c = c;
+			x._first = f;
+			x._last = l;
 		}
 
 		void clear()
@@ -472,8 +493,8 @@ namespace ft
 			for (size_type i = 0; i < _n; i++)
 				_alloc.destroy(_first + i);
 			_alloc.deallocate(_first, _c + 1);
-			_first = NULL;
-			_last = NULL;
+			// _first = NULL;
+			// _last = NULL;
 			_n = 0;
 			_c = 0;
 		}
@@ -488,7 +509,7 @@ namespace ft
 		size_type		_capacityFactor;	// incremental factor for capacity reallocation
 		pointer			_first;				// first element
 		pointer			_last;				// last element
-		pointer			_ptr;			// random pointer for multi-usage
+		pointer			_ptr;				// random pointer for multi-usage
 
 		size_type get_index(pointer p) const { return p - _first; }
 		size_type get_index(iterator it) { return it - begin(); }
@@ -505,6 +526,7 @@ namespace ft
 		}
 	};
 
+// NON MEMBER FUNCTION
 	template <class T, class Alloc>
 	void swap(vector<T,Alloc> & x, vector<T,Alloc> & y) { x.swap(y); }
 
