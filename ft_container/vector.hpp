@@ -155,7 +155,7 @@ namespace ft
 		size_type size() const 					{ return _n; }
 		bool empty() const 						{ return bool(!_n); }
 		size_type capacity() const				{ return _c; }
-		size_type max_size() const				{ return _alloc.max_size(); }
+		unsigned long max_size() const			{ return _alloc.max_size(); }
 		
 		void shrink_to_fit()
 		{
@@ -188,7 +188,10 @@ namespace ft
 				_ptr = _alloc.allocate(n + 1);
 				pointer new_first = _ptr;
 				while (old_first != old_last)
-					_alloc.construct(_ptr++, *old_first++);
+				{
+					_alloc.construct(_ptr++, *old_first);
+					_alloc.destroy(&*old_first++);
+				}
 				size_type size = _n;
 				clear();
 				_first = new_first;
@@ -209,6 +212,7 @@ namespace ft
 			else if (n > _n)
 			{
 				size_type diff = n - _n;
+				// insert(end(), diff, val);					// UTILISER insert() a la place de push_back()
 				for (size_type i = 0; i < diff; i++)
 					push_back(val);
 			}
@@ -229,8 +233,8 @@ namespace ft
 					_ptr = _first;
 					while (first != last)
 					{
-						_alloc.destroy(_ptr);
-						_alloc.construct(_ptr++, *first++);
+						_alloc.construct(_ptr++, *first);
+						_alloc.destroy(&*first++);
 					}
 					_last = --_ptr;
 					size_type to_destroy = _n - size;
@@ -296,9 +300,22 @@ namespace ft
 				_alloc.construct(++_last, val);
 			else
 			{
-				if (capacity_error(_n * _capacityFactor))
-					return;
-				reserve(_n * _capacityFactor);
+				size_type n = _n * _capacityFactor;
+				iterator old_first = begin();
+				iterator old_last = end();
+				_ptr = _alloc.allocate(n + 1);
+				pointer new_first = _ptr;
+				while (old_first != old_last)
+				{
+					_alloc.construct(_ptr++, *old_first);
+					_alloc.destroy(&*old_first++);
+				}
+				size_type size = _n;
+				clear();
+				_first = new_first;
+				_last = --_ptr;
+				_n = size;
+				_c = n;
 				_alloc.construct(++_last, val);
 			}
 			_n++;
@@ -356,17 +373,61 @@ namespace ft
 			return itr;
 		}
 
+		// void insert(iterator position, size_type n, const value_type & val)
+		// {
+		// 	iterator it = begin();
+		// 	if (_n + n > _c)
+		// 	{
+		// 		_ptr = _alloc.allocate(_n + n + 1);
+		// 		pointer f = _ptr;
+		// 		while (it != position)
+		// 			_alloc.construct(_ptr++, *it++);
+		// 		for (size_type i = 0; i < n; i++)
+		// 			_alloc.construct(_ptr++, val);
+		// 		while (it != _last + 1)
+		// 			_alloc.construct(_ptr++, *it++);
+		// 		_alloc.deallocate(_first, _c + 1);
+		// 		_c += n;
+		// 		_last = _ptr - 1;
+		// 		_first = f;
+		// 	}
+		// 	else
+		// 	{
+		// 		vector<T> cpy(it, end());
+		// 		iterator it_cpy = cpy.begin();
+		// 		size_type index = get_index(position);
+		// 		size_type new_index;
+		// 		size_type dist = _last - position + 1;
+		// 		for (size_type i = 0; i < dist; i++)
+		// 		{
+		// 			new_index = index + n + i;
+		// 			_alloc.construct(_first + new_index, *(it_cpy + new_index - n));
+		// 		}
+		// 		for (size_type i = 0; i < n; i++)
+		// 			_alloc.construct(&_first[get_index(position++)], val);
+		// 		_last = _first + new_index;
+		// 	}
+		// 	_n += n;
+		// }
+
 		void insert(iterator position, size_type n, const value_type & val)
 		{
-			iterator it = begin();
 			if (_n + n > _c)
 			{
 				value_type c;
-				_n + n < _c ? c = _n * _capacityFactor : c = _n + n;
+				if (!_n)
+					c = n;
+				else
+					_n + n < _c ? c = _n * _capacityFactor : c = _n + n;
 				if (capacity_error(c))
 					return;
 				_ptr = _alloc.allocate(c + 1);
 				pointer f = _ptr;
+
+				iterator it = begin();
+	
+				cout << "TEST " << &*it << endl;
+
 				while (it != position)
 					_alloc.construct(_ptr++, *it++);
 				for (size_type i = 0; i < n; i++)
@@ -382,6 +443,7 @@ namespace ft
 			}
 			else
 			{
+				iterator it = begin();
 				vector<T> cpy(it, end());
 				iterator it_cpy = cpy.begin();
 				size_type index = get_index(position);
@@ -404,7 +466,8 @@ namespace ft
 		}
 
 		template <class InputIterator>
-		void insert(iterator position, InputIterator first, InputIterator last)
+		void insert(iterator position, InputIterator first, InputIterator last,
+		typename InputIterator::SFINAE_condition = 0)
 		{
 			size_type n = last - first;
 			iterator it = begin();
@@ -457,7 +520,10 @@ namespace ft
 			iterator itr = position;
 			size_type dist = _last - position + 1;
 			while (--dist)
+			{
+				_alloc.destroy(&*position);
 				_alloc.construct(&*position, *(position++ + 1));
+			}
 			_alloc.destroy(_last--);
 			_n--;
 			return itr;
@@ -468,7 +534,10 @@ namespace ft
 			iterator itr = first;						
 			size_type dist = _last - last + 2;
 			while (--dist)
+			{
+				_alloc.destroy(&*first);
 				_alloc.construct(&*first++, *last++);
+			}
 			size_type erased = last - first;
 			_last -= erased;
 			_n -= erased;
