@@ -92,8 +92,10 @@ int main()
 	// v80.resize(50, 9);
 	// ft::vector_details(v80);
 
-	// ft::vector<int> v80(5,10);			// RETESTER AVEC INSERT A LA PLACE
-	// v80.resize(0, 9);					// DE PUSH_BACK DANS RESIZE
+	// ft::vector<int> v80(5,10);
+	// v80.resize(4, 9);
+	// ft::vector_details(v80);
+	// v80.resize(0, 9);
 	// ft::vector_details(v80);
 	// v80.resize(100, 9);
 	// ft::vector_details(v80);
@@ -102,12 +104,13 @@ int main()
 
 	// ************************************************************
 	// ************************ MODIFIERS *************************
-	ft::vector<int> v100;
-	ft::vector_details(v100);
-	// ft::vector<int> v100(4,4);
-	// v100.reserve(50);
-	v100.insert(v100.begin(),10,999);
-	ft::vector_details(v100);
+	// 1. clear (partout)
+	// 2. assign (operator=, insert)
+	// 3. erase (resize)
+	// 4. insert (resize)
+	// 5. push_back
+	// 6. pop_back
+	// 7. swap
 
 	// ************************************************************
 	// **************** TESTS RELATIONAL OPERATORS ****************

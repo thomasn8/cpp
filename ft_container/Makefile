@@ -1,7 +1,7 @@
-SRCS		=		tests/main_ftvector.cpp 	\
-					class_test/Test.cpp
-# SRCS		=		tests/main_stdvector.cpp 	\
+# SRCS		=		tests/main_ftvector.cpp 	\
 # 					class_test/Test.cpp
+SRCS		=		tests/main_stdvector.cpp 	\
+					class_test/Test.cpp
 
 # SRCS		=		tests/main_ftmap.cpp	 	\
 # 					class_test/Test.cpp

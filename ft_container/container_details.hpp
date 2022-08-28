@@ -28,7 +28,11 @@ namespace ft
 			cout << "Ite " << &*ite << endl;
 		}
 		else
-			cout << "vector container is empty" << endl << endl;
+		{
+			cout << "vector container is empty" << endl;
+			cout << "_first  " << &v.front() << endl;
+			cout << "_last   " << &v.back() << endl << endl;
+		}
 
 		cout << "--------------------------------------------------------" << endl;
 	}
@@ -75,7 +79,11 @@ void vector_details(const std::vector<T> & v)
 		cout << "Ite " << &*ite << endl;
 	}
 	else
-		cout << "vector container is empty" << endl << endl;
+	{
+		cout << "vector container is empty" << endl;
+		cout << "_first  " << &v.front() << endl;
+		cout << "_last   " << &v.back() << endl << endl;
+	}
 
 	cout << "--------------------------------------------------------" << endl;
 }

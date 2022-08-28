@@ -203,19 +203,16 @@ namespace ft
 
 		void resize(size_type n, value_type val = value_type())
 		{
-			if (n < _n)
+			if (n == 0)
+				clear();
+			else if (n < _n)
 			{
 				iterator first(_first + n);
 				iterator last = end();
 				erase(first, last);
 			}
 			else if (n > _n)
-			{
-				size_type diff = n - _n;
-				// insert(end(), diff, val);					// UTILISER insert() a la place de push_back()
-				for (size_type i = 0; i < diff; i++)
-					push_back(val);
-			}
+				insert(end(),n - _n, val);
 		}
 
 	// MODIFIERS
@@ -333,11 +330,16 @@ namespace ft
 		iterator insert(iterator position, const value_type & val)
 		{
 			iterator itr;
+			if (!_n && position == _first)
+			{
+				assign(1, val);
+				return _first;
+			}
 			if (_n + 1 > _c)
 			{
 				iterator it = begin();
 				if (capacity_error(_n * _capacityFactor))
-					return;
+					return 0;
 				_ptr = _alloc.allocate(_n * _capacityFactor + 1);
 				pointer f = _ptr;
 				while (it != position)
@@ -358,13 +360,13 @@ namespace ft
 				itr = position;
 				value_type tmp = *position;
 				value_type tmp2;
-				_alloc.destroy(position.getP());
-				_alloc.construct(position.getP(), val);
+				_alloc.destroy(&*position);
+				_alloc.construct(&*position, val);
 				while (position != _last + 1)
 				{
 					tmp2 = *(++position);
-					_alloc.destroy(position.getP());
-					_alloc.construct(position.getP(), tmp);
+					_alloc.destroy(&*position);
+					_alloc.construct(&*position, tmp);
 					tmp = tmp2;
 				}
 				_last++;
@@ -373,61 +375,19 @@ namespace ft
 			return itr;
 		}
 
-		// void insert(iterator position, size_type n, const value_type & val)
-		// {
-		// 	iterator it = begin();
-		// 	if (_n + n > _c)
-		// 	{
-		// 		_ptr = _alloc.allocate(_n + n + 1);
-		// 		pointer f = _ptr;
-		// 		while (it != position)
-		// 			_alloc.construct(_ptr++, *it++);
-		// 		for (size_type i = 0; i < n; i++)
-		// 			_alloc.construct(_ptr++, val);
-		// 		while (it != _last + 1)
-		// 			_alloc.construct(_ptr++, *it++);
-		// 		_alloc.deallocate(_first, _c + 1);
-		// 		_c += n;
-		// 		_last = _ptr - 1;
-		// 		_first = f;
-		// 	}
-		// 	else
-		// 	{
-		// 		vector<T> cpy(it, end());
-		// 		iterator it_cpy = cpy.begin();
-		// 		size_type index = get_index(position);
-		// 		size_type new_index;
-		// 		size_type dist = _last - position + 1;
-		// 		for (size_type i = 0; i < dist; i++)
-		// 		{
-		// 			new_index = index + n + i;
-		// 			_alloc.construct(_first + new_index, *(it_cpy + new_index - n));
-		// 		}
-		// 		for (size_type i = 0; i < n; i++)
-		// 			_alloc.construct(&_first[get_index(position++)], val);
-		// 		_last = _first + new_index;
-		// 	}
-		// 	_n += n;
-		// }
-
 		void insert(iterator position, size_type n, const value_type & val)
 		{
-			if (_n + n > _c)
+			if (!_n && position == _first)
+				assign(n, val);
+			else if (_n + n > _c)
 			{
 				value_type c;
-				if (!_n)
-					c = n;
-				else
-					_n + n < _c ? c = _n * _capacityFactor : c = _n + n;
+				_n + n < _c ? c = _n * _capacityFactor : c = _n + n;
 				if (capacity_error(c))
 					return;
 				_ptr = _alloc.allocate(c + 1);
 				pointer f = _ptr;
-
 				iterator it = begin();
-	
-				cout << "TEST " << &*it << endl;
-
 				while (it != position)
 					_alloc.construct(_ptr++, *it++);
 				for (size_type i = 0; i < n; i++)
@@ -470,8 +430,9 @@ namespace ft
 		typename InputIterator::SFINAE_condition = 0)
 		{
 			size_type n = last - first;
-			iterator it = begin();
-			if (_n + n > _c)
+			if (n && !_n && position == _first)
+				assign(first, last);
+			else if (_n + n > _c)
 			{
 				value_type c;
 				_n + n < _c ? c = _n * _capacityFactor : c = _n + n;
@@ -479,6 +440,7 @@ namespace ft
 					return;
 				_ptr = _alloc.allocate(c + 1);
 				pointer f = _ptr;
+				iterator it = begin();
 				while (it != position)
 					_alloc.construct(_ptr++, *it++);
 				for (size_type i = 0; i < n; i++)
@@ -494,6 +456,7 @@ namespace ft
 			}
 			else
 			{
+				iterator it = begin();
 				vector<T> cpy(it, end());
 				iterator it_cpy = cpy.begin();
 				size_type index = get_index(position);
@@ -565,13 +528,15 @@ namespace ft
 
 		void clear()
 		{
-			for (size_type i = 0; i < _n; i++)
-				_alloc.destroy(_first + i);
-			_alloc.deallocate(_first, _c + 1);
-			// _first = NULL;
-			// _last = NULL;
-			_n = 0;
-			_c = 0;
+			if (_n != 0)
+			{
+				for (size_type i = 0; i < _n; i++)
+					_alloc.destroy(_first + i);
+				_alloc.deallocate(_first, _c + 1);
+				_last = _first;
+				_n = 0;
+				_c = 0;
+			}
 		}
 
 	// ALLOCATOR

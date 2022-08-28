@@ -93,12 +93,18 @@ int main()
 	// vector_details(v80);
 
 	// std::vector<int> v80(5,10);
+	// v80.resize(4, 9);
+	// vector_details(v80);
 	// v80.resize(0, 9);
 	// vector_details(v80);
 	// v80.resize(100, 9);
 	// vector_details(v80);
 	// v80.resize(50, 9);
 	// vector_details(v80);
+
+	// ************************************************************
+	// ************************ MODIFIERS *************************
+
 
 	// ************************************************************
 	// **************** TESTS RELATIONAL OPERATORS ****************
