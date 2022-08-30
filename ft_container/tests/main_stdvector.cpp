@@ -104,7 +104,62 @@ int main()
 
 	// ************************************************************
 	// ************************ MODIFIERS *************************
+	// // 1. clear (partout)
+	// std::vector<int> v100;
+	// std::vector<int> v110(1000, 110);
+	// std::vector<int> v120(v110);
+	// v100.clear();
+	// v110.clear();
+	// v120.clear();
+	// std::vector<int> v130(v110);
+	// v130.clear();
+	// vector_details(v100);
+	// vector_details(v110);
+	// vector_details(v120);
+	// vector_details(v130);
 
+	// // 2. assign (operator=, insert)
+	// std::vector<int> v200;
+	// v200.assign(10,200);
+	// vector_details(v200);
+	// std::vector<int> v210(10,210);
+	// v210.assign(5,9);
+	// vector_details(v210);
+	// v210.assign(25,9);
+	// vector_details(v210);
+	// v210.clear();
+	// vector_details(v210);
+	// v210.assign(v200.begin(),v200.end());
+	// vector_details(v210);
+	// v210.clear();
+	// std::vector<int> v220;
+	// v220.assign(v210.begin(),v210.end());
+	// vector_details(v220);
+	// std::vector<int> v230;
+	// std::vector<int> v240;
+	// v240.assign(v230.begin(),v230.end());
+	// vector_details(v240);
+
+	// 3. erase (resize)
+	// std::vector<int> v300;
+	// v300.assign(5,5);
+	// vector_details(v300);
+	// v300.erase(v300.end() - 2);
+	// vector_details(v300);
+	// v300.erase(v300.begin());
+	// vector_details(v300);
+	// v300.erase(v300.begin(), v300.end());
+	// vector_details(v300);
+	// v300.assign(5,5);
+	// v300.erase(v300.begin()+1, v300.end()-1);
+	// vector_details(v300);
+	// v300.assign(5,5);
+	// cout << &*v300.erase(v300.begin()+2, v300.end()-2)<< endl;
+	// vector_details(v300);
+	// cout << &*v300.erase(v300.begin(), v300.end())<< endl;
+	// vector_details(v300);
+	// cout << &*v300.erase(v300.begin(), v300.end())<< endl;
+	// vector_details(v300);
 
 	// ************************************************************
 	// **************** TESTS RELATIONAL OPERATORS ****************

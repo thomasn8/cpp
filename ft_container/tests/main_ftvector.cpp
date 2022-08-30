@@ -104,9 +104,63 @@ int main()
 
 	// ************************************************************
 	// ************************ MODIFIERS *************************
-	// 1. clear (partout)
-	// 2. assign (operator=, insert)
+	// // 1. clear (partout)
+	// ft::vector<int> v100;
+	// ft::vector<int> v110(1000, 110);
+	// ft::vector<int> v120(v110);
+	// v100.clear();
+	// v110.clear();
+	// v120.clear();
+	// ft::vector<int> v130(v110);
+	// v130.clear();
+	// ft::vector_details(v100);
+	// ft::vector_details(v110);
+	// ft::vector_details(v120);
+	// ft::vector_details(v130);
+
+	// // 2. assign (operator=, insert)
+	// ft::vector<int> v200;
+	// v200.assign(10,200);
+	// ft::vector_details(v200);
+	// ft::vector<int> v210(10,210);
+	// v210.assign(5,9);
+	// ft::vector_details(v210);
+	// v210.assign(25,9);
+	// ft::vector_details(v210);
+	// v210.clear();
+	// ft::vector_details(v210);
+	// v210.assign(v200.begin(),v200.end());
+	// ft::vector_details(v210);
+	// v210.clear();
+	// ft::vector<int> v220;
+	// v220.assign(v210.begin(),v210.end());
+	// ft::vector_details(v220);
+	// ft::vector<int> v230;
+	// ft::vector<int> v240;
+	// v240.assign(v230.begin(),v230.end());
+	// ft::vector_details(v240);
+
 	// 3. erase (resize)
+	ft::vector<int> v300;
+	v300.assign(5,5);
+	ft::vector_details(v300);
+	v300.erase(v300.end() - 2);
+	ft::vector_details(v300);
+	v300.erase(v300.begin());
+	ft::vector_details(v300);
+	v300.erase(v300.begin(), v300.end());
+	ft::vector_details(v300);
+	v300.assign(5,5);
+	v300.erase(v300.begin()+1, v300.end()-1);
+	ft::vector_details(v300);
+	v300.assign(5,5);
+	cout << &*(v300.erase(v300.begin()+2, v300.end()-2)) << endl;
+	ft::vector_details(v300);
+	cout << &*(v300.erase(v300.begin(), v300.end()))<< endl;
+	ft::vector_details(v300);
+	cout << &*(v300.erase(v300.begin(), v300.end()))<< endl;
+	ft::vector_details(v300);
+
 	// 4. insert (resize)
 	// 5. push_back
 	// 6. pop_back

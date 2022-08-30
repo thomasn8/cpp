@@ -234,8 +234,8 @@ namespace ft
 						_alloc.destroy(&*first++);
 					}
 					_last = --_ptr;
-					size_type to_destroy = _n - size;
-					for (size_type i = 0; i < to_destroy; i++)
+					int to_destroy = _n - size;
+					for (int i = 0; i < to_destroy; i++)
 						_alloc.destroy(++_ptr + i);
 					_n = size;
 				}
@@ -270,8 +270,8 @@ namespace ft
 						_alloc.construct(_ptr++, val);
 					}
 					_last = --_ptr;
-					size_type to_destroy = _n - n;
-					for (size_type i = 0; i < to_destroy; i++)
+					int to_destroy = _n - n;
+					for (int i = 0; i < to_destroy; i++)
 						_alloc.destroy(++_ptr + i);
 					_n = n;
 				}
@@ -481,7 +481,9 @@ namespace ft
 		iterator erase(iterator position)
 		{
 			iterator itr = position;
-			size_type dist = _last - position + 1;
+			size_type dist = _last - position;
+			_alloc.destroy(&*position);
+			_alloc.construct(&*position, *(position++ + 1));
 			while (--dist)
 			{
 				_alloc.destroy(&*position);
@@ -495,17 +497,20 @@ namespace ft
 		iterator erase(iterator first, iterator last)
 		{
 			iterator itr = first;						
-			size_type dist = _last - last + 2;
-			while (--dist)
+			if (last - first > 0)
 			{
-				_alloc.destroy(&*first);
-				_alloc.construct(&*first++, *last++);
+				size_type dist = _last - last + 2;
+				while (--dist)
+				{
+					_alloc.destroy(&*first);
+					_alloc.construct(&*first++, *last++);
+				}
+				size_type erased = last - first;
+				_last -= erased;
+				_n -= erased;
+				while (erased)
+					_alloc.destroy(_last - erased-- + 1);
 			}
-			size_type erased = last - first;
-			_last -= erased;
-			_n -= erased;
-			while (erased)
-				_alloc.destroy(_last - erased-- + 1);
 			return itr;
 		}
 
@@ -551,8 +556,8 @@ namespace ft
 		pointer			_last;				// last element
 		pointer			_ptr;				// random pointer for multi-usage
 
-		size_type get_index(pointer p) const { return p - _first; }
-		size_type get_index(iterator it) { return it - begin(); }
+		size_type get_index(pointer p) const	{ return p - _first; }
+		size_type get_index(iterator it)		{ return it - begin(); }
 		
 		bool	capacity_error(size_type c)
 		{
