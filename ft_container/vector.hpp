@@ -430,7 +430,7 @@ namespace ft
 		typename InputIterator::SFINAE_condition = 0)
 		{
 			size_type n = last - first;
-			if (n && !_n && position == _first)
+			if (!_n && position == _first)
 				assign(first, last);
 			else if (_n + n > _c)
 			{
@@ -561,7 +561,7 @@ namespace ft
 		
 		bool	capacity_error(size_type c)
 		{
-			try 
+			try
 			{
 				if (c + 1 > max_size()) 
 					throw vector::length_error(); 
