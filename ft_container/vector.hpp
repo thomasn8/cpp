@@ -1,12 +1,12 @@
 #ifndef VECTOR_HPP
 # define VECTOR_HPP
 
-#include <iostream>
-using namespace std;
 #include <memory>
-#include <stdexcept>
 #include "iterators.hpp"
 #include "utils.hpp"
+
+# define RED "\033[0;31m"
+# define WHI "\033[0m"
 
 namespace ft
 {
@@ -117,15 +117,15 @@ namespace ft
 		const_reverse_iterator crend() const	{ return const_reverse_iterator(_first); }
 	
 	// ERRORS
-		class length_error : public std::exception
+		class length_error
 		{
 			public:
 				virtual const char* what() const throw() { return ("Allocation impossible: capacity exceeded"); }
 		};
-		class out_of_range_error : public std::exception
+		class out_of_range_error
 		{
 			public:
-				virtual const char* what() const throw() { return ("Error: out of range"); }
+				virtual const char* what() const throw() { return ("Out of range: "); }
 		};
 
 	// ELEMENT ACCESS
@@ -563,7 +563,7 @@ namespace ft
 			}
 			catch (const vector::length_error & e) 
 			{ 
-				cerr << e.what() << endl; 
+				cerr << RED << e.what() << WHI << endl; 
 				return true;
 			}
 			return false;
@@ -572,7 +572,7 @@ namespace ft
 		void	range_error()
 		{
 			try { throw vector::out_of_range_error(); }
-			catch (const vector::out_of_range_error & e) { cerr << e.what() << endl; }
+			catch (const vector::out_of_range_error & e) { cerr << RED << e.what() << WHI; }
 		}
 	};
 
@@ -613,7 +613,6 @@ namespace ft
 	{
 		return ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end(), std::greater_equal<T>());
 	}
-
 }
 
 #endif

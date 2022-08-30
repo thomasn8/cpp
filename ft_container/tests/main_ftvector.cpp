@@ -227,7 +227,7 @@ int main()
 	
 	v502.pop_back();
 	ft::vector_details(v502);
-	/*	// Undefined behavior in std::vector
+	/*	// behavior in ft::vector is defined
 		// v502.clear();
 		// v502.pop_back();
 		// ft::vector_details(v502);
@@ -275,7 +275,6 @@ int main()
 	if (foo>=bar) std::cout << "foo is greater than or equal to bar\n";
 	if (foo>=bar) std::cout << "foo is greater than or equal to bar\n";
 	if (foo>=bar) std::cout << "foo is greater than or equal to bar\n";
-
 
 	return 0;
 }

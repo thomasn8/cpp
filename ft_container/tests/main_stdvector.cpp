@@ -276,6 +276,5 @@ int main()
 	if (foo>=bar) std::cout << "foo is greater than or equal to bar\n";
 	if (foo>=bar) std::cout << "foo is greater than or equal to bar\n";
 
-
 	return 0;
 }
