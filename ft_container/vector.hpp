@@ -88,7 +88,6 @@ namespace ft
 
 		vector & operator=(const vector & x)
 		{
-			// assign<iterator>(x.begin(), x.end());
 			assign(x.begin(), x.end());
 			return *this;
 		}
@@ -152,10 +151,10 @@ namespace ft
 		}
 
 	// CAPACITY
-		size_type size() const 					{ return _n; }
-		bool empty() const 						{ return bool(!_n); }
-		size_type capacity() const				{ return _c; }
-		unsigned long max_size() const			{ return _alloc.max_size(); }
+		size_type size() const 			{ return _n; }
+		bool empty() const 				{ return bool(!_n); }
+		size_type capacity() const		{ return _c; }
+		unsigned long max_size() const	{ return _alloc.max_size(); }
 		
 		void shrink_to_fit()
 		{
@@ -229,10 +228,7 @@ namespace ft
 				{
 					_ptr = _first;
 					while (first != last)
-					{
-						_alloc.construct(_ptr++, *first);
-						_alloc.destroy(&*first++);
-					}
+						_alloc.construct(_ptr++, *first++);
 					_last = --_ptr;
 					int to_destroy = _n - size;
 					for (int i = 0; i < to_destroy; i++)
@@ -523,7 +519,6 @@ namespace ft
 			_n = x.size();
 			_c = x.capacity();
 			_first = x.data();
-			// _last = x.data() + x.size() - 1;
 			_last = &x.back();
 			x._n = n;
 			x._c = c;
@@ -553,7 +548,7 @@ namespace ft
 		size_type		_c;					// capacity: storage space expressed in terms of elements
 		size_type		_capacityFactor;	// incremental factor for capacity reallocation
 		pointer			_first;				// first element
-		pointer			_last;				// last element
+		pointer			_last;				// real last element (not = end)
 		pointer			_ptr;				// random pointer for multi-usage
 
 		size_type get_index(pointer p) const	{ return p - _first; }

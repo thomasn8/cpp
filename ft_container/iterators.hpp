@@ -18,12 +18,12 @@ namespace ft
 		typedef	iterator_category			it;
 		typedef int 						SFINAE_condition;	// pour le constructeur de vector avec iterateur
 	// CONSTRUCTEURS/DESTRUCTEUR
-		random_access_iterator() : _p(0) {}											// default
-		random_access_iterator(pointer p) : _p(p) {}								// special
-		random_access_iterator(reference src) : _p(src.getP()) {}					// copy
+		random_access_iterator() : _p(0) {}
+		random_access_iterator(pointer p) : _p(p) {}
+		random_access_iterator(reference src) : _p(src.getP()) {}
 		virtual ~random_access_iterator() {}
 	// SURCHARGES
-		it & operator=(it const & src) { _p = src.getP(); return *this; }		// assign 
+		it & operator=(it const & src) { _p = src.getP(); return *this; }
 		reference operator*() { return *_p; }
 		reference operator*() const { return *_p; }
 		reference operator[](unsigned int index) { return _p[index]; }	
