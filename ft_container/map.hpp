@@ -40,13 +40,15 @@ namespace ft
 	class map
 	{
 		public:
+
+		class value_compare;
 		
 	// MEMBER TYPES
 		typedef	Key												key_type;
 		typedef	T												mapped_type;
 		typedef	ft::pair<const key_type, mapped_type>			value_type;
 		typedef	Compare											key_compare;
-		// typedef Nested function class to compare elements 	value_compare;
+		typedef map::value_compare								value_compare;
 		typedef	Alloc											allocator_type;
 		typedef	typename allocator_type::reference				reference;
 		typedef	typename allocator_type::const_reference		const_reference;
@@ -59,7 +61,7 @@ namespace ft
 		typedef	int												difference_type;
 		typedef	unsigned int									size_type;
 
-	// CONSTRUCTORS
+	// CONSTRUCTORS / DESTRUCTOR
 		explicit map(const key_compare & comp = key_compare(), 
 		const allocator_type & alloc = allocator_type()) :
 		_alloc(alloc), _comp(comp), _n(0), _first(NULL), _last(NULL) {}
@@ -134,6 +136,16 @@ namespace ft
 			}
 		}
 
+		// ITERATORS
+		iterator begin() 				{ return iterator(_first); }
+		iterator end() 					{ if (_n) return iterator(_last+1); return (_last);}
+		const_iterator begin() const 	{ return const_iterator(_first); }
+		const_iterator end() const 		{ if (_n) return const_iterator(_last+1); return (_last);}
+
+		// CAPACITY
+		size_type size() const { return _n; }
+
+		// ELEMENT ACCESS
 		mapped_type & operator[](const key_type & k)
 		{
 			value_type new_pr = ft::make_pair(k, mapped_type());
@@ -141,6 +153,7 @@ namespace ft
 			return (*checked.first).second;
 		}
 
+		// MODIFIERS
 		pair<iterator,bool> insert(const value_type & val)
 		{
 			iterator key_check = _check_keys(val.first);
@@ -170,6 +183,11 @@ namespace ft
 			return pair<iterator,bool>(iterator(_ptr), true);
 		}
 
+// Hint for the position where the element can be inserted.
+// The function optimizes its insertion time if position points to the element that will precede the inserted element.
+// Notice that this is just a hint and does not force the new element to be inserted at that position 
+// within the map container (the elements in a map always follow a specific order depending on their key).
+
 		// iterator insert (iterator position, const value_type& val)
 		// {
 
@@ -181,17 +199,10 @@ namespace ft
 
 		// }
 
-	// ITERATORS
-		iterator begin() 				{ return iterator(_first); }
-		iterator end() 					{ if (_n) return iterator(_last+1); return (_last);}
-		const_iterator begin() const 	{ return const_iterator(_first); }
-		const_iterator end() const 		{ if (_n) return const_iterator(_last+1); return (_last);}
-
-	// ACCESSORS
-		size_type size() const 		{ return _n; }
-
 	// OBSERVERS
-		key_compare key_comp() const { return _comp; }
+		key_compare key_comp() const { return _comp.comp; }
+		value_compare value_comp() const { return _comp; }
+		bool empty() const {return bool(!_n); }
 
 	// ALLOCATOR
 		allocator_type get_allocator() const { return _alloc; }
@@ -199,7 +210,7 @@ namespace ft
 		private:
 
 		allocator_type	_alloc;
-		key_compare		_comp;
+		value_compare	_comp;
 		size_type		_n;
 		pointer			_first;
 		pointer			_last;
@@ -232,6 +243,26 @@ namespace ft
 			}
 			return NULL;
 		}
+	};
+
+	// MAP'S NESTED CLASS TO STORE COMPARE OBJECT FUNCTION
+	template <class Key, class T, class Compare, class Alloc>
+	class map<Key,T,Compare,Alloc>::value_compare
+	{
+		friend class map;
+		
+		public:
+		typedef bool		result_type;
+		typedef value_type	first_argument_type;
+		typedef value_type	second_argument_type;
+		bool operator()(const value_type & x, const value_type & y) const
+		{
+			return comp(x.first, y.first);
+		}
+
+		protected:
+		Compare comp;
+		value_compare (Compare c) : comp(c) {}  // constructed with map's comparison object
 	};
 }
 

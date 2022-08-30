@@ -4,62 +4,44 @@ using namespace std;
 #include "../map.hpp"
 #include "../pair.hpp"
 #include "../container_details.hpp"
-#include "../class_test/Test.hpp"
 
 int main()
 {
-	cout << endl;
+	// ************************************************************
+	// ******************** TESTS CONSTRUCTORS ********************
+	// #1
 	ft::map<char,int> ft1;
-	// ft1.details();
-
 	ft1.insert(ft::pair<char,int>('a',100));
-	// ft1.details();
-
 	ft1.insert(ft::pair<char,int>('b',200));
-	// ft1.details();
-	
 	ft1.insert(ft::pair<char,int>('c',400));
-	// ft1.details();
-
 	ft1.insert(ft::pair<char,int>('c',400));	// DOIT ETRE REFUSE CAR KEY 'c' EXISTE DEJA
-	// ft1.details();
-
 	ft1.insert(ft::pair<char,int>('d',800));
-	// ft1.details();
-
 	ft1.insert(ft::pair<char,int>('e',1600));
-	// ft1.details();
-
 	ft1.insert(ft::pair<char,int>('f',3200));
-	// ft1.details();
-
 	ft1.insert(ft::pair<char,int>('g',6400));
-	// ft1.details();
-
 	ft1['z'] = -100;
-	// ft1.details();
-
-	ft1['z'] = -100;
+	ft1['z'] = -100;							// DOIT ETRE REFUSE CAR KEY 'c' EXISTE DEJA
 	ft::map_details(ft1);
 
+	// #2
 	ft::map<char,int> ft2(ft1.begin(), ft1.end());
 	ft::map_details(ft2);
 
+	// #3
 	ft::map<char,int> ft3(ft1);
 	ft::map_details(ft3);
 
+	// #4
 	ft::map<char,int> ft4 = ft1;
 	ft::map_details(ft4);
-
 	ft::map<char,int> ft5;
-	ft::map_details(ft5);
 	ft5.insert(ft::pair<char,int>('m',10000));
-	ft::map_details(ft5);
 	ft5 = ft1;
 	ft::map_details(ft5);
-	cout << "TEST DES [] : " << ft5['a'] << "|" << ft5['z'] << endl;
-	ft::map_details(ft5);
 
+	// ************************************************************
+	// ******************* TESTS ELEMENT ACCESS *******************
+	cout << ft5['a'] << "|" << ft5['z'] << endl;
 
 	return 0;
 }
