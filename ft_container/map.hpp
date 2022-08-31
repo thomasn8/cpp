@@ -44,22 +44,28 @@ namespace ft
 		const allocator_type & alloc = allocator_type()) :
 		_alloc(alloc), _comp(comp), _rbt(), _n(0), _first(NULL), _last(NULL) {}
 
-		// template <class InputIterator>
-		// map(InputIterator first, InputIterator last, 
-		// const key_compare & comp = key_compare(), const allocator_type & alloc = allocator_type()) :
-		// _alloc(alloc), _comp(comp), _n(0), _first(NULL), _last(NULL)
-		// {
-		// 	size_type n = _distance<InputIterator>(first, last);
-		// 	if (n)
-		// 	{
-		// 		_first = _alloc.allocate(n + 1);
-		// 		_ptr = _first;
-		// 		while (first != last)
-		// 			_alloc.construct(_ptr++, *first++);
-		// 		_last = --_ptr;
-		// 		_n = n;
-		// 	}
-		// }
+		template <class InputIterator>
+		map(InputIterator first, InputIterator last, 
+		const key_compare & comp = key_compare(), const allocator_type & alloc = allocator_type()) :
+		_alloc(alloc), _comp(comp), _rbt(), _n(0), _first(NULL), _last(NULL)
+		{
+			size_type n = _distance<InputIterator>(first, last);
+			if (n)
+			{
+				_first = _alloc.allocate(n + 1);
+				_ptr = _first;
+				while (first != last)
+				{
+					_alloc.construct(_ptr, *first++);
+					// _rbt.insertion(_rbt._root, red_black_node(_ptr));
+					_rbt.insertion(_ptr);
+					_ptr++;
+				}
+				_last = --_ptr;
+				_n = n;
+				_rbt._n = n;
+			}
+		}
 
 		// map(const map & x) :
 		// _alloc(x.get_allocator()), _comp(x.key_comp()), _n(x.size()), _first(NULL), _last(NULL)
@@ -190,17 +196,17 @@ namespace ft
 		pointer			_last;
 		pointer			_ptr;
 
-		// template <class InputIterator>
-		// size_type _distance(InputIterator first, InputIterator last) const
-		// {
-		// 	size_type n = 0;
-		// 	while (first != last)
-		// 	{
-		// 		first++;
-		// 		n++;
-		// 	}
-		// 	return n;
-		// }
+		template <class InputIterator>
+		size_type _distance(InputIterator first, InputIterator last) const
+		{
+			size_type n = 0;
+			while (first != last)
+			{
+				first++;
+				n++;
+			}
+			return n;
+		}
 
 		// iterator _check_keys(key_type key)
 		// {
