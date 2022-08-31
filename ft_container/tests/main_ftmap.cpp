@@ -1,16 +1,16 @@
 #include <iostream>
 using namespace std;
-#include <map>
+// #include <map>
 #include "../map.hpp"
 #include "../pair.hpp"
 #include "../container_details.hpp"
 
 int main()
 {
-	// // ************************************************************
-	// // ******************** TESTS CONSTRUCTORS ********************
-	// // #1
-	// ft::map<char,int> ft1;
+	// ************************************************************
+	// ******************** TESTS CONSTRUCTORS ********************
+	// #1
+	ft::map<char,int> ft1;
 	// ft1.insert(ft::pair<char,int>('a',100));
 	// ft1.insert(ft::pair<char,int>('b',200));
 	// ft1.insert(ft::pair<char,int>('c',400));
@@ -46,17 +46,17 @@ int main()
 	// ft5['a'] = 1;
 	// ft::map_details(ft5);
 
-	// ************************************************************
-	// ******************* TESTS COMPARISON SORT ******************
-	ft::map<char,int> ft6;
-	ft6.insert(ft::pair<char,int>('b',200));
-	ft6.insert(ft::pair<char,int>('d',800));
-	ft6.insert(ft::pair<char,int>('a',100));
-	ft6.insert(ft::pair<char,int>('c',400));
-	ft::map_details(ft6);
+	// // ************************************************************
+	// // ******************* TESTS COMPARISON SORT ******************
+	// ft::map<char,int> ft6;
+	// ft6.insert(ft::pair<char,int>('b',200));
+	// ft6.insert(ft::pair<char,int>('d',800));
+	// ft6.insert(ft::pair<char,int>('a',100));
+	// ft6.insert(ft::pair<char,int>('c',400));
+	// ft::map_details(ft6);
 
-	cout << ft6.key_comp()('a','b') << endl;
-	cout << ft6.key_comp()(2,1) << endl;
+	// cout << ft6.key_comp()('a','b') << endl;
+	// cout << ft6.key_comp()(2,1) << endl;
 
 	return 0;
 }
