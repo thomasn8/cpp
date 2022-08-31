@@ -161,11 +161,6 @@ namespace ft
 		// 	return pair<iterator,bool>(iterator(_ptr), true);
 		// }
 
-// Hint for the position where the element can be inserted.
-// The function optimizes its insertion time if position points to the element that will precede the inserted element.
-// Notice that this is just a hint and does not force the new element to be inserted at that position 
-// within the map container (the elements in a map always follow a specific order depending on their key).
-
 		// iterator insert (iterator position, const value_type& val)
 		// {
 
@@ -242,7 +237,7 @@ namespace ft
 
 		protected:
 		Compare comp;
-		value_compare (Compare c) : comp(c) {}  // constructed with map's comparison object
+		value_compare (Compare c) : comp(c) {}
 	};
 
 }
