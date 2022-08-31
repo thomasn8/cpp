@@ -52,14 +52,16 @@ namespace ft
 			size_type n = _distance<InputIterator>(first, last);
 			if (n)
 			{
-				_first = _alloc.allocate(n + 1);
-				_ptr = _first;
+				// _first = _alloc.allocate(n + 1);
+				// _ptr = _first;
 				while (first != last)
 				{
-					_alloc.construct(_ptr, *first++);
-					_rbt.insertion(_ptr++);	// construction d'un nouveau node à partir de la pair
+					_ptr = _alloc.allocate(1);
+					_alloc.construct(_ptr, *first++);	// construction des key-value paires
+					_rbt.insertion(_ptr);				// attache les paires à des noeuds construits et insérés dans le rbt
+					// _rbt.insertion(_ptr++);				// attache les paires à des noeuds construits et insérés dans le rbt
 				}
-				_last = --_ptr;
+				// _last = --_ptr;
 				_n = n;
 			}
 		}
@@ -71,14 +73,16 @@ namespace ft
 			{
 				const_iterator it = x.begin();
 				const_iterator ite = x.end();
-				_first = _alloc.allocate(_n + 1);
-				_ptr = _first;
+				// _first = _alloc.allocate(_n + 1);
+				// _ptr = _first;
 				while (it != ite)
 				{
-					_alloc.construct(_ptr, *it++);
-					_rbt.insertion(_ptr++);	// construction d'un nouveau node à partir de la pair
+					_ptr = _alloc.allocate(1);
+					_alloc.construct(_ptr, *first++);	// construction des key-value paires
+					_rbt.insertion(_ptr);				// attache les paires à des noeuds construits et insérés dans le rbt
+					// _rbt.insertion(_ptr++);				// attache les paires à des noeuds construits et insérés dans le rbt
 				}
-				_last = --_ptr;
+				// _last = --_ptr;
 			}
 		}
 
@@ -86,13 +90,14 @@ namespace ft
 		{
 			if (_n)
 			{
-				_ptr = _first;
-				while (_first != _last)
-					_alloc.destroy(_first++);
-				_alloc.deallocate(_ptr, _n + 1);
-				_n = 0;
-				_first = NULL;
-				_last = NULL;
+				// _ptr = _first;
+				// while (_first != _last)
+				// 	_alloc.destroy(_first++);
+				// _alloc.deallocate(_ptr, _n + 1);
+				_rbt.free_tree(_rbt._root);
+				// _n = 0;
+				// _first = NULL;
+				// _last = NULL;
 			}
 			if (x.size())
 			{
@@ -104,24 +109,27 @@ namespace ft
 				_ptr = _first;
 				while (it != ite)
 				{
-					_alloc.construct(_ptr, *it++);
-					_rbt.insertion(_ptr++);	// construction d'un nouveau node à partir de la pair
+					_ptr = _alloc.allocate(1);
+					_alloc.construct(_ptr, *first++);	// construction des key-value paires
+					_rbt.insertion(_ptr);				// attache les paires à des noeuds construits et insérés dans le rbt
+					// _rbt.insertion(_ptr++);				// attache les paires à des noeuds construits et insérés dans le rbt
 				}
-				_last = --_ptr;
+				// _last = --_ptr;
 			}
 			return *this;
 		}
 
-		// ~map()
-		// {
-		// 	if (_n)
-		// 	{
-		// 		_ptr = _first;
-		// 		while (_first != _last)
-		// 			_alloc.destroy(_first++);
-		// 		_alloc.deallocate(_ptr, _n + 1);
-		// 	}
-		// }
+		~map()
+		{
+			if (_n)
+			{
+				_rbt.free_tree(_rbt._root);
+				// _ptr = _first;
+				// while (_first != _last)
+				// 	_alloc.destroy(_first++);
+				// _alloc.deallocate(_ptr, _n + 1);
+			}
+		}
 
 		// // ITERATORS
 		// iterator begin() 				{ return iterator(_first); }
@@ -143,7 +151,7 @@ namespace ft
 		// // MODIFIERS
 		// pair<iterator,bool> insert(const value_type & val)
 		// {
-		// 	iterator key_check = _check_keys(val.first);
+		// 	iterator key_check = _check_keys(val.first);		// faire en sorte que le rbt perform le key_check (sera + rapide)
 		// 	if (key_check != NULL)
 		// 		return pair<iterator,bool>(key_check, false);
 		// 	if (_n)
@@ -151,10 +159,13 @@ namespace ft
 		// 		iterator it = begin();
 		// 		iterator ite = end();
 		// 		pointer f = _first;
-		// 		_first = _alloc.allocate(_n + 2);
-		// 		_ptr = _first;
+		// 		_first = _alloc.allocate(_n + 2);				// arrêter d'allouer à chaque nouvel élément inséré
+		// 		_ptr = _first;									// augmenter la capacité en *2, un peu comme vector 
 		// 		while (it != ite)
+		// 		{
 		// 			_alloc.construct(_ptr++, *it++);
+
+		// 		}
 		// 		_alloc.construct(_ptr, val);
 		// 		_last = _ptr;
 		// 		_alloc.deallocate(f, _n + 1);
@@ -211,21 +222,21 @@ namespace ft
 			return n;
 		}
 
-		// iterator _check_keys(key_type key)
-		// {
-		// 	if (_n)
-		// 	{
-		// 		iterator it = begin();
-		// 		iterator ite = end();
-		// 		while (it != ite)
-		// 		{
-		// 			if (key == (*it).first)
-		// 				return it;
-		// 			it++;
-		// 		}
-		// 	}
-		// 	return NULL;
-		// }
+		iterator _check_keys(key_type key)
+		{
+			if (_n)
+			{
+				iterator it = begin();
+				iterator ite = end();
+				while (it != ite)
+				{
+					if (key == (*it).first)
+						return it;
+					it++;
+				}
+			}
+			return NULL;
+		}
 	};
 
 	// MAP'S FRIEND CLASS POUR STOCKER L'OBJET-FONCTION DE COMPARATEUR

@@ -1,6 +1,5 @@
 #ifndef RED_BLACK_TREE_HPP
 # define RED_BLACK_TREE_HPP
-
 /* 
 	Utilisation du friend keyword dans les classes qui suivent :
 	-	toutes ces class auraient pu être nested directement dans map 
@@ -9,12 +8,14 @@
 		par d'autres class containers sans devoir être redéfinis
 */
 
+#include <iostream>
+using namespace std;
+#include <memory>
+#include "pair.hpp"
+
 #define B 0
 #define R 1
 #define LEAF 0
-
-#include <memory>
-#include "pair.hpp"
 
 namespace ft
 {	
@@ -55,25 +56,25 @@ namespace ft
 		{
 			node * p = parent(n);
 			if (p == NULL)
-				return NULL; // Un noeud sans parent n'a pas de grand-parent
+				return NULL;
 			return parent(p);
 		}
 		node * frere(node * n) const
 		{
 			node * p = parent(n);
 			if (p == NULL)
-				return NULL; // Un noeud sans parent n'a pas de frere
+				return NULL;
 			if (n == p->left)
 				return p->right;
 			else
 				return p->left;
 		}
-		node * uncle(node * enfant) const	//Renvoie le frère du père
+		node * uncle(node * enfant) const
 		{
 			node * p = parent(enfant);
 			node * g = grandparent(enfant);
 			if (g == NULL)
-				return NULL; // Pas de grand parent, donc pas d'uncle
+				return NULL;
 			return frere(p);
 		}
 
@@ -82,19 +83,17 @@ namespace ft
 		size_type		_n;
 		node *			_root;
 		node *			_ptr;
-		
+
 		red_black_tree(const allocator_type & alloc = allocator_type()) : 
 		_alloc(alloc), _n(0), _root(NULL) {}
+		~red_black_tree() { free_tree(_root); }
 
 		node * insertion(value_type * pair)
 		{
 			_ptr = _alloc.allocate(1);
 			_alloc.construct(_ptr, node(pair));
-			// Insertion d'un nouveau nœud dans l'arbre
 			insertion_recursiv(_root, _ptr);
-			// Réparation de l'arbre au cas où les propriétés RED-BLACK seraient violées
 			insertion_repare_tree(_ptr);
-			// Recherche de la nouvelle root à renvoyer
 			_root = _ptr;
 			_n++;
 			while (parent(_root) != NULL)
@@ -109,7 +108,7 @@ namespace ft
 		void insertion_recursiv(node * root, node * n) 
 		{
 			// Descente récursive dans l'arbre jusqu'à atteindre une LEAF
-			if (root != NULL && n->clé < root->clé) 
+			if (root != NULL && n->key_val->first < root->key_val->first) 
 			{
 				if (root->left != LEAF) 
 				{
@@ -117,7 +116,7 @@ namespace ft
 					return;
 				}
 				else
-				root->left = n;
+					root->left = n;
 			} 
 			else if (root != NULL) 
 			{
@@ -127,7 +126,7 @@ namespace ft
 					return;
 				}
 				else
-				root->right = n;
+					root->right = n;
 			}
 			// Insertion du nouveau noeud n
 			n->parent = root;
@@ -164,10 +163,13 @@ namespace ft
 		{
 			node * p = parent(n);
 			node * g = grandparent(n);
-			if (n == g->left->right) {
+			if (n == g->left->right) 
+			{
 				rotation_left(p);
 				n = n->left;
-			} else if (n == g->right->left) {
+			} 
+			else if (n == g->right->left) 
+			{
 				rotation_right(p);
 				n = n->right; 
 			}
@@ -188,43 +190,61 @@ namespace ft
 		void rotation_left(node * x) 
 		{
 			node * y = x->right;
-			//le fils right de x devient le fils left de y
 			x->right = y->left;
 			if (y->left != LEAF)
 				y->left->parent = x;
-			
 			y->parent = x->parent;
-			//Si x est la root, y devient la root
 			if (x->parent == NULL)
 				x = y;
-			//Sinon, on remplace x par y
 			else if (x == x->parent->left)
 				x->parent->left = y;
 			else
 				x->parent->right = y;
-			//On attache x à left de y
 			y->left = x;
 			x->parent = y;
 		}
 		void rotation_right(node * x) 
 		{
 			node * y = x->left;
-			//le fils left de x devient le fils right de y
 			x->left = y->right;
 			if (y->right != LEAF)
 				y->right->parent = x;
 			y->parent = x->parent;
-			//Si x est la root, y devient la root
 			if (x->parent == NULL)
 				x = y;
-			//Sinon, on remplace x par y
 			else if (x == x->parent->right)
 				x->parent->right = y;
 			else
 				x->parent->left = y;
-			//On attache x à righte de y
 			y->right = x;
 			x->parent = y;
+		}
+		void free_tree(node * start)
+		{
+			cout << "[A IMPLEMENTER] Rbt traversed. All nodes have been freed." << endl; 
+			// // Descente récursive dans l'arbre jusqu'à atteindre une LEAF
+			// // Destroy + Deallocate les pairs
+			// // Destroy + Deallocate les nodes
+
+			// if (root != NULL) 
+			// {
+			// 	if (root->left != LEAF) 
+			// 	{
+			// 		free_tree(root->left);
+			// 		return;
+			// 	}
+			// 	else
+			// 		root->left = n;
+			// 	if (root->right != LEAF) 
+			// 	{
+			// 		free_tree(root->right);
+			// 		return;
+			// 	}
+			// 	else
+			// 		root->right = n;
+			// }
+			_n = 0;
+			_root = NULL;
 		}
 	};
 
