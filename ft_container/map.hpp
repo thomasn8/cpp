@@ -5,6 +5,7 @@
 using namespace std;
 #include <memory>
 #include <stdexcept>
+#include <functional>
 #include "iterators.hpp"
 #include "pair.hpp"
 #include "utils.hpp"
@@ -36,13 +37,11 @@ https://cs.stackexchange.com/questions/144045/how-c-and-alike-maps-are-actually-
 namespace ft
 {	
 	template < class Key, class T, 
-	class Compare = less<Key>, class Alloc = allocator< pair< const Key,T> > >
+	class Compare = less<Key>, class Alloc = allocator< ft::pair< const Key,T> > >
 	class map
 	{
 		public:
-
 		class value_compare;
-		
 	// MEMBER TYPES
 		typedef	Key												key_type;
 		typedef	T												mapped_type;

@@ -28,7 +28,6 @@ namespace ft
 			this->first = tmp.first;
 			this->second = tmp.second;
 		}
-
 	};
 
 	template <class T1, class T2>

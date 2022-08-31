@@ -1,0 +1,27 @@
+BST (Binary Search Tree)
+
+Un arbre binaire de recherche est un arbre binaire dans lequel chaque nœud possède une clé, telle que chaque nœud du sous-arbre gauche ait une clé inférieure ou égale à celle du nœud considéré, et que chaque nœud du sous-arbre droit possède une clé supérieure ou égale à celle-ci — selon la mise en œuvre de l'ABR, on pourra interdire ou non des clés de valeur égale. Les nœuds que l'on ajoute deviennent des feuilles de l'arbre. 
+
+La recherche dans un arbre binaire d'un nœud ayant une clé particulière est un procédé récursif. On commence par examiner la racine. Si sa clé est la clé recherchée, l'algorithme se termine et renvoie la racine. Si elle est strictement inférieure, alors elle est dans le sous-arbre gauche, sur lequel on effectue alors récursivement la recherche. De même si la clé recherchée est strictement supérieure à la clé de la racine, la recherche continue dans le sous-arbre droit. Si on atteint une feuille dont la clé n'est pas celle recherchée, on sait alors que la clé recherchée n'appartient à aucun nœud, elle ne figure donc pas dans l'arbre de recherche.
+
+------------------------------------------------------------------------
+
+RBT (Red-Black Tree)
+
+Le principal intérêt des arbres bicolores réside dans le fait que malgré les potentiels réarrangements ou coloriages des nœuds, la complexité (en le nombre d'éléments) des opérations d'insertion, de recherche et de suppression est logarithmique3. De plus, cette structure est économe en mémoire puisqu'elle ne requiert qu'un bit supplémentaire d'information par élément par rapport à un arbre binaire classique. 
+
+Chaque nœud de l'arbre possède en plus de ses données propres un attribut binaire qui est souvent interprété comme sa « couleur » (rouge ou noir). Cet attribut permet de garantir l'équilibre de l'arbre : lors de l'insertion ou de la suppression d'éléments, certaines propriétés sur les relations entre les nœuds et leurs couleurs doivent être maintenues, ce qui empêche l'arbre de devenir trop déséquilibré, y compris dans le pire des cas. Durant une insertion ou une suppression, les nœuds sont parfois réarrangés ou changent leur couleur afin que ces propriétés soient conservées. 
+
+Les arbres bicolores, ainsi que les arbres AVL, offrent la meilleure garantie sur le temps d'insertion, de suppression et de recherche dans les cas défavorables. Ceci leur permet non seulement d'être alors utilisables dans des applications en temps réel, mais aussi de servir comme fondement d'autres structures de données à temps d'exécution garanti dans les cas défavorables
+
+Les arbres rouge-noir sont également très utile en programmation fonctionnelle : c'est l'exemple le plus couramment utilisé de structure de données persistante qui peut être utilisée pour construire des tableaux associatifs capables de garder en mémoires les versions précédentes après un changement. Les versions persistantes des arbres rouge-noir requièrent O(log n) en mémoire supplémentaire pour chaque insertion ou suppressions.
+
+•	Un nœud est soit rouge soit noir ;
+•	La racine est noire ;
+•	Les enfants d'un nœud rouge sont noirs;
+•	Tous les nœuds ont 2 enfants. Ce sont d'autres nœuds ou des feuilles NIL, qui ne possèdent pas de valeur et qui sont les seuls nœuds sans enfants. Leur couleur est toujours noire et rentre donc en compte lors du calcul de la hauteur noire.
+•	Le chemin de la racine à n'importe quelle feuille (NIL) contient le même nombre de nœuds noirs. On peut appeler ce nombre de nœuds noirs la hauteur noire.
+•	le chemin le plus long possible d'une racine à une feuille (sa hauteur) ne peut être que deux fois plus long que le plus petit possible
+
+La recherche sur un arbre bicolore s'effectue exactement comme dans les arbres binaires de recherche. Cependant, après une insertion ou une suppression, les propriétés de l'arbre bicolore peuvent être violées. La restauration de ces propriétés requiert un petit nombre ( O ( log ⁡ ( n ) ) {\displaystyle O(\log(n))} O(\log(n))) de modifications des couleurs (qui sont très rapides en pratique) et pas plus de trois rotations (deux pour l'insertion)
+Ceci permet d'avoir une insertion et une suppression en O ( log ⁡ ( n ) ) {\displaystyle O(\log(n))} O(\log(n)) mais rend l'implémentation plus complexe à cause du grand nombre de cas particuliers à traiter.

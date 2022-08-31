@@ -7,41 +7,56 @@ using namespace std;
 
 int main()
 {
+	// // ************************************************************
+	// // ******************** TESTS CONSTRUCTORS ********************
+	// // #1
+	// ft::map<char,int> ft1;
+	// ft1.insert(ft::pair<char,int>('a',100));
+	// ft1.insert(ft::pair<char,int>('b',200));
+	// ft1.insert(ft::pair<char,int>('c',400));
+	// ft1.insert(ft::pair<char,int>('c',400));	// DOIT ETRE REFUSE CAR KEY 'c' EXISTE DEJA
+	// ft1.insert(ft::pair<char,int>('d',800));
+	// ft1.insert(ft::pair<char,int>('e',1600));
+	// ft1.insert(ft::pair<char,int>('f',3200));
+	// ft1.insert(ft::pair<char,int>('g',6400));
+	// ft1.insert(ft::make_pair('h',12800));
+	// ft1['z'] = -100;
+	// ft1['z'] = -100;							// DOIT ETRE REFUSE CAR KEY 'c' EXISTE DEJA
+	// ft::map_details(ft1);
+
+	// // #2
+	// ft::map<char,int> ft2(ft1.begin(), ft1.end());
+	// ft::map_details(ft2);
+
+	// // #3
+	// ft::map<char,int> ft3(ft1);
+	// ft::map_details(ft3);
+
+	// // #4
+	// ft::map<char,int> ft4 = ft1;
+	// ft::map_details(ft4);
+	// ft::map<char,int> ft5;
+	// ft5.insert(ft::pair<char,int>('m',10000));
+	// ft5 = ft1;
+	// ft::map_details(ft5);
+
+	// // ************************************************************
+	// // ******************* TESTS ELEMENT ACCESS *******************
+	// cout << ft5['a'] << "|" << ft5['z'] << endl;
+	// ft5['a'] = 1;
+	// ft::map_details(ft5);
+
 	// ************************************************************
-	// ******************** TESTS CONSTRUCTORS ********************
-	// #1
-	ft::map<char,int> ft1;
-	ft1.insert(ft::pair<char,int>('a',100));
-	ft1.insert(ft::pair<char,int>('b',200));
-	ft1.insert(ft::pair<char,int>('c',400));
-	ft1.insert(ft::pair<char,int>('c',400));	// DOIT ETRE REFUSE CAR KEY 'c' EXISTE DEJA
-	ft1.insert(ft::pair<char,int>('d',800));
-	ft1.insert(ft::pair<char,int>('e',1600));
-	ft1.insert(ft::pair<char,int>('f',3200));
-	ft1.insert(ft::pair<char,int>('g',6400));
-	ft1['z'] = -100;
-	ft1['z'] = -100;							// DOIT ETRE REFUSE CAR KEY 'c' EXISTE DEJA
-	ft::map_details(ft1);
+	// ******************* TESTS COMPARISON SORT ******************
+	ft::map<char,int> ft6;
+	ft6.insert(ft::pair<char,int>('b',200));
+	ft6.insert(ft::pair<char,int>('d',800));
+	ft6.insert(ft::pair<char,int>('a',100));
+	ft6.insert(ft::pair<char,int>('c',400));
+	ft::map_details(ft6);
 
-	// #2
-	ft::map<char,int> ft2(ft1.begin(), ft1.end());
-	ft::map_details(ft2);
-
-	// #3
-	ft::map<char,int> ft3(ft1);
-	ft::map_details(ft3);
-
-	// #4
-	ft::map<char,int> ft4 = ft1;
-	ft::map_details(ft4);
-	ft::map<char,int> ft5;
-	ft5.insert(ft::pair<char,int>('m',10000));
-	ft5 = ft1;
-	ft::map_details(ft5);
-
-	// ************************************************************
-	// ******************* TESTS ELEMENT ACCESS *******************
-	cout << ft5['a'] << "|" << ft5['z'] << endl;
+	cout << ft6.key_comp()('a','b') << endl;
+	cout << ft6.key_comp()(2,1) << endl;
 
 	return 0;
 }
