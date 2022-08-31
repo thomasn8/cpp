@@ -57,57 +57,60 @@ namespace ft
 				while (first != last)
 				{
 					_alloc.construct(_ptr, *first++);
-					// _rbt.insertion(_rbt._root, red_black_node(_ptr));
-					_rbt.insertion(_ptr);
-					_ptr++;
+					_rbt.insertion(_ptr++);	// construction d'un nouveau node à partir de la pair
 				}
 				_last = --_ptr;
 				_n = n;
-				_rbt._n = n;
 			}
 		}
 
-		// map(const map & x) :
-		// _alloc(x.get_allocator()), _comp(x.key_comp()), _n(x.size()), _first(NULL), _last(NULL)
-		// {
-		// 	if (_n)
-		// 	{
-		// 		const_iterator it = x.begin();
-		// 		const_iterator ite = x.end();
-		// 		_first = _alloc.allocate(_n + 1);
-		// 		_ptr = _first;
-		// 		while (it != ite)
-		// 			_alloc.construct(_ptr++, *it++);
-		// 		_last = --_ptr;
-		// 	}
-		// }
+		map(const map & x) :
+		_alloc(x.get_allocator()), _comp(x.key_comp()), _rbt(), _n(x.size()), _first(NULL), _last(NULL)
+		{
+			if (_n)
+			{
+				const_iterator it = x.begin();
+				const_iterator ite = x.end();
+				_first = _alloc.allocate(_n + 1);
+				_ptr = _first;
+				while (it != ite)
+				{
+					_alloc.construct(_ptr, *it++);
+					_rbt.insertion(_ptr++);	// construction d'un nouveau node à partir de la pair
+				}
+				_last = --_ptr;
+			}
+		}
 
-		// map & operator=(const map & x)
-		// {
-		// 	if (_n)
-		// 	{
-		// 		_ptr = _first;
-		// 		while (_first != _last)
-		// 			_alloc.destroy(_first++);
-		// 		_alloc.deallocate(_ptr, _n + 1);
-		// 		_n = 0;
-		// 		_first = NULL;
-		// 		_last = NULL;
-		// 	}
-		// 	if (x.size())
-		// 	{
-		// 		_comp = x.key_comp();
-		// 		_n = x.size();
-		// 		const_iterator it = x.begin();
-		// 		const_iterator ite = x.end();
-		// 		_first = _alloc.allocate(_n + 1);
-		// 		_ptr = _first;
-		// 		while (it != ite)
-		// 			_alloc.construct(_ptr++, *it++);
-		// 		_last = --_ptr;
-		// 	}
-		// 	return *this;
-		// }
+		map & operator=(const map & x)
+		{
+			if (_n)
+			{
+				_ptr = _first;
+				while (_first != _last)
+					_alloc.destroy(_first++);
+				_alloc.deallocate(_ptr, _n + 1);
+				_n = 0;
+				_first = NULL;
+				_last = NULL;
+			}
+			if (x.size())
+			{
+				_comp = x.key_comp();
+				_n = x.size();
+				const_iterator it = x.begin();
+				const_iterator ite = x.end();
+				_first = _alloc.allocate(_n + 1);
+				_ptr = _first;
+				while (it != ite)
+				{
+					_alloc.construct(_ptr, *it++);
+					_rbt.insertion(_ptr++);	// construction d'un nouveau node à partir de la pair
+				}
+				_last = --_ptr;
+			}
+			return *this;
+		}
 
 		// ~map()
 		// {

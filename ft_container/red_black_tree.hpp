@@ -82,37 +82,25 @@ namespace ft
 		size_type		_n;
 		node *			_root;
 		node *			_ptr;
+		
 		red_black_tree(const allocator_type & alloc = allocator_type()) : 
 		_alloc(alloc), _n(0), _root(NULL) {}
 
 		node * insertion(value_type * pair)
 		{
 			_ptr = _alloc.allocate(1);
-		// // _alloc.construct(_ptr, *pair)
-		// 	// node n(pair);
-		// 	// Insertion d'un nouveau nœud dans l'tree
-		// 	insertion_recursiv(_root, &n);
-		// 	// Réparation de l'tree au cas où les propriétés RED-BLACK seraient violées
-		// 	insertion_repare_tree(&n);
-		// 	// Recherche de la nouvelle root à renvoyer
-		// 	_root = &n;
-		// 	while (parent(_root) != NULL)
-		// 		_root = parent(_root);
-		// 	return _root;
-			return _ptr;
+			_alloc.construct(_ptr, node(pair));
+			// Insertion d'un nouveau nœud dans l'arbre
+			insertion_recursiv(_root, _ptr);
+			// Réparation de l'arbre au cas où les propriétés RED-BLACK seraient violées
+			insertion_repare_tree(_ptr);
+			// Recherche de la nouvelle root à renvoyer
+			_root = _ptr;
+			_n++;
+			while (parent(_root) != NULL)
+				_root = parent(_root);
+			return _root;
 		}
-		// node * insertion(node * root, node * n) 
-		// {
-		// 	// Insertion d'un nouveau nœud dans l'tree
-		// 	insertion_recursiv(root, n);
-		// 	// Réparation de l'tree au cas où les propriétés RED-BLACK seraient violées
-		// 	insertion_repare_tree(n);
-		// 	// Recherche de la nouvelle root à renvoyer
-		// 	root = n;
-		// 	while (parent(root) != NULL)
-		// 		root = parent(root);
-		// 	return root;
-		// }
 
 		private:
 
@@ -120,7 +108,7 @@ namespace ft
 
 		void insertion_recursiv(node * root, node * n) 
 		{
-			// Descente récursive dans l'tree jusqu'à atteindre une LEAF
+			// Descente récursive dans l'arbre jusqu'à atteindre une LEAF
 			if (root != NULL && n->clé < root->clé) 
 			{
 				if (root->left != LEAF) 
@@ -163,7 +151,7 @@ namespace ft
 			if (parent(n) == NULL)
 				n->color = B;
 		}
-		void insertion_case2(node * n) { return; } /* Ne rien faire puisque l'tree est bien un tree RED-BLACK */
+		void insertion_case2(node * n) { return; } /* Ne rien faire puisque l'arbre est bien un tree RED-BLACK */
 		void insertion_case3(node * n)
 		{
 			parent(n)->color = B;
