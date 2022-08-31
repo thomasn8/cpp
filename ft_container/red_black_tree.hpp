@@ -9,8 +9,12 @@
 
 namespace ft
 {
+	// *obligé de déclarer la classe avant pour que le friend fonctionne
+	// car red_black_tree.hpp est include dans map.hpp
+	// donc red_black_tree ne connait pas encore map
 	template < class Key, class T, 
-	class Compare = less<Key>, class Alloc = allocator< ft::pair< const Key,T> > >
+	class Compare = less<Key>, 
+	class Alloc = allocator< ft::pair< const Key,T> > >
 	class map;
 
 	template<class Key, class T>

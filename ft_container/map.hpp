@@ -16,10 +16,12 @@ namespace ft
 	template<class Key, class T, class Compare, class Alloc >
 	class map
 	{
-		public:
 		class value_compare;
-		// class red_black_tree;
+		
+		public:
+		
 	// MEMBER TYPES
+		typedef red_black_tree<Key,T>							rbt;
 		typedef	Key												key_type;
 		typedef	T												mapped_type;
 		typedef	ft::pair<const key_type, mapped_type>			value_type;
@@ -36,7 +38,6 @@ namespace ft
 		typedef	ft::reverse_iterator<const_iterator>			const_reverse_iterator;
 		typedef	int												difference_type;
 		typedef	unsigned int									size_type;
-		typedef red_black_tree<Key,T>				rbt;
 
 	// CONSTRUCTORS / DESTRUCTOR
 		explicit map(const key_compare & comp = key_compare(), 
@@ -113,25 +114,6 @@ namespace ft
 		// 	}
 		// }
 
-		// template <class Key, class T, class Compare, class Alloc>
-		class value_compare
-		{
-			friend class map;
-			
-			public:
-			typedef bool		result_type;
-			typedef value_type	first_argument_type;
-			typedef value_type	second_argument_type;
-			bool operator()(const value_type & x, const value_type & y) const
-			{
-				return comp(x.first, y.first);
-			}
-
-			protected:
-			Compare comp;
-			value_compare (Compare c) : comp(c) {}  // constructed with map's comparison object
-		};
-
 		// // ITERATORS
 		// iterator begin() 				{ return iterator(_first); }
 		// iterator end() 					{ if (_n) return iterator(_last+1); return (_last);}
@@ -196,9 +178,9 @@ namespace ft
 		// }
 
 	// OBSERVERS
-		// key_compare key_comp() const { return _comp.comp; }
-		// value_compare value_comp() const { return _comp; }
-		// bool empty() const {return bool(!_n); }
+		key_compare key_comp() const { return _comp.comp; }
+		value_compare value_comp() const { return _comp; }
+		bool empty() const {return bool(!_n); }
 
 	// ALLOCATOR
 		allocator_type get_allocator() const { return _alloc; }
@@ -242,25 +224,26 @@ namespace ft
 		// }
 	};
 
-	// // MAP'S NESTED CLASS TO STORE COMPARE OBJECT FUNCTION
-	// template <class Key, class T, class Compare, class Alloc>
-	// class map<Key,T,Compare,Alloc>::value_compare
-	// {
-	// 	friend class map;
+	// MAP'S FRIEND CLASS POUR STOCKER L'OBJET-FONCTION DE COMPARATEUR
+	// (le friend fait que cette classe est comme une nested class au final)
+	template <class Key, class T, class Compare, class Alloc>
+	class map<Key,T,Compare,Alloc>::value_compare
+	{
+		friend class map;
 		
-	// 	public:
-	// 	typedef bool		result_type;
-	// 	typedef value_type	first_argument_type;
-	// 	typedef value_type	second_argument_type;
-	// 	bool operator()(const value_type & x, const value_type & y) const
-	// 	{
-	// 		return comp(x.first, y.first);
-	// 	}
+		public:
+		typedef bool		result_type;
+		typedef value_type	first_argument_type;
+		typedef value_type	second_argument_type;
+		bool operator()(const value_type & x, const value_type & y) const
+		{
+			return comp(x.first, y.first);
+		}
 
-	// 	protected:
-	// 	Compare comp;
-	// 	value_compare (Compare c) : comp(c) {}  // constructed with map's comparison object
-	// };
+		protected:
+		Compare comp;
+		value_compare (Compare c) : comp(c) {}  // constructed with map's comparison object
+	};
 
 }
 
