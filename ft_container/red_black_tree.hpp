@@ -74,7 +74,7 @@ namespace ft
 
 		node * insertion(value_type * pair)
 		{
-			static int x = 5;
+			static int x = 10;
 
 			_ptr = _alloc.allocate(1);
 			node tmp(pair);
@@ -86,18 +86,18 @@ namespace ft
 	
 			node * root = _ptr;
 			// _root = _ptr;
-			// while (_root->parent() != NULL && x--)
-			while (root->parent() != NULL && x--)
+			while (root->parent() != NULL && x-- > 0)
+			// while (root->parent() != NULL)
 			{
 				// cout << "while loop" << endl;
-				// cout << &*_root << " = " << &*_root->parent() << endl;
+				cout << x << "." << root << " = " << root->parent() << endl;
 				// _root = _root->parent();
 				root = root->parent();
 			}
 			_root = root;
 			// cout << "while loop terminée" << endl;
 			_n++;
-			cout << "Root: " << _root->color() << " " << &*_root << " " << _root->key_val()->first << endl;
+			cout << "Root: " << _root->color() << " " << &*_root << " " << _root->key_val()->first << endl << endl;
 			return _root;
 		}
 
@@ -138,7 +138,7 @@ namespace ft
 				}
 			}
 			// Insertion du nouveau noeud n
-			cout << "récurs 0" << endl << endl;
+			cout << "récurs 0" << endl;
 			n->setParent(root);
 			n->setLeft(LEAF); // NIL
 			n->setRight(LEAF); // NIL
@@ -192,7 +192,7 @@ namespace ft
 		{
 			node * p = n->parent();
 			node * g = n->grandparent();
-			cout << "cas 4 begin - g = " << &*g << endl;
+			// cout << "cas 4 begin - g = " << &*g << endl;
 			if (g->left() && n == g->left()->right()) 
 			{
 				cout << "cas 4.1" << endl;
@@ -205,7 +205,7 @@ namespace ft
 				rotation_right(p);
 				n = n->right();
 			}
-			cout << "cas 4 end" << endl;
+			// cout << "cas 4 end" << endl;
 			insertion_case5(n);
 		}
 		void insertion_case5(node * n)
@@ -213,16 +213,51 @@ namespace ft
 			node * p = n->parent();
 			node * g = n->grandparent();
 			if (n == p->left())
+			{
+				cout << "5.1: rotation right" << endl;
 				rotation_right(g);
+			}
 			else
+			{
+				cout << "5.2: rotation left" << endl;
 				rotation_left(g);
+			}
 			p->setColor(B);
+			cout << p->key_val()->first << "(" << p << ")" << " becomes black and has parent: " << p->parent() << endl;
 			g->setColor(R);
+			cout << g->key_val()->first << "(" << g << ")" << " becomes red and has parent:  " << g->parent() << endl;
+			cout << "root is now: " << _root->key_val()->first << endl;
 			cout << "cas 5 end" << endl;
 		}
+
+		void rotation_gauche(struct noeud* x) {
+			struct noeud* y = x->droit;
+			//le fils droit de x devient le fils gauche de y
+
+			x->droit = y->gauche;
+			if (y->gauche != FEUILLE)
+				y->gauche->parent = x;
+			
+			y->parent = x->parent;
+			//Si x est la racine, y devient la racine
+			if (x->parent == NULL)
+				x = y;
+
+			//Sinon, on remplace x par y
+			else if (x == x->parent->gauche)
+				x->parent->gauche = y;
+			else
+				x->parent->droit = y;
+
+			//On attache x à gauche de y
+			y->gauche = x;
+			x->parent = y;
+		}
+
 		void rotation_left(node * x) 
 		{
 			node * y = x->right();
+
 			x->setRight(y->left());
 			if (y->left() != LEAF)
 				y->left()->setParent(x);
@@ -287,25 +322,6 @@ namespace ft
 		// 	_root = LEAF;
 		// }
 	};
-
-	// template<class Key, class T, class Alloc>
-	// class red_black_tree<Key,T,Alloc>::red_black_node
-	// {
-	// 	friend class red_black_tree;
-
-	// 	public:
-	// 	typedef	red_black_node			node;
-	// 	typedef	ft::pair<const Key,T>	value_type;
-		
-	// 	protected:
-	// 	node *			left; 		// Pointeur vers fils left
-	// 	node *			right; 		// Pointeur vers fils right 
-	// 	node *			parent; 	// Pointeur vers père
-	// 	char			color; 		// RED ou BLACK
-	// 	value_type * 	key_val;	// Pointeur vers les datas du noeud
-	// 	red_black_node(value_type * pair) : 
-	// 	key_val(pair), color(B), left(NULL), right(NULL), parent(NULL) {}
-	// };
 }
 
 #endif

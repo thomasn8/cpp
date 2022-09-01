@@ -67,8 +67,6 @@ namespace ft
 		node *			_parent; 			// Pointeur vers père
 		int				_color; 			// RED ou BLACK
 		pointer			_key_val;			// Pointeur vers les datas du noeud
-
-
 	};
 }
 

@@ -58,8 +58,9 @@ namespace ft
 			_alloc.construct(_ptr, ft::make_pair<char,int>('c',3));	// construction des key-value paires
 			_rbt.insertion(_ptr++);
 
-			// _alloc.construct(_ptr, ft::make_pair<char,int>('d',4));	// construction des key-value paires
-			// _rbt.insertion(_ptr++);
+			_alloc.construct(_ptr, ft::make_pair<char,int>('d',4));	// construction des key-value paires
+			_rbt.insertion(_ptr++);
+
 			// _alloc.construct(_ptr, ft::make_pair<char,int>('e',5));	// construction des key-value paires
 			// _rbt.insertion(_ptr);
 		}
