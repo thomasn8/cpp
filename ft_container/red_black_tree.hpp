@@ -12,6 +12,7 @@
 using namespace std;
 #include <memory>
 #include "pair.hpp"
+#include "red_black_node.hpp"
 
 #define B 0
 #define R 1
@@ -19,7 +20,6 @@ using namespace std;
 
 namespace ft
 {	
-	class red_black_node;
 	/* pré-déclaration */
 	template < class Key, class T, 
 	class Compare = less<Key>, 
@@ -29,17 +29,15 @@ namespace ft
 	car red_black_tree.hpp est include dans map.hpp
 	donc rbt ne connait pas encore map */
 
-	template<class Key, class T, class Alloc = allocator< red_black_node > >
+	template<class Key, class T, class Alloc = allocator< red_black_node<Key,T> > >
 	class red_black_tree
 	{
 		friend class map<Key,T>;
-		class node_compare;
-		class red_black_node;
 
 		public:
 
 		typedef	ft::pair<const Key, T>						value_type;
-		typedef red_black_tree::red_black_node				node;
+		typedef red_black_node<Key,T>						node;
 		typedef	Alloc										allocator_type;
 		typedef	typename allocator_type::reference			reference;
 		typedef	typename allocator_type::const_reference	const_reference;
@@ -219,14 +217,44 @@ namespace ft
 			y->right = x;
 			x->parent = y;
 		}
-		void free_tree(node * start)
+		void free_tree(node * root)
 		{
 			cout << "[A IMPLEMENTER] Rbt traversed. All nodes have been freed." << endl; 
 			// // Descente récursive dans l'arbre jusqu'à atteindre une LEAF
 			// // Destroy + Deallocate les pairs
 			// // Destroy + Deallocate les nodes
+			// node * tmp;
+			pointer tmp;
+			if (root != NULL)
+			{
+				if (root->left != LEAF)
+				{
+					free_tree(root->left);
+					return;
+				}
+				else if (root->right != LEAF)
+				{
+					free_tree(root->right);
+					return;
+				}
+				else // on est sur un fils sans descendant
+				{
+					cout << root->key_val->first << endl;
+					// tmp = dynamic_cast<ft::red_black_node *>(root);
+					// tmp = dynamic_cast<node *>(root);
+					tmp = reinterpret_cast<pointer>(root);
+					root = root->parent;
+					if (tmp == reinterpret_cast<pointer>(root->left))
+						root->left = LEAF;
+					else
+						root->right = LEAF;
+					_alloc.destroy(tmp);
+					_alloc.deallocate(tmp, 1);
+				}
+			}
 
-			// if (root != NULL) 
+
+			// if (root != NULL) ‰
 			// {
 			// 	if (root->left != LEAF) 
 			// 	{
@@ -248,24 +276,24 @@ namespace ft
 		}
 	};
 
-	template<class Key, class T, class Alloc>
-	class red_black_tree<Key,T,Alloc>::red_black_node
-	{
-		friend class red_black_tree;
+	// template<class Key, class T, class Alloc>
+	// class red_black_tree<Key,T,Alloc>::red_black_node
+	// {
+	// 	friend class red_black_tree;
 
-		public:
-		typedef	red_black_node			node;
-		typedef	ft::pair<const Key,T>	value_type;
+	// 	public:
+	// 	typedef	red_black_node			node;
+	// 	typedef	ft::pair<const Key,T>	value_type;
 		
-		protected:
-		node *			left; 		// Pointeur vers fils left
-		node *			right; 		// Pointeur vers fils right 
-		node *			parent; 	// Pointeur vers père
-		char			color; 		// RED ou BLACK
-		value_type * 	key_val;	// Pointeur vers les datas du noeud
-		red_black_node(value_type * pair) : 
-		key_val(pair), color(B), left(NULL), right(NULL), parent(NULL) {}
-	};
+	// 	protected:
+	// 	node *			left; 		// Pointeur vers fils left
+	// 	node *			right; 		// Pointeur vers fils right 
+	// 	node *			parent; 	// Pointeur vers père
+	// 	char			color; 		// RED ou BLACK
+	// 	value_type * 	key_val;	// Pointeur vers les datas du noeud
+	// 	red_black_node(value_type * pair) : 
+	// 	key_val(pair), color(B), left(NULL), right(NULL), parent(NULL) {}
+	// };
 }
 
 #endif

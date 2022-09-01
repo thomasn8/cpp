@@ -78,9 +78,9 @@ namespace ft
 				while (it != ite)
 				{
 					_ptr = _alloc.allocate(1);
-					_alloc.construct(_ptr, *first++);	// construction des key-value paires
-					_rbt.insertion(_ptr);				// attache les paires à des noeuds construits et insérés dans le rbt
-					// _rbt.insertion(_ptr++);				// attache les paires à des noeuds construits et insérés dans le rbt
+					_alloc.construct(_ptr, *it++);	// construction des key-value paires
+					_rbt.insertion(_ptr);			// attache les paires à des noeuds construits et insérés dans le rbt
+					// _rbt.insertion(_ptr++);			// attache les paires à des noeuds construits et insérés dans le rbt
 				}
 				// _last = --_ptr;
 			}
@@ -110,9 +110,9 @@ namespace ft
 				while (it != ite)
 				{
 					_ptr = _alloc.allocate(1);
-					_alloc.construct(_ptr, *first++);	// construction des key-value paires
-					_rbt.insertion(_ptr);				// attache les paires à des noeuds construits et insérés dans le rbt
-					// _rbt.insertion(_ptr++);				// attache les paires à des noeuds construits et insérés dans le rbt
+					_alloc.construct(_ptr, *it++);	// construction des key-value paires
+					_rbt.insertion(_ptr);			// attache les paires à des noeuds construits et insérés dans le rbt
+					// _rbt.insertion(_ptr++);			// attache les paires à des noeuds construits et insérés dans le rbt
 				}
 				// _last = --_ptr;
 			}
