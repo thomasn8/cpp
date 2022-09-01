@@ -46,36 +46,6 @@ namespace ft
 		typedef	unsigned int								size_type;
 		typedef	int											difference_type;
 
-		node * parent(node * n) const 
-		{ 
-			return n->parent;
-		}
-		node * grandparent(node * n) const
-		{
-			node * p = parent(n);
-			if (p == NULL)
-				return NULL;
-			return parent(p);
-		}
-		node * frere(node * n) const
-		{
-			node * p = parent(n);
-			if (p == NULL)
-				return NULL;
-			if (n == p->left)
-				return p->right;
-			else
-				return p->left;
-		}
-		node * uncle(node * enfant) const
-		{
-			node * p = parent(enfant);
-			node * g = grandparent(enfant);
-			if (g == NULL)
-				return NULL;
-			return frere(p);
-		}
-
 		protected:
 
 		size_type		_n;
@@ -94,8 +64,8 @@ namespace ft
 			insertion_repare_tree(_ptr);
 			_root = _ptr;
 			_n++;
-			while (parent(_root) != NULL)
-				_root = parent(_root);
+			while (_root->parent() != NULL)
+				_root = _root->parent();
 			return _root;
 		}
 
@@ -106,116 +76,116 @@ namespace ft
 		void insertion_recursiv(node * root, node * n) 
 		{
 			// Descente récursive dans l'arbre jusqu'à atteindre une LEAF
-			if (root != NULL && n->key_val->first < root->key_val->first) 
+			if (root != NULL && n->key_val()->first < root->key_val()->first) 
 			{
-				if (root->left != LEAF) 
+				if (root->left() != LEAF) 
 				{
-					insertion_recursiv(root->left, n);
+					insertion_recursiv(root->left(), n);
 					return;
 				}
 				else
-					root->left = n;
+					root->setLeft(n);
 			} 
 			else if (root != NULL) 
 			{
-				if (root->right != LEAF) 
+				if (root->right() != LEAF) 
 				{
-					insertion_recursiv(root->right, n);
+					insertion_recursiv(root->right(), n);
 					return;
 				}
 				else
-					root->right = n;
+					root->setRight(n);
 			}
 			// Insertion du nouveau noeud n
-			n->parent = root;
-			n->left = LEAF; // NIL
-			n->right = LEAF; // NIL
-			n->color = R;
+			n->setParent(root);
+			n->setLeft(LEAF); // NIL
+			n->setRight(LEAF); // NIL
+			n->setColor(R);
 		}
 		void insertion_repare_tree(node * n) 
 		{
-			if (parent(n) == NULL)
+			if (n->parent() == NULL)
 				insertion_case1(n);
-			else if (parent(n)->color == B)
+			else if (n->parent()->color() == B)
 				insertion_case2(n);
-			else if (uncle(n)->color == R)
+			else if (n->uncle()->color() == R)
 				insertion_case3(n);
 			else
 				insertion_case4(n);
 		}
 		void insertion_case1(node * n)
 		{
-			if (parent(n) == NULL)
-				n->color = B;
+			if (n->parent() == NULL)
+				n->setColor(B);
 		}
 		void insertion_case2(node * n) { return; } /* Ne rien faire puisque l'arbre est bien un tree RED-BLACK */
 		void insertion_case3(node * n)
 		{
-			parent(n)->color = B;
-			uncle(n)->color = B;
-			node * g = grandparent(n);
-			g->color = R;
+			n->parent()->setColor(B);
+			n->uncle()->setColor(B);
+			node * g = n->grandparent();
+			g->setColor(R);
 			insertion_repare_tree(g);
 		}
 		void insertion_case4(node * n) 
 		{
-			node * p = parent(n);
-			node * g = grandparent(n);
-			if (n == g->left->right) 
+			node * p = n->parent();
+			node * g = n->grandparent();
+			if (n == g->left()->right()) 
 			{
 				rotation_left(p);
-				n = n->left;
+				n->setLeft(n);
 			} 
-			else if (n == g->right->left) 
+			else if (n == g->right()->left()) 
 			{
 				rotation_right(p);
-				n = n->right; 
+				n->setRight(n);
 			}
 			insertion_case5(n);
 		}
 		void insertion_case5(node * n)
 		{
-			node * p = parent(n);
-			node * g = grandparent(n);
-			if (n == p->left)
+			node * p = n->parent();
+			node * g = n->grandparent();
+			if (n == p->left())
 				rotation_right(g);
 			else
 				rotation_left(g);
-			p->color = B;
-			g->color = R;
+			p->setColor(B);
+			g->setColor(R);
 		}
 
 		void rotation_left(node * x) 
 		{
-			node * y = x->right;
-			x->right = y->left;
-			if (y->left != LEAF)
-				y->left->parent = x;
-			y->parent = x->parent;
-			if (x->parent == NULL)
+			node * y = x->right();
+			x->setRight(y->left());
+			if (y->left() != LEAF)
+				y->left()->setParent(x);
+			y->setParent(x->parent());
+			if (x->parent() == NULL)
 				x = y;
-			else if (x == x->parent->left)
-				x->parent->left = y;
+			else if (x == x->parent()->left())
+				x->parent()->setLeft(y);
 			else
-				x->parent->right = y;
-			y->left = x;
-			x->parent = y;
+				x->parent()->setRight(y);
+			y->setLeft(x);
+			x->setParent(y);
 		}
 		void rotation_right(node * x) 
 		{
-			node * y = x->left;
-			x->left = y->right;
-			if (y->right != LEAF)
-				y->right->parent = x;
-			y->parent = x->parent;
-			if (x->parent == NULL)
+			node * y = x->left();
+			x->setLeft(y->right());
+			if (y->right() != LEAF)
+				y->right()->setParent(x);
+			y->setParent(x->parent());
+			if (x->parent() == NULL)
 				x = y;
-			else if (x == x->parent->right)
-				x->parent->right = y;
+			else if (x == x->parent()->right())
+				x->parent()->setRight(y);
 			else
-				x->parent->left = y;
-			y->right = x;
-			x->parent = y;
+				x->parent()->setLeft(y);
+			y->setRight(x);
+			x->setParent(y);
 		}
 		void free_tree(node * root)
 		{
@@ -225,50 +195,31 @@ namespace ft
 			// // Destroy + Deallocate les nodes
 			if (root != NULL)
 			{
-				if (root->left != LEAF)
+				if (root->left() != LEAF)
 				{
-					free_tree(root->left);
+					free_tree(root->left());
 					return;
 				}
-				else if (root->right != LEAF)
+				else if (root->right() != LEAF)
 				{
-					free_tree(root->right);
+					free_tree(root->right());
 					return;
 				}
 				else // on est sur un fils sans descendant
 				{
-					cout << root->key_val->first << endl;
+					cout << root->key_val()->first << endl;
 					_ptr = root;
-					root = root->parent;
-					if (_ptr == root->left)
-						root->left = LEAF;
+					root = root->parent();
+					if (_ptr == root->left())
+						root->setLeft(LEAF);
 					else
-						root->right = LEAF;
+						root->setRight(LEAF);
 					_alloc.destroy(_ptr);
 					_alloc.deallocate(_ptr, 1);
 				}
 			}
-
-
-			// if (root != NULL) ‰
-			// {
-			// 	if (root->left != LEAF) 
-			// 	{
-			// 		free_tree(root->left);
-			// 		return;
-			// 	}
-			// 	else
-			// 		root->left = n;
-			// 	if (root->right != LEAF) 
-			// 	{
-			// 		free_tree(root->right);
-			// 		return;
-			// 	}
-			// 	else
-			// 		root->right = n;
-			// }
 			_n = 0;
-			_root = NULL;
+			_root = LEAF;
 		}
 	};
 

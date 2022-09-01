@@ -14,15 +14,55 @@ namespace ft
 		public:
 		typedef	red_black_node				node;
 		typedef	pair<Key,T> *				pointer;
-		
-		node *			left; 				// Pointeur vers fils left
-		node *			right; 				// Pointeur vers fils right 
-		node *			parent; 			// Pointeur vers père
-		int				color; 				// RED ou BLACK
-		pointer			key_val;			// Pointeur vers les datas du noeud
+
 		
 		red_black_node(pointer pair) : 
-		key_val(pair), color(B), left(NULL), right(NULL), parent(NULL) {}
+		_key_val(pair), _color(B), _left(NULL), _right(NULL), _parent(NULL) {}
+
+		void setLeft(node * n)		{ _left = n; }
+		void setRight(node * n)		{ _right = n; }
+		void setParent(node * n)	{ _parent = n; }
+		void setColor(int c)		{ _color = c; }
+
+		int color() const			{ return _color; }
+		pointer key_val() const		{ return _key_val; }
+		node * left() const			{ return _left; }
+		node * right() const		{ return _right; }
+		node * parent() const		{ return _parent; }
+		node * grandparent() const
+		{
+			node * p = parent();
+			if (p == NULL)
+				return NULL;
+			return p->parent();
+		}
+		node * brother() const
+		{
+			node * p = parent();
+			if (p == NULL)
+				return NULL;
+			if (this == p->left())
+				return p->right();
+			else
+				return p->left();
+		}
+		node * uncle() const
+		{
+			node * p = parent();
+			node * g = grandparent();
+			if (g == NULL)
+				return NULL;
+			return p->brother();
+		}
+
+		private :
+		node *			_left; 				// Pointeur vers fils left
+		node *			_right; 			// Pointeur vers fils right 
+		node *			_parent; 			// Pointeur vers père
+		int				_color; 			// RED ou BLACK
+		pointer			_key_val;			// Pointeur vers les datas du noeud
+
+
 	};
 }
 
