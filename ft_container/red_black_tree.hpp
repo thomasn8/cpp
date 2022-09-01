@@ -5,7 +5,7 @@
 	-	toutes ces class auraient pu être nested directement dans map 
 		mais ça alourdirait beaucoup le code de map
 	-	de plus, red_black_tree peut être directement réutilisé (en friend) 
-		par d'autres class containers sans devoir être redéfinis
+		par d'autres class containers sans devoir être redéfini
 */
 
 #include <iostream>
@@ -36,7 +36,7 @@ namespace ft
 
 		public:
 
-		typedef	ft::pair<const Key, T>						value_type;
+		typedef	ft::pair<const Key,T>						value_type;
 		typedef red_black_node<Key,T>						node;
 		typedef	Alloc										allocator_type;
 		typedef	typename allocator_type::reference			reference;
@@ -54,18 +54,40 @@ namespace ft
 
 		red_black_tree(const allocator_type & alloc = allocator_type()) : 
 		_alloc(alloc), _n(0), _root(NULL) {}
-		~red_black_tree() { free_tree(_root); }
+		// ~red_black_tree() { free_tree(_root); }
+
+		/* struct noeud *insertion(struct noeud *racine, struct noeud *n) {
+			// Insertion d'un nouveau nœud dans l'arbre
+			insertion_recursif(racine, n);
+
+			// Réparation de l'arbre au cas où les propriétés rouge-noir seraient violées
+			insertion_repare_arbre(n);
+
+			// Recherche de la nouvelle racine à renvoyer
+			racine = n;
+			
+			while (parent(racine) != NULL)
+				racine = parent(racine);
+				
+			return racine;
+		} */
 
 		node * insertion(value_type * pair)
 		{
 			_ptr = _alloc.allocate(1);
-			_alloc.construct(_ptr, node(pair));
-			insertion_recursiv(_root, _ptr);
-			insertion_repare_tree(_ptr);
+			node tmp(pair);
+			_alloc.construct(_ptr, tmp);
+			insertion_recursiv(_root, _ptr);	// error ?
+			insertion_repare_tree(_ptr);		// ERROR
+			
+			cout << &*_ptr << " " << _ptr->key_val()->first << endl;
+	
 			_root = _ptr;
-			_n++;
+
+			cout << "Root: " << &*_root << " " << _root->key_val()->first << endl;
 			while (_root->parent() != NULL)
 				_root = _root->parent();
+			_n++;
 			return _root;
 		}
 
@@ -76,7 +98,8 @@ namespace ft
 		void insertion_recursiv(node * root, node * n) 
 		{
 			// Descente récursive dans l'arbre jusqu'à atteindre une LEAF
-			if (root != NULL && n->key_val()->first < root->key_val()->first) 
+			// if (root != NULL && n->key_val()->first < root->key_val()->first) 
+			if (root != NULL && n->key_val() < root->key_val()) 
 			{
 				if (root->left() != LEAF) 
 				{
@@ -134,12 +157,12 @@ namespace ft
 			if (n == g->left()->right()) 
 			{
 				rotation_left(p);
-				n->setLeft(n);
+				n = n->left();
 			} 
 			else if (n == g->right()->left()) 
 			{
 				rotation_right(p);
-				n->setRight(n);
+				n = n->right();
 			}
 			insertion_case5(n);
 		}
@@ -154,7 +177,6 @@ namespace ft
 			p->setColor(B);
 			g->setColor(R);
 		}
-
 		void rotation_left(node * x) 
 		{
 			node * y = x->right();
@@ -187,40 +209,40 @@ namespace ft
 			y->setRight(x);
 			x->setParent(y);
 		}
-		void free_tree(node * root)
-		{
-			cout << "[A IMPLEMENTER] Rbt traversed. All nodes have been freed." << endl; 
-			// // Descente récursive dans l'arbre jusqu'à atteindre une LEAF
-			// // Destroy + Deallocate les pairs
-			// // Destroy + Deallocate les nodes
-			if (root != NULL)
-			{
-				if (root->left() != LEAF)
-				{
-					free_tree(root->left());
-					return;
-				}
-				else if (root->right() != LEAF)
-				{
-					free_tree(root->right());
-					return;
-				}
-				else // on est sur un fils sans descendant
-				{
-					cout << root->key_val()->first << endl;
-					_ptr = root;
-					root = root->parent();
-					if (_ptr == root->left())
-						root->setLeft(LEAF);
-					else
-						root->setRight(LEAF);
-					_alloc.destroy(_ptr);
-					_alloc.deallocate(_ptr, 1);
-				}
-			}
-			_n = 0;
-			_root = LEAF;
-		}
+		// void free_tree(node * root)
+		// {
+		// 	cout << "[A IMPLEMENTER] Rbt traversed. All nodes have been freed." << endl; 
+		// 	// // Descente récursive dans l'arbre jusqu'à atteindre une LEAF
+		// 	// // Destroy + Deallocate les pairs
+		// 	// // Destroy + Deallocate les nodes
+		// 	if (root != NULL)
+		// 	{
+		// 		if (root->left() != LEAF)
+		// 		{
+		// 			free_tree(root->left());
+		// 			return;
+		// 		}
+		// 		else if (root->right() != LEAF)
+		// 		{
+		// 			free_tree(root->right());
+		// 			return;
+		// 		}
+		// 		else // on est sur un fils sans descendant
+		// 		{
+		// 			cout << root->key_val()->first << endl;
+		// 			_ptr = root;
+		// 			root = root->parent();
+		// 			if (_ptr == root->left())
+		// 				root->setLeft(LEAF);
+		// 			else
+		// 				root->setRight(LEAF);
+		// 			_alloc.destroy(_ptr);
+		// 			_alloc.deallocate(_ptr, 1);
+		// 		}
+		// 	}
+		// 	_n = 0;
+		// 	_root = LEAF;
+		// }
 	};
 
 	// template<class Key, class T, class Alloc>

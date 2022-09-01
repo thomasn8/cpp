@@ -51,14 +51,17 @@ namespace ft
 			_ptr = _alloc.allocate(5);
 			_alloc.construct(_ptr, ft::make_pair<char,int>('a',1));	// construction des key-value paires
 			_rbt.insertion(_ptr++);
+
 			_alloc.construct(_ptr, ft::make_pair<char,int>('b',2));	// construction des key-value paires
 			_rbt.insertion(_ptr++);
+
 			_alloc.construct(_ptr, ft::make_pair<char,int>('c',3));	// construction des key-value paires
 			_rbt.insertion(_ptr++);
-			_alloc.construct(_ptr, ft::make_pair<char,int>('d',4));	// construction des key-value paires
-			_rbt.insertion(_ptr++);
-			_alloc.construct(_ptr, ft::make_pair<char,int>('e',5));	// construction des key-value paires
-			_rbt.insertion(_ptr);
+
+			// _alloc.construct(_ptr, ft::make_pair<char,int>('d',4));	// construction des key-value paires
+			// _rbt.insertion(_ptr++);
+			// _alloc.construct(_ptr, ft::make_pair<char,int>('e',5));	// construction des key-value paires
+			// _rbt.insertion(_ptr);
 		}
 
 		template <class InputIterator>
@@ -140,7 +143,7 @@ namespace ft
 		{
 			if (_n)
 			{
-				_rbt.free_tree(_rbt._root);
+				// _rbt.free_tree(_rbt._root);
 				// _ptr = _first;
 				// while (_first != _last)
 				// 	_alloc.destroy(_first++);
