@@ -1,9 +1,20 @@
 #include <iostream>
+#include <map>
 using namespace std;
 // #include <map>
 #include "../map.hpp"
 #include "../pair.hpp"
 #include "../container_details.hpp"
+
+/* 
+Moreover, map is a node-based container, so each element goes into a distinct, 
+separate allocation (so as to permit maximal iterator and reference non-invalidation). 
+Elements are almost certainly not contiguous in memory, and probably scattered 
+about in a way that reflects how you added them.
+
+Practically, a map will be implemented as some type of balanced tree in order 
+to achieve logarithmic lookup, insertion and deletion times.
+*/
 
 int main()
 {
@@ -57,6 +68,40 @@ int main()
 
 	// cout << ft6.key_comp()('a','b') << endl;
 	// cout << ft6.key_comp()(2,1) << endl;
+
+	// std::map<char,int> mymap;
+
+	// mymap['b'] = 100;
+	// std::map<char,int>::iterator first=mymap.begin();
+	// cout << "B pair: " << mymap['b'] << " " << &*first++ << endl;
+	// mymap['a'] = 200;
+	// cout << "A pair: " << mymap['a'] << " " << &*first << endl;
+
+	// // show content:
+	// for (std::map<char,int>::iterator it=mymap.begin(); it!=mymap.end(); ++it)
+	// {
+	// 	std::cout << it->first << " => " << it->second << " (" << &*it << ")" << '\n';
+	// }
+	// cout << endl << endl;
+	/* 
+	Because map containers keep their elements ordered at all times, begin points to the element 
+	that goes first following the container's sorting criterion.
+		
+		B pair: 100 0x7fc5dbd00b0c		<		ptr sur la pair b-100
+		A pair: 200 0x7ffee28ffff4		<		ptr sur la pair a-200
+		
+		a => 200 (0x7fc5dbd00b3c)		<		ptr sur la pair a-200 après ordonnancement
+		b => 100 (0x7fc5dbd00b0c)		<		ptr sur la pair b-100 après ordonnancement
+
+		-------------------------------
+
+		B pair: 100 0x7fda71402aec		<		ptr sur la pair b-100
+		A pair: 200 0x7ffee2854ff4		<		ptr sur la pair a-200
+
+		a => 200 (0x7fda71402b1c)		<		ptr sur la pair a-200 après ordonnancement
+		b => 100 (0x7fda71402aec)		<		ptr sur la pair b-100 après ordonnancement
+
+	*/
 
 	return 0;
 }

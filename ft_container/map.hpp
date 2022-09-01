@@ -21,7 +21,6 @@ namespace ft
 		public:
 		
 	// MEMBER TYPES
-		typedef red_black_tree<Key,T>							rbt;
 		typedef	Key												key_type;
 		typedef	T												mapped_type;
 		typedef	ft::pair<const key_type, mapped_type>			value_type;
@@ -38,6 +37,7 @@ namespace ft
 		typedef	ft::reverse_iterator<const_iterator>			const_reverse_iterator;
 		typedef	int												difference_type;
 		typedef	unsigned int									size_type;
+		typedef red_black_tree<Key,T>							rbt;
 
 	// CONSTRUCTORS / DESTRUCTOR
 		// explicit map(const key_compare & comp = key_compare(), 
@@ -46,11 +46,12 @@ namespace ft
 		
 		explicit map(const key_compare & comp = key_compare(), 
 		const allocator_type & alloc = allocator_type()) :
-		_alloc(alloc), _comp(comp), _rbt(), _n(5), _first(NULL), _last(NULL) 
+		_alloc(alloc), _comp(comp), _rbt(), _n(5), _first(), _last() 
 		{
 			// **********************************
 			// ************* TESTS **************
 			_ptr = _alloc.allocate(15);
+			// cout << "Pair ptr: " << _ptr << endl;
 
 			_alloc.construct(_ptr, ft::make_pair<char,int>('b',2));
 			_rbt.insertion(_ptr++);
@@ -91,72 +92,68 @@ namespace ft
 			size_type n = _distance<InputIterator>(first, last);
 			if (n)
 			{
-				// _first = _alloc.allocate(n + 1);
-				// _ptr = _first;
 				while (first != last)
 				{
 					_ptr = _alloc.allocate(1);
-					_alloc.construct(_ptr, *first++);	// construction des key-value paires
-					_rbt.insertion(_ptr);				// attache les paires à des noeuds construits et insérés dans le rbt
-					// _rbt.insertion(_ptr++);				// attache les paires à des noeuds construits et insérés dans le rbt
+					_alloc.construct(_ptr, *first++);
+					_rbt.insertion(_ptr);
 				}
-				// _last = --_ptr;
 				_n = n;
 			}
 		}
 
-		map(const map & x) :
-		_alloc(x.get_allocator()), _comp(x.key_comp()), _rbt(), _n(x.size()), _first(NULL), _last(NULL)
-		{
-			if (_n)
-			{
-				const_iterator it = x.begin();
-				const_iterator ite = x.end();
-				// _first = _alloc.allocate(_n + 1);
-				// _ptr = _first;
-				while (it != ite)
-				{
-					_ptr = _alloc.allocate(1);
-					_alloc.construct(_ptr, *it++);	// construction des key-value paires
-					_rbt.insertion(_ptr);			// attache les paires à des noeuds construits et insérés dans le rbt
-					// _rbt.insertion(_ptr++);			// attache les paires à des noeuds construits et insérés dans le rbt
-				}
-				// _last = --_ptr;
-			}
-		}
+		// map(const map & x) :
+		// _alloc(x.get_allocator()), _comp(x.key_comp()), _rbt(), _n(x.size()), _first(NULL), _last(NULL)
+		// {
+		// 	if (_n)
+		// 	{
+		// 		const_iterator it = x.begin();
+		// 		const_iterator ite = x.end();
+		// 		// _first = _alloc.allocate(_n + 1);
+		// 		// _ptr = _first;
+		// 		while (it != ite)
+		// 		{
+		// 			_ptr = _alloc.allocate(1);
+		// 			_alloc.construct(_ptr, *it++);	// construction des key-value paires
+		// 			_rbt.insertion(_ptr);			// attache les paires à des noeuds construits et insérés dans le rbt
+		// 			// _rbt.insertion(_ptr++);			// attache les paires à des noeuds construits et insérés dans le rbt
+		// 		}
+		// 		// _last = --_ptr;
+		// 	}
+		// }
 
-		map & operator=(const map & x)
-		{
-			if (_n)
-			{
-				// _ptr = _first;
-				// while (_first != _last)
-				// 	_alloc.destroy(_first++);
-				// _alloc.deallocate(_ptr, _n + 1);
-				_rbt.free_tree(_rbt._root);
-				// _n = 0;
-				// _first = NULL;
-				// _last = NULL;
-			}
-			if (x.size())
-			{
-				_comp = x.key_comp();
-				_n = x.size();
-				const_iterator it = x.begin();
-				const_iterator ite = x.end();
-				_first = _alloc.allocate(_n + 1);
-				_ptr = _first;
-				while (it != ite)
-				{
-					_ptr = _alloc.allocate(1);
-					_alloc.construct(_ptr, *it++);	// construction des key-value paires
-					_rbt.insertion(_ptr);			// attache les paires à des noeuds construits et insérés dans le rbt
-					// _rbt.insertion(_ptr++);			// attache les paires à des noeuds construits et insérés dans le rbt
-				}
-				// _last = --_ptr;
-			}
-			return *this;
-		}
+		// map & operator=(const map & x)
+		// {
+		// 	if (_n)
+		// 	{
+		// 		// _ptr = _first;
+		// 		// while (_first != _last)
+		// 		// 	_alloc.destroy(_first++);
+		// 		// _alloc.deallocate(_ptr, _n + 1);
+		// 		_rbt.free_tree(_rbt._root);
+		// 		// _n = 0;
+		// 		// _first = NULL;
+		// 		// _last = NULL;
+		// 	}
+		// 	if (x.size())
+		// 	{
+		// 		_comp = x.key_comp();
+		// 		_n = x.size();
+		// 		const_iterator it = x.begin();
+		// 		const_iterator ite = x.end();
+		// 		_first = _alloc.allocate(_n + 1);
+		// 		_ptr = _first;
+		// 		while (it != ite)
+		// 		{
+		// 			_ptr = _alloc.allocate(1);
+		// 			_alloc.construct(_ptr, *it++);	// construction des key-value paires
+		// 			_rbt.insertion(_ptr);			// attache les paires à des noeuds construits et insérés dans le rbt
+		// 			// _rbt.insertion(_ptr++);			// attache les paires à des noeuds construits et insérés dans le rbt
+		// 		}
+		// 		// _last = --_ptr;
+		// 	}
+		// 	return *this;
+		// }
 
 		~map()
 		{
@@ -239,15 +236,26 @@ namespace ft
 	// ALLOCATOR
 		allocator_type get_allocator() const { return _alloc; }
 
+		// template<class Key, class T>
+		struct node_list1
+		{
+			value_type* ptr;
+			value_type* next;
+			value_type* prev;
+			node_list1() : ptr(NULL), next(NULL), prev(NULL) {}
+			~node_list1() {}
+		};
+
 		private:
 
 		allocator_type	_alloc;
 		value_compare	_comp;
 		rbt				_rbt;
 		size_type		_n;
-		pointer			_first;
-		pointer			_last;
+		node_list1		_first;
+		node_list1		_last;
 		pointer			_ptr;
+		// value_type **	_tab;
 
 		template <class InputIterator>
 		size_type _distance(InputIterator first, InputIterator last) const

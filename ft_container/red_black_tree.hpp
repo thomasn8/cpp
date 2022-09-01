@@ -21,7 +21,7 @@ using namespace std;
 # define R 1
 # define LEAF 0
 
-# define COUNT 15
+# define COUNT 8
 # define RED "\033[0;31m"
 # define WHI "\033[0m"
 
@@ -56,19 +56,39 @@ namespace ft
 		void print_tree_2d(node *root)
 		{
 			cout << endl << endl;
-			print_tree(root, 5);
+			print_tree(root, 0);
 			cout << endl << endl;
 		}
 
 		protected:
 
+		struct node_list2
+		{
+			value_type* ptr;
+			node_list2* next;
+			node_list2* prev;
+			node_list2() : ptr(NULL), next(NULL), prev(NULL) {}
+			~node_list2() {}
+		};
+
 		size_type		_n;
 		node *			_root;
 		node *			_ptr;
+		node_list2		_first;
+		node_list2		_last;
+		node_list2*		_current;
+		node_list2*		_prev;
 
 		red_black_tree(const allocator_type & alloc = allocator_type()) : 
-		_alloc(alloc), _n(0), _root(NULL) {}
-		~red_black_tree() { print_tree_2d(_root); free_tree(_root); }
+		_alloc(alloc), _n(0), _root(NULL), _first(), _last(), _current(&_first), _prev(NULL) {}
+		
+		~red_black_tree() 
+		{
+			creat_node_list(_root);
+			print_node_list();
+			print_tree_2d(_root);
+			free_tree(_root); 
+		}
 
 		node * insertion(value_type * pair)
 		{
@@ -84,9 +104,62 @@ namespace ft
 			return _root;
 		}
 
+		void print_node_list()
+		{
+			node_list2	*current;
+			node_list2	*next;
+
+			current = &_first;
+			cout << endl << "NODE_LIST: " << endl;
+			while (current->ptr)
+			{
+				next = current->next;
+				cout << current->ptr->first << endl;
+				current = next;
+			}
+			cout << endl << endl;
+		}
+
+		void creat_node_list(node * root)
+		{
+			// condition de sortie de la fonction pour chaque récursion
+			if (root == NULL)
+				return;
+			
+			// traverse partie gauche
+			creat_node_list(root->left());
+
+			// code here
+			if (_first.ptr == NULL)
+			{
+				_current = &_first;
+				
+				_current->ptr = root->key_val();
+				_current->prev = NULL;
+				_current->next = &_last;
+
+				_last.prev = _current;
+			}
+			else
+			{
+				_prev = _current;
+				_current = new node_list2();
+
+				_current->ptr = root->key_val();
+				_current->prev = _prev;
+				_current->next = &_last;
+
+				_prev->next = _current;
+				_last.prev = _current;
+			}
+			
+			// traverse partie droite
+			creat_node_list(root->right());
+		}
+
 		private:
 
-		Alloc _alloc;
+		Alloc		_alloc;
 
 		void insertion_recursiv(node * root, node * n) 
 		{
@@ -214,7 +287,7 @@ namespace ft
 			if (root == NULL)
 				return;
 			free_tree(root->left());
-			cout << "[FREE]: " << root->key_val()->first << endl;
+			cout << "[FREE-NODE]: " << root->key_val()->first << " - " << root->key_val() << endl;
 			_n--;
 			_alloc.destroy(root);
 			_alloc.deallocate(root, 1);
