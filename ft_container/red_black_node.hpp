@@ -1,9 +1,6 @@
 #ifndef RED_BLACK_NODE_HPP
 # define RED_BLACK_NODE_HPP
 
-#include <iostream>
-using namespace std;
-
 #include "pair.hpp"
 #define B 0
 #define R 1
@@ -19,8 +16,6 @@ namespace ft
 		typedef	ft::pair<const Key,T>		value_type;
 		typedef	value_type *				pointer;
 
-		// red_black_node() {};
-		// red_black_node(pointer pair) : 
 		red_black_node(pointer pair) : 
 		_key_val(pair), _color(LEAF), _left(NULL), _right(NULL), _parent(NULL) {_parent = parent();}
 
@@ -57,7 +52,6 @@ namespace ft
 			node * g = grandparent();
 			if (g == NULL)
 				return NULL;
-			// cout << "uncle" << endl;
 			return p->brother();
 		}
 

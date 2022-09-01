@@ -48,38 +48,39 @@ namespace ft
 		const allocator_type & alloc = allocator_type()) :
 		_alloc(alloc), _comp(comp), _rbt(), _n(5), _first(NULL), _last(NULL) 
 		{
+			// **********************************
+			// ************* TESTS **************
 			_ptr = _alloc.allocate(15);
 
-			_alloc.construct(_ptr, ft::make_pair<char,int>('b',2));	// construction des key-value paires
+			_alloc.construct(_ptr, ft::make_pair<char,int>('b',2));
 			_rbt.insertion(_ptr++);
 
-			_alloc.construct(_ptr, ft::make_pair<char,int>('d',4));	// construction des key-value paires
+			_alloc.construct(_ptr, ft::make_pair<char,int>('d',4));
 			_rbt.insertion(_ptr++);
 
-			_alloc.construct(_ptr, ft::make_pair<char,int>('c',3));	// construction des key-value paires
+			_alloc.construct(_ptr, ft::make_pair<char,int>('c',3));
 			_rbt.insertion(_ptr++);
 
-			_alloc.construct(_ptr, ft::make_pair<char,int>('f',5));	// construction des key-value paires
+			_alloc.construct(_ptr, ft::make_pair<char,int>('f',5));
 			_rbt.insertion(_ptr++);
 
-			_alloc.construct(_ptr, ft::make_pair<char,int>('m',5));	// construction des key-value paires
+			_alloc.construct(_ptr, ft::make_pair<char,int>('m',5));
 			_rbt.insertion(_ptr++);
 
-			_alloc.construct(_ptr, ft::make_pair<char,int>('y',5));	// construction des key-value paires
+			_alloc.construct(_ptr, ft::make_pair<char,int>('y',5));
 			_rbt.insertion(_ptr++);
 
-			_alloc.construct(_ptr, ft::make_pair<char,int>('z',5));	// construction des key-value paires
+			_alloc.construct(_ptr, ft::make_pair<char,int>('z',5));
 			_rbt.insertion(_ptr++);
 
-			_alloc.construct(_ptr, ft::make_pair<char,int>('q',5));	// construction des key-value paires
+			_alloc.construct(_ptr, ft::make_pair<char,int>('q',5));
 			_rbt.insertion(_ptr++);
 
-			_alloc.construct(_ptr, ft::make_pair<char,int>('a',1));	// construction des key-value paires
+			_alloc.construct(_ptr, ft::make_pair<char,int>('a',1));
 			_rbt.insertion(_ptr++);
 
-			_alloc.construct(_ptr, ft::make_pair<char,int>('e',5));	// construction des key-value paires
+			_alloc.construct(_ptr, ft::make_pair<char,int>('e',5));
 			_rbt.insertion(_ptr);
-			
 		}
 
 		template <class InputIterator>

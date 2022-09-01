@@ -20,6 +20,7 @@ using namespace std;
 # define B 0
 # define R 1
 # define LEAF 0
+
 # define COUNT 15
 # define RED "\033[0;31m"
 # define WHI "\033[0m"
