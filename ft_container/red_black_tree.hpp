@@ -223,8 +223,6 @@ namespace ft
 			// // Descente récursive dans l'arbre jusqu'à atteindre une LEAF
 			// // Destroy + Deallocate les pairs
 			// // Destroy + Deallocate les nodes
-			// node * tmp;
-			pointer tmp;
 			if (root != NULL)
 			{
 				if (root->left != LEAF)
@@ -240,16 +238,14 @@ namespace ft
 				else // on est sur un fils sans descendant
 				{
 					cout << root->key_val->first << endl;
-					// tmp = dynamic_cast<ft::red_black_node *>(root);
-					// tmp = dynamic_cast<node *>(root);
-					tmp = reinterpret_cast<pointer>(root);
+					_ptr = root;
 					root = root->parent;
-					if (tmp == reinterpret_cast<pointer>(root->left))
+					if (_ptr == root->left)
 						root->left = LEAF;
 					else
 						root->right = LEAF;
-					_alloc.destroy(tmp);
-					_alloc.deallocate(tmp, 1);
+					_alloc.destroy(_ptr);
+					_alloc.deallocate(_ptr, 1);
 				}
 			}
 

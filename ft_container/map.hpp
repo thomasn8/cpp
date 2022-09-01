@@ -40,9 +40,26 @@ namespace ft
 		typedef	unsigned int									size_type;
 
 	// CONSTRUCTORS / DESTRUCTOR
+		// explicit map(const key_compare & comp = key_compare(), 
+		// const allocator_type & alloc = allocator_type()) :
+		// _alloc(alloc), _comp(comp), _rbt(), _n(0), _first(NULL), _last(NULL) {}
+		
 		explicit map(const key_compare & comp = key_compare(), 
 		const allocator_type & alloc = allocator_type()) :
-		_alloc(alloc), _comp(comp), _rbt(), _n(0), _first(NULL), _last(NULL) {}
+		_alloc(alloc), _comp(comp), _rbt(), _n(5), _first(NULL), _last(NULL) 
+		{
+			_ptr = _alloc.allocate(5);
+			_alloc.construct(_ptr, ft::make_pair<char,int>('a',1));	// construction des key-value paires
+			_rbt.insertion(_ptr++);
+			_alloc.construct(_ptr, ft::make_pair<char,int>('b',2));	// construction des key-value paires
+			_rbt.insertion(_ptr++);
+			_alloc.construct(_ptr, ft::make_pair<char,int>('c',3));	// construction des key-value paires
+			_rbt.insertion(_ptr++);
+			_alloc.construct(_ptr, ft::make_pair<char,int>('d',4));	// construction des key-value paires
+			_rbt.insertion(_ptr++);
+			_alloc.construct(_ptr, ft::make_pair<char,int>('e',5));	// construction des key-value paires
+			_rbt.insertion(_ptr);
+		}
 
 		template <class InputIterator>
 		map(InputIterator first, InputIterator last, 
@@ -222,21 +239,21 @@ namespace ft
 			return n;
 		}
 
-		iterator _check_keys(key_type key)
-		{
-			if (_n)
-			{
-				iterator it = begin();
-				iterator ite = end();
-				while (it != ite)
-				{
-					if (key == (*it).first)
-						return it;
-					it++;
-				}
-			}
-			return NULL;
-		}
+		// iterator _check_keys(key_type key)
+		// {
+		// 	if (_n)
+		// 	{
+		// 		iterator it = begin();
+		// 		iterator ite = end();
+		// 		while (it != ite)
+		// 		{
+		// 			if (key == (*it).first)
+		// 				return it;
+		// 			it++;
+		// 		}
+		// 	}
+		// 	return NULL;
+		// }
 	};
 
 	// MAP'S FRIEND CLASS POUR STOCKER L'OBJET-FONCTION DE COMPARATEUR
