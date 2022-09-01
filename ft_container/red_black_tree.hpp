@@ -54,48 +54,21 @@ namespace ft
 
 		red_black_tree(const allocator_type & alloc = allocator_type()) : 
 		_alloc(alloc), _n(0), _root(NULL) {}
-		// ~red_black_tree() { free_tree(_root); }
-
-		/* struct noeud *insertion(struct noeud *racine, struct noeud *n) {
-			// Insertion d'un nouveau nœud dans l'arbre
-			insertion_recursif(racine, n);
-
-			// Réparation de l'arbre au cas où les propriétés rouge-noir seraient violées
-			insertion_repare_arbre(n);
-
-			// Recherche de la nouvelle racine à renvoyer
-			racine = n;
-			
-			while (parent(racine) != NULL)
-				racine = parent(racine);
-				
-			return racine;
-		} */
+		~red_black_tree() { free_tree(_root); }
 
 		node * insertion(value_type * pair)
 		{
-			static int x = 10;
-
 			_ptr = _alloc.allocate(1);
 			node tmp(pair);
 			_alloc.construct(_ptr, tmp);
 			insertion_recursiv(_root, _ptr);
-			insertion_repare_tree(_ptr);		// ERROR
+			insertion_repare_tree(_ptr);
 			
 			cout << "New node: " << _ptr->color() << " " << &*_ptr << " " << _ptr->key_val()->first << endl;
 	
-			node * root = _ptr;
-			// _root = _ptr;
-			while (root->parent() != NULL && x-- > 0)
-			// while (root->parent() != NULL)
-			{
-				// cout << "while loop" << endl;
-				cout << x << "." << root << " = " << root->parent() << endl;
-				// _root = _root->parent();
-				root = root->parent();
-			}
-			_root = root;
-			// cout << "while loop terminée" << endl;
+			_root = _ptr;
+			while (_root->parent() != NULL)
+				_root = _root->parent();
 			_n++;
 			cout << "Root: " << _root->color() << " " << &*_root << " " << _root->key_val()->first << endl << endl;
 			return _root;
@@ -108,7 +81,6 @@ namespace ft
 		void insertion_recursiv(node * root, node * n) 
 		{
 			// Descente récursive dans l'arbre jusqu'à atteindre une LEAF
-			// if (root != NULL && n->key_val()->first < root->key_val()->first) 
 			if (root != NULL && n->key_val() < root->key_val()) 
 			{
 				if (root->left() != LEAF) 
@@ -137,7 +109,6 @@ namespace ft
 					root->setRight(n);
 				}
 			}
-			// Insertion du nouveau noeud n
 			cout << "récurs 0" << endl;
 			n->setParent(root);
 			n->setLeft(LEAF); // NIL
@@ -148,11 +119,6 @@ namespace ft
 		{
 			static int x = 0;
 			cout << "insertion n° " << ++x << endl;
-			// if (x == 3)
-			// {
-			// 	// cout << "TEST" << endl;
-			// }
-
 			if (n->parent() == NULL)
 			{
 				cout << "cas 1" << endl;
@@ -179,7 +145,7 @@ namespace ft
 			if (n->parent() == NULL)
 				n->setColor(B);
 		}
-		void insertion_case2(node * n) { return; } /* Ne rien faire puisque l'arbre est bien un tree RED-BLACK */
+		void insertion_case2(node * n) { return; }
 		void insertion_case3(node * n)
 		{
 			n->parent()->setColor(B);
@@ -230,44 +196,22 @@ namespace ft
 			cout << "cas 5 end" << endl;
 		}
 
-		void rotation_gauche(struct noeud* x) {
-			struct noeud* y = x->droit;
-			//le fils droit de x devient le fils gauche de y
-
-			x->droit = y->gauche;
-			if (y->gauche != FEUILLE)
-				y->gauche->parent = x;
-			
-			y->parent = x->parent;
-			//Si x est la racine, y devient la racine
-			if (x->parent == NULL)
-				x = y;
-
-			//Sinon, on remplace x par y
-			else if (x == x->parent->gauche)
-				x->parent->gauche = y;
-			else
-				x->parent->droit = y;
-
-			//On attache x à gauche de y
-			y->gauche = x;
-			x->parent = y;
-		}
-
 		void rotation_left(node * x) 
 		{
 			node * y = x->right();
-
 			x->setRight(y->left());
 			if (y->left() != LEAF)
 				y->left()->setParent(x);
 			y->setParent(x->parent());
 			if (x->parent() == NULL)
-				x = y;
-			else if (x == x->parent()->left())
-				x->parent()->setLeft(y);
+				_root = y;
 			else
-				x->parent()->setRight(y);
+			{
+				if (x->parent()->left() == x)
+					x->parent()->setLeft(y);
+				else
+					x->parent()->setRight(y);
+			}
 			y->setLeft(x);
 			x->setParent(y);
 		}
@@ -278,49 +222,55 @@ namespace ft
 			if (y->right() != LEAF)
 				y->right()->setParent(x);
 			y->setParent(x->parent());
+
 			if (x->parent() == NULL)
-				x = y;
-			else if (x == x->parent()->right())
-				x->parent()->setRight(y);
+				_root = y;
 			else
-				x->parent()->setLeft(y);
+			{
+				if (x->parent()->right() == x)
+					x->parent()->setRight(y);
+				else
+					x->parent()->setLeft(y);
+			}
 			y->setRight(x);
 			x->setParent(y);
 		}
-		// void free_tree(node * root)
-		// {
-		// 	cout << "[A IMPLEMENTER] Rbt traversed. All nodes have been freed." << endl; 
-		// 	// // Descente récursive dans l'arbre jusqu'à atteindre une LEAF
-		// 	// // Destroy + Deallocate les pairs
-		// 	// // Destroy + Deallocate les nodes
-		// 	if (root != NULL)
-		// 	{
-		// 		if (root->left() != LEAF)
-		// 		{
-		// 			free_tree(root->left());
-		// 			return;
-		// 		}
-		// 		else if (root->right() != LEAF)
-		// 		{
-		// 			free_tree(root->right());
-		// 			return;
-		// 		}
-		// 		else // on est sur un fils sans descendant
-		// 		{
-		// 			cout << root->key_val()->first << endl;
-		// 			_ptr = root;
-		// 			root = root->parent();
-		// 			if (_ptr == root->left())
-		// 				root->setLeft(LEAF);
-		// 			else
-		// 				root->setRight(LEAF);
-		// 			_alloc.destroy(_ptr);
-		// 			_alloc.deallocate(_ptr, 1);
-		// 		}
-		// 	}
-		// 	_n = 0;
-		// 	_root = LEAF;
-		// }
+
+		void free_tree(node * root)
+		{
+			cout << "[A IMPLEMENTER] Rbt traversed. All nodes have been freed." << endl; 
+			// // Descente récursive dans l'arbre jusqu'à atteindre une LEAF
+			// // Destroy + Deallocate les pairs
+			// // Destroy + Deallocate les nodes
+			if (root != NULL)
+			{
+				if (root->left() != LEAF)
+				{
+					free_tree(root->left());
+					return;
+				}
+				else if (root->right() != LEAF)
+				{
+					free_tree(root->right());
+					return;
+				}
+				else // on est sur un fils sans descendant
+				{
+					// cout << root->key_val()->first << endl;
+					_ptr = root;
+					root = root->parent();
+					if (_ptr == root->left())
+						root->setLeft(LEAF);
+					else
+						root->setRight(LEAF);
+					cout << "[FREE]: " << _ptr->key_val()->first << " (" << _ptr << ")" << endl;
+					_alloc.destroy(_ptr);
+					_alloc.deallocate(_ptr, 1);
+				}
+			}
+			_n = 0;
+			_root = LEAF;
+		}
 	};
 }
 
