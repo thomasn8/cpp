@@ -84,8 +84,8 @@ namespace ft
 		
 		~red_black_tree() 
 		{
-			creat_node_list(_root);
-			print_node_list();
+			// creat_node_list(_root);
+			// print_node_list();
 			print_tree_2d(_root);
 			free_tree(_root); 
 		}
@@ -120,16 +120,27 @@ namespace ft
 			cout << endl << endl;
 		}
 
-		void creat_node_list(node * root)
+		void free_node_list()
 		{
-			// condition de sortie de la fonction pour chaque récursion
+			node_list2	*current;
+			node_list2	*next;
+
+			current = &_first;
+			while (current->ptr)
+			{
+				next = current->next;
+				if (current != &_first && current != &_last)
+					delete current;
+				current = next;
+			}
+			cout << endl << endl;
+		}
+
+		void create_node_list(node * root)
+		{
 			if (root == NULL)
 				return;
-			
-			// traverse partie gauche
-			creat_node_list(root->left());
-
-			// code here
+			create_node_list(root->left());
 			if (_first.ptr == NULL)
 			{
 				_current = &_first;
@@ -152,9 +163,7 @@ namespace ft
 				_prev->next = _current;
 				_last.prev = _current;
 			}
-			
-			// traverse partie droite
-			creat_node_list(root->right());
+			create_node_list(root->right());
 		}
 
 		private:

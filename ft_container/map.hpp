@@ -42,11 +42,11 @@ namespace ft
 	// CONSTRUCTORS / DESTRUCTOR
 		// explicit map(const key_compare & comp = key_compare(), 
 		// const allocator_type & alloc = allocator_type()) :
-		// _alloc(alloc), _comp(comp), _rbt(), _n(0), _first(NULL), _last(NULL) {}
+		// _alloc(alloc), _comp(comp), _rbt(), _n(0) {}
 		
 		explicit map(const key_compare & comp = key_compare(), 
 		const allocator_type & alloc = allocator_type()) :
-		_alloc(alloc), _comp(comp), _rbt(), _n(5), _first(), _last() 
+		_alloc(alloc), _comp(comp), _rbt(), _n(5) 
 		{
 			// **********************************
 			// ************* TESTS **************
@@ -82,25 +82,31 @@ namespace ft
 
 			_alloc.construct(_ptr, ft::make_pair<char,int>('e',5));
 			_rbt.insertion(_ptr);
+
+			_rbt.create_node_list(_rbt._root);
+			_rbt.print_node_list();
+			_rbt.free_node_list();
+			_rbt.create_node_list(_rbt._root);
+			_rbt.print_node_list();
 		}
 
-		template <class InputIterator>
-		map(InputIterator first, InputIterator last, 
-		const key_compare & comp = key_compare(), const allocator_type & alloc = allocator_type()) :
-		_alloc(alloc), _comp(comp), _rbt(), _n(0), _first(NULL), _last(NULL)
-		{
-			size_type n = _distance<InputIterator>(first, last);
-			if (n)
-			{
-				while (first != last)
-				{
-					_ptr = _alloc.allocate(1);
-					_alloc.construct(_ptr, *first++);
-					_rbt.insertion(_ptr);
-				}
-				_n = n;
-			}
-		}
+		// template <class InputIterator>
+		// map(InputIterator first, InputIterator last, 
+		// const key_compare & comp = key_compare(), const allocator_type & alloc = allocator_type()) :
+		// _alloc(alloc), _comp(comp), _rbt(), _n(0)
+		// {
+		// 	size_type n = _distance<InputIterator>(first, last);
+		// 	if (n)
+		// 	{
+		// 		while (first != last)
+		// 		{
+		// 			_ptr = _alloc.allocate(1);
+		// 			_alloc.construct(_ptr, *first++);
+		// 			_rbt.insertion(_ptr);
+		// 		}
+		// 		_n = n;
+		// 	}
+		// }
 
 		// map(const map & x) :
 		// _alloc(x.get_allocator()), _comp(x.key_comp()), _rbt(), _n(x.size()), _first(NULL), _last(NULL)
@@ -236,26 +242,13 @@ namespace ft
 	// ALLOCATOR
 		allocator_type get_allocator() const { return _alloc; }
 
-		// template<class Key, class T>
-		struct node_list1
-		{
-			value_type* ptr;
-			value_type* next;
-			value_type* prev;
-			node_list1() : ptr(NULL), next(NULL), prev(NULL) {}
-			~node_list1() {}
-		};
-
 		private:
 
 		allocator_type	_alloc;
 		value_compare	_comp;
 		rbt				_rbt;
 		size_type		_n;
-		node_list1		_first;
-		node_list1		_last;
 		pointer			_ptr;
-		// value_type **	_tab;
 
 		template <class InputIterator>
 		size_type _distance(InputIterator first, InputIterator last) const
