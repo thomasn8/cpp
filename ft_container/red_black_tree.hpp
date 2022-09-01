@@ -14,9 +14,12 @@ using namespace std;
 #include "pair.hpp"
 #include "red_black_node.hpp"
 
-#define B 0
-#define R 1
-#define LEAF 0
+# define B 0
+# define R 1
+# define LEAF 0
+# define COUNT 15
+# define RED "\033[0;31m"
+# define WHI "\033[0m"
 
 namespace ft
 {	
@@ -46,6 +49,31 @@ namespace ft
 		typedef	unsigned int								size_type;
 		typedef	int											difference_type;
 
+		void print_tree(node *root, int space)
+		{
+			if (root == NULL)
+				return;
+			space += COUNT;
+			print_tree(root->right(), space);
+			cout<<endl;
+			for (int i = COUNT; i < space; i++)
+				cout<<" ";
+			if (root->color() == 1)
+			cout << RED;
+			cout << root->key_val()->first << WHI;
+			if (root->parent())
+				cout << " ("<< root->parent()->key_val()->first << ")";
+			cout << endl;
+			print_tree(root->left(), space);
+		}
+		// Wrapper over print2DUtil()
+		void print_tree_wrapper(node *root)
+		{
+			cout << endl << endl;
+			print_tree(root, 5);
+			cout << endl << endl;
+		}
+
 		protected:
 
 		size_type		_n;
@@ -54,7 +82,7 @@ namespace ft
 
 		red_black_tree(const allocator_type & alloc = allocator_type()) : 
 		_alloc(alloc), _n(0), _root(NULL) {}
-		~red_black_tree() { free_tree(_root); }
+		~red_black_tree() { print_tree_wrapper(_root); free_tree(_root); }
 
 		node * insertion(value_type * pair)
 		{
@@ -81,7 +109,7 @@ namespace ft
 		void insertion_recursiv(node * root, node * n) 
 		{
 			// Descente récursive dans l'arbre jusqu'à atteindre une LEAF
-			if (root != NULL && n->key_val() < root->key_val()) 
+			if (root != NULL && n->key_val()->first < root->key_val()->first) 
 			{
 				if (root->left() != LEAF) 
 				{
@@ -180,19 +208,19 @@ namespace ft
 			node * g = n->grandparent();
 			if (n == p->left())
 			{
-				cout << "5.1: rotation right" << endl;
+				// cout << "5.1: rotation right" << endl;
 				rotation_right(g);
 			}
 			else
 			{
-				cout << "5.2: rotation left" << endl;
+				// cout << "5.2: rotation left" << endl;
 				rotation_left(g);
 			}
 			p->setColor(B);
-			cout << p->key_val()->first << "(" << p << ")" << " becomes black and has parent: " << p->parent() << endl;
+			// cout << p->key_val()->first << "(" << p << ")" << " becomes black and has parent: " << p->parent() << endl;
 			g->setColor(R);
-			cout << g->key_val()->first << "(" << g << ")" << " becomes red and has parent:  " << g->parent() << endl;
-			cout << "root is now: " << _root->key_val()->first << endl;
+			// cout << g->key_val()->first << "(" << g << ")" << " becomes red and has parent:  " << g->parent() << endl;
+			// cout << "root is now: " << _root->key_val()->first << endl;
 			cout << "cas 5 end" << endl;
 		}
 
@@ -238,38 +266,22 @@ namespace ft
 
 		void free_tree(node * root)
 		{
-			cout << "[A IMPLEMENTER] Rbt traversed. All nodes have been freed." << endl; 
-			// // Descente récursive dans l'arbre jusqu'à atteindre une LEAF
-			// // Destroy + Deallocate les pairs
-			// // Destroy + Deallocate les nodes
-			if (root != NULL)
-			{
-				if (root->left() != LEAF)
-				{
-					free_tree(root->left());
-					return;
-				}
-				else if (root->right() != LEAF)
-				{
-					free_tree(root->right());
-					return;
-				}
-				else // on est sur un fils sans descendant
-				{
-					// cout << root->key_val()->first << endl;
-					_ptr = root;
-					root = root->parent();
-					if (_ptr == root->left())
-						root->setLeft(LEAF);
-					else
-						root->setRight(LEAF);
-					cout << "[FREE]: " << _ptr->key_val()->first << " (" << _ptr << ")" << endl;
-					_alloc.destroy(_ptr);
-					_alloc.deallocate(_ptr, 1);
-				}
-			}
-			_n = 0;
-			_root = LEAF;
+			// return if the current node is empty
+			if (root == NULL)
+				return;
+
+			// Traverse the left subtree
+			free_tree(root->left());
+
+			// Display the data part of the root/current node
+			cout << "[FREE]: " << root->key_val()->first << endl;
+			_n--;
+			// cout << "still " << _n << " nodes" << endl;
+			_alloc.destroy(root);
+			_alloc.deallocate(root, 1);
+
+			// Traverse the right subtree
+			free_tree(root->right());
 		}
 	};
 }
