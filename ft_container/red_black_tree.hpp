@@ -74,20 +74,30 @@ namespace ft
 
 		node * insertion(value_type * pair)
 		{
+			static int x = 5;
+
 			_ptr = _alloc.allocate(1);
 			node tmp(pair);
 			_alloc.construct(_ptr, tmp);
-			insertion_recursiv(_root, _ptr);	// error ?
+			insertion_recursiv(_root, _ptr);
 			insertion_repare_tree(_ptr);		// ERROR
 			
-			cout << &*_ptr << " " << _ptr->key_val()->first << endl;
+			cout << "New node: " << _ptr->color() << " " << &*_ptr << " " << _ptr->key_val()->first << endl;
 	
-			_root = _ptr;
-
-			cout << "Root: " << &*_root << " " << _root->key_val()->first << endl;
-			while (_root->parent() != NULL)
-				_root = _root->parent();
+			node * root = _ptr;
+			// _root = _ptr;
+			// while (_root->parent() != NULL && x--)
+			while (root->parent() != NULL && x--)
+			{
+				// cout << "while loop" << endl;
+				// cout << &*_root << " = " << &*_root->parent() << endl;
+				// _root = _root->parent();
+				root = root->parent();
+			}
+			_root = root;
+			// cout << "while loop terminée" << endl;
 			_n++;
+			cout << "Root: " << _root->color() << " " << &*_root << " " << _root->key_val()->first << endl;
 			return _root;
 		}
 
@@ -103,23 +113,32 @@ namespace ft
 			{
 				if (root->left() != LEAF) 
 				{
+				cout << "récurs 1" << endl;
 					insertion_recursiv(root->left(), n);
 					return;
 				}
 				else
+				{
+					cout << "récurs 2" << endl;
 					root->setLeft(n);
+				}
 			} 
 			else if (root != NULL) 
 			{
 				if (root->right() != LEAF) 
 				{
+					cout << "récurs 3" << endl;
 					insertion_recursiv(root->right(), n);
 					return;
 				}
 				else
+				{
+					cout << "récurs 4" << endl;
 					root->setRight(n);
+				}
 			}
 			// Insertion du nouveau noeud n
+			cout << "récurs 0" << endl << endl;
 			n->setParent(root);
 			n->setLeft(LEAF); // NIL
 			n->setRight(LEAF); // NIL
@@ -127,14 +146,33 @@ namespace ft
 		}
 		void insertion_repare_tree(node * n) 
 		{
+			static int x = 0;
+			cout << "insertion n° " << ++x << endl;
+			// if (x == 3)
+			// {
+			// 	// cout << "TEST" << endl;
+			// }
+
 			if (n->parent() == NULL)
+			{
+				cout << "cas 1" << endl;
 				insertion_case1(n);
-			else if (n->parent()->color() == B)
+			}
+			else if (n->parent() && n->parent()->color() == B)
+			{
+				cout << "cas 2" << endl;
 				insertion_case2(n);
-			else if (n->uncle()->color() == R)
+			}
+			else if (n->uncle() && n->uncle()->color() == R)
+			{
+				cout << "cas 3" << endl;
 				insertion_case3(n);
+			}
 			else
+			{
+				cout << "cas 4" << endl;
 				insertion_case4(n);
+			}
 		}
 		void insertion_case1(node * n)
 		{
@@ -154,16 +192,20 @@ namespace ft
 		{
 			node * p = n->parent();
 			node * g = n->grandparent();
-			if (n == g->left()->right()) 
+			cout << "cas 4 begin - g = " << &*g << endl;
+			if (g->left() && n == g->left()->right()) 
 			{
+				cout << "cas 4.1" << endl;
 				rotation_left(p);
 				n = n->left();
 			} 
-			else if (n == g->right()->left()) 
+			else if (g->right() && n == g->right()->left()) 
 			{
+				cout << "cas 4.2" << endl;
 				rotation_right(p);
 				n = n->right();
 			}
+			cout << "cas 4 end" << endl;
 			insertion_case5(n);
 		}
 		void insertion_case5(node * n)
@@ -176,6 +218,7 @@ namespace ft
 				rotation_left(g);
 			p->setColor(B);
 			g->setColor(R);
+			cout << "cas 5 end" << endl;
 		}
 		void rotation_left(node * x) 
 		{

@@ -22,7 +22,7 @@ namespace ft
 		// red_black_node() {};
 		// red_black_node(pointer pair) : 
 		red_black_node(pointer pair) : 
-		_key_val(pair), _color(B), _left(NULL), _right(NULL), _parent(NULL) {}
+		_key_val(pair), _color(LEAF), _left(NULL), _right(NULL), _parent(NULL) {_parent = parent();}
 
 		void setLeft(node * n)		{ _left = n; }
 		void setRight(node * n)		{ _right = n; }
@@ -46,7 +46,6 @@ namespace ft
 			node * p = parent();
 			if (p == NULL)
 				return NULL;
-			// cout << &*this << " vs " << p->left() << " vs " << p->right() << endl;
 			if (this == p->left())
 				return p->right();
 			else
@@ -58,6 +57,7 @@ namespace ft
 			node * g = grandparent();
 			if (g == NULL)
 				return NULL;
+			// cout << "uncle" << endl;
 			return p->brother();
 		}
 
