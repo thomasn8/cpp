@@ -37,62 +37,62 @@ namespace ft
 		typedef	ft::reverse_iterator<const_iterator>			const_reverse_iterator;
 		typedef	int												difference_type;
 		typedef	unsigned int									size_type;
-		typedef red_black_tree<Key,T>							rbt;
+		typedef red_black_tree<Key,T,key_compare,value_compare>	rbt;
 		typedef red_black_node<Key,T>							node;
 
 	// CONSTRUCTORS / DESTRUCTOR
-		explicit map(const key_compare & comp = key_compare(), 
-		const allocator_type & alloc = allocator_type()) :
-		_alloc(alloc), _comp(comp), _rbt(), _first(), _last(), _current(&_first), _prev(NULL) 
-		{
-			_rbt.print_tree();
-			create_node_list();
-			print_node_list();
-		}
-		
 		// explicit map(const key_compare & comp = key_compare(), 
 		// const allocator_type & alloc = allocator_type()) :
-		// _alloc(alloc), _comp(comp), _rbt(), _first(), _last(), _current(&_first), _prev(NULL) 
+		// _alloc(alloc), _comp(comp), _rbt(_comp), _first(), _last(), _current(&_first), _prev(NULL) 
 		// {
-		// 	// **********************************
-		// 	// ************* TESTS **************
-		// 	_ptr = _alloc.allocate(15);
-		// 	// cout << "Pair ptr: " << _ptr << endl;
-
-		// 	_alloc.construct(_ptr, ft::make_pair<char,int>('b',2));
-		// 	_rbt.insertion(_ptr++);
-
-		// 	_alloc.construct(_ptr, ft::make_pair<char,int>('d',4));
-		// 	_rbt.insertion(_ptr++);
-
-		// 	_alloc.construct(_ptr, ft::make_pair<char,int>('c',3));
-		// 	_rbt.insertion(_ptr++);
-
-		// 	_alloc.construct(_ptr, ft::make_pair<char,int>('f',5));
-		// 	_rbt.insertion(_ptr++);
-
-		// 	_alloc.construct(_ptr, ft::make_pair<char,int>('m',5));
-		// 	_rbt.insertion(_ptr++);
-
-		// 	_alloc.construct(_ptr, ft::make_pair<char,int>('y',5));
-		// 	_rbt.insertion(_ptr++);
-
-		// 	_alloc.construct(_ptr, ft::make_pair<char,int>('z',5));
-		// 	_rbt.insertion(_ptr++);
-
-		// 	_alloc.construct(_ptr, ft::make_pair<char,int>('q',5));
-		// 	_rbt.insertion(_ptr++);
-
-		// 	_alloc.construct(_ptr, ft::make_pair<char,int>('a',1));
-		// 	_rbt.insertion(_ptr++);
-
-		// 	_alloc.construct(_ptr, ft::make_pair<char,int>('e',5));
-		// 	_rbt.insertion(_ptr);
-
 		// 	_rbt.print_tree();
 		// 	create_node_list();
 		// 	print_node_list();
 		// }
+		
+		explicit map(const key_compare & comp = key_compare(), 
+		const allocator_type & alloc = allocator_type()) :
+		_alloc(alloc), _comp(comp), _rbt(_comp), _first(), _last(), _current(&_first), _prev(NULL) 
+		{
+			// **********************************
+			// ************* TESTS **************
+			_ptr = _alloc.allocate(15);
+			// cout << "Pair ptr: " << _ptr << endl;
+
+			_alloc.construct(_ptr, ft::make_pair<char,int>('b',2));
+			_rbt.insertion(_ptr++);
+
+			_alloc.construct(_ptr, ft::make_pair<char,int>('d',4));
+			_rbt.insertion(_ptr++);
+
+			_alloc.construct(_ptr, ft::make_pair<char,int>('c',3));
+			_rbt.insertion(_ptr++);
+
+			_alloc.construct(_ptr, ft::make_pair<char,int>('f',5));
+			_rbt.insertion(_ptr++);
+
+			_alloc.construct(_ptr, ft::make_pair<char,int>('m',5));
+			_rbt.insertion(_ptr++);
+
+			_alloc.construct(_ptr, ft::make_pair<char,int>('y',5));
+			_rbt.insertion(_ptr++);
+
+			_alloc.construct(_ptr, ft::make_pair<char,int>('z',5));
+			_rbt.insertion(_ptr++);
+
+			_alloc.construct(_ptr, ft::make_pair<char,int>('q',5));
+			_rbt.insertion(_ptr++);
+
+			_alloc.construct(_ptr, ft::make_pair<char,int>('a',1));
+			_rbt.insertion(_ptr++);
+
+			_alloc.construct(_ptr, ft::make_pair<char,int>('e',5));
+			_rbt.insertion(_ptr);
+
+			_rbt.print_tree();
+			create_node_list();
+			print_node_list();
+		}
 
 		// template <class InputIterator>
 		// map(InputIterator first, InputIterator last, 
@@ -279,16 +279,16 @@ namespace ft
 	// NODE LIST TO GET ORDERED PAIRS POINTER
 		struct node_list
 		{
-			value_type* ptr;
-			node_list* next;
-			node_list* prev;
+			value_type *	ptr;
+			node_list *		next;
+			node_list *		prev;
 			node_list() : ptr(NULL), next(NULL), prev(NULL) {}
 			~node_list() {}
 		};
-		node_list		_first;
-		node_list		_last;
-		node_list*		_current;
-		node_list*		_prev;
+		node_list			_first;
+		node_list			_last;
+		node_list *			_current;
+		node_list *			_prev;
 
 		void create_node_list()
 		{
@@ -388,13 +388,13 @@ namespace ft
 		typedef bool		result_type;
 		typedef value_type	first_argument_type;
 		typedef value_type	second_argument_type;
+		Compare comp;
 		bool operator()(const value_type & x, const value_type & y) const
 		{
 			return comp(x.first, y.first);
 		}
 
 		protected:
-		Compare comp;
 		value_compare (Compare c) : comp(c) {}
 	};
 
