@@ -36,7 +36,7 @@ namespace ft
 	car red_black_tree.hpp est include dans map.hpp
 	donc rbt ne connait pas encore map */
 
-	template<class Key, class T, class AllocPair, class Alloc = allocator< red_black_node<Key,T> > >
+	template<class Key, class T, class Alloc = allocator< red_black_node<Key,T> > >
 	class red_black_tree
 	{
 		friend class map<Key,T>;
@@ -46,7 +46,6 @@ namespace ft
 		typedef	ft::pair<const Key,T>						value_type;
 		typedef red_black_node<Key,T>						node;
 		typedef	Alloc										allocator_type;
-		typedef	AllocPair									alloc_pair;
 		typedef	typename allocator_type::reference			reference;
 		typedef	typename allocator_type::const_reference	const_reference;
 		typedef	typename allocator_type::pointer			pointer;
@@ -56,27 +55,13 @@ namespace ft
 
 		private:
 
-		struct node_list2
-		{
-			value_type* ptr;
-			node_list2* next;
-			node_list2* prev;
-			node_list2() : ptr(NULL), next(NULL), prev(NULL) {}
-			~node_list2() {}
-		};
-
 		size_type		_n;
 		node *			_root;
 		node *			_ptr;
-		node_list2		_first;
-		node_list2		_last;
-		node_list2*		_current;
-		node_list2*		_prev;
 		Alloc			_alloc;
-		AllocPair		_allocPair;
 
 		red_black_tree(const allocator_type & alloc = allocator_type()) : 
-		_alloc(alloc), _allocPair(), _n(0), _root(NULL), _first(), _last(), _current(&_first), _prev(NULL) {}
+		_alloc(alloc), _n(0), _root(NULL) {}
 		
 		~red_black_tree() {}
 
@@ -107,61 +92,6 @@ namespace ft
 			cout << "[FREE TREE]" << endl;
 			free_tree_recursiv(_root);
 			_root = NULL;
-		}
-
-		void create_node_list()
-		{
-			cout << endl << "[CREATE NODE LIST]" << endl;
-			create_node_list_recursiv(_root);
-			cout << &_last <<  "(_last node) contains : " << _last.ptr << endl << endl;
-		}
-		void print_node_list()
-		{
-			node_list2	*current;
-			node_list2	*next;
-
-			current = &_first;
-			if (current->ptr)
-			{
-				cout << "[PRINT CONTAINER VALUE (from node list)]" << endl;
-				cout << "syntax: key - value (pair_ptr)" << endl;
-				while (current->ptr)
-				{
-					next = current->next;
-					cout << current->ptr->first << " - " << current->ptr->second;
-					cout << " (" << current->ptr << ")" << endl;
-					current = next;
-				}
-				cout << endl;
-			}
-		}
-		void free_node_list()
-		{
-			cout << endl << "[FREE NODE LIST]" << endl;
-			node_list2	*current;
-			node_list2	*next;
-			current = &_first;
-			while (current->ptr)
-			{
-				next = current->next;
-				// _allocPair.destroy(current->ptr);
-				// _allocPair.deallocate(current->ptr, 1);
-				if (current != &_first && current != &_last)
-				{
-					cout << "free node containing " << current->ptr->first << " : " << current << endl;
-					delete current;
-				}
-				current = next;
-			}
-			cout << "reset _first to null" << endl;
-			cout << "reset _last to null" << endl;
-			_first.ptr = NULL;
-			_first.prev = NULL;
-			_first.next = NULL;
-			_last.ptr = NULL;
-			_last.prev = NULL;
-			_last.next = NULL;
-			cout << endl;
 		}
 
 		void insertion_recursiv(node * root, node * n) 
@@ -314,61 +244,6 @@ namespace ft
 			_alloc.destroy(root);
 			_alloc.deallocate(root, 1);
 			free_tree_recursiv(root->right());
-		}
-
-		void list_pair()
-		{
-			cout << endl << "[ORDERED LIST]" << endl;
-			list_recurs(_root);
-		}
-		value_type *list_recurs(node * root)
-		{
-			if (root == NULL)
-			{
-				// cout << "1node contains : " << root->key_val()->first << endl;
-				return root->parent()->key_val();
-				// return NULL;
-			}
-
-			return list_recurs(root->left());
-			cout << "2node contains : " << root->key_val()->first << endl;
-			return list_recurs(root->right());
-
-
-			// cout << "node contains : " << root->key_val()->first << endl;
-			// return root->key_val();
-		}
-
-		void create_node_list_recursiv(node * root)
-		{
-			if (root == NULL)
-				return;
-			create_node_list_recursiv(root->left());
-			if (_first.ptr == NULL)
-			{
-				_current = &_first;
-				
-				_current->ptr = root->key_val();
-				_current->prev = NULL;
-				_current->next = &_last;
-
-				_last.prev = _current;
-				cout << _current <<  "(_first node) contains : " << root->key_val()->first << endl;
-			}
-			else
-			{
-				_prev = _current;
-				_current = new node_list2();
-
-				_current->ptr = root->key_val();
-				_current->prev = _prev;
-				_current->next = &_last;
-
-				_prev->next = _current;
-				_last.prev = _current;
-				cout << "create node containing " << root->key_val()->first << " : " << _current << endl;
-			}
-			create_node_list_recursiv(root->right());
 		}
 	};
 }

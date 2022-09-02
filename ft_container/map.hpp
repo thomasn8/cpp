@@ -37,16 +37,17 @@ namespace ft
 		typedef	ft::reverse_iterator<const_iterator>			const_reverse_iterator;
 		typedef	int												difference_type;
 		typedef	unsigned int									size_type;
-		typedef red_black_tree<Key,T,Alloc>						rbt;
+		typedef red_black_tree<Key,T>							rbt;
+		typedef red_black_node<Key,T>							node;
 
 	// CONSTRUCTORS / DESTRUCTOR
 		// explicit map(const key_compare & comp = key_compare(), 
 		// const allocator_type & alloc = allocator_type()) :
-		// _alloc(alloc), _comp(comp), _rbt() {}
+		// _alloc(alloc), _comp(comp), _rbt(), _first(), _last(), _current(&_first), _prev(NULL) {}
 		
 		explicit map(const key_compare & comp = key_compare(), 
 		const allocator_type & alloc = allocator_type()) :
-		_alloc(alloc), _comp(comp), _rbt() 
+		_alloc(alloc), _comp(comp), _rbt(), _first(), _last(), _current(&_first), _prev(NULL) 
 		{
 			// **********************************
 			// ************* TESTS **************
@@ -160,10 +161,10 @@ namespace ft
 		~map()
 		{
 			_rbt.print_tree();
-			_rbt.create_node_list();
-			_rbt.print_node_list();
+			create_node_list();
+			print_node_list();
+			free_node_list();
 			_rbt.free_tree();
-			_rbt.free_node_list();
 		}
 
 		// // ITERATORS
@@ -236,7 +237,7 @@ namespace ft
 		allocator_type get_allocator() const { return _alloc; }
 
 		private:
-
+	// PRIVATE FUNCTIONS TO MANAGE METHODS
 		allocator_type	_alloc;
 		value_compare	_comp;
 		rbt				_rbt;
@@ -269,6 +270,106 @@ namespace ft
 		// 	}
 		// 	return NULL;
 		// }
+
+	// NODE LIST TO GET ORDERED PAIRS POINTER
+		struct node_list
+		{
+			value_type* ptr;
+			node_list* next;
+			node_list* prev;
+			node_list() : ptr(NULL), next(NULL), prev(NULL) {}
+			~node_list() {}
+		};
+		node_list		_first;
+		node_list		_last;
+		node_list*		_current;
+		node_list*		_prev;
+
+		void create_node_list()
+		{
+			cout << endl << "[CREATE NODE LIST]" << endl;
+			create_node_list_recursiv(_rbt._root);
+			cout << &_last <<  "(_last node) contains : " << _last.ptr << endl << endl;
+		}
+		void create_node_list_recursiv(node * root)
+		{
+			if (root == NULL)
+				return;
+			create_node_list_recursiv(root->left());
+			if (_first.ptr == NULL)
+			{
+				_current = &_first;
+				
+				_current->ptr = root->key_val();
+				_current->prev = NULL;
+				_current->next = &_last;
+
+				_last.prev = _current;
+				cout << _current <<  "(_first node) contains : " << root->key_val()->first << endl;
+			}
+			else
+			{
+				_prev = _current;
+				_current = new node_list();
+
+				_current->ptr = root->key_val();
+				_current->prev = _prev;
+				_current->next = &_last;
+
+				_prev->next = _current;
+				_last.prev = _current;
+				cout << "create node containing " << root->key_val()->first << " : " << _current << endl;
+			}
+			create_node_list_recursiv(root->right());
+		}
+		void print_node_list()
+		{
+			node_list	*current;
+			node_list	*next;
+
+			current = &_first;
+			if (current->ptr)
+			{
+				cout << "[PRINT CONTAINER VALUE (from node list)]" << endl;
+				cout << "syntax: key - value (pair_ptr)" << endl;
+				while (current->ptr)
+				{
+					next = current->next;
+					cout << current->ptr->first << " - " << current->ptr->second;
+					cout << " (" << current->ptr << ")" << endl;
+					current = next;
+				}
+				cout << endl;
+			}
+		}
+		void free_node_list()
+		{
+			cout << endl << "[FREE NODE LIST]" << endl;
+			node_list	*current;
+			node_list	*next;
+			current = &_first;
+			while (current->ptr)
+			{
+				next = current->next;
+				// _allocPair.destroy(current->ptr);
+				// _allocPair.deallocate(current->ptr, 1);
+				if (current != &_first && current != &_last)
+				{
+					cout << "free node containing " << current->ptr->first << " : " << current << endl;
+					delete current;
+				}
+				current = next;
+			}
+			cout << "reset _first to null" << endl;
+			cout << "reset _last to null" << endl;
+			_first.ptr = NULL;
+			_first.prev = NULL;
+			_first.next = NULL;
+			_last.ptr = NULL;
+			_last.prev = NULL;
+			_last.next = NULL;
+			cout << endl;
+		}
 	};
 
 	// MAP'S FRIEND CLASS POUR STOCKER L'OBJET-FONCTION DE COMPARATEUR
