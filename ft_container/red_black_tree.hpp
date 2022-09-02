@@ -66,21 +66,6 @@ namespace ft
 		
 		~red_black_tree() { free_tree(); }
 
-		void free_tree()
-		{
-			cout << "[FREE RED BLACK TREE]" << endl;
-			free_tree_recursiv(_root);
-			_root = NULL;
-		}
-		void print_tree()
-		{
-			// if (_root)
-			// {
-				cout << endl << "[PRINT RED BLACK TREE]" << endl;
-				print_tree_recursiv(_root, 0);
-				cout << endl;
-			// }
-		}
 		node * insertion(value_type * pair)
 		{
 			_ptr = _alloc.allocate(1);
@@ -216,6 +201,15 @@ namespace ft
 			x->setParent(y);
 		}
 
+		void print_tree()
+		{
+			// if (_root)
+			// {
+				cout << endl << "[PRINT RED BLACK TREE]" << endl;
+				print_tree_recursiv(_root, 0);
+				cout << endl;
+			// }
+		}
 		void print_tree_recursiv(node *root, int space)
 		{
 			if (root == NULL)
@@ -232,6 +226,13 @@ namespace ft
 				cout << " ("<< root->parent()->key_val()->first << ")";
 			cout << endl;
 			print_tree_recursiv(root->left(), space);
+		}
+
+		void free_tree()
+		{
+			cout << "[FREE RED BLACK TREE]" << endl;
+			free_tree_recursiv(_root);
+			_root = NULL;
 		}
 		void free_tree_recursiv(node * root)
 		{

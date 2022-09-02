@@ -31,8 +31,8 @@ namespace ft
 		typedef	typename allocator_type::const_reference		const_reference;
 		typedef	typename allocator_type::pointer				pointer;
 		typedef	typename allocator_type::const_pointer			const_pointer;
-		typedef	ft::bidirectional_iterator<value_type>			iterator;
-		typedef	ft::bidirectional_iterator<const value_type>	const_iterator;
+		typedef	ft::bidirectional_iterator<value_type>			iterator;			// passer <node_list> en argument template la place 
+		typedef	ft::bidirectional_iterator<const value_type>	const_iterator;		// et modifier le comportement de bidirectionl it en fonction
 		typedef	ft::reverse_iterator<iterator>					reverse_iterator;
 		typedef	ft::reverse_iterator<const_iterator>			const_reverse_iterator;
 		typedef	int												difference_type;
@@ -188,38 +188,46 @@ namespace ft
 		// 	return (*checked.first).second;
 		// }
 
-		// // MODIFIERS
-		// pair<iterator,bool> insert(const value_type & val)
-		// {
-		// 	iterator key_check = _check_keys(val.first);		// faire en sorte que le rbt perform le key_check (sera + rapide)
-		// 	if (key_check != NULL)
-		// 		return pair<iterator,bool>(key_check, false);
-		// 	if (_n)
-		// 	{
-		// 		iterator it = begin();
-		// 		iterator ite = end();
-		// 		pointer f = _first;
-		// 		_first = _alloc.allocate(_n + 2);				// arrêter d'allouer à chaque nouvel élément inséré
-		// 		_ptr = _first;									// augmenter la capacité en *2, un peu comme vector 
-		// 		while (it != ite)
-		// 		{
-		// 			_alloc.construct(_ptr++, *it++);
+		// MODIFIERS
+		pair<iterator,bool> insert(const value_type & val)
+		{
+			// 1. rbt cherche dans la liste si la key est déjà utiliser
+				// si oui retourne une pair<iterator,bool> contenant:
+				// <it(pos.key), false>
+			// 2.1 créer et insérer une nouvelle pair dans l'arbre
+			// 2.2 update la liste chainée
+			// 3. retourner une pair<iterator,bool> contenant:
+			//    <l'itérateur de l'élément dans la node liste, true>
 
-		// 		}
-		// 		_alloc.construct(_ptr, val);
-		// 		_last = _ptr;
-		// 		_alloc.deallocate(f, _n + 1);
-		// 	}
-		// 	else
-		// 	{
-		// 		_first = _alloc.allocate(2);
-		// 		_ptr = _first;
-		// 		_alloc.construct(_ptr, val);
-		// 		_last = _first;
-		// 	}
-		// 	_n++;
-		// 	return pair<iterator,bool>(iterator(_ptr), true);
-		// }
+			// iterator key_check = _check_keys(val.first);		// faire en sorte que le rbt perform le key_check (sera + rapide)
+			// if (key_check != NULL)
+			// 	return pair<iterator,bool>(key_check, false);
+			// if (_n)
+			// {
+			// 	iterator it = begin();
+			// 	iterator ite = end();
+			// 	pointer f = _first;
+			// 	_first = _alloc.allocate(_n + 2);				// arrêter d'allouer à chaque nouvel élément inséré
+			// 	_ptr = _first;									// augmenter la capacité en *2, un peu comme vector 
+			// 	while (it != ite)
+			// 	{
+			// 		_alloc.construct(_ptr++, *it++);
+
+			// 	}
+			// 	_alloc.construct(_ptr, val);
+			// 	_last = _ptr;
+			// 	_alloc.deallocate(f, _n + 1);
+			// }
+			// else
+			// {
+			// 	_first = _alloc.allocate(2);
+			// 	_ptr = _first;
+			// 	_alloc.construct(_ptr, val);
+			// 	_last = _first;
+			// }
+			// _n++;
+			// return pair<iterator,bool>(iterator(_ptr), true);
+		}
 
 		// iterator insert (iterator position, const value_type& val)
 		// {
@@ -235,7 +243,7 @@ namespace ft
 	// OBSERVERS
 		key_compare key_comp() const	{ return _comp.comp; }
 		val_comp value_comp() const		{ return _comp; }
-		bool empty() const {return bool(!_rbt._n); }
+		bool empty() const 				{ return bool(!_rbt._n); }
 
 	// ALLOCATOR
 		allocator_type get_allocator() const { return _alloc; }
