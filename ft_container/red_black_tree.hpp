@@ -29,14 +29,13 @@ namespace ft
 {	
 	/* pré-déclaration */
 	template < class Key, class T, 
-	class Compare = greater<Key>, 
+	class Compare = less<Key>, 
 	class Alloc = allocator< ft::pair< const Key,T> > >
 	class map;
-	/* obligé de déclarer la classe avant pour que le friend dans rbt fonctionne
-	car red_black_tree.hpp est include dans map.hpp
-	donc rbt ne connait pas encore map */
+	/* obligé de déclarer la class-template avant pour que le friend dans rbt
+	reconnaisse map */
 
-	template<class Key, class T, class Compare, class value_compare, class Alloc = allocator< red_black_node<Key,T> > >
+	template<class Key, class T, class value_compare, class Alloc = allocator< red_black_node<Key,T> > >
 	class red_black_tree
 	{
 		friend class map<Key,T>;
@@ -45,8 +44,8 @@ namespace ft
 
 		typedef	ft::pair<const Key,T>						value_type;
 		typedef red_black_node<Key,T>						node;
-		typedef Compare										key_compare;
 		typedef	Alloc										allocator_type;
+		typedef value_compare								Comp;
 		typedef	typename allocator_type::reference			reference;
 		typedef	typename allocator_type::const_reference	const_reference;
 		typedef	typename allocator_type::pointer			pointer;
@@ -60,7 +59,7 @@ namespace ft
 		node *			_root;
 		node *			_ptr;
 		Alloc			_alloc;
-		value_compare	_comp;
+		Comp			_comp;
 
 		red_black_tree(value_compare comp, const allocator_type & alloc = allocator_type()) : 
 		_alloc(alloc), _comp(comp), _n(0), _root(NULL) {}

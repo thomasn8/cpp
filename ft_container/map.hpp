@@ -37,62 +37,61 @@ namespace ft
 		typedef	ft::reverse_iterator<const_iterator>			const_reverse_iterator;
 		typedef	int												difference_type;
 		typedef	unsigned int									size_type;
-		typedef red_black_tree<Key,T,key_compare,value_compare>	rbt;
+		typedef red_black_tree<Key,T,value_compare>				rbt;
 		typedef red_black_node<Key,T>							node;
 
 	// CONSTRUCTORS / DESTRUCTOR
-		// explicit map(const key_compare & comp = key_compare(), 
-		// const allocator_type & alloc = allocator_type()) :
-		// _alloc(alloc), _comp(comp), _rbt(_comp), _first(), _last(), _current(&_first), _prev(NULL) 
-		// {
-		// 	_rbt.print_tree();
-		// 	create_node_list();
-		// 	print_node_list();
-		// }
-		
 		explicit map(const key_compare & comp = key_compare(), 
 		const allocator_type & alloc = allocator_type()) :
 		_alloc(alloc), _comp(comp), _rbt(_comp), _first(), _last(), _current(&_first), _prev(NULL) 
 		{
-			// **********************************
-			// ************* TESTS **************
-			_ptr = _alloc.allocate(15);
-			// cout << "Pair ptr: " << _ptr << endl;
-
-			_alloc.construct(_ptr, ft::make_pair<char,int>('b',2));
-			_rbt.insertion(_ptr++);
-
-			_alloc.construct(_ptr, ft::make_pair<char,int>('d',4));
-			_rbt.insertion(_ptr++);
-
-			_alloc.construct(_ptr, ft::make_pair<char,int>('c',3));
-			_rbt.insertion(_ptr++);
-
-			_alloc.construct(_ptr, ft::make_pair<char,int>('f',5));
-			_rbt.insertion(_ptr++);
-
-			_alloc.construct(_ptr, ft::make_pair<char,int>('m',5));
-			_rbt.insertion(_ptr++);
-
-			_alloc.construct(_ptr, ft::make_pair<char,int>('y',5));
-			_rbt.insertion(_ptr++);
-
-			_alloc.construct(_ptr, ft::make_pair<char,int>('z',5));
-			_rbt.insertion(_ptr++);
-
-			_alloc.construct(_ptr, ft::make_pair<char,int>('q',5));
-			_rbt.insertion(_ptr++);
-
-			_alloc.construct(_ptr, ft::make_pair<char,int>('a',1));
-			_rbt.insertion(_ptr++);
-
-			_alloc.construct(_ptr, ft::make_pair<char,int>('e',5));
-			_rbt.insertion(_ptr);
-
 			_rbt.print_tree();
 			create_node_list();
 			print_node_list();
 		}
+		
+		// explicit map(const key_compare & comp = key_compare(), 
+		// const allocator_type & alloc = allocator_type()) :
+		// _alloc(alloc), _comp(comp), _rbt(_comp), _first(), _last(), _current(&_first), _prev(NULL) 
+		// {
+		// 	// **********************************
+		// 	// ************* TESTS **************
+		// 	_ptr = _alloc.allocate(15);
+
+		// 	_alloc.construct(_ptr, ft::make_pair<char,int>('b',2));
+		// 	_rbt.insertion(_ptr++);
+
+		// 	_alloc.construct(_ptr, ft::make_pair<char,int>('d',4));
+		// 	_rbt.insertion(_ptr++);
+
+		// 	_alloc.construct(_ptr, ft::make_pair<char,int>('c',3));
+		// 	_rbt.insertion(_ptr++);
+
+		// 	_alloc.construct(_ptr, ft::make_pair<char,int>('f',5));
+		// 	_rbt.insertion(_ptr++);
+
+		// 	_alloc.construct(_ptr, ft::make_pair<char,int>('m',5));
+		// 	_rbt.insertion(_ptr++);
+
+		// 	_alloc.construct(_ptr, ft::make_pair<char,int>('y',5));
+		// 	_rbt.insertion(_ptr++);
+
+		// 	_alloc.construct(_ptr, ft::make_pair<char,int>('z',5));
+		// 	_rbt.insertion(_ptr++);
+
+		// 	_alloc.construct(_ptr, ft::make_pair<char,int>('q',5));
+		// 	_rbt.insertion(_ptr++);
+
+		// 	_alloc.construct(_ptr, ft::make_pair<char,int>('a',1));
+		// 	_rbt.insertion(_ptr++);
+
+		// 	_alloc.construct(_ptr, ft::make_pair<char,int>('e',5));
+		// 	_rbt.insertion(_ptr);
+
+		// 	_rbt.print_tree();
+		// 	create_node_list();
+		// 	print_node_list();
+		// }
 
 		// template <class InputIterator>
 		// map(InputIterator first, InputIterator last, 
@@ -356,8 +355,8 @@ namespace ft
 			while (current->ptr)
 			{
 				next = current->next;
-				// _allocPair.destroy(current->ptr);
-				// _allocPair.deallocate(current->ptr, 1);
+				// _alloc.destroy(current->ptr);
+				// _alloc.deallocate(current->ptr, 1);
 				if (current != &_first && current != &_last)
 				{
 					cout << "free node containing " << current->ptr->first << " : " << current << endl;
@@ -377,8 +376,8 @@ namespace ft
 		}
 	};
 
-	// MAP'S FRIEND CLASS POUR STOCKER L'OBJET-FONCTION DE COMPARATEUR
-	// (le friend fait que cette classe est comme une nested class au final)
+	// Class qui génère un objet pour stocker dans 'Compare comp' 
+	// la fonction de comparaison binaire de deux pairs
 	template <class Key, class T, class Compare, class Alloc>
 	class map<Key,T,Compare,Alloc>::value_compare
 	{
@@ -397,7 +396,6 @@ namespace ft
 		protected:
 		value_compare (Compare c) : comp(c) {}
 	};
-
 }
 
 #endif
