@@ -25,7 +25,7 @@ namespace ft
 		typedef	T												mapped_type;
 		typedef	ft::pair<const key_type, mapped_type>			value_type;
 		typedef	Compare											key_compare;
-		typedef map::value_compare								value_compare;
+		typedef map::value_compare								val_comp;
 		typedef	Alloc											allocator_type;
 		typedef	typename allocator_type::reference				reference;
 		typedef	typename allocator_type::const_reference		const_reference;
@@ -37,7 +37,7 @@ namespace ft
 		typedef	ft::reverse_iterator<const_iterator>			const_reverse_iterator;
 		typedef	int												difference_type;
 		typedef	unsigned int									size_type;
-		typedef red_black_tree<Key,T,value_compare>				rbt;
+		typedef red_black_tree<Key,T,val_comp>					rbt;
 		typedef red_black_node<Key,T>							node;
 
 	// CONSTRUCTORS / DESTRUCTOR
@@ -233,8 +233,8 @@ namespace ft
 		// }
 
 	// OBSERVERS
-		key_compare key_comp() const { return _comp.comp; }
-		value_compare value_comp() const { return _comp; }
+		key_compare key_comp() const	{ return _comp.comp; }
+		val_comp value_comp() const		{ return _comp; }
 		bool empty() const {return bool(!_rbt._n); }
 
 	// ALLOCATOR
@@ -243,7 +243,7 @@ namespace ft
 		private:
 	// PRIVATE FUNCTIONS TO MANAGE METHODS
 		allocator_type	_alloc;
-		value_compare	_comp;
+		val_comp		_comp;
 		rbt				_rbt;
 		pointer			_ptr;
 
