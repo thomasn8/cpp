@@ -41,49 +41,58 @@ namespace ft
 		typedef red_black_node<Key,T>							node;
 
 	// CONSTRUCTORS / DESTRUCTOR
-		// explicit map(const key_compare & comp = key_compare(), 
-		// const allocator_type & alloc = allocator_type()) :
-		// _alloc(alloc), _comp(comp), _rbt(), _first(), _last(), _current(&_first), _prev(NULL) {}
-		
 		explicit map(const key_compare & comp = key_compare(), 
 		const allocator_type & alloc = allocator_type()) :
 		_alloc(alloc), _comp(comp), _rbt(), _first(), _last(), _current(&_first), _prev(NULL) 
 		{
-			// **********************************
-			// ************* TESTS **************
-			_ptr = _alloc.allocate(15);
-			// cout << "Pair ptr: " << _ptr << endl;
-
-			_alloc.construct(_ptr, ft::make_pair<char,int>('b',2));
-			_rbt.insertion(_ptr++);
-
-			_alloc.construct(_ptr, ft::make_pair<char,int>('d',4));
-			_rbt.insertion(_ptr++);
-
-			_alloc.construct(_ptr, ft::make_pair<char,int>('c',3));
-			_rbt.insertion(_ptr++);
-
-			_alloc.construct(_ptr, ft::make_pair<char,int>('f',5));
-			_rbt.insertion(_ptr++);
-
-			_alloc.construct(_ptr, ft::make_pair<char,int>('m',5));
-			_rbt.insertion(_ptr++);
-
-			_alloc.construct(_ptr, ft::make_pair<char,int>('y',5));
-			_rbt.insertion(_ptr++);
-
-			_alloc.construct(_ptr, ft::make_pair<char,int>('z',5));
-			_rbt.insertion(_ptr++);
-
-			_alloc.construct(_ptr, ft::make_pair<char,int>('q',5));
-			_rbt.insertion(_ptr++);
-
-			_alloc.construct(_ptr, ft::make_pair<char,int>('a',1));
-			_rbt.insertion(_ptr++);
-
-			_alloc.construct(_ptr, ft::make_pair<char,int>('e',5));
-			_rbt.insertion(_ptr);
+			_rbt.print_tree();
+			create_node_list();
+			print_node_list();
 		}
+		
+		// explicit map(const key_compare & comp = key_compare(), 
+		// const allocator_type & alloc = allocator_type()) :
+		// _alloc(alloc), _comp(comp), _rbt(), _first(), _last(), _current(&_first), _prev(NULL) 
+		// {
+		// 	// **********************************
+		// 	// ************* TESTS **************
+		// 	_ptr = _alloc.allocate(15);
+		// 	// cout << "Pair ptr: " << _ptr << endl;
+
+		// 	_alloc.construct(_ptr, ft::make_pair<char,int>('b',2));
+		// 	_rbt.insertion(_ptr++);
+
+		// 	_alloc.construct(_ptr, ft::make_pair<char,int>('d',4));
+		// 	_rbt.insertion(_ptr++);
+
+		// 	_alloc.construct(_ptr, ft::make_pair<char,int>('c',3));
+		// 	_rbt.insertion(_ptr++);
+
+		// 	_alloc.construct(_ptr, ft::make_pair<char,int>('f',5));
+		// 	_rbt.insertion(_ptr++);
+
+		// 	_alloc.construct(_ptr, ft::make_pair<char,int>('m',5));
+		// 	_rbt.insertion(_ptr++);
+
+		// 	_alloc.construct(_ptr, ft::make_pair<char,int>('y',5));
+		// 	_rbt.insertion(_ptr++);
+
+		// 	_alloc.construct(_ptr, ft::make_pair<char,int>('z',5));
+		// 	_rbt.insertion(_ptr++);
+
+		// 	_alloc.construct(_ptr, ft::make_pair<char,int>('q',5));
+		// 	_rbt.insertion(_ptr++);
+
+		// 	_alloc.construct(_ptr, ft::make_pair<char,int>('a',1));
+		// 	_rbt.insertion(_ptr++);
+
+		// 	_alloc.construct(_ptr, ft::make_pair<char,int>('e',5));
+		// 	_rbt.insertion(_ptr);
+
+		// 	_rbt.print_tree();
+		// 	create_node_list();
+		// 	print_node_list();
+		// }
 
 		// template <class InputIterator>
 		// map(InputIterator first, InputIterator last, 
@@ -159,12 +168,8 @@ namespace ft
 
 		// A décider + tard si je veux free les pairs dans free_tree ou dans free_node_list
 		~map()
-		{
-			_rbt.print_tree();
-			create_node_list();
-			print_node_list();
-			free_node_list();
-			_rbt.free_tree();
+		{			
+			free_node_list();	// free les pairs plutot dans node_list (a priori)
 		}
 
 		// // ITERATORS

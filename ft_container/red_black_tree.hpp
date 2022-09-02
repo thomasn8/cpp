@@ -63,8 +63,23 @@ namespace ft
 		red_black_tree(const allocator_type & alloc = allocator_type()) : 
 		_alloc(alloc), _n(0), _root(NULL) {}
 		
-		~red_black_tree() {}
+		~red_black_tree() { free_tree(); }
 
+		void free_tree()
+		{
+			cout << "[FREE RED BLACK TREE]" << endl;
+			free_tree_recursiv(_root);
+			_root = NULL;
+		}
+		void print_tree()
+		{
+			// if (_root)
+			// {
+				cout << endl << "[PRINT RED BLACK TREE]" << endl;
+				print_tree_recursiv(_root, 0);
+				cout << endl;
+			// }
+		}
 		node * insertion(value_type * pair)
 		{
 			_ptr = _alloc.allocate(1);
@@ -78,22 +93,6 @@ namespace ft
 			_n++;
 			return _root;
 		}
-		void print_tree()
-		{
-			if (_root)
-			{
-				cout << endl << "[PRINT TREE]" << endl;
-				print_tree_recursiv(_root, 0);
-				cout << endl << endl;
-			}
-		}
-		void free_tree()
-		{
-			cout << "[FREE TREE]" << endl;
-			free_tree_recursiv(_root);
-			_root = NULL;
-		}
-
 		void insertion_recursiv(node * root, node * n) 
 		{
 			if (root != NULL && n->key_val()->first < root->key_val()->first) 
@@ -239,8 +238,6 @@ namespace ft
 			free_tree_recursiv(root->left());
 			cout << "free red-black-node containing " << root->key_val()->first << " : " << root << endl;
 			_n--;
-			// _allocPair.destroy(root->key_val());
-			// _allocPair.deallocate(root->key_val(), 1);
 			_alloc.destroy(root);
 			_alloc.deallocate(root, 1);
 			free_tree_recursiv(root->right());
