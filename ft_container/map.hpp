@@ -37,16 +37,16 @@ namespace ft
 		typedef	ft::reverse_iterator<const_iterator>			const_reverse_iterator;
 		typedef	int												difference_type;
 		typedef	unsigned int									size_type;
-		typedef red_black_tree<Key,T>							rbt;
+		typedef red_black_tree<Key,T,Alloc>						rbt;
 
 	// CONSTRUCTORS / DESTRUCTOR
 		// explicit map(const key_compare & comp = key_compare(), 
 		// const allocator_type & alloc = allocator_type()) :
-		// _alloc(alloc), _comp(comp), _rbt(), _n(0) {}
+		// _alloc(alloc), _comp(comp), _rbt() {}
 		
 		explicit map(const key_compare & comp = key_compare(), 
 		const allocator_type & alloc = allocator_type()) :
-		_alloc(alloc), _comp(comp), _rbt(), _n(5) 
+		_alloc(alloc), _comp(comp), _rbt() 
 		{
 			// **********************************
 			// ************* TESTS **************
@@ -82,12 +82,6 @@ namespace ft
 
 			_alloc.construct(_ptr, ft::make_pair<char,int>('e',5));
 			_rbt.insertion(_ptr);
-
-			_rbt.create_node_list(_rbt._root);
-			_rbt.print_node_list();
-			_rbt.free_node_list();
-			_rbt.create_node_list(_rbt._root);
-			_rbt.print_node_list();
 		}
 
 		// template <class InputIterator>
@@ -161,16 +155,15 @@ namespace ft
 		// 	return *this;
 		// }
 
+
+		// A décider + tard si je veux free les pairs dans free_tree ou dans free_node_list
 		~map()
 		{
-			if (_n)
-			{
-				// _rbt.free_tree(_rbt._root);
-				// _ptr = _first;
-				// while (_first != _last)
-				// 	_alloc.destroy(_first++);
-				// _alloc.deallocate(_ptr, _n + 1);
-			}
+			_rbt.print_tree();
+			_rbt.create_node_list();
+			_rbt.print_node_list();
+			_rbt.free_tree();
+			_rbt.free_node_list();
 		}
 
 		// // ITERATORS
@@ -180,7 +173,7 @@ namespace ft
 		// const_iterator end() const 		{ if (_n) return const_iterator(_last+1); return (_last);}
 
 		// // CAPACITY
-		// size_type size() const { return _n; }
+		size_type size() const { return _rbt._n; }
 
 		// // ELEMENT ACCESS
 		// mapped_type & operator[](const key_type & k)
@@ -237,7 +230,7 @@ namespace ft
 	// OBSERVERS
 		key_compare key_comp() const { return _comp.comp; }
 		value_compare value_comp() const { return _comp; }
-		bool empty() const {return bool(!_n); }
+		bool empty() const {return bool(!_rbt._n); }
 
 	// ALLOCATOR
 		allocator_type get_allocator() const { return _alloc; }
@@ -247,7 +240,6 @@ namespace ft
 		allocator_type	_alloc;
 		value_compare	_comp;
 		rbt				_rbt;
-		size_type		_n;
 		pointer			_ptr;
 
 		template <class InputIterator>

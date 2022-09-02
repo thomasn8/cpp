@@ -36,7 +36,7 @@ namespace ft
 	car red_black_tree.hpp est include dans map.hpp
 	donc rbt ne connait pas encore map */
 
-	template<class Key, class T, class Alloc = allocator< red_black_node<Key,T> > >
+	template<class Key, class T, class AllocPair, class Alloc = allocator< red_black_node<Key,T> > >
 	class red_black_tree
 	{
 		friend class map<Key,T>;
@@ -46,6 +46,7 @@ namespace ft
 		typedef	ft::pair<const Key,T>						value_type;
 		typedef red_black_node<Key,T>						node;
 		typedef	Alloc										allocator_type;
+		typedef	AllocPair									alloc_pair;
 		typedef	typename allocator_type::reference			reference;
 		typedef	typename allocator_type::const_reference	const_reference;
 		typedef	typename allocator_type::pointer			pointer;
@@ -53,14 +54,7 @@ namespace ft
 		typedef	unsigned int								size_type;
 		typedef	int											difference_type;
 
-		void print_tree_2d(node *root)
-		{
-			cout << endl << endl;
-			print_tree(root, 0);
-			cout << endl << endl;
-		}
-
-		protected:
+		private:
 
 		struct node_list2
 		{
@@ -78,17 +72,13 @@ namespace ft
 		node_list2		_last;
 		node_list2*		_current;
 		node_list2*		_prev;
+		Alloc			_alloc;
+		AllocPair		_allocPair;
 
 		red_black_tree(const allocator_type & alloc = allocator_type()) : 
-		_alloc(alloc), _n(0), _root(NULL), _first(), _last(), _current(&_first), _prev(NULL) {}
+		_alloc(alloc), _allocPair(), _n(0), _root(NULL), _first(), _last(), _current(&_first), _prev(NULL) {}
 		
-		~red_black_tree() 
-		{
-			// creat_node_list(_root);
-			// print_node_list();
-			print_tree_2d(_root);
-			free_tree(_root); 
-		}
+		~red_black_tree() {}
 
 		node * insertion(value_type * pair)
 		{
@@ -103,72 +93,76 @@ namespace ft
 			_n++;
 			return _root;
 		}
+		void print_tree()
+		{
+			if (_root)
+			{
+				cout << endl << "[PRINT TREE]" << endl;
+				print_tree_recursiv(_root, 0);
+				cout << endl << endl;
+			}
+		}
+		void free_tree()
+		{
+			cout << "[FREE TREE]" << endl;
+			free_tree_recursiv(_root);
+			_root = NULL;
+		}
 
+		void create_node_list()
+		{
+			cout << endl << "[CREATE NODE LIST]" << endl;
+			create_node_list_recursiv(_root);
+			cout << &_last <<  "(_last node) contains : " << _last.ptr << endl << endl;
+		}
 		void print_node_list()
 		{
 			node_list2	*current;
 			node_list2	*next;
 
 			current = &_first;
-			cout << endl << "NODE_LIST: " << endl;
-			while (current->ptr)
+			if (current->ptr)
 			{
-				next = current->next;
-				cout << current->ptr->first << endl;
-				current = next;
+				cout << "[PRINT CONTAINER VALUE (from node list)]" << endl;
+				cout << "syntax: key - value (pair_ptr)" << endl;
+				while (current->ptr)
+				{
+					next = current->next;
+					cout << current->ptr->first << " - " << current->ptr->second;
+					cout << " (" << current->ptr << ")" << endl;
+					current = next;
+				}
+				cout << endl;
 			}
-			cout << endl << endl;
 		}
-
 		void free_node_list()
 		{
+			cout << endl << "[FREE NODE LIST]" << endl;
 			node_list2	*current;
 			node_list2	*next;
-
 			current = &_first;
 			while (current->ptr)
 			{
 				next = current->next;
+				// _allocPair.destroy(current->ptr);
+				// _allocPair.deallocate(current->ptr, 1);
 				if (current != &_first && current != &_last)
+				{
+					cout << "free node containing " << current->ptr->first << " : " << current << endl;
 					delete current;
+				}
 				current = next;
 			}
-			cout << endl << endl;
+			cout << "reset _first to null" << endl;
+			cout << "reset _last to null" << endl;
+			_first.ptr = NULL;
+			_first.prev = NULL;
+			_first.next = NULL;
+			_last.ptr = NULL;
+			_last.prev = NULL;
+			_last.next = NULL;
+			cout << endl;
 		}
-
-		void create_node_list(node * root)
-		{
-			if (root == NULL)
-				return;
-			create_node_list(root->left());
-			if (_first.ptr == NULL)
-			{
-				_current = &_first;
-				
-				_current->ptr = root->key_val();
-				_current->prev = NULL;
-				_current->next = &_last;
-
-				_last.prev = _current;
-			}
-			else
-			{
-				_prev = _current;
-				_current = new node_list2();
-
-				_current->ptr = root->key_val();
-				_current->prev = _prev;
-				_current->next = &_last;
-
-				_prev->next = _current;
-				_last.prev = _current;
-			}
-			create_node_list(root->right());
-		}
-
-		private:
-
-		Alloc		_alloc;
 
 		void insertion_recursiv(node * root, node * n) 
 		{
@@ -291,24 +285,12 @@ namespace ft
 			x->setParent(y);
 		}
 
-		void free_tree(node * root)
-		{
-			if (root == NULL)
-				return;
-			free_tree(root->left());
-			cout << "[FREE-NODE]: " << root->key_val()->first << " - " << root->key_val() << endl;
-			_n--;
-			_alloc.destroy(root);
-			_alloc.deallocate(root, 1);
-			free_tree(root->right());
-		}
-		
-		void print_tree(node *root, int space)
+		void print_tree_recursiv(node *root, int space)
 		{
 			if (root == NULL)
 				return;
 			space += COUNT;
-			print_tree(root->right(), space);
+			print_tree_recursiv(root->right(), space);
 			cout<<endl;
 			for (int i = COUNT; i < space; i++)
 				cout<<" ";
@@ -318,7 +300,52 @@ namespace ft
 			if (root->parent())
 				cout << " ("<< root->parent()->key_val()->first << ")";
 			cout << endl;
-			print_tree(root->left(), space);
+			print_tree_recursiv(root->left(), space);
+		}
+		void free_tree_recursiv(node * root)
+		{
+			if (root == NULL)
+				return;
+			free_tree_recursiv(root->left());
+			cout << "free red-black-node containing " << root->key_val()->first << " : " << root << endl;
+			_n--;
+			// _allocPair.destroy(root->key_val());
+			// _allocPair.deallocate(root->key_val(), 1);
+			_alloc.destroy(root);
+			_alloc.deallocate(root, 1);
+			free_tree_recursiv(root->right());
+		}
+
+		void create_node_list_recursiv(node * root)
+		{
+			if (root == NULL)
+				return;
+			create_node_list_recursiv(root->left());
+			if (_first.ptr == NULL)
+			{
+				_current = &_first;
+				
+				_current->ptr = root->key_val();
+				_current->prev = NULL;
+				_current->next = &_last;
+
+				_last.prev = _current;
+				cout << _current <<  "(_first node) contains : " << root->key_val()->first << endl;
+			}
+			else
+			{
+				_prev = _current;
+				_current = new node_list2();
+
+				_current->ptr = root->key_val();
+				_current->prev = _prev;
+				_current->next = &_last;
+
+				_prev->next = _current;
+				_last.prev = _current;
+				cout << "create node containing " << root->key_val()->first << " : " << _current << endl;
+			}
+			create_node_list_recursiv(root->right());
 		}
 	};
 }
