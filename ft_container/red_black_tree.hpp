@@ -316,6 +316,29 @@ namespace ft
 			free_tree_recursiv(root->right());
 		}
 
+		void list_pair()
+		{
+			cout << endl << "[ORDERED LIST]" << endl;
+			list_recurs(_root);
+		}
+		value_type *list_recurs(node * root)
+		{
+			if (root == NULL)
+			{
+				// cout << "1node contains : " << root->key_val()->first << endl;
+				return root->parent()->key_val();
+				// return NULL;
+			}
+
+			return list_recurs(root->left());
+			cout << "2node contains : " << root->key_val()->first << endl;
+			return list_recurs(root->right());
+
+
+			// cout << "node contains : " << root->key_val()->first << endl;
+			// return root->key_val();
+		}
+
 		void create_node_list_recursiv(node * root)
 		{
 			if (root == NULL)
