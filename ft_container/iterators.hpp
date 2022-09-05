@@ -118,7 +118,7 @@ namespace ft
 		}
 		bool operator==(const it & rhs) const { return _p == rhs._p; }
 		bool operator!=(const it & rhs) const { return _p != rhs._p; }
-		pointer operator->() { return _p;  }
+		pointer operator->()		{ return _p;  }
 		reference operator*()		{ return *_p; }
 		reference operator*() const	{ return *_p; }
 

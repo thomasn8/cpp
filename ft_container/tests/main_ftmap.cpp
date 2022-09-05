@@ -26,11 +26,11 @@ int main()
 	// for (ft::map<char,int>::iterator it=ft1.begin(); it!=ft1.end(); ++it)
     // 	std::cout << it->first << " => " << it->second << '\n';
 
-	ft::map<char,int>::iterator it=ft1.begin();
-	ft::map<char,int>::iterator ite=ft1.end();
-	while (--ite != it)
-    	std::cout << ite->first << " => " << ite->second << '\n';
-	std::cout << ite->first << " => " << ite->second << '\n';
+	// ft::map<char,int>::iterator it=ft1.begin();
+	// ft::map<char,int>::iterator ite=ft1.end();
+	// while (--ite != it)
+    // 	std::cout << ite->first << " => " << ite->second << '\n';
+	// std::cout << ite->first << " => " << ite->second << '\n';
 
 	// std::map<char,int> ft1;
 	// ft1['a'] = 100;
