@@ -140,7 +140,7 @@ namespace ft
 			node * parent;
 			if (!root)
 				return _past_end_ptr;
-			if (root == _past_end_ptr)
+			if (root == _past_end_ptr) // on est sur le past-end qui n'est pas dans l'arbre
 				return get_right_most();
 			if (root->left())
 			{
@@ -169,7 +169,7 @@ namespace ft
 					if (root->parent())
 						parent = root->parent();
 					else
-						return _past_end_ptr;	// on est sur le min, pas de next
+						return _past_end_ptr;	// on est sur le min, pas de prev
 				}
 				return parent;
 			}
