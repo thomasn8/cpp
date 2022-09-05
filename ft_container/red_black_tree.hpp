@@ -35,7 +35,7 @@ namespace ft
 	/* obligé de déclarer la class-template avant pour que le friend dans rbt
 	reconnaisse map */
 
-	template<class Key, class T, class Comp, class Alloc = allocator< red_black_node<Key,T> > >
+	template<class Key, class T, class Comp, class Alloc_p, class Alloc = allocator< red_black_node<Key,T> > >
 	class red_black_tree
 	{
 		friend class map<Key,T>;
@@ -180,6 +180,7 @@ namespace ft
 		node *			_root;
 		node *			_ptr;
 		Alloc			_alloc;
+		Alloc_p			_alloc_p;
 		Comp			_comp;
 		node *			_past_end_ptr;
 		value_type *	_past_end_pair;
@@ -357,6 +358,8 @@ namespace ft
 			cout << "[FREE RED BLACK TREE]" << endl;
 			free_tree_recursiv(_root);
 			_root = NULL;
+			_alloc_p.destroy(_past_end_ptr->key_val());
+			_alloc_p.deallocate(_past_end_ptr->key_val(), 1);
 			_alloc.destroy(_past_end_ptr);
 			_alloc.deallocate(_past_end_ptr, 1);
 		}
@@ -365,8 +368,11 @@ namespace ft
 			if (root == NULL)
 				return;
 			free_tree_recursiv(root->left());
+			cout << "free pair containing " << root->key_val()->first << "-" << root->key_val()->second << endl;
 			cout << "free red-black-node containing " << root->key_val()->first << " : " << root << endl;
 			_n--;
+			_alloc_p.destroy(root->key_val());
+			_alloc_p.deallocate(root->key_val(), 1);
 			_alloc.destroy(root);
 			_alloc.deallocate(root, 1);
 			free_tree_recursiv(root->right());

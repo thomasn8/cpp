@@ -32,7 +32,7 @@ namespace ft
 		typedef	typename allocator_type::const_reference		const_reference;
 		typedef	typename allocator_type::pointer				pointer;
 		typedef	typename allocator_type::const_pointer			const_pointer;
-		typedef red_black_tree<Key,T,val_comp>					rbt;
+		typedef red_black_tree<Key,T,val_comp,Alloc>			rbt;
 		typedef red_black_node<Key,T>							node;
 		typedef	ft::bidirectional_iterator<Key,T,node *,rbt *>				iterator;
 		typedef	ft::bidirectional_iterator<const Key,T,const node *,rbt *>	const_iterator;
@@ -196,16 +196,16 @@ namespace ft
 		~map()
 		{			
 			_rbt.free_tree();
-			typename ft::vector<pointer>::iterator it = _pairs.begin();
-			typename ft::vector<pointer>::iterator ite = _pairs.end();
-			cout << "[FREE PAIRS]" << endl;
-			while (it != ite)
-			{
-				cout << "free pair containing " << (*it)->first << "-" << (*it)->second << endl;
-				_alloc.destroy(*it);
-				_alloc.deallocate(*it, 1);
-				it++;
-			}
+			// typename ft::vector<pointer>::iterator it = _pairs.begin();
+			// typename ft::vector<pointer>::iterator ite = _pairs.end();
+			// cout << "[FREE PAIRS]" << endl;
+			// while (it != ite)
+			// {
+			// 	cout << "free pair containing " << (*it)->first << "-" << (*it)->second << endl;
+			// 	_alloc.destroy(*it);
+			// 	_alloc.deallocate(*it, 1);
+			// 	it++;
+			// }
 		}
 
 		// // ITERATORS
