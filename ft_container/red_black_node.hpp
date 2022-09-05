@@ -16,8 +16,11 @@ namespace ft
 		typedef	ft::pair<const Key,T>		value_type;
 		typedef	value_type *				pointer;
 
+		red_black_node() : 
+		_key_val(), _color(LEAF), _left(NULL), _right(NULL), _parent(NULL) {}
+		
 		red_black_node(pointer pair) : 
-		_key_val(pair), _color(LEAF), _left(NULL), _right(NULL), _parent(NULL) {_parent = parent();}
+		_key_val(pair), _color(LEAF), _left(NULL), _right(NULL), _parent(NULL) { _parent = parent(); }
 
 		void setLeft(node * n)		{ _left = n; }
 		void setRight(node * n)		{ _right = n; }

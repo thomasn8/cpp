@@ -53,39 +53,105 @@ namespace ft
 
 	class bidirectional_iterator_tag {};
 
-	template <typename T>
+	// template <typename T>
+	// class bidirectional_iterator
+	// {
+	// 	public:
+	// // MEMBER TYPES
+	// 	typedef T							value_type;
+	// 	typedef int							difference_type;
+	// 	typedef T *							pointer;
+	// 	typedef T &							reference;
+	// 	typedef bidirectional_iterator	 	iterator_category;
+	// 	typedef	iterator_category			it;
+	// 	typedef int 						SFINAE_condition;	// pour le constructeur de vector avec iterateur
+	// // CONSTRUCTEURS/DESTRUCTEUR
+	// 	bidirectional_iterator() : _p(0) {}											// default
+	// 	bidirectional_iterator(pointer p) : _p(p) {}								// special
+	// 	bidirectional_iterator(reference src) : _p(src.getP()) {}					// copy
+	// 	virtual ~bidirectional_iterator() {}
+	// // SURCHARGES
+	// 	it & operator=(it const & src) { _p = src.getP(); return *this; }		// assign 
+	// 	bool operator==(const it & rhs) const { return _p == rhs._p; }
+	// 	bool operator!=(const it & rhs) const { return _p != rhs._p; }
+	// 	reference operator*() { return *_p; }
+	// 	reference operator*() const { return *_p; }
+	// 	pointer operator->() { return _p;  }
+	// 	it & operator++() { ++_p; return *this; }
+	// 	it operator++(int) { it tmp(*this); _p++; return tmp; }
+	// 	it & operator--() { --_p; return *this; }
+	// 	it operator--(int) { it tmp(*this); _p--; return tmp; }
+	
+	// 	protected:
+	// 	pointer _p;
+	// 	pointer getP() const { return _p; }
+	// 	difference_type getDiff() const { return sizeof(value_type); }
+	// };
+
+	// template <typename Key, typename T, typename Rdb>
+	template <typename Key, typename T, typename Node_ptr, typename Tree_ptr>
 	class bidirectional_iterator
 	{
 		public:
 	// MEMBER TYPES
-		typedef T							value_type;
+		// typedef Rbn							value_type;
+		// typedef ft::red_black_node<Key, T>	value_type;
+		typedef ft::pair<const Key,T>		value_type;
 		typedef int							difference_type;
-		typedef T *							pointer;
-		typedef T &							reference;
+		typedef value_type *				pointer;
+		typedef value_type &				reference;
 		typedef bidirectional_iterator	 	iterator_category;
 		typedef	iterator_category			it;
 		typedef int 						SFINAE_condition;	// pour le constructeur de vector avec iterateur
+		typedef ft::bidirectional_iterator<Key,T,Node_ptr,Tree_ptr> iterator;
+		typedef ft::bidirectional_iterator<const Key,T,const Node_ptr,Tree_ptr> const_iterator;
 	// CONSTRUCTEURS/DESTRUCTEUR
 		bidirectional_iterator() : _p(0) {}											// default
-		bidirectional_iterator(pointer p) : _p(p) {}								// special
-		bidirectional_iterator(reference src) : _p(src.getP()) {}					// copy
+		bidirectional_iterator(pointer p, Node_ptr node, Tree_ptr tree) : _p(p), _node(node), _tree(tree) {}								// special
+		bidirectional_iterator(reference src, Node_ptr node, Tree_ptr tree) : _p(&src), _node(node), _tree(tree) {}					// copy
+		// bidirectional_iterator(pointer p) : _p(p) {}								// special
+		// bidirectional_iterator(reference src) : _p(src.getP()) {}					// copy
 		virtual ~bidirectional_iterator() {}
 	// SURCHARGES
-		it & operator=(it const & src) { _p = src.getP(); return *this; }		// assign 
+		// it & operator=(it const & src) { _p = src.getP(); return *this; }		// assign 
 		bool operator==(const it & rhs) const { return _p == rhs._p; }
 		bool operator!=(const it & rhs) const { return _p != rhs._p; }
-		reference operator*() { return *_p; }
-		reference operator*() const { return *_p; }
 		pointer operator->() { return _p;  }
-		it & operator++() { ++_p; return *this; }
-		it operator++(int) { it tmp(*this); _p++; return tmp; }
-		it & operator--() { --_p; return *this; }
-		it operator--(int) { it tmp(*this); _p--; return tmp; }
+
+		reference operator*()		{ return *_p; }
+		reference operator*() const	{ return *_p; }
+
+		it & operator++()
+		{
+			_node = _tree->get_next(_node);
+			_p = _node->key_val();
+			return *this;
+		}
+		it operator++(int) 
+		{ 
+			it tmp(*this);
+			_node = _tree->get_next(_node);	
+			_p = _node->key_val();
+			return tmp;
+		}
+		// it & operator--() 
+		// {
+		// 	--_p;
+		// 	return *this; 
+		// }
+		// it operator--(int) 
+		// {
+		// 	it tmp(*this);
+		// 	_p--;
+		// 	return tmp;
+		// }
 	
 		protected:
-		pointer _p;
-		pointer getP() const { return _p; }
-		difference_type getDiff() const { return sizeof(value_type); }
+		pointer 	_p;
+		Node_ptr	_node;
+		Tree_ptr	_tree;
+		// pointer getP() const { return _p; }
+		// difference_type getDiff() const { return sizeof(value_type); }
 	};
 
 	template<typename T>
