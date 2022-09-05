@@ -10,6 +10,7 @@ using namespace std;
 #include "iterators.hpp"
 #include "pair.hpp"
 #include "utils.hpp"
+#include "vector.hpp"
 
 namespace ft
 {	
@@ -33,65 +34,93 @@ namespace ft
 		typedef	typename allocator_type::const_pointer			const_pointer;
 		typedef red_black_tree<Key,T,val_comp>					rbt;
 		typedef red_black_node<Key,T>							node;
-		typedef	ft::bidirectional_iterator<Key,T,node *,rbt *>			iterator;			// passer <node_list> en argument template la place 
-		typedef	ft::bidirectional_iterator<const Key,T,const node *,rbt *>	const_iterator;		// et modifier le comportement de bidirectionl it en fonction
+		typedef	ft::bidirectional_iterator<Key,T,node *,rbt *>				iterator;
+		typedef	ft::bidirectional_iterator<const Key,T,const node *,rbt *>	const_iterator;
 		typedef	ft::reverse_iterator<iterator>					reverse_iterator;
 		typedef	ft::reverse_iterator<const_iterator>			const_reverse_iterator;
 		typedef	int												difference_type;
 		typedef	unsigned int									size_type;
 
 	// CONSTRUCTORS / DESTRUCTOR
-		explicit map(const key_compare & comp = key_compare(), 
-		const allocator_type & alloc = allocator_type()) :
-		_alloc(alloc), _comp(comp), _rbt(_comp), _first(), _last(), _current(&_first), _prev(NULL) 
-		{
-			// _rbt.print_tree();
-			// create_node_list();
-			// print_node_list();
-		}
-		
 		// explicit map(const key_compare & comp = key_compare(), 
 		// const allocator_type & alloc = allocator_type()) :
-		// _alloc(alloc), _comp(comp), _rbt(_comp), _first(), _last(), _current(&_first), _prev(NULL) 
+		// _alloc(alloc), _comp(comp), _rbt(_comp)
 		// {
-		// 	// **********************************
-		// 	// ************* TESTS **************
-		// 	_ptr = _alloc.allocate(15);
-
-		// 	_alloc.construct(_ptr, ft::make_pair<char,int>('b',2));
-		// 	_rbt.insertion(_ptr++);
-
-		// 	_alloc.construct(_ptr, ft::make_pair<char,int>('d',4));
-		// 	_rbt.insertion(_ptr++);
-
-		// 	_alloc.construct(_ptr, ft::make_pair<char,int>('c',3));
-		// 	_rbt.insertion(_ptr++);
-
-		// 	_alloc.construct(_ptr, ft::make_pair<char,int>('f',5));
-		// 	_rbt.insertion(_ptr++);
-
-		// 	_alloc.construct(_ptr, ft::make_pair<char,int>('m',5));
-		// 	_rbt.insertion(_ptr++);
-
-		// 	_alloc.construct(_ptr, ft::make_pair<char,int>('y',5));
-		// 	_rbt.insertion(_ptr++);
-
-		// 	_alloc.construct(_ptr, ft::make_pair<char,int>('z',5));
-		// 	_rbt.insertion(_ptr++);
-
-		// 	_alloc.construct(_ptr, ft::make_pair<char,int>('q',5));
-		// 	_rbt.insertion(_ptr++);
-
-		// 	_alloc.construct(_ptr, ft::make_pair<char,int>('a',1));
-		// 	_rbt.insertion(_ptr++);
-
-		// 	_alloc.construct(_ptr, ft::make_pair<char,int>('e',5));
-		// 	_rbt.insertion(_ptr);
-
+		// 	value_type tmp = value_type();
+		// 	_ptr = _alloc.allocate(1);
+		// 	_alloc.construct(_ptr, tmp);
+		// 	_rbt._past_end_pair = _ptr;
+		// 	_pairs.push_back(pair);
 		// 	_rbt.print_tree();
-		// 	// create_node_list();
-		// 	// print_node_list();
 		// }
+		
+		explicit map(const key_compare & comp = key_compare(), 
+		const allocator_type & alloc = allocator_type()) :
+		_alloc(alloc), _comp(comp), _rbt(_comp)
+		{
+			value_type tmp = value_type();
+			_ptr = _alloc.allocate(1);
+			_alloc.construct(_ptr, tmp);
+			_rbt._past_end_pair = _ptr;
+			_pairs.push_back(_ptr);
+
+			// **********************************
+			// ************* TESTS **************
+			// _ptr = _alloc.allocate(15);
+			// _pairs.push_back(_ptr);
+
+			_ptr = _alloc.allocate(1);
+			_alloc.construct(_ptr, ft::make_pair<char,int>('b',2));
+			_rbt.insertion(_ptr);
+			_pairs.push_back(_ptr);
+
+			_ptr = _alloc.allocate(1);
+			_alloc.construct(_ptr, ft::make_pair<char,int>('d',4));
+			_rbt.insertion(_ptr);
+			_pairs.push_back(_ptr);
+
+			_ptr = _alloc.allocate(1);
+			_alloc.construct(_ptr, ft::make_pair<char,int>('c',3));
+			_rbt.insertion(_ptr);
+			_pairs.push_back(_ptr);
+
+			_ptr = _alloc.allocate(1);
+			_alloc.construct(_ptr, ft::make_pair<char,int>('f',5));
+			_rbt.insertion(_ptr);
+			_pairs.push_back(_ptr);
+
+			_ptr = _alloc.allocate(1);
+			_alloc.construct(_ptr, ft::make_pair<char,int>('m',5));
+			_rbt.insertion(_ptr);
+			_pairs.push_back(_ptr);
+
+			_ptr = _alloc.allocate(1);
+			_alloc.construct(_ptr, ft::make_pair<char,int>('y',5));
+			_rbt.insertion(_ptr);
+			_pairs.push_back(_ptr);
+
+			_ptr = _alloc.allocate(1);
+			_alloc.construct(_ptr, ft::make_pair<char,int>('z',5));
+			_rbt.insertion(_ptr);
+			_pairs.push_back(_ptr);
+
+			_ptr = _alloc.allocate(1);
+			_alloc.construct(_ptr, ft::make_pair<char,int>('q',5));
+			_rbt.insertion(_ptr);
+			_pairs.push_back(_ptr);
+
+			_ptr = _alloc.allocate(1);
+			_alloc.construct(_ptr, ft::make_pair<char,int>('a',1));
+			_rbt.insertion(_ptr);
+			_pairs.push_back(_ptr);
+
+			_ptr = _alloc.allocate(1);
+			_alloc.construct(_ptr, ft::make_pair<char,int>('e',5));
+			_rbt.insertion(_ptr);
+			_pairs.push_back(_ptr);
+
+			_rbt.print_tree();
+		}
 
 		// template <class InputIterator>
 		// map(InputIterator first, InputIterator last, 
@@ -164,11 +193,19 @@ namespace ft
 		// 	return *this;
 		// }
 
-
-		// A décider + tard si je veux free les pairs dans free_tree ou dans free_node_list
 		~map()
 		{			
-			free_node_list();	// free les pairs plutot dans node_list (a priori)
+			_rbt.free_tree();
+			typename ft::vector<pointer>::iterator it = _pairs.begin();
+			typename ft::vector<pointer>::iterator ite = _pairs.end();
+			cout << "[FREE PAIRS]" << endl;
+			while (it != ite)
+			{
+				cout << "free pair containing " << (*it)->first << "-" << (*it)->second << endl;
+				_alloc.destroy(*it);
+				_alloc.deallocate(*it, 1);
+				it++;
+			}
 		}
 
 		// // ITERATORS
@@ -250,11 +287,12 @@ namespace ft
 		allocator_type get_allocator() const { return _alloc; }
 
 		private:
-	// PRIVATE FUNCTIONS TO MANAGE METHODS
-		allocator_type	_alloc;
-		val_comp		_comp;
-		rbt				_rbt;
-		pointer			_ptr;
+		allocator_type			_alloc;
+		val_comp				_comp;
+		rbt						_rbt;
+		pointer					_ptr;
+		pointer					_past_end;
+		ft::vector<pointer>		_pairs;
 
 		template <class InputIterator>
 		size_type _distance(InputIterator first, InputIterator last) const
@@ -283,106 +321,6 @@ namespace ft
 		// 	}
 		// 	return NULL;
 		// }
-
-	// NODE LIST TO GET ORDERED PAIRS POINTER
-		struct node_list
-		{
-			value_type *	ptr;
-			node_list *		next;
-			node_list *		prev;
-			node_list() : ptr(NULL), next(NULL), prev(NULL) {}
-			~node_list() {}
-		};
-		node_list			_first;
-		node_list			_last;
-		node_list *			_current;
-		node_list *			_prev;
-
-		void create_node_list()
-		{
-			cout << endl << "[CREATE NODE LIST]" << endl;
-			create_node_list_recursiv(_rbt._root);
-			cout << &_last <<  "(_last node) contains : " << _last.ptr << endl << endl;
-		}
-		void create_node_list_recursiv(node * root)
-		{
-			if (root == NULL)
-				return;
-			create_node_list_recursiv(root->left());
-			if (_first.ptr == NULL)
-			{
-				_current = &_first;
-				
-				_current->ptr = root->key_val();
-				_current->prev = NULL;
-				_current->next = &_last;
-
-				_last.prev = _current;
-				cout << _current <<  "(_first node) contains : " << root->key_val()->first << endl;
-			}
-			else
-			{
-				_prev = _current;
-				_current = new node_list();
-
-				_current->ptr = root->key_val();
-				_current->prev = _prev;
-				_current->next = &_last;
-
-				_prev->next = _current;
-				_last.prev = _current;
-				cout << "create node containing " << root->key_val()->first << " : " << _current << endl;
-			}
-			create_node_list_recursiv(root->right());
-		}
-		void print_node_list()
-		{
-			node_list	*current;
-			node_list	*next;
-
-			current = &_first;
-			if (current->ptr)
-			{
-				cout << "[PRINT CONTAINER VALUE (from node list)]" << endl;
-				cout << "syntax: key - value (pair_ptr)" << endl;
-				while (current->ptr)
-				{
-					next = current->next;
-					cout << current->ptr->first << " - " << current->ptr->second;
-					cout << " (" << current->ptr << ")" << endl;
-					current = next;
-				}
-				cout << endl;
-			}
-		}
-		void free_node_list()
-		{
-			cout << endl << "[FREE NODE LIST]" << endl;
-			node_list	*current;
-			node_list	*next;
-			current = &_first;
-			while (current->ptr)
-			{
-				next = current->next;
-				// _alloc.destroy(current->ptr);
-				// _alloc.deallocate(current->ptr, 1);
-				if (current != &_first && current != &_last)
-				{
-					cout << "free node containing " << current->ptr->first << " : " << current << endl;
-					delete current;
-				}
-				current = next;
-			}
-			cout << "reset _first to null" << endl;
-			cout << "reset _last to null" << endl;
-			_first.ptr = NULL;
-			_first.prev = NULL;
-			_first.next = NULL;
-			_last.ptr = NULL;
-			_last.prev = NULL;
-			_last.next = NULL;
-			cout << endl;
-		}
 	};
 
 	// Class qui génère un objet pour stocker dans 'Compare comp' 

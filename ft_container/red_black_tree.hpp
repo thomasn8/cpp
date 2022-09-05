@@ -135,44 +135,44 @@ namespace ft
 				return _past_end_ptr;	// que 1 val dans l'arbre, pas de next
 			return NULL;
 		}
-		node * get_prev(node *root) const
-		{
-			node * parent;
-			if (!root)
-				return _past_end_ptr;
-			if (root->right())
-			{
-				root = root->right();
-				while (root)
-				{
-					if (root->left())
-						root = root->left();
-					else
-						return root;
-				}
-			}
-			else if (root->parent() && root == root->parent()->left())
-				return root->parent();
-			else if (root->parent())
-			{
-				parent = root->parent();
-				while (root == parent->right())
-				{
-					if (root->parent())
-						root = root->parent();
-					else
-						return NULL;
-					if (root->parent())
-						parent = root->parent();
-					else
-						return _past_end_ptr;	// on est sur le max, pas de next
-				}
-				return parent;
-			}
-			else
-				return _past_end_ptr;	// que 1 val dans l'arbre, pas de next
-			return NULL;
-		}
+		// node * get_prev(node *root) const
+		// {
+		// 	node * parent;
+		// 	if (!root)
+		// 		return _past_end_ptr;
+		// 	if (root->right())
+		// 	{
+		// 		root = root->right();
+		// 		while (root)
+		// 		{
+		// 			if (root->left())
+		// 				root = root->left();
+		// 			else
+		// 				return root;
+		// 		}
+		// 	}
+		// 	else if (root->parent() && root == root->parent()->left())
+		// 		return root->parent();
+		// 	else if (root->parent())
+		// 	{
+		// 		parent = root->parent();
+		// 		while (root == parent->right())
+		// 		{
+		// 			if (root->parent())
+		// 				root = root->parent();
+		// 			else
+		// 				return NULL;
+		// 			if (root->parent())
+		// 				parent = root->parent();
+		// 			else
+		// 				return _past_end_ptr;	// on est sur le max, pas de next
+		// 		}
+		// 		return parent;
+		// 	}
+		// 	else
+		// 		return _past_end_ptr;	// que 1 val dans l'arbre, pas de next
+		// 	return NULL;
+		// }
 
 		private:
 
@@ -181,13 +181,18 @@ namespace ft
 		node *			_ptr;
 		Alloc			_alloc;
 		Comp			_comp;
-		node			_past_end;
 		node *			_past_end_ptr;
+		value_type *	_past_end_pair;
 
 		red_black_tree(val_comp comp, const allocator_type & alloc = allocator_type()) : 
-		_alloc(alloc), _comp(comp), _n(0), _root(NULL), _past_end(), _past_end_ptr(&_past_end) {}
+		_alloc(alloc), _comp(comp), _n(0), _root(NULL) 
+		{
+			_past_end_ptr = _alloc.allocate(1);
+			node tmp(_past_end_pair);
+			// _alloc.construct(_past_end_ptr, tmp);
+		}
 		
-		~red_black_tree() { free_tree(); }
+		~red_black_tree() { /* free_tree(); */ }
 
 		node * insertion(value_type * pair)
 		{
@@ -204,7 +209,6 @@ namespace ft
 		}
 		void insertion_recursiv(node * root, node * n) 
 		{
-			// if (root != NULL && n->key_val()->first < root->key_val()->first) 
 			if (root != NULL && _comp.comp(n->key_val()->first, root->key_val()->first)) 
 			{
 				if (root->left() != LEAF) 
@@ -326,12 +330,9 @@ namespace ft
 
 		void print_tree()
 		{
-			// if (_root)
-			// {
-				cout << endl << "[PRINT RED BLACK TREE]" << endl;
-				print_tree_recursiv(_root, 0);
-				cout << endl;
-			// }
+			cout << endl << "[PRINT RED BLACK TREE]" << endl;
+			print_tree_recursiv(_root, 0);
+			cout << endl;
 		}
 		void print_tree_recursiv(node *root, int space)
 		{
@@ -356,6 +357,8 @@ namespace ft
 			cout << "[FREE RED BLACK TREE]" << endl;
 			free_tree_recursiv(_root);
 			_root = NULL;
+			_alloc.destroy(_past_end_ptr);
+			_alloc.deallocate(_past_end_ptr, 1);
 		}
 		void free_tree_recursiv(node * root)
 		{

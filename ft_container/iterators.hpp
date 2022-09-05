@@ -30,9 +30,9 @@ namespace ft
 		pointer operator->() { return _p;  }
 		friend difference_type operator-(const it & a, const it & b) { return static_cast<int>(a._p - b._p); }
 		it & operator++() { ++_p; return *this; }
-		it operator++(value_type) { it tmp(*this); _p++; return tmp; }
+		it operator++(int) { it tmp(*this); _p++; return tmp; }
 		it & operator--() { --_p; return *this; }
-		it operator--(value_type) { it tmp(*this); _p--; return tmp; }
+		it operator--(int) { it tmp(*this); _p--; return tmp; }
 		bool operator==(const it & rhs) const { return _p == rhs._p; }
 		bool operator!=(const it & rhs) const { return _p != rhs._p; }
 		bool operator<(const it & rhs) const { return _p < rhs._p; }
