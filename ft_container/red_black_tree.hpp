@@ -135,44 +135,48 @@ namespace ft
 				return _past_end_ptr;	// que 1 val dans l'arbre, pas de next
 			return NULL;
 		}
-		// node * get_prev(node *root) const
-		// {
-		// 	node * parent;
-		// 	if (!root)
-		// 		return _past_end_ptr;
-		// 	if (root->right())
-		// 	{
-		// 		root = root->right();
-		// 		while (root)
-		// 		{
-		// 			if (root->left())
-		// 				root = root->left();
-		// 			else
-		// 				return root;
-		// 		}
-		// 	}
-		// 	else if (root->parent() && root == root->parent()->left())
-		// 		return root->parent();
-		// 	else if (root->parent())
-		// 	{
-		// 		parent = root->parent();
-		// 		while (root == parent->right())
-		// 		{
-		// 			if (root->parent())
-		// 				root = root->parent();
-		// 			else
-		// 				return NULL;
-		// 			if (root->parent())
-		// 				parent = root->parent();
-		// 			else
-		// 				return _past_end_ptr;	// on est sur le max, pas de next
-		// 		}
-		// 		return parent;
-		// 	}
-		// 	else
-		// 		return _past_end_ptr;	// que 1 val dans l'arbre, pas de next
-		// 	return NULL;
-		// }
+		node * get_prev(node *root) const
+		{
+			node * parent;
+			if (!root)
+				return _past_end_ptr;
+			if (root == _past_end_ptr)
+				return get_right_most();
+			if (root->left())
+			{
+				root = root->left();
+				while (root)
+				{
+					if (root->right())
+						root = root->right();
+					else
+						return root;
+				}
+			}
+			else if (root->parent() && root == root->parent()->right())
+			{
+				return root->parent();
+			}
+			else if (root->parent())
+			{
+				parent = root->parent();
+				while (root == parent->left())
+				{
+					if (root->parent())
+						root = root->parent();
+					else
+						return NULL;
+					if (root->parent())
+						parent = root->parent();
+					else
+						return _past_end_ptr;	// on est sur le min, pas de next
+				}
+				return parent;
+			}
+			else
+				return _past_end_ptr;	// que 1 val dans l'arbre, pas de next
+			return NULL;
+		}
 
 		private:
 
@@ -190,10 +194,10 @@ namespace ft
 		{
 			_past_end_ptr = _alloc.allocate(1);
 			node tmp(_past_end_pair);
-			// _alloc.construct(_past_end_ptr, tmp);
+			_alloc.construct(_past_end_ptr, tmp);
 		}
 		
-		~red_black_tree() { /* free_tree(); */ }
+		~red_black_tree() {}
 
 		node * insertion(value_type * pair)
 		{

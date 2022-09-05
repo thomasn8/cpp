@@ -10,7 +10,6 @@ using namespace std;
 #include "iterators.hpp"
 #include "pair.hpp"
 #include "utils.hpp"
-#include "vector.hpp"
 
 namespace ft
 {	
@@ -50,7 +49,6 @@ namespace ft
 		// 	_ptr = _alloc.allocate(1);
 		// 	_alloc.construct(_ptr, tmp);
 		// 	_rbt._past_end_pair = _ptr;
-		// 	_pairs.push_back(pair);
 		// 	_rbt.print_tree();
 		// }
 		
@@ -62,62 +60,50 @@ namespace ft
 			_ptr = _alloc.allocate(1);
 			_alloc.construct(_ptr, tmp);
 			_rbt._past_end_pair = _ptr;
-			_pairs.push_back(_ptr);
 
 			// **********************************
 			// ************* TESTS **************
 			// _ptr = _alloc.allocate(15);
-			// _pairs.push_back(_ptr);
 
 			_ptr = _alloc.allocate(1);
 			_alloc.construct(_ptr, ft::make_pair<char,int>('b',2));
 			_rbt.insertion(_ptr);
-			_pairs.push_back(_ptr);
 
 			_ptr = _alloc.allocate(1);
 			_alloc.construct(_ptr, ft::make_pair<char,int>('d',4));
 			_rbt.insertion(_ptr);
-			_pairs.push_back(_ptr);
 
 			_ptr = _alloc.allocate(1);
 			_alloc.construct(_ptr, ft::make_pair<char,int>('c',3));
 			_rbt.insertion(_ptr);
-			_pairs.push_back(_ptr);
 
 			_ptr = _alloc.allocate(1);
 			_alloc.construct(_ptr, ft::make_pair<char,int>('f',5));
 			_rbt.insertion(_ptr);
-			_pairs.push_back(_ptr);
 
 			_ptr = _alloc.allocate(1);
 			_alloc.construct(_ptr, ft::make_pair<char,int>('m',5));
 			_rbt.insertion(_ptr);
-			_pairs.push_back(_ptr);
 
 			_ptr = _alloc.allocate(1);
 			_alloc.construct(_ptr, ft::make_pair<char,int>('y',5));
 			_rbt.insertion(_ptr);
-			_pairs.push_back(_ptr);
 
 			_ptr = _alloc.allocate(1);
 			_alloc.construct(_ptr, ft::make_pair<char,int>('z',5));
 			_rbt.insertion(_ptr);
-			_pairs.push_back(_ptr);
 
 			_ptr = _alloc.allocate(1);
 			_alloc.construct(_ptr, ft::make_pair<char,int>('q',5));
 			_rbt.insertion(_ptr);
-			_pairs.push_back(_ptr);
 
 			_ptr = _alloc.allocate(1);
 			_alloc.construct(_ptr, ft::make_pair<char,int>('a',1));
 			_rbt.insertion(_ptr);
-			_pairs.push_back(_ptr);
 
 			_ptr = _alloc.allocate(1);
 			_alloc.construct(_ptr, ft::make_pair<char,int>('e',5));
 			_rbt.insertion(_ptr);
-			_pairs.push_back(_ptr);
 
 			_rbt.print_tree();
 		}
@@ -193,20 +179,7 @@ namespace ft
 		// 	return *this;
 		// }
 
-		~map()
-		{			
-			_rbt.free_tree();
-			// typename ft::vector<pointer>::iterator it = _pairs.begin();
-			// typename ft::vector<pointer>::iterator ite = _pairs.end();
-			// cout << "[FREE PAIRS]" << endl;
-			// while (it != ite)
-			// {
-			// 	cout << "free pair containing " << (*it)->first << "-" << (*it)->second << endl;
-			// 	_alloc.destroy(*it);
-			// 	_alloc.deallocate(*it, 1);
-			// 	it++;
-			// }
-		}
+		~map() { _rbt.free_tree(); }
 
 		// // ITERATORS
 		iterator begin()					{ return iterator(_rbt.get_left_most()->key_val(), _rbt.get_left_most(), &_rbt); }
@@ -292,7 +265,6 @@ namespace ft
 		rbt						_rbt;
 		pointer					_ptr;
 		pointer					_past_end;
-		ft::vector<pointer>		_pairs;
 
 		template <class InputIterator>
 		size_type _distance(InputIterator first, InputIterator last) const

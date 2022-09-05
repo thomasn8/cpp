@@ -22,8 +22,25 @@ int main()
 	// ******************** TESTS CONSTRUCTORS ********************
 	// #1
 	ft::map<char,int> ft1;
-	for (ft::map<char,int>::iterator it=ft1.begin(); it!=ft1.end(); ++it)
-    	std::cout << it->first << " => " << it->second << '\n';
+	
+	// for (ft::map<char,int>::iterator it=ft1.begin(); it!=ft1.end(); ++it)
+    // 	std::cout << it->first << " => " << it->second << '\n';
+
+	ft::map<char,int>::iterator it=ft1.begin();
+	ft::map<char,int>::iterator ite=ft1.end();
+	while (--ite != it)
+    	std::cout << ite->first << " => " << ite->second << '\n';
+	std::cout << ite->first << " => " << ite->second << '\n';
+
+	// std::map<char,int> ft1;
+	// ft1['a'] = 100;
+	// ft1['z'] = 700;		
+	// ft1['b'] = 10;		
+	// ft1['q'] = 800;		
+	// std::map<char,int>::iterator it=ft1.begin();
+	// std::map<char,int>::iterator ite=ft1.end();
+	// while (--ite != it)
+    // 	std::cout << ite->first << " => " << ite->second << '\n';
 
 	// ft::map<char,int> mymap;
 	// ft::map<char,int>::iterator it=mymap.begin();
