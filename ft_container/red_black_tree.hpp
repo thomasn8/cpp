@@ -73,9 +73,8 @@ namespace ft
 					return n;
 				}
 			}
-			return NULL;
+			return _past_end_ptr;
 		}
-
 		node * get_right_most() const
 		{
 			node * n;
@@ -98,37 +97,11 @@ namespace ft
 			}
 			return NULL;
 		}
-
-		node * get_prev(node *root) const
-		{
-			node * n;
-			if (root != NULL)
-			{
-				n = root->left();
-				if (!n)
-					return root;
-				else
-				{
-					while (n != NULL)
-					{
-						if (n->right())
-							n = n->right();
-						else if (n ->left())
-							n = n->left();
-						else
-							break;
-					}
-					return n;
-				}
-			}
-			return NULL;
-		}
-
 		node * get_next(node *root) const
 		{
 			node * parent;
 			if (!root)
-				return NULL;
+				return _past_end_ptr;
 			if (root->right())
 			{
 				root = root->right();
@@ -159,7 +132,45 @@ namespace ft
 				return parent;
 			}
 			else
-				return NULL;	// que 1 val dans l'arbre, pas de next
+				return _past_end_ptr;	// que 1 val dans l'arbre, pas de next
+			return NULL;
+		}
+		node * get_prev(node *root) const
+		{
+			node * parent;
+			if (!root)
+				return _past_end_ptr;
+			if (root->right())
+			{
+				root = root->right();
+				while (root)
+				{
+					if (root->left())
+						root = root->left();
+					else
+						return root;
+				}
+			}
+			else if (root->parent() && root == root->parent()->left())
+				return root->parent();
+			else if (root->parent())
+			{
+				parent = root->parent();
+				while (root == parent->right())
+				{
+					if (root->parent())
+						root = root->parent();
+					else
+						return NULL;
+					if (root->parent())
+						parent = root->parent();
+					else
+						return _past_end_ptr;	// on est sur le max, pas de next
+				}
+				return parent;
+			}
+			else
+				return _past_end_ptr;	// que 1 val dans l'arbre, pas de next
 			return NULL;
 		}
 

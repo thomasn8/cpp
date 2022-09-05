@@ -41,57 +41,57 @@ namespace ft
 		typedef	unsigned int									size_type;
 
 	// CONSTRUCTORS / DESTRUCTOR
-		// explicit map(const key_compare & comp = key_compare(), 
-		// const allocator_type & alloc = allocator_type()) :
-		// _alloc(alloc), _comp(comp), _rbt(_comp), _first(), _last(), _current(&_first), _prev(NULL) 
-		// {
-		// 	_rbt.print_tree();
-		// 	create_node_list();
-		// 	print_node_list();
-		// }
-		
 		explicit map(const key_compare & comp = key_compare(), 
 		const allocator_type & alloc = allocator_type()) :
 		_alloc(alloc), _comp(comp), _rbt(_comp), _first(), _last(), _current(&_first), _prev(NULL) 
 		{
-			// **********************************
-			// ************* TESTS **************
-			_ptr = _alloc.allocate(15);
-
-			_alloc.construct(_ptr, ft::make_pair<char,int>('b',2));
-			_rbt.insertion(_ptr++);
-
-			_alloc.construct(_ptr, ft::make_pair<char,int>('d',4));
-			_rbt.insertion(_ptr++);
-
-			_alloc.construct(_ptr, ft::make_pair<char,int>('c',3));
-			_rbt.insertion(_ptr++);
-
-			_alloc.construct(_ptr, ft::make_pair<char,int>('f',5));
-			_rbt.insertion(_ptr++);
-
-			_alloc.construct(_ptr, ft::make_pair<char,int>('m',5));
-			_rbt.insertion(_ptr++);
-
-			_alloc.construct(_ptr, ft::make_pair<char,int>('y',5));
-			_rbt.insertion(_ptr++);
-
-			_alloc.construct(_ptr, ft::make_pair<char,int>('z',5));
-			_rbt.insertion(_ptr++);
-
-			_alloc.construct(_ptr, ft::make_pair<char,int>('q',5));
-			_rbt.insertion(_ptr++);
-
-			_alloc.construct(_ptr, ft::make_pair<char,int>('a',1));
-			_rbt.insertion(_ptr++);
-
-			_alloc.construct(_ptr, ft::make_pair<char,int>('e',5));
-			_rbt.insertion(_ptr);
-
-			_rbt.print_tree();
+			// _rbt.print_tree();
 			// create_node_list();
 			// print_node_list();
 		}
+		
+		// explicit map(const key_compare & comp = key_compare(), 
+		// const allocator_type & alloc = allocator_type()) :
+		// _alloc(alloc), _comp(comp), _rbt(_comp), _first(), _last(), _current(&_first), _prev(NULL) 
+		// {
+		// 	// **********************************
+		// 	// ************* TESTS **************
+		// 	_ptr = _alloc.allocate(15);
+
+		// 	_alloc.construct(_ptr, ft::make_pair<char,int>('b',2));
+		// 	_rbt.insertion(_ptr++);
+
+		// 	_alloc.construct(_ptr, ft::make_pair<char,int>('d',4));
+		// 	_rbt.insertion(_ptr++);
+
+		// 	_alloc.construct(_ptr, ft::make_pair<char,int>('c',3));
+		// 	_rbt.insertion(_ptr++);
+
+		// 	_alloc.construct(_ptr, ft::make_pair<char,int>('f',5));
+		// 	_rbt.insertion(_ptr++);
+
+		// 	_alloc.construct(_ptr, ft::make_pair<char,int>('m',5));
+		// 	_rbt.insertion(_ptr++);
+
+		// 	_alloc.construct(_ptr, ft::make_pair<char,int>('y',5));
+		// 	_rbt.insertion(_ptr++);
+
+		// 	_alloc.construct(_ptr, ft::make_pair<char,int>('z',5));
+		// 	_rbt.insertion(_ptr++);
+
+		// 	_alloc.construct(_ptr, ft::make_pair<char,int>('q',5));
+		// 	_rbt.insertion(_ptr++);
+
+		// 	_alloc.construct(_ptr, ft::make_pair<char,int>('a',1));
+		// 	_rbt.insertion(_ptr++);
+
+		// 	_alloc.construct(_ptr, ft::make_pair<char,int>('e',5));
+		// 	_rbt.insertion(_ptr);
+
+		// 	_rbt.print_tree();
+		// 	// create_node_list();
+		// 	// print_node_list();
+		// }
 
 		// template <class InputIterator>
 		// map(InputIterator first, InputIterator last, 

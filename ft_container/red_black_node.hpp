@@ -15,6 +15,7 @@ namespace ft
 		typedef	red_black_node				node;
 		typedef	ft::pair<const Key,T>		value_type;
 		typedef	value_type *				pointer;
+		typedef	value_type &				reference;
 
 		red_black_node() : 
 		_key_val(), _color(LEAF), _left(NULL), _right(NULL), _parent(NULL) {}
@@ -63,7 +64,8 @@ namespace ft
 		node *			_right; 			// Pointeur vers fils right 
 		node *			_parent; 			// Pointeur vers père
 		int				_color; 			// RED ou BLACK
-		pointer			_key_val;			// Pointeur vers les datas du noeud
+		// pointer			_key_val;			// Pointeur vers les datas du noeud
+		reference		_key_val;
 	};
 }
 

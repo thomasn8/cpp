@@ -21,32 +21,39 @@ int main()
 	// ************************************************************
 	// ******************** TESTS CONSTRUCTORS ********************
 	// #1
-	ft::map<char,int> ft1;
-	ft::map<char,int>::iterator it = ft1.begin();
-	ft::map<char,int>::iterator ite = ft1.end();
-	cout << it->first << endl;
-	++it;
-	cout << it->first << endl;
-	++it;
-	cout << it->first << endl;
-	++it;
-	cout << it->first << endl;
-	++it;
-	cout << it->first << endl;
-	++it;
-	cout << it->first << endl;
-	++it;
-	cout << it->first << endl;
-	++it;
-	cout << it->first << endl;
-	++it;
-	cout << it->first << endl;
-	++it;
-	cout << it->first << endl;
-	++it;
+	ft::map<char,int> mymap;
+	ft::map<char,int>::iterator it=mymap.begin();
+	cout << "TEST: " << &*it << endl;
+	cout << "TEST: " << it->first << endl;
+	cout << "ERRRROR" << endl;
+	// ft::map<char,int>::iterator ite=mymap.end();
+	// cout << "TEST: " << ite->first << &*it << endl;
+	// ft::map<char,int> ft1;
+	// ft::map<char,int>::iterator it = ft1.begin();
+	// ft::map<char,int>::iterator ite = ft1.end();
+	// cout << it->first << endl;
+	// ++it;
+	// cout << it->first << endl;
+	// ++it;
+	// cout << it->first << endl;
+	// ++it;
+	// cout << it->first << endl;
+	// ++it;
+	// cout << it->first << endl;
+	// ++it;
+	// cout << it->first << endl;
+	// ++it;
+	// cout << it->first << endl;
+	// ++it;
+	// cout << it->first << endl;
+	// ++it;
+	// cout << it->first << endl;
+	// ++it;
+	// cout << it->first << endl;
+	// ++it;
 
-	for (ft::map<char,int>::iterator it=ft1.begin(); it!=ft1.end(); ++it)
-    	std::cout << it->first << " => " << it->second << '\n';
+	// for (ft::map<char,int>::iterator it=ft1.begin(); it!=ft1.end(); ++it)
+    // 	std::cout << it->first << " => " << it->second << '\n';
 
 
 	// ft1.insert(ft::pair<char,int>('a',100));
@@ -105,6 +112,10 @@ int main()
 	// cout << "A pair: " << mymap['a'] << " " << &*first << endl;
 
 	// // show content:
+	// std::map<char,int>::iterator it2=mymap.begin();
+	// std::map<char,int>::iterator it2e=mymap.end();
+	// cout << "TEST: " << it2->first << &*it2 << endl;
+	// cout << "TEST: " << it2e->first << &*it2 << endl;
 	// for (std::map<char,int>::iterator it=mymap.begin(); it!=mymap.end(); ++it)
 	// {
 	// 	std::cout << it->first << " => " << it->second << " (" << &*it << ")" << '\n';
