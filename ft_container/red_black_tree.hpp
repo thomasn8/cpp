@@ -69,35 +69,6 @@ namespace ft
 				n = n->right();
 			return n;
 		}
-
-		// node * get_next(node * n) const
-		// {
-		// 	if (!n)
-		// 		return _past_end_ptr;
-		// 	if (n->right())
-		// 		return get_left_most(n->right());
-		// 	node * p = n->parent();
-		// 	while (p != NULL && n == p->right()) 
-		// 	{
-		// 		n = p;
-		// 		p = p->parent();
-		// 	}
-		// 	return p;
-		// }
-		// node * get_prev(node * n) const
-		// {
-		// 	if (!n)
-		// 		return _past_end_ptr;
-		// 	if (n->left())
-		// 		return get_right_most(n->left());
-		// 	node * p = n->parent();
-		// 	while (p != NULL && n == p->left()) 
-		// 	{
-		// 		n = p;
-		// 		p = p->parent();
-		// 	}
-		// 	return p;
-		// }
 		node * get_next(node *n) const
 		{
 			node * parent;
@@ -110,16 +81,12 @@ namespace ft
 			else if (n->parent())
 			{
 				parent = n->parent();
-				while (n == parent->right())
+				while (parent != NULL && n == parent->right()) 
 				{
-					if (n->parent())
-						n = n->parent();
-					else
-						return NULL;
-					if (n->parent())
-						parent = n->parent();
-					else
-						return _past_end_ptr;	// on est sur le max, pas de next
+					n = parent;
+					parent = parent->parent();
+					if (!parent)
+						return _past_end_ptr;
 				}
 				return parent;
 			}
@@ -140,15 +107,11 @@ namespace ft
 			else if (n->parent())
 			{
 				parent = n->parent();
-				while (n == parent->left())
+				while (parent != NULL && n == parent->left()) 
 				{
-					if (n->parent())
-						n = n->parent();
-					else
-						return NULL;
-					if (n->parent())
-						parent = n->parent();
-					else
+					n = parent;
+					parent = parent->parent();
+					if (!parent)
 						return _past_end_ptr;	// on est sur le min, pas de prev	!!!! INSTAURER UN PAST PREV
 				}
 				return parent;
@@ -202,15 +165,6 @@ namespace ft
 			}
 			return NULL;
 		}
-
-		// node * search(node * n, Key key)
-		// {
-		// 	if (n == NULL || key == n->key_val()->first)
-		// 		return n;
-		// 	if (key < n->key_val()->first)
-		// 		return search(n->left(), key);
-		// 	return search(n->right(), key);
-		// }
 
 		node * insertion(value_type * pair)
 		{
