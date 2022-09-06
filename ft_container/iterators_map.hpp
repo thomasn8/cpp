@@ -18,11 +18,10 @@ namespace ft
 		typedef	iterator_category			it;
 		typedef int 						SFINAE_condition;
 		typedef ft::bidirectional_iterator<Key,T,Node_ptr,Tree_ptr> iterator;
-		typedef ft::bidirectional_iterator<const Key,T,const Node_ptr,Tree_ptr> const_iterator;
+		typedef ft::bidirectional_iterator<const Key,T,Node_ptr,const Tree_ptr> const_iterator;
 	// CONSTRUCTEURS/DESTRUCTEUR
 		bidirectional_iterator() : _p(0) {}
 		bidirectional_iterator(pointer p, Node_ptr node, Tree_ptr tree) : _p(p), _node(node), _tree(tree) {}
-		bidirectional_iterator(reference src, Node_ptr node, Tree_ptr tree) : _p(&src), _node(node), _tree(tree) {}
 		bidirectional_iterator(reference src) : _p(src.getPair()), _node(src.getNode()), _tree(src.getTree()) {}
 		virtual ~bidirectional_iterator() {}
 	// SURCHARGES

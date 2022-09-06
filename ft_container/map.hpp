@@ -4,7 +4,6 @@
 #include <iostream>
 using namespace std;
 #include <memory>
-#include <stdexcept>
 #include <functional>
 #include "red_black_tree.hpp"
 #include "iterators_map.hpp"
@@ -36,7 +35,7 @@ namespace ft
 		typedef	int												difference_type;
 		typedef	unsigned int									size_type;
 		typedef	ft::bidirectional_iterator<Key,T,node *,rbt *>	iterator;
-		typedef	ft::bidirectional_iterator<Key,T,node *,rbt *>	const_iterator;
+		typedef	ft::bidirectional_iterator<const Key,T,node *,const rbt *>	const_iterator;
 		// typedef	ft::reverse_iterator<iterator>				reverse_iterator;
 		// typedef	ft::reverse_iterator<const_iterator>		const_reverse_iterator;
 
@@ -45,11 +44,10 @@ namespace ft
 		const allocator_type & alloc = allocator_type()) :
 		_alloc(alloc), _comp(comp), _rbt(_comp)
 		{
-			value_type tmp = value_type();	// past_end pair, en dehors de l'arbre
+			value_type tmp = value_type();
 			_ptr = _alloc.allocate(1);
 			_alloc.construct(_ptr, tmp);
 			_rbt._past_end_pair = _ptr;
-			_rbt.print_tree();
 		}
 		
 		template <class InputIterator>
@@ -58,7 +56,7 @@ namespace ft
 		_alloc(alloc), _comp(comp), _rbt(_comp)
 		{
 			size_type n = _distance<InputIterator>(first, last);
-			if (n)
+			if (n > 0)
 			{
 				while (first != last)
 				{
@@ -67,87 +65,71 @@ namespace ft
 					_rbt.insertion(_ptr);
 				}
 			}
-			_rbt.print_tree();
 		}
 
-		// map(const map & x) :
-		// _alloc(x.get_allocator()), _comp(x.key_comp()), _rbt(), _n(x.size()), _first(NULL), _last(NULL)
-		// {
-		// 	if (_n)
-		// 	{
-		// 		const_iterator it = x.begin();
-		// 		const_iterator ite = x.end();
-		// 		// _first = _alloc.allocate(_n + 1);
-		// 		// _ptr = _first;
-		// 		while (it != ite)
-		// 		{
-		// 			_ptr = _alloc.allocate(1);
-		// 			_alloc.construct(_ptr, *it++);	// construction des key-value paires
-		// 			_rbt.insertion(_ptr);			// attache les paires à des noeuds construits et insérés dans le rbt
-		// 			// _rbt.insertion(_ptr++);			// attache les paires à des noeuds construits et insérés dans le rbt
-		// 		}
-		// 		// _last = --_ptr;
-		// 	}
-		// }
+		map(const map & x) :
+		_alloc(x.get_allocator()), _comp(x.key_comp()), _rbt(x.key_comp())
+		{
+			value_type tmp = value_type();
+			_ptr = _alloc.allocate(1);
+			_alloc.construct(_ptr, tmp);
+			_rbt._past_end_pair = _ptr;
+			const_iterator it = x.begin();
+			const_iterator ite = x.end();
+			while (it != ite)
+			{
+				_ptr = _alloc.allocate(1);
+				_alloc.construct(_ptr, *it++);
+				_rbt.insertion(_ptr);
+			}
+		}
 
-		// map & operator=(const map & x)
-		// {
-		// 	if (_n)
-		// 	{
-		// 		// _ptr = _first;
-		// 		// while (_first != _last)
-		// 		// 	_alloc.destroy(_first++);
-		// 		// _alloc.deallocate(_ptr, _n + 1);
-		// 		_rbt.free_tree(_rbt._root);
-		// 		// _n = 0;
-		// 		// _first = NULL;
-		// 		// _last = NULL;
-		// 	}
-		// 	if (x.size())
-		// 	{
-		// 		_comp = x.key_comp();
-		// 		_n = x.size();
-		// 		const_iterator it = x.begin();
-		// 		const_iterator ite = x.end();
-		// 		_first = _alloc.allocate(_n + 1);
-		// 		_ptr = _first;
-		// 		while (it != ite)
-		// 		{
-		// 			_ptr = _alloc.allocate(1);
-		// 			_alloc.construct(_ptr, *it++);	// construction des key-value paires
-		// 			_rbt.insertion(_ptr);			// attache les paires à des noeuds construits et insérés dans le rbt
-		// 			// _rbt.insertion(_ptr++);			// attache les paires à des noeuds construits et insérés dans le rbt
-		// 		}
-		// 		// _last = --_ptr;
-		// 	}
-		// 	return *this;
-		// }
+		map & operator=(const map & x)
+		{
+			if (size())
+				_rbt.free_tree();
+			// _comp = x.key_comp();
+			// _rbt._comp = _comp;
+			value_type tmp = value_type();
+			_ptr = _alloc.allocate(1);
+			_alloc.construct(_ptr, tmp);
+			_rbt._past_end_pair = _ptr;
+			const_iterator it = x.begin();
+			const_iterator ite = x.end();
+			while (it != ite)
+			{
+				_ptr = _alloc.allocate(1);
+				_alloc.construct(_ptr, *it++);
+				_rbt.insertion(_ptr);
+			}
+			return *this;
+		}
 
 		~map() { _rbt.free_tree(); }
 
 		// // ITERATORS
-		iterator begin()						{ return iterator(_rbt.get_left_most()->key_val(), _rbt.get_left_most(), &_rbt); }
+		iterator begin()						{ return iterator(_rbt.get_left_most(_rbt._root)->key_val(), _rbt.get_left_most(_rbt._root), &_rbt); }
 		iterator end()							{ return iterator(_rbt._past_end_ptr->key_val(), _rbt._past_end_ptr, &_rbt); }
-		const_iterator begin() const 			{ return const_iterator(_rbt.get_left_most()->key_val(), _rbt.get_left_most(), &_rbt); }
+		const_iterator begin() const 			{ return const_iterator(_rbt.get_left_most(_rbt._root)->key_val(), _rbt.get_left_most(_rbt._root), &_rbt); }
 		const_iterator end() const				{ return const_iterator(_rbt._past_end_ptr->key_val(), _rbt._past_end_ptr, &_rbt); }
 		// reverse_iterator rbegin() 				
 		// {
-		// 	iterator it(_rbt.get_right_most()->key_val(), _rbt.get_right_most(), &_rbt); 
+		// 	iterator it(_rbt.get_right_most(_rbt._root)->key_val(), _rbt.get_right_most(_rbt._root), &_rbt); 
 		// 	return reverse_iterator(it); 
 		// }
 		// const_reverse_iterator rbegin() const
 		// {
-		// 	const_iterator it(_rbt.get_right_most()->key_val(), _rbt.get_right_most(), &_rbt); 
+		// 	const_iterator it(_rbt.get_right_most(_rbt._root)->key_val(), _rbt.get_right_most(_rbt._root), &_rbt); 
 		// 	return reverse_iterator(it); 
 		// }
 		// reverse_iterator rend() 				
 		// {
-		// 	iterator it(_rbt.get_left_most()->key_val(), _rbt.get_left_most(), &_rbt); 
+		// 	iterator it(_rbt.get_left_most(_rbt._root)->key_val(), _rbt.get_left_most(_rbt._root), &_rbt); 
 		// 	return reverse_iterator(it); 
 		// }
 		// const_reverse_iterator rend() const
 		// {
-		// 	const_iterator it(_rbt.get_left_most()->key_val(), _rbt.get_left_most(), &_rbt); 
+		// 	const_iterator it(_rbt.get_left_most(_rbt._root)->key_val(), _rbt.get_left_most(_rbt._root), &_rbt); 
 		// 	return reverse_iterator(it); 
 		// }
 

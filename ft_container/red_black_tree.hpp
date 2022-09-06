@@ -53,66 +53,68 @@ namespace ft
 		typedef	unsigned int								size_type;
 		typedef	int											difference_type;
 
-		node * get_left_most() const
+		node * get_left_most(node * n) const
 		{
-			node * n;
-			if (_root != NULL)
-			{
-				n = _root->left();
-				if (!n)
-					return _root;
-				else
-				{
-					while (n != NULL)
-					{
-						if (n->left() != NULL)
-							n = n->left();
-						else 
-							break;
-					}
-					return n;
-				}
-			}
-			return _past_end_ptr;
+			if (!n)
+				return _past_end_ptr;
+			while (n->left())
+				n = n->left();
+			return n;
 		}
-		node * get_right_most() const
+		node * get_right_most(node * n) const
 		{
-			node * n;
-			if (_root != NULL)
-			{
-				n = _root->right();
-				if (!n)
-					return _root;
-				else
-				{
-					while (n != NULL)
-					{
-						if (n->right() != NULL)
-							n = n->right();
-						else 
-							break;
-					}
-					return n;
-				}
-			}
-			return NULL;
+			if (!n)
+				return _past_end_ptr;
+			while (n->right())
+				n = n->right();
+			return n;
 		}
+
+		// node * get_next(node * n) const
+		// {
+		// 	if (!n)
+		// 		return _past_end_ptr;
+		// 	if (n->right())
+		// 		return get_left_most(n->right());
+		// 	node * p = n->parent();
+		// 	while (p != NULL && n == p->right()) 
+		// 	{
+		// 		n = p;
+		// 		p = p->parent();
+		// 	}
+		// 	return p;
+		// }
+		// node * get_prev(node * n) const
+		// {
+		// 	if (!n)
+		// 		return _past_end_ptr;
+		// 	if (n->left())
+		// 		return get_right_most(n->left());
+		// 	node * p = n->parent();
+		// 	while (p != NULL && n == p->left()) 
+		// 	{
+		// 		n = p;
+		// 		p = p->parent();
+		// 	}
+		// 	return p;
+		// }
 		node * get_next(node *root) const
 		{
 			node * parent;
 			if (!root)
 				return _past_end_ptr;
 			if (root->right())
-			{
-				root = root->right();
-				while (root)
-				{
-					if (root->left())
-						root = root->left();
-					else
-						return root;
-				}
-			}
+				return get_left_most(root->right());
+			// {
+			// 	root = root->right();
+			// 	while (root)
+			// 	{
+			// 		if (root->left())
+			// 			root = root->left();
+			// 		else
+			// 			return root;
+			// 	}
+			// }
 			else if (root->parent() && root == root->parent()->left())
 				return root->parent();
 			else if (root->parent())
@@ -143,16 +145,17 @@ namespace ft
 			if (root == _past_end_ptr) // on est sur le past-end qui n'est pas dans l'arbre
 				return get_right_most();
 			if (root->left())
-			{
-				root = root->left();
-				while (root)
-				{
-					if (root->right())
-						root = root->right();
-					else
-						return root;
-				}
-			}
+				return get_right_most(root->left());
+			// {
+			// 	root = root->left();
+			// 	while (root)
+			// 	{
+			// 		if (root->right())
+			// 			root = root->right();
+			// 		else
+			// 			return root;
+			// 	}
+			// }
 			else if (root->parent() && root == root->parent()->right())
 			{
 				return root->parent();
@@ -194,17 +197,10 @@ namespace ft
 		{
 			_past_end_ptr = _alloc.allocate(1);
 			node tmp(_past_end_pair);
-			_alloc.construct(_past_end_ptr, tmp);
+			// _alloc.construct(_past_end_ptr, tmp);
 		}
 		
 		~red_black_tree() {}
-
-		/* En partant de la racine, on compare
-		la valeur recherchée à celle du nœud courant de l'arbre. Si ces valeurs
-		sont égales, la recherche est terminée et on renvoie le nœud courant. 
-		Sinon, on choisit de descendre vers le nœud enfant gauche ou droit selon 
-		que la valeur recherchée est inférieure ou supérieure. Si une feuille est 
-		atteinte, la valeur recherchée ne se trouve pas dans l'arbre. */
 
 		node * search(Key key)
 		{
@@ -217,23 +213,28 @@ namespace ft
 						root = root->left();
 					else
 						return NULL;
-						// pas de key similaires
 				}
 				else if (_comp.comp(root->key_val()->first, key))
 				{
-					// cout << "TEST" << endl;
 					if (root->right())
 						root = root->right();
 					else
 						return NULL;
-						// pas de key similaires
 				}
 				else
 					return root;
-					// Key similaire
 			}
 			return NULL;
 		}
+
+		// node * search(node * n, Key key)
+		// {
+		// 	if (n == NULL || key == n->key_val()->first)
+		// 		return n;
+		// 	if (key < n->key_val()->first)
+		// 		return search(n->left(), key);
+		// 	return search(n->right(), key);
+		// }
 
 		node * insertion(value_type * pair)
 		{
@@ -246,7 +247,6 @@ namespace ft
 			while (_root->parent() != NULL)
 				_root = _root->parent();
 			_n++;
-			// return _root;
 			return _ptr;
 		}
 		void insertion_recursiv(node * root, node * n) 
@@ -399,8 +399,8 @@ namespace ft
 			cout << "[FREE RED BLACK TREE]" << endl;
 			free_tree_recursiv(_root);
 			_root = NULL;
-			_alloc_p.destroy(_past_end_ptr->key_val());
-			_alloc_p.deallocate(_past_end_ptr->key_val(), 1);
+			// _alloc_p.destroy(_past_end_ptr->key_val());
+			// _alloc_p.deallocate(_past_end_ptr->key_val(), 1);
 			_alloc.destroy(_past_end_ptr);
 			_alloc.deallocate(_past_end_ptr, 1);
 		}

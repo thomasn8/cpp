@@ -16,6 +16,11 @@ Practically, a map will be implemented as some type of balanced tree in order
 to achieve logarithmic lookup, insertion and deletion times.
 */
 
+struct classcomp {
+  bool operator() (const char& lhs, const char& rhs) const
+  {return lhs<rhs;}
+};
+
 int main()
 {
 	// ************************************************************
@@ -27,61 +32,30 @@ int main()
 	ft1['a'] = 1;
 
 	for (ft::map<char,int>::iterator it = ft1.begin(); it != ft1.end(); ++it)
-    	std::cout << it->first << " => " << it->second << '\n';
+    	cout << it->first << " => " << it->second << endl;
+	cout << endl;
 	// for (ft::map<char,int>::reverse_iterator it = ft1.rbegin(); it != ft1.rend(); ++it)
     // 	std::cout << it->first << " => " << it->second << '\n';
 
-	// ft::map<char,int>::iterator it=ft1.begin();
-	// ft::map<char,int>::iterator ite=ft1.end();
-	// while (--ite != it)
-    // 	std::cout << ite->first << " => " << ite->second << '\n';
-	// std::cout << ite->first << " => " << ite->second << '\n';
+	ft::map<char,int> ft2(ft1);
+	for (ft::map<char,int>::iterator it = ft2.begin(); it != ft2.end(); ++it)
+    	cout << it->first << " => " << it->second << '\n';
+	cout << endl;
 
-	// std::map<char,int> ft1;
-	// ft1['a'] = 100;
-	// ft1['z'] = 700;		
-	// ft1['b'] = 10;		
-	// ft1['q'] = 800;		
-	// std::map<char,int>::iterator it=ft1.begin();
-	// std::map<char,int>::iterator ite=ft1.end();
-	// while (--ite != it)
-    // 	std::cout << ite->first << " => " << ite->second << '\n';
+	ft::map<char,int> ft3;
+	ft3 = ft2;
+	ft3.insert(ft::make_pair<char,int>('u',6));
+	ft3.insert(ft::make_pair<char,int>('r',19));
+	ft3.insert(ft::make_pair<char,int>('r',12));
+	for (ft::map<char,int>::iterator it = ft3.begin(); it != ft3.end(); ++it)
+    	cout << it->first << " => " << it->second << '\n';
+	cout << endl;
 
-	// ft::map<char,int> mymap;
-	// ft::map<char,int>::iterator it=mymap.begin();
-	// cout << "TEST: " << &*it << " / "<< it->first << endl;
-	// ft::map<char,int>::iterator ite=mymap.end();
-	// cout << "TEST: " << &*ite << " / "<< ite->first << endl;
-	// for (ft::map<char,int>::iterator it=mymap.begin(); it!=mymap.end(); ++it)
-    // 	std::cout << it->first << " => " << it->second << '\n';
+	ft::map<char,int> ft4(ft3.begin(), ft3.end());
+	for (ft::map<char,int>::iterator it = ft4.begin(); it != ft4.end(); ++it)
+    	cout << it->first << " => " << it->second << '\n';
+	cout << endl;
 
-	// ft1.insert(ft::pair<char,int>('a',100));
-	// ft1.insert(ft::pair<char,int>('b',200));
-	// ft1.insert(ft::pair<char,int>('c',400));
-	// ft1.insert(ft::pair<char,int>('c',400));	// DOIT ETRE REFUSE CAR KEY 'c' EXISTE DEJA
-	// ft1.insert(ft::pair<char,int>('d',800));
-	// ft1.insert(ft::pair<char,int>('e',1600));
-	// ft1.insert(ft::pair<char,int>('f',3200));
-	// ft1.insert(ft::pair<char,int>('g',6400));
-	// ft1.insert(ft::make_pair('h',12800));
-	// ft1['z'] = -100;
-	// ft1['z'] = -100;							// DOIT ETRE REFUSE CAR KEY 'c' EXISTE DEJA
-	// ft::map_details(ft1);
-
-	// // #2
-	// ft::map<char,int> ft2(ft1.begin(), ft1.end());
-	// ft::map_details(ft2);
-
-	// // #3
-	// ft::map<char,int> ft3(ft1);
-	// ft::map_details(ft3);
-
-	// // #4
-	// ft::map<char,int> ft4 = ft1;
-	// ft::map_details(ft4);
-	// ft::map<char,int> ft5;
-	// ft5.insert(ft::pair<char,int>('m',10000));
-	// ft5 = ft1;
 	// ft::map_details(ft5);
 
 	// // ************************************************************
