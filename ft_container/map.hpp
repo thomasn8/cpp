@@ -7,7 +7,7 @@ using namespace std;
 #include <stdexcept>
 #include <functional>
 #include "red_black_tree.hpp"
-#include "iterators.hpp"
+#include "iterators_map.hpp"
 #include "pair.hpp"
 #include "utils.hpp"
 
@@ -36,73 +36,21 @@ namespace ft
 		typedef	int												difference_type;
 		typedef	unsigned int									size_type;
 		typedef	ft::bidirectional_iterator<Key,T,node *,rbt *>	iterator;
-		typedef	ft::bidirectional_iterator<const Key,T,const node *,rbt *>	const_iterator;
-		typedef	ft::reverse_iterator<iterator>					reverse_iterator;
-		typedef	ft::reverse_iterator<const_iterator>			const_reverse_iterator;
+		typedef	ft::bidirectional_iterator<Key,T,node *,rbt *>	const_iterator;
+		// typedef	ft::reverse_iterator<iterator>				reverse_iterator;
+		// typedef	ft::reverse_iterator<const_iterator>		const_reverse_iterator;
 
+	// CONSTRUCTORS / DESTRUCTOR
 		explicit map(const key_compare & comp = key_compare(), 
 		const allocator_type & alloc = allocator_type()) :
 		_alloc(alloc), _comp(comp), _rbt(_comp)
 		{
-			value_type tmp = value_type();
+			value_type tmp = value_type();	// past_end pair, en dehors de l'arbre
 			_ptr = _alloc.allocate(1);
 			_alloc.construct(_ptr, tmp);
 			_rbt._past_end_pair = _ptr;
-
-			_ptr = _alloc.allocate(1);
-			_alloc.construct(_ptr, ft::make_pair<char,int>('b',2));
-			_rbt.insertion(_ptr);
-
-			_ptr = _alloc.allocate(1);
-			_alloc.construct(_ptr, ft::make_pair<char,int>('d',4));
-			_rbt.insertion(_ptr);
-
-			_ptr = _alloc.allocate(1);
-			_alloc.construct(_ptr, ft::make_pair<char,int>('c',3));
-			_rbt.insertion(_ptr);
-
-			_ptr = _alloc.allocate(1);
-			_alloc.construct(_ptr, ft::make_pair<char,int>('f',5));
-			_rbt.insertion(_ptr);
-
-			_ptr = _alloc.allocate(1);
-			_alloc.construct(_ptr, ft::make_pair<char,int>('m',5));
-			_rbt.insertion(_ptr);
-
-			_ptr = _alloc.allocate(1);
-			_alloc.construct(_ptr, ft::make_pair<char,int>('y',5));
-			_rbt.insertion(_ptr);
-
-			_ptr = _alloc.allocate(1);
-			_alloc.construct(_ptr, ft::make_pair<char,int>('z',5));
-			_rbt.insertion(_ptr);
-
-			_ptr = _alloc.allocate(1);
-			_alloc.construct(_ptr, ft::make_pair<char,int>('q',5));
-			_rbt.insertion(_ptr);
-
-			_ptr = _alloc.allocate(1);
-			_alloc.construct(_ptr, ft::make_pair<char,int>('a',1));
-			_rbt.insertion(_ptr);
-
-			_ptr = _alloc.allocate(1);
-			_alloc.construct(_ptr, ft::make_pair<char,int>('e',5));
-			_rbt.insertion(_ptr);
-
 			_rbt.print_tree();
 		}
-
-	// CONSTRUCTORS / DESTRUCTOR
-		// explicit map(const key_compare & comp = key_compare(), 
-		// const allocator_type & alloc = allocator_type()) :
-		// _alloc(alloc), _comp(comp), _rbt(_comp)
-		// {
-		// 	value_type tmp = value_type();	// past_end pair, en dehors de l'arbre
-		// 	_ptr = _alloc.allocate(1);
-		// 	_alloc.construct(_ptr, tmp);
-		// 	_rbt._past_end_pair = _ptr;
-		// 	_rbt.print_tree();
-		// }
 		
 		template <class InputIterator>
 		map(InputIterator first, InputIterator last, 
@@ -178,40 +126,54 @@ namespace ft
 		~map() { _rbt.free_tree(); }
 
 		// // ITERATORS
-		iterator begin()					{ return iterator(_rbt.get_left_most()->key_val(), _rbt.get_left_most(), &_rbt); }
-		iterator end()						{ return iterator(_rbt._past_end_ptr->key_val(), _rbt._past_end_ptr, &_rbt); }
-		// iterator end() 					{ if (_n) return iterator(_last+1); return (_last);}
-		// const_iterator begin() const 	{ return const_iterator(_first); }
-		// const_iterator end() const 		{ if (_n) return const_iterator(_last+1); return (_last);}
+		iterator begin()						{ return iterator(_rbt.get_left_most()->key_val(), _rbt.get_left_most(), &_rbt); }
+		iterator end()							{ return iterator(_rbt._past_end_ptr->key_val(), _rbt._past_end_ptr, &_rbt); }
+		const_iterator begin() const 			{ return const_iterator(_rbt.get_left_most()->key_val(), _rbt.get_left_most(), &_rbt); }
+		const_iterator end() const				{ return const_iterator(_rbt._past_end_ptr->key_val(), _rbt._past_end_ptr, &_rbt); }
+		// reverse_iterator rbegin() 				
+		// {
+		// 	iterator it(_rbt.get_right_most()->key_val(), _rbt.get_right_most(), &_rbt); 
+		// 	return reverse_iterator(it); 
+		// }
+		// const_reverse_iterator rbegin() const
+		// {
+		// 	const_iterator it(_rbt.get_right_most()->key_val(), _rbt.get_right_most(), &_rbt); 
+		// 	return reverse_iterator(it); 
+		// }
+		// reverse_iterator rend() 				
+		// {
+		// 	iterator it(_rbt.get_left_most()->key_val(), _rbt.get_left_most(), &_rbt); 
+		// 	return reverse_iterator(it); 
+		// }
+		// const_reverse_iterator rend() const
+		// {
+		// 	const_iterator it(_rbt.get_left_most()->key_val(), _rbt.get_left_most(), &_rbt); 
+		// 	return reverse_iterator(it); 
+		// }
 
 		// // CAPACITY
 		size_type size() const { return _rbt._n; }
 
 		// // ELEMENT ACCESS
-		// mapped_type & operator[](const key_type & k)
-		// {
-		// 	value_type new_pr = ft::make_pair(k, mapped_type());
-		// 	pair<iterator,bool> checked = insert(new_pr);
-		// 	return (*checked.first).second;
-		// }
+		mapped_type & operator[](const key_type & k)
+		{
+			value_type new_pr = ft::make_pair(k, mapped_type());
+			pair<iterator,bool> checked = insert(new_pr);
+			return (*checked.first).second;
+		}
 
 		// MODIFIERS
 		pair<iterator,bool> insert(const value_type & val)
 		{
-			// rbt cherche dans la liste si la key est déjà utiliser
 			node * pos = _rbt.search(val.first);
 			if (pos)
 			{
 				iterator it_pos(pos->key_val(), pos, &_rbt);
 				return pair<iterator,bool>(it_pos, false);
 			}
-			// créer et insérer une nouvelle pair dans l'arbre
 			_ptr = _alloc.allocate(1);
 			_alloc.construct(_ptr, val);
 			pos = _rbt.insertion(_ptr);
-
-			// retourner une pair<iterator,bool> contenant:
-			// <l'itérateur de l'élément dans la node liste, true>
 			iterator it_pos(pos->key_val(), pos, &_rbt);
 			return pair<iterator,bool>(it_pos, true);
 		}
