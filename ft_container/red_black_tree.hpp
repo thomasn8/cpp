@@ -98,36 +98,26 @@ namespace ft
 		// 	}
 		// 	return p;
 		// }
-		node * get_next(node *root) const
+		node * get_next(node *n) const
 		{
 			node * parent;
-			if (!root)
+			if (!n)
 				return _past_end_ptr;
-			if (root->right())
-				return get_left_most(root->right());
-			// {
-			// 	root = root->right();
-			// 	while (root)
-			// 	{
-			// 		if (root->left())
-			// 			root = root->left();
-			// 		else
-			// 			return root;
-			// 	}
-			// }
-			else if (root->parent() && root == root->parent()->left())
-				return root->parent();
-			else if (root->parent())
+			if (n->right())
+				return get_left_most(n->right());
+			else if (n->parent() && n == n->parent()->left())
+				return n->parent();
+			else if (n->parent())
 			{
-				parent = root->parent();
-				while (root == parent->right())
+				parent = n->parent();
+				while (n == parent->right())
 				{
-					if (root->parent())
-						root = root->parent();
+					if (n->parent())
+						n = n->parent();
 					else
 						return NULL;
-					if (root->parent())
-						parent = root->parent();
+					if (n->parent())
+						parent = n->parent();
 					else
 						return _past_end_ptr;	// on est sur le max, pas de next
 				}
@@ -135,50 +125,36 @@ namespace ft
 			}
 			else
 				return _past_end_ptr;	// que 1 val dans l'arbre, pas de next
-			return NULL;
 		}
-		node * get_prev(node *root) const
+		node * get_prev(node *n) const
 		{
 			node * parent;
-			if (!root)
+			if (!n)
 				return _past_end_ptr;
-			if (root == _past_end_ptr) // on est sur le past-end qui n'est pas dans l'arbre
-				return get_right_most();
-			if (root->left())
-				return get_right_most(root->left());
-			// {
-			// 	root = root->left();
-			// 	while (root)
-			// 	{
-			// 		if (root->right())
-			// 			root = root->right();
-			// 		else
-			// 			return root;
-			// 	}
-			// }
-			else if (root->parent() && root == root->parent()->right())
+			if (n == _past_end_ptr) // on est sur le past-end qui n'est pas dans l'arbre
+				return get_right_most(_root);
+			if (n->left())
+				return get_right_most(n->left());
+			else if (n->parent() && n == n->parent()->right())
+				return n->parent();
+			else if (n->parent())
 			{
-				return root->parent();
-			}
-			else if (root->parent())
-			{
-				parent = root->parent();
-				while (root == parent->left())
+				parent = n->parent();
+				while (n == parent->left())
 				{
-					if (root->parent())
-						root = root->parent();
+					if (n->parent())
+						n = n->parent();
 					else
 						return NULL;
-					if (root->parent())
-						parent = root->parent();
+					if (n->parent())
+						parent = n->parent();
 					else
-						return _past_end_ptr;	// on est sur le min, pas de prev
+						return _past_end_ptr;	// on est sur le min, pas de prev	!!!! INSTAURER UN PAST PREV
 				}
 				return parent;
 			}
 			else
-				return _past_end_ptr;	// que 1 val dans l'arbre, pas de next
-			return NULL;
+				return _past_end_ptr;	// que 1 val dans l'arbre, pas de next		!!!! INSTAURER UN PAST PREV
 		}
 
 		private:
