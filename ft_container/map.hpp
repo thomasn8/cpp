@@ -33,24 +33,76 @@ namespace ft
 		typedef	typename allocator_type::const_pointer			const_pointer;
 		typedef red_black_tree<Key,T,val_comp,Alloc>			rbt;
 		typedef red_black_node<Key,T>							node;
-		typedef	ft::bidirectional_iterator<Key,T,node *,rbt *>				iterator;
+		typedef	int												difference_type;
+		typedef	unsigned int									size_type;
+		typedef	ft::bidirectional_iterator<Key,T,node *,rbt *>	iterator;
 		typedef	ft::bidirectional_iterator<const Key,T,const node *,rbt *>	const_iterator;
 		typedef	ft::reverse_iterator<iterator>					reverse_iterator;
 		typedef	ft::reverse_iterator<const_iterator>			const_reverse_iterator;
-		typedef	int												difference_type;
-		typedef	unsigned int									size_type;
 
-	// CONSTRUCTORS / DESTRUCTOR
 		explicit map(const key_compare & comp = key_compare(), 
 		const allocator_type & alloc = allocator_type()) :
 		_alloc(alloc), _comp(comp), _rbt(_comp)
 		{
-			value_type tmp = value_type();	// past_end pair, en dehors de l'arbre
+			value_type tmp = value_type();
 			_ptr = _alloc.allocate(1);
 			_alloc.construct(_ptr, tmp);
 			_rbt._past_end_pair = _ptr;
+
+			_ptr = _alloc.allocate(1);
+			_alloc.construct(_ptr, ft::make_pair<char,int>('b',2));
+			_rbt.insertion(_ptr);
+
+			_ptr = _alloc.allocate(1);
+			_alloc.construct(_ptr, ft::make_pair<char,int>('d',4));
+			_rbt.insertion(_ptr);
+
+			_ptr = _alloc.allocate(1);
+			_alloc.construct(_ptr, ft::make_pair<char,int>('c',3));
+			_rbt.insertion(_ptr);
+
+			_ptr = _alloc.allocate(1);
+			_alloc.construct(_ptr, ft::make_pair<char,int>('f',5));
+			_rbt.insertion(_ptr);
+
+			_ptr = _alloc.allocate(1);
+			_alloc.construct(_ptr, ft::make_pair<char,int>('m',5));
+			_rbt.insertion(_ptr);
+
+			_ptr = _alloc.allocate(1);
+			_alloc.construct(_ptr, ft::make_pair<char,int>('y',5));
+			_rbt.insertion(_ptr);
+
+			_ptr = _alloc.allocate(1);
+			_alloc.construct(_ptr, ft::make_pair<char,int>('z',5));
+			_rbt.insertion(_ptr);
+
+			_ptr = _alloc.allocate(1);
+			_alloc.construct(_ptr, ft::make_pair<char,int>('q',5));
+			_rbt.insertion(_ptr);
+
+			_ptr = _alloc.allocate(1);
+			_alloc.construct(_ptr, ft::make_pair<char,int>('a',1));
+			_rbt.insertion(_ptr);
+
+			_ptr = _alloc.allocate(1);
+			_alloc.construct(_ptr, ft::make_pair<char,int>('e',5));
+			_rbt.insertion(_ptr);
+
 			_rbt.print_tree();
 		}
+
+	// CONSTRUCTORS / DESTRUCTOR
+		// explicit map(const key_compare & comp = key_compare(), 
+		// const allocator_type & alloc = allocator_type()) :
+		// _alloc(alloc), _comp(comp), _rbt(_comp)
+		// {
+		// 	value_type tmp = value_type();	// past_end pair, en dehors de l'arbre
+		// 	_ptr = _alloc.allocate(1);
+		// 	_alloc.construct(_ptr, tmp);
+		// 	_rbt._past_end_pair = _ptr;
+		// 	_rbt.print_tree();
+		// }
 		
 		template <class InputIterator>
 		map(InputIterator first, InputIterator last, 
@@ -146,42 +198,22 @@ namespace ft
 		// MODIFIERS
 		pair<iterator,bool> insert(const value_type & val)
 		{
-			// 1. rbt cherche dans la liste si la key est déjà utiliser
-				// si oui retourne une pair<iterator,bool> contenant:
-				// <it(pos.key), false>
-			// 2.1 créer et insérer une nouvelle pair dans l'arbre
-			// 2.2 update la liste chainée
-			// 3. retourner une pair<iterator,bool> contenant:
-			//    <l'itérateur de l'élément dans la node liste, true>
+			// rbt cherche dans la liste si la key est déjà utiliser
+			node * pos = _rbt.search(val.first);
+			if (pos)
+			{
+				iterator it_pos(pos->key_val(), pos, &_rbt);
+				return pair<iterator,bool>(it_pos, false);
+			}
+			// créer et insérer une nouvelle pair dans l'arbre
+			_ptr = _alloc.allocate(1);
+			_alloc.construct(_ptr, val);
+			pos = _rbt.insertion(_ptr);
 
-			// iterator key_check = _check_keys(val.first);		// faire en sorte que le rbt perform le key_check (sera + rapide)
-			// if (key_check != NULL)
-			// 	return pair<iterator,bool>(key_check, false);
-			// if (_n)
-			// {
-			// 	iterator it = begin();
-			// 	iterator ite = end();
-			// 	pointer f = _first;
-			// 	_first = _alloc.allocate(_n + 2);				// arrêter d'allouer à chaque nouvel élément inséré
-			// 	_ptr = _first;									// augmenter la capacité en *2, un peu comme vector 
-			// 	while (it != ite)
-			// 	{
-			// 		_alloc.construct(_ptr++, *it++);
-
-			// 	}
-			// 	_alloc.construct(_ptr, val);
-			// 	_last = _ptr;
-			// 	_alloc.deallocate(f, _n + 1);
-			// }
-			// else
-			// {
-			// 	_first = _alloc.allocate(2);
-			// 	_ptr = _first;
-			// 	_alloc.construct(_ptr, val);
-			// 	_last = _first;
-			// }
-			// _n++;
-			// return pair<iterator,bool>(iterator(_ptr), true);
+			// retourner une pair<iterator,bool> contenant:
+			// <l'itérateur de l'élément dans la node liste, true>
+			iterator it_pos(pos->key_val(), pos, &_rbt);
+			return pair<iterator,bool>(it_pos, true);
 		}
 
 		// iterator insert (iterator position, const value_type& val)

@@ -199,6 +199,42 @@ namespace ft
 		
 		~red_black_tree() {}
 
+		/* En partant de la racine, on compare
+		la valeur recherchée à celle du nœud courant de l'arbre. Si ces valeurs
+		sont égales, la recherche est terminée et on renvoie le nœud courant. 
+		Sinon, on choisit de descendre vers le nœud enfant gauche ou droit selon 
+		que la valeur recherchée est inférieure ou supérieure. Si une feuille est 
+		atteinte, la valeur recherchée ne se trouve pas dans l'arbre. */
+
+		node * search(Key key)
+		{
+			node * root = _root;
+			while (root)
+			{
+				if (_comp.comp(key, root->key_val()->first))
+				{
+					if (root->left())
+						root = root->left();
+					else
+						return NULL;
+						// pas de key similaires
+				}
+				else if (_comp.comp(root->key_val()->first, key))
+				{
+					// cout << "TEST" << endl;
+					if (root->right())
+						root = root->right();
+					else
+						return NULL;
+						// pas de key similaires
+				}
+				else
+					return root;
+					// Key similaire
+			}
+			return NULL;
+		}
+
 		node * insertion(value_type * pair)
 		{
 			_ptr = _alloc.allocate(1);
@@ -210,7 +246,8 @@ namespace ft
 			while (_root->parent() != NULL)
 				_root = _root->parent();
 			_n++;
-			return _root;
+			// return _root;
+			return _ptr;
 		}
 		void insertion_recursiv(node * root, node * n) 
 		{
