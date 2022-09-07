@@ -163,6 +163,8 @@ namespace ft
 
 		node * insertion(value_type * pair)
 		{
+			// static int i = 0;
+			// cout << "insertion n° " << ++i << endl;
 			_ptr = _alloc.allocate(1);
 			node tmp(pair);
 			_alloc.construct(_ptr, tmp);
