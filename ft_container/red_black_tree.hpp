@@ -137,6 +137,7 @@ namespace ft
 			_past_end_ptr = _alloc.allocate(1);
 			node tmp(_past_end_pair);
 			// _alloc.construct(_past_end_ptr, tmp);
+			// _alloc.construct(_past_end_ptr, _past_end_pair);
 		}
 		
 		~red_black_tree() {}
@@ -329,8 +330,8 @@ namespace ft
 			cout << "[FREE RED BLACK TREE]" << endl;
 			free_tree_recursiv(_root);
 			_root = NULL;
-			// _alloc_p.destroy(_past_end_ptr->key_val());
-			// _alloc_p.deallocate(_past_end_ptr->key_val(), 1);
+			_alloc_p.destroy(_past_end_ptr->key_val());
+			_alloc_p.deallocate(_past_end_ptr->key_val(), 1);
 			_alloc.destroy(_past_end_ptr);
 			_alloc.deallocate(_past_end_ptr, 1);
 		}

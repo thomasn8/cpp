@@ -44,10 +44,7 @@ namespace ft
 		const allocator_type & alloc = allocator_type()) :
 		_alloc(alloc), _comp(comp), _rbt(_comp)
 		{
-			value_type tmp = value_type();
-			_ptr = _alloc.allocate(1);
-			_alloc.construct(_ptr, tmp);
-			_rbt._past_end_pair = _ptr;
+			set_past_end();
 		}
 		
 		template <class InputIterator>
@@ -55,6 +52,7 @@ namespace ft
 		const key_compare & comp = key_compare(), const allocator_type & alloc = allocator_type()) :
 		_alloc(alloc), _comp(comp), _rbt(_comp)
 		{
+			set_past_end();
 			size_type n = _distance<InputIterator>(first, last);
 			if (n > 0)
 			{
@@ -70,11 +68,7 @@ namespace ft
 		map(const map & x) :
 		_alloc(x.get_allocator()), _comp(x.key_comp()), _rbt(x.key_comp())
 		{
-			value_type tmp = value_type();
-			_ptr = _alloc.allocate(1);
-			_alloc.construct(_ptr, tmp);
-			_rbt._past_end_pair = _ptr;
-			cout << "past_end = " << _rbt._past_end_pair << endl;
+			set_past_end();
 			const_iterator it = x.begin();
 			const_iterator ite = x.end();
 			while (it != ite)
@@ -89,12 +83,7 @@ namespace ft
 		{
 			if (size())
 				_rbt.free_tree();
-			// _comp = x.key_comp();
-			// _rbt._comp = _comp;
-			value_type tmp = value_type();
-			_ptr = _alloc.allocate(1);
-			_alloc.construct(_ptr, tmp);
-			_rbt._past_end_pair = _ptr;
+			set_past_end();
 			const_iterator it = x.begin();
 			const_iterator ite = x.end();
 			while (it != ite)
@@ -199,21 +188,14 @@ namespace ft
 			return n;
 		}
 
-		// iterator _check_keys(key_type key)
-		// {
-		// 	if (_n)
-		// 	{
-		// 		iterator it = begin();
-		// 		iterator ite = end();
-		// 		while (it != ite)
-		// 		{
-		// 			if (key == (*it).first)
-		// 				return it;
-		// 			it++;
-		// 		}
-		// 	}
-		// 	return NULL;
-		// }
+		void set_past_end()
+		{
+			value_type tmp = value_type();
+			_ptr = _alloc.allocate(1);
+			_alloc.construct(_ptr, tmp);
+			_rbt._past_end_pair = _ptr;
+			_rbt._alloc.construct(_rbt._past_end_ptr, _rbt._past_end_pair);
+		}
 	};
 
 	// Class qui génère un objet pour stocker dans 'Compare comp' 
