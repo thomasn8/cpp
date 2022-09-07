@@ -193,7 +193,9 @@ namespace ft
 			value_type tmp = value_type();
 			_ptr = _alloc.allocate(1);
 			_alloc.construct(_ptr, tmp);
+
 			_rbt._past_end_pair = _ptr;
+			_rbt._past_end_ptr = _rbt._alloc.allocate(1);
 			_rbt._alloc.construct(_rbt._past_end_ptr, _rbt._past_end_pair);
 		}
 	};

@@ -132,13 +132,7 @@ namespace ft
 		value_type *	_past_end_pair;
 
 		red_black_tree(val_comp comp, const allocator_type & alloc = allocator_type()) : 
-		_alloc(alloc), _comp(comp), _n(0), _root(NULL) 
-		{
-			_past_end_ptr = _alloc.allocate(1);
-			node tmp(_past_end_pair);
-			// _alloc.construct(_past_end_ptr, tmp);
-			// _alloc.construct(_past_end_ptr, _past_end_pair);
-		}
+		_alloc(alloc), _comp(comp), _n(0), _root(NULL) {}
 		
 		~red_black_tree() {}
 
