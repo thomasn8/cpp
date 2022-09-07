@@ -74,6 +74,7 @@ namespace ft
 			_ptr = _alloc.allocate(1);
 			_alloc.construct(_ptr, tmp);
 			_rbt._past_end_pair = _ptr;
+			cout << "past_end = " << _rbt._past_end_pair << endl;
 			const_iterator it = x.begin();
 			const_iterator ite = x.end();
 			while (it != ite)

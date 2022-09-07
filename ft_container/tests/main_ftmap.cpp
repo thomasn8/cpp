@@ -31,32 +31,24 @@ int main()
 	ft1['b'] = 2;
 	ft1['a'] = 1;
 
-	for (ft::map<char,int>::iterator it = ft1.begin(); it != ft1.end(); ++it)
-    	cout << it->first << " => " << it->second << endl;
-	cout << endl;
+	ft::map_details(ft1);
 	// for (ft::map<char,int>::reverse_iterator it = ft1.rbegin(); it != ft1.rend(); ++it)
     // 	std::cout << it->first << " => " << it->second << '\n';
 
 	ft::map<char,int> ft2(ft1);
-	for (ft::map<char,int>::iterator it = ft2.begin(); it != ft2.end(); ++it)
-    	cout << it->first << " => " << it->second << '\n';
-	cout << endl;
+	ft::map_details(ft2);
+	ft::map<char,int>::iterator ite2 = ft2.end();
+	cout << "ITE = " << &*ite2 << endl;
 
-	ft::map<char,int> ft3;
-	ft3 = ft2;
-	ft3.insert(ft::make_pair<char,int>('u',6));
-	ft3.insert(ft::make_pair<char,int>('r',19));
-	ft3.insert(ft::make_pair<char,int>('r',12));
-	for (ft::map<char,int>::iterator it = ft3.begin(); it != ft3.end(); ++it)
-    	cout << it->first << " => " << it->second << '\n';
-	cout << endl;
+	// ft::map<char,int> ft3;
+	// ft3 = ft2;
+	// ft3.insert(ft::make_pair<char,int>('u',6));
+	// ft3.insert(ft::make_pair<char,int>('r',19));
+	// ft3.insert(ft::make_pair<char,int>('r',12));
+	// ft::map_details(ft3);
 
-	ft::map<char,int> ft4(ft3.begin(), ft3.end());
-	for (ft::map<char,int>::iterator it = ft4.begin(); it != ft4.end(); ++it)
-    	cout << it->first << " => " << it->second << '\n';
-	cout << endl;
-
-	// ft::map_details(ft5);
+	// ft::map<char,int> ft4(ft3.begin(), ft3.end());
+	// ft::map_details(ft4);
 
 	// // ************************************************************
 	// // ******************* TESTS ELEMENT ACCESS *******************

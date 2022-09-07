@@ -33,31 +33,30 @@ namespace ft
 			cout << "_first  " << &v.front() << endl;
 			cout << "_last   " << &v.back() << endl << endl;
 		}
-
 		cout << "--------------------------------------------------------" << endl;
 	}
 
-// // AFFICHE LE DETAIL D'UN FT::MAP CONTAINER
-// 	template<class T1, class T2>
-// 	void map_details(const ft::map<T1,T2> & m)
-// 	{
-// 		cout << endl << "----------------------- DETAILS ------------------------" << endl;
-// 		cout << "Size = " << m.size() << " | Sizeof(value_type) = " << sizeof(typename ft::map<T1,T2>::value_type) << endl << endl;
-// 		if (m.size())
-// 		{
-// 			typename ft::map<T1,T2>::const_iterator it = m.begin();
-// 			typename ft::map<T1,T2>::const_iterator ite = m.end();
-// 			while (it != ite)
-// 			{
-// 				cout << "It  " << &*it << ": " << (*it).first << " | " << (*it).second << endl;
-// 				it++;
-// 			}
-// 			cout << "Ite " << &*ite << endl;
-// 		}
-// 		else
-// 			cout << "map container is empty" << endl << endl;
-// 		cout << "--------------------------------------------------------" << endl;
-// 	}
+// AFFICHE LE DETAIL D'UN FT::MAP CONTAINER
+	template<class T1, class T2>
+	void map_details(const ft::map<T1,T2> & m)
+	{
+		cout << endl << "----------------------- DETAILS ------------------------" << endl;
+		cout << "Size = " << m.size() << endl << endl;
+		if (m.size())
+		{
+			typename ft::map<T1,T2>::const_iterator it = m.begin();
+			typename ft::map<T1,T2>::const_iterator ite = m.end();
+			while (it != ite)
+			{
+				cout << "It  " << &*it << ": " << it->first << " -> " << it->second << endl;
+				it++;
+			}
+			cout << "Ite " << &*ite << endl;
+		}
+		else
+			cout << "map container is empty" << endl << endl;
+		cout << "--------------------------------------------------------" << endl;
+	}
 }
 
 
@@ -84,30 +83,29 @@ void vector_details(const std::vector<T> & v)
 		cout << "_first  " << &v.front() << endl;
 		cout << "_last   " << &v.back() << endl << endl;
 	}
-
 	cout << "--------------------------------------------------------" << endl;
 }
 
-// // AFFICHE LE DETAIL D'UN STD::MAP CONTAINER COMME ft::map_details()
-// template<class T1, class T2>
-// void map_details(std::map<T1,T2> m)
-// {
-// 	cout << endl << "----------------------- DETAILS ------------------------" << endl;
-// 	cout << "Size = " << m.size() << " | Sizeof(value_type) = " << sizeof(typename std::map<T1,T2>::value_type) << endl << endl;
-// 	if (m.size())
-// 	{
-// 		typename std::map<T1,T2>::iterator it = m.begin();
-// 		typename std::map<T1,T2>::iterator ite = m.end();
-// 		while (it != ite)
-// 		{
-// 			cout << "It  " << &*it << ": " << (*it).first << " | " << (*it).second << endl;
-// 			it++;
-// 		}
-// 		cout << "Ite " << &*ite << endl;
-// 	}
-// 	else
-// 		cout << "container is empty" << endl << endl;
-// 	cout << "--------------------------------------------------------" << endl;
-// }
+// AFFICHE LE DETAIL D'UN STD::MAP CONTAINER COMME ft::map_details()
+template<class T1, class T2>
+void map_details(std::map<T1,T2> m)
+{
+	cout << endl << "----------------------- DETAILS ------------------------" << endl;
+	cout << "Size = " << m.size() << endl << endl;
+	if (m.size())
+	{
+		typename std::map<T1,T2>::iterator it = m.begin();
+		typename std::map<T1,T2>::iterator ite = m.end();
+		while (it != ite)
+		{
+			cout << "It  " << &*it << ": " << it->first << " | " << it->second << endl;
+			it++;
+		}
+		cout << "Ite " << &*ite << endl;
+	}
+	else
+		cout << "container is empty" << endl << endl;
+	cout << "--------------------------------------------------------" << endl;
+}
 
 #endif
