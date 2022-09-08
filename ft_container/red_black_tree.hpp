@@ -166,8 +166,8 @@ namespace ft
 			// static int i = 0;
 			// cout << "insertion n° " << ++i << endl;
 			_ptr = _alloc.allocate(1);
-			node tmp(pair);
-			_alloc.construct(_ptr, tmp);
+			// node tmp(pair);
+			_alloc.construct(_ptr, pair);
 			insertion_recursiv(_root, _ptr);
 			insertion_repare_tree(_ptr);
 			_root = _ptr;
