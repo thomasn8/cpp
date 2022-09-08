@@ -42,12 +42,12 @@ namespace ft
 	// CONSTRUCTORS / DESTRUCTOR
 		explicit map(const key_compare & comp = key_compare(), 
 		const allocator_type & alloc = allocator_type()) :
-		_alloc(alloc), _comp(comp), _rbt(_comp, &_past_end_pair) {}
+		_alloc(alloc), _comp(comp), _rbt(_comp, &_past_start_pair, &_past_end_pair) {}
 		
 		template <class InputIterator>
 		map(InputIterator first, InputIterator last, 
 		const key_compare & comp = key_compare(), const allocator_type & alloc = allocator_type()) :
-		_alloc(alloc), _comp(comp), _rbt(_comp, &_past_end_pair)
+		_alloc(alloc), _comp(comp), _rbt(_comp, &_past_start_pair, &_past_end_pair)
 		{
 			size_type n = _distance<InputIterator>(first, last);
 			if (n > 0)
@@ -62,7 +62,7 @@ namespace ft
 		}
 
 		map(const map & x) :
-		_alloc(x.get_allocator()), _comp(x.key_comp()), _rbt(x.key_comp(), &_past_end_pair)
+		_alloc(x.get_allocator()), _comp(x.key_comp()), _rbt(x.key_comp(), &_past_start_pair, &_past_end_pair)
 		{
 			const_iterator it = x.begin();
 			const_iterator ite = x.end();
@@ -92,12 +92,30 @@ namespace ft
 		~map() { _rbt.free_tree(); }
 
 		// // ITERATORS
-		iterator begin()						{ return iterator(_rbt.get_left_most(_rbt._root)->key_val(), const_cast<node *>(_rbt.get_left_most(_rbt._root)), &_rbt); }
-		iterator end()							{ return iterator(_rbt._past_end_node.key_val(), const_cast<node *>(&(_rbt._past_end_node)), &_rbt); }
-		// const_iterator begin() const 			{ return const_iterator(_rbt.get_left_most(_rbt._root)->key_val(), _rbt.get_left_most(_rbt._root), &_rbt); }
-		// const_iterator end() const				{ return const_iterator(_rbt._past_end_node.key_val(), &(_rbt._past_end_node), &_rbt);}
-		const_iterator begin() const 			{ return const_iterator(_rbt.get_left_most(_rbt._root)->key_val(), const_cast<node *>(_rbt.get_left_most(_rbt._root)), &_rbt); }
-		const_iterator end() const				{ return const_iterator(_rbt._past_end_node.key_val(), const_cast<node *>(&(_rbt._past_end_node)), &_rbt);}
+		iterator begin() 
+		{
+			return iterator(_rbt.get_left_most(_rbt._root)->key_val(),
+				const_cast<node *>(_rbt.get_left_most(_rbt._root)),
+				&_rbt);
+		}
+		iterator end()
+		{
+			return iterator(_rbt._past_end_node.key_val(),
+				const_cast<node *>(&(_rbt._past_end_node)),
+				&_rbt);
+		}
+		const_iterator begin() const
+		{
+			return const_iterator(_rbt.get_left_most(_rbt._root)->key_val(),
+				const_cast<node *>(_rbt.get_left_most(_rbt._root)),
+				&_rbt);
+		}
+		const_iterator end() const
+		{
+			return const_iterator(_rbt._past_end_node.key_val(),
+				const_cast<node *>(&(_rbt._past_end_node)),
+				&_rbt);
+		}
 		// reverse_iterator rbegin() 				
 		// {
 		// 	iterator it(_rbt.get_right_most(_rbt._root)->key_val(), _rbt.get_right_most(_rbt._root), &_rbt); 
@@ -170,6 +188,7 @@ namespace ft
 		val_comp				_comp;
 		rbt						_rbt;
 		pointer					_ptr;
+		value_type				_past_start_pair;
 		value_type				_past_end_pair;
 
 		template <class InputIterator>

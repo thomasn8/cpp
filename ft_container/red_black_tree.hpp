@@ -128,11 +128,13 @@ namespace ft
 		Alloc			_alloc;
 		Alloc_p			_alloc_p;
 		Comp			_comp;
+		node 			_past_start_node;
+		value_type *	_past_start_pair;
 		node 			_past_end_node;
 		value_type *	_past_end_pair;
 
-		red_black_tree(val_comp comp, value_type *past_end, const allocator_type & alloc = allocator_type()) : 
-		_alloc(alloc), _comp(comp), _n(0), _root(NULL), _past_end_pair(past_end), _past_end_node(past_end) {}
+		red_black_tree(val_comp comp, value_type *past_start, value_type *past_end, const allocator_type & alloc = allocator_type()) : 
+		_alloc(alloc), _comp(comp), _n(0), _root(NULL), _past_end_pair(past_end), _past_start_node(past_start), _past_end_node(past_end) {}
 		
 		~red_black_tree() {}
 
