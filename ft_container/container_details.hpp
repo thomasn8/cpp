@@ -35,6 +35,30 @@ namespace ft
 		}
 		cout << "--------------------------------------------------------" << endl;
 	}
+	template<class T>
+	void vector_rev_details(const ft::vector<T> & v)
+	{
+		cout << endl << "----------------------- DETAILS ------------------------" << endl;
+		cout << "Size = " << v.size() << " | Capacity = " << v.capacity() << endl << endl;
+		if (v.size())
+		{
+			typename ft::vector<T>::const_reverse_iterator it = v.rbegin();
+			typename ft::vector<T>::const_reverse_iterator ite = v.rend();
+			while (it != ite)
+			{
+				cout << "It  " << &*it.base() << ": " << *(it-1) << endl;
+				it++;
+			}
+			cout << "Its " << &*ite.base() << endl;
+		}
+		else
+		{
+			cout << "vector container is empty" << endl;
+			cout << "_first  " << &v.front() << endl;
+			cout << "_last   " << &v.back() << endl << endl;
+		}
+		cout << "--------------------------------------------------------" << endl;
+	}
 
 // AFFICHE LE DETAIL D'UN FT::MAP CONTAINER
 	template<class T1, class T2>
@@ -52,6 +76,29 @@ namespace ft
 				it++;
 			}
 			cout << "Ite " << &*ite << endl;
+		}
+		else
+			cout << "map container is empty" << endl << endl;
+		cout << "--------------------------------------------------------" << endl;
+	}
+
+	// for (ft::map<char,int>::const_reverse_iterator it = ft1.crbegin(); it != ft1.crend(); ++it)
+    // 	std::cout << it->first << " => " << it->second << '\n';
+	template<class T1, class T2>
+	void map_rev_details(const ft::map<T1,T2> & m)
+	{
+		cout << endl << "----------------------- DETAILS ------------------------" << endl;
+		cout << "Size = " << m.size() << endl << endl;
+		if (m.size())
+		{
+			typename ft::map<T1,T2>::const_reverse_iterator it = m.crbegin();
+			typename ft::map<T1,T2>::const_reverse_iterator ite = m.crend();
+			while (it != ite)
+			{
+				cout << "It  " << &*it.base() << ": " << it->first << " -> " << it->second << endl;
+				it++;
+			}
+			cout << "Its " << &*ite.base() << endl;
 		}
 		else
 			cout << "map container is empty" << endl << endl;

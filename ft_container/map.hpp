@@ -10,6 +10,9 @@ using namespace std;
 #include "pair.hpp"
 #include "utils.hpp"
 
+# define RED "\033[0;31m"
+# define WHI "\033[0m"
+
 namespace ft
 {	
 	template<class Key, class T, class Compare, class Alloc >
@@ -38,6 +41,13 @@ namespace ft
 		typedef	ft::bidirectional_iterator<const Key,T,node *,const rbt *>	const_iterator;
 		typedef	ft::map_reverse_iterator<iterator>							reverse_iterator;
 		typedef	ft::map_reverse_iterator<const_iterator>					const_reverse_iterator;
+
+	// ERRORS
+		class out_of_range_error
+		{
+			public:
+				virtual const char* what() const throw() { return ("Out of range: "); }
+		};
 
 	// CONSTRUCTORS / DESTRUCTOR
 		explicit map(const key_compare & comp = key_compare(), 
@@ -91,7 +101,7 @@ namespace ft
 
 		~map() { _rbt.free_tree(); }
 
-		// // ITERATORS
+	// ITERATORS
 		iterator begin() 
 		{
 			return iterator(_rbt.get_left_most(_rbt._root)->key_val(),
@@ -177,10 +187,12 @@ namespace ft
 			);
 		}
 
-		// // CAPACITY
-		size_type size() const { return _rbt._n; }
+	// CAPACITY
+		size_type size() const			{ return _rbt._n; }
+		bool empty() const 				{ return bool(!_rbt._n); }
+		unsigned long max_size() const	{ return _alloc.max_size(); }
 
-		// // ELEMENT ACCESS
+	// ELEMENT ACCESS
 		mapped_type & operator[](const key_type & k)
 		{
 			value_type new_pr = ft::make_pair(k, mapped_type());
@@ -188,7 +200,37 @@ namespace ft
 			return (*checked.first).second;
 		}
 
-		// MODIFIERS
+		mapped_type & at(const key_type & k)
+		{
+			node * pos = _rbt.search(k);
+			if (pos)
+				return pos->key_val()->second;
+			range_error(k);
+			return _rbt._past_start_pair->second;
+		}
+
+		const mapped_type & at(const key_type & k) const
+		{
+			node * pos = _rbt.search(k);
+			if (pos)
+				return pos->key_val()->second;
+			range_error(k);
+			return _rbt._past_start_pair->second;
+		}
+
+	// MODIFIERS
+		void clear()
+		{
+			_rbt.free_tree();
+		}
+
+		// void swap (map & x)
+		// {
+		// 	rbt * tmp = &_rbt;
+		// 	&_rbt = &x._rbt;
+		// 	x._rbt = tmp;
+		// }
+
 		pair<iterator,bool> insert(const value_type & val)
 		{
 			node * pos = _rbt.search(val.first);
@@ -204,26 +246,41 @@ namespace ft
 			return pair<iterator,bool>(it_pos, true);
 		}
 
-		// iterator insert (iterator position, const value_type& val)
-		// {
+		iterator insert(iterator position, const value_type & val)
+		{
+			node * pos = _rbt.search(val.first);
+			if (pos)
+				return iterator(pos->key_val(), pos, &_rbt);
+			_ptr = _alloc.allocate(1);
+			_alloc.construct(_ptr, val);
+			pos = _rbt.insertion(_ptr);
+			return iterator(pos->key_val(), pos, &_rbt);
+		}
 
-		// }
-
-		// template <class InputIterator>
-		// void insert (InputIterator first, InputIterator last)
-		// {
-
-		// }
+		template <class InputIterator>
+		void insert(InputIterator first, InputIterator last)
+		{
+			while (first != last)
+			{
+				if (!_rbt.search((*first).first))
+				{
+					_ptr = _alloc.allocate(1);
+					_alloc.construct(_ptr, *first);
+					_rbt.insertion(_ptr);
+				}
+				first++;
+			}
+		}
 
 	// OBSERVERS
 		key_compare key_comp() const	{ return _comp.comp; }
 		val_comp value_comp() const		{ return _comp; }
-		bool empty() const 				{ return bool(!_rbt._n); }
 
 	// ALLOCATOR
 		allocator_type get_allocator() const { return _alloc; }
 
 		private:
+
 		allocator_type			_alloc;
 		val_comp				_comp;
 		rbt						_rbt;
@@ -241,6 +298,12 @@ namespace ft
 				n++;
 			}
 			return n;
+		}
+
+		void range_error(const key_type & k)
+		{
+			try { throw map::out_of_range_error(); }
+			catch (const map::out_of_range_error & e) { cerr << RED << e.what() << k << WHI; }
 		}
 	};
 

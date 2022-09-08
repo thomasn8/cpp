@@ -30,16 +30,34 @@ int main()
 	ft1['c'] = 3;
 	ft1['b'] = 2;
 	ft1['a'] = 1;
+	// ft::map_details(ft1);
 
+	ft::map<char,int> ft2;
+	ft2['a'] = 17;
+	ft2['x'] = 7;
+	ft2['y'] = 8;
+	ft2['c'] = 5;
+	ft2['z'] = 9;
+	ft2['b'] = 19;
+	ft2['m'];
+	ft::pair<char,int> p1;
+	ft::pair<char,int> p2;
+	ft2.insert(p1);
+	ft2.insert(p2);
+	// ft::map_details(ft2);
+
+	ft1.insert(ft2.begin(), ft2.end());
+	// ft::map_details(ft1);
+
+	ft1.at('x') = 77777;
+	ft1.at('q');
 	ft::map_details(ft1);
-	// ft::map<char,int>::reverse_iterator it = ft1.rbegin();
-	// cout << it->first << endl;
-	// ft::map<char,int>::const_reverse_iterator it2 = ft1.rbegin();
-	// cout << it2->first << endl;
-	// ft::map<char,int>::const_reverse_iterator it3 = ft1.crbegin();
-	// cout << it3->first << endl;
-	for (ft::map<char,int>::const_reverse_iterator it = ft1.crbegin(); it != ft1.crend(); ++it)
-    	std::cout << it->first << " => " << it->second << '\n';
+
+	ft1.clear();
+	ft1['c'] = 3;
+	ft1['b'] = 2;
+	ft1['a'] = 1;
+	ft::map_details(ft1);
 
 	// ft::map<char,int> ft2(ft1);
 	// ft::map_details(ft2);

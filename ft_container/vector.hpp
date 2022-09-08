@@ -28,6 +28,18 @@ namespace ft
 		typedef	ft::reverse_iterator<iterator>					reverse_iterator;
 		typedef	ft::reverse_iterator<const_iterator>			const_reverse_iterator;
 		
+	// ERRORS
+		class length_error
+		{
+			public:
+				virtual const char* what() const throw() { return ("Allocation impossible: capacity exceeded"); }
+		};
+		class out_of_range_error
+		{
+			public:
+				virtual const char* what() const throw() { return ("Out of range: "); }
+		};
+		
 	// CONSTRUCTEURS/DESTRUCTEUR
 		explicit vector(const allocator_type & alloc = allocator_type()) :
 			_n(0), _c(0), _capacityFactor(2), _alloc(alloc), _first(NULL), _last(NULL) {}
@@ -104,29 +116,17 @@ namespace ft
 
 	// ITERATORS
 		iterator begin() 						{ return iterator(_first); }
-		iterator end() 							{ if (_n) return iterator(_last + 1); return _last; }
 		const_iterator begin() const 			{ return const_iterator(_first); }
-		const_iterator end() const 				{ if (_n) return const_iterator(_last + 1);  return _last; }
 		const_iterator cbegin() const 			{ return const_iterator(_first); }
+		iterator end() 							{ if (_n) return iterator(_last + 1); return _last; }
+		const_iterator end() const 				{ if (_n) return const_iterator(_last + 1);  return _last; }
 		const_iterator cend() const 			{ if (_n) return const_iterator(_last + 1); return _last; }			
-		reverse_iterator rbegin() 				{ if (_n) return reverse_iterator(_last + 1); return reverse_iterator(_last); }
-		const_reverse_iterator rbegin() const 	{ if (_n) return const_reverse_iterator(_last + 1); return const_reverse_iterator(_last); }
+		reverse_iterator rbegin() 				{ return reverse_iterator(_last); }
+		const_reverse_iterator rbegin() const 	{ return const_reverse_iterator(_last); }
+		const_reverse_iterator crbegin() const	{ return const_reverse_iterator(_last); }
 		reverse_iterator rend() 				{ return reverse_iterator(_first - 1); }
 		const_reverse_iterator rend() const 	{ return const_reverse_iterator(_first - 1); }
-		const_reverse_iterator crbegin() const	{ if (_n) return const_reverse_iterator(_last + 1); return const_reverse_iterator(_last); }
 		const_reverse_iterator crend() const	{ return const_reverse_iterator(_first - 1); }
-	
-	// ERRORS
-		class length_error
-		{
-			public:
-				virtual const char* what() const throw() { return ("Allocation impossible: capacity exceeded"); }
-		};
-		class out_of_range_error
-		{
-			public:
-				virtual const char* what() const throw() { return ("Out of range: "); }
-		};
 
 	// ELEMENT ACCESS
 		reference operator[](size_type index)				{ return _first[index]; }
