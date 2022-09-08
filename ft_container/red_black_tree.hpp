@@ -299,7 +299,7 @@ namespace ft
 
 		void print_tree()
 		{
-			cout << endl << "[PRINT RED BLACK TREE]" << endl;
+			// cout << endl << "[PRINT RED BLACK TREE]" << endl;
 			print_tree_recursiv(_root, 0);
 			cout << endl;
 		}
@@ -323,7 +323,8 @@ namespace ft
 
 		void free_tree()
 		{
-			cout << "[FREE RED BLACK TREE]" << endl;
+			cout << endl << "[FREE RED BLACK TREE]" << endl;
+			print_tree();
 			free_tree_recursiv(_root);
 			_root = NULL;
 			_alloc_p.destroy(_past_end_ptr->key_val());
@@ -336,14 +337,13 @@ namespace ft
 			if (root == NULL)
 				return;
 			free_tree_recursiv(root->left());
-			cout << "free pair containing " << root->key_val()->first << "-" << root->key_val()->second << endl;
-			cout << "free red-black-node containing " << root->key_val()->first << " : " << root << endl;
-			_n--;
 			_alloc_p.destroy(root->key_val());
 			_alloc_p.deallocate(root->key_val(), 1);
+			free_tree_recursiv(root->right());
+			cout << "free red-black-node: " << root << endl;
 			_alloc.destroy(root);
 			_alloc.deallocate(root, 1);
-			free_tree_recursiv(root->right());
+			_n--;
 		}
 	};
 }
