@@ -51,13 +51,19 @@ int main()
 
 	ft1.at('x') = 77777;
 	ft1.at('q');
-	ft::map_details(ft1);
+	// ft::map_details(ft1);
 
 	ft1.clear();
 	ft1['c'] = 3;
 	ft1['b'] = 2;
 	ft1['a'] = 1;
+	// ft::map_details(ft1);
+
 	ft::map_details(ft1);
+	ft::map_details(ft2);
+	ft1.swap(ft2);
+	ft::map_details(ft1);
+	ft::map_details(ft2);
 
 	// ft::map<char,int> ft2(ft1);
 	// ft::map_details(ft2);

@@ -52,12 +52,12 @@ namespace ft
 	// CONSTRUCTORS / DESTRUCTOR
 		explicit map(const key_compare & comp = key_compare(), 
 		const allocator_type & alloc = allocator_type()) :
-		_alloc(alloc), _comp(comp), _rbt(_comp, &_past_start_pair, &_past_end_pair) {}
+		_alloc(alloc), _comp(comp), _tree(_comp, &_past_start_pair, &_past_end_pair), _rbt(&_tree) {}
 		
 		template <class InputIterator>
 		map(InputIterator first, InputIterator last, 
 		const key_compare & comp = key_compare(), const allocator_type & alloc = allocator_type()) :
-		_alloc(alloc), _comp(comp), _rbt(_comp, &_past_start_pair, &_past_end_pair)
+		_alloc(alloc), _comp(comp), _tree(_comp, &_past_start_pair, &_past_end_pair), _rbt(&_tree)
 		{
 			size_type n = _distance<InputIterator>(first, last);
 			if (n > 0)
@@ -66,13 +66,13 @@ namespace ft
 				{
 					_ptr = _alloc.allocate(1);
 					_alloc.construct(_ptr, *first++);
-					_rbt.insertion(_ptr);
+					_rbt->insertion(_ptr);
 				}
 			}
 		}
 
 		map(const map & x) :
-		_alloc(x.get_allocator()), _comp(x.key_comp()), _rbt(x.key_comp(), &_past_start_pair, &_past_end_pair)
+		_alloc(x.get_allocator()), _comp(x.key_comp()), _tree(x.key_comp(), &_past_start_pair, &_past_end_pair), _rbt(&_tree)
 		{
 			const_iterator it = x.begin();
 			const_iterator ite = x.end();
@@ -80,116 +80,116 @@ namespace ft
 			{
 				_ptr = _alloc.allocate(1);
 				_alloc.construct(_ptr, *it++);
-				_rbt.insertion(_ptr);
+				_rbt->insertion(_ptr);
 			}
 		}
 
 		map & operator=(const map & x)
 		{
 			if (size())
-				_rbt.free_tree();
+				_rbt->free_tree();
 			const_iterator it = x.begin();
 			const_iterator ite = x.end();
 			while (it != ite)
 			{
 				_ptr = _alloc.allocate(1);
 				_alloc.construct(_ptr, *it++);
-				_rbt.insertion(_ptr);
+				_rbt->insertion(_ptr);
 			}
 			return *this;
 		}
 
-		~map() { _rbt.free_tree(); }
+		~map() { _rbt->free_tree(); }
 
 	// ITERATORS
 		iterator begin() 
 		{
-			return iterator(_rbt.get_left_most(_rbt._root)->key_val(),
-				const_cast<node *>(_rbt.get_left_most(_rbt._root)),
-				&_rbt);
+			return iterator(_rbt->get_left_most(_rbt->_root)->key_val(),
+				const_cast<node *>(_rbt->get_left_most(_rbt->_root)),
+				_rbt);
 		}
 		iterator end()
 		{
-			return iterator(_rbt._past_end_node.key_val(),
-				const_cast<node *>(&(_rbt._past_end_node)),
-				&_rbt);
+			return iterator(_rbt->_past_end_node.key_val(),
+				const_cast<node *>(&(_rbt->_past_end_node)),
+				_rbt);
 		}
 		const_iterator begin() const
 		{
-			return const_iterator(_rbt.get_left_most(_rbt._root)->key_val(),
-				const_cast<node *>(_rbt.get_left_most(_rbt._root)),
-				&_rbt);
+			return const_iterator(_rbt->get_left_most(_rbt->_root)->key_val(),
+				const_cast<node *>(_rbt->get_left_most(_rbt->_root)),
+				_rbt);
 		}
 		const_iterator end() const
 		{
-			return const_iterator(_rbt._past_end_node.key_val(),
-				const_cast<node *>(&(_rbt._past_end_node)),
-				&_rbt);
+			return const_iterator(_rbt->_past_end_node.key_val(),
+				const_cast<node *>(&(_rbt->_past_end_node)),
+				_rbt);
 		}
 		const_iterator cbegin() const
 		{
-			return const_iterator(_rbt.get_left_most(_rbt._root)->key_val(),
-							const_cast<node *>(_rbt.get_left_most(_rbt._root)),
-							&_rbt);
+			return const_iterator(_rbt->get_left_most(_rbt->_root)->key_val(),
+				const_cast<node *>(_rbt->get_left_most(_rbt->_root)),
+				_rbt);
 		}
 		const_iterator cend() const 
 		{
-			return const_iterator(_rbt._past_end_node.key_val(),
-				const_cast<node *>(&(_rbt._past_end_node)),
-				&_rbt);
+			return const_iterator(_rbt->_past_end_node.key_val(),
+				const_cast<node *>(&(_rbt->_past_end_node)),
+				_rbt);
 		}
 		reverse_iterator rbegin() 				
 		{			
 			return reverse_iterator(iterator(
-				_rbt.get_right_most(_rbt._root)->key_val(),
-				const_cast<node *>(_rbt.get_right_most(_rbt._root)),
-				&_rbt)
+				_rbt->get_right_most(_rbt->_root)->key_val(),
+				const_cast<node *>(_rbt->get_right_most(_rbt->_root)),
+				_rbt)
 			);
 		}
 		const_reverse_iterator rbegin() const
 		{
 			return const_reverse_iterator(const_iterator(
-				_rbt.get_right_most(_rbt._root)->key_val(),
-				const_cast<node *>(_rbt.get_right_most(_rbt._root)),
-				&_rbt)
+				_rbt->get_right_most(_rbt->_root)->key_val(),
+				const_cast<node *>(_rbt->get_right_most(_rbt->_root)),
+				_rbt)
 			);
 		}
 		const_reverse_iterator crbegin() const
 		{
 			return const_reverse_iterator(const_iterator(
-				_rbt.get_right_most(_rbt._root)->key_val(),
-				const_cast<node *>(_rbt.get_right_most(_rbt._root)),
-				&_rbt)
+				_rbt->get_right_most(_rbt->_root)->key_val(),
+				const_cast<node *>(_rbt->get_right_most(_rbt->_root)),
+				_rbt)
 			);
 		}
 		reverse_iterator rend() 				
 		{
 			return reverse_iterator(iterator(
-				_rbt._past_start_node.key_val(),
-				const_cast<node *>(&(_rbt._past_start_node)),
-				&_rbt)
+				_rbt->_past_start_node.key_val(),
+				const_cast<node *>(&(_rbt->_past_start_node)),
+				_rbt)
 			);
 		}
 		const_reverse_iterator rend() const
 		{
 			return const_reverse_iterator(const_iterator(
-				_rbt._past_start_node.key_val(),
-				const_cast<node *>(&(_rbt._past_start_node)),
-				&_rbt)
+				_rbt->_past_start_node.key_val(),
+				const_cast<node *>(&(_rbt->_past_start_node)),
+				_rbt)
 			);
 		}
 		const_reverse_iterator crend() const
 		{
 			return const_reverse_iterator(const_iterator(
-				_rbt._past_start_node.key_val(),
-				const_cast<node *>(&(_rbt._past_start_node)),
-				&_rbt)
+				_rbt->_past_start_node.key_val(),
+				const_cast<node *>(&(_rbt->_past_start_node)),
+				_rbt)
 			);
 		}
 
 	// CAPACITY
-		size_type size() const			{ return _rbt._n; }
-		bool empty() const 				{ return bool(!_rbt._n); }
+		size_type size() const			{ return _rbt->_n; }
+		bool empty() const 				{ return bool(!_rbt->_n); }
 		unsigned long max_size() const	{ return _alloc.max_size(); }
 
 	// ELEMENT ACCESS
@@ -202,59 +202,59 @@ namespace ft
 
 		mapped_type & at(const key_type & k)
 		{
-			node * pos = _rbt.search(k);
+			node * pos = _rbt->search(k);
 			if (pos)
 				return pos->key_val()->second;
 			range_error(k);
-			return _rbt._past_start_pair->second;
+			return _rbt->_past_start_pair->second;
 		}
 
 		const mapped_type & at(const key_type & k) const
 		{
-			node * pos = _rbt.search(k);
+			node * pos = _rbt->search(k);
 			if (pos)
 				return pos->key_val()->second;
 			range_error(k);
-			return _rbt._past_start_pair->second;
+			return _rbt->_past_start_pair->second;
 		}
 
 	// MODIFIERS
 		void clear()
 		{
-			_rbt.free_tree();
+			_rbt->free_tree();
 		}
 
-		// void swap (map & x)
-		// {
-		// 	rbt * tmp = &_rbt;
-		// 	&_rbt = &x._rbt;
-		// 	x._rbt = tmp;
-		// }
+		void swap (map & x)
+		{
+			rbt * tmp = _rbt;
+			_rbt = x._rbt;
+			x._rbt = tmp;
+		}
 
 		pair<iterator,bool> insert(const value_type & val)
 		{
-			node * pos = _rbt.search(val.first);
+			node * pos = _rbt->search(val.first);
 			if (pos)
 			{
-				iterator it_pos(pos->key_val(), pos, &_rbt);
+				iterator it_pos(pos->key_val(), pos, _rbt);
 				return pair<iterator,bool>(it_pos, false);
 			}
 			_ptr = _alloc.allocate(1);
 			_alloc.construct(_ptr, val);
-			pos = _rbt.insertion(_ptr);
-			iterator it_pos(pos->key_val(), pos, &_rbt);
+			pos = _rbt->insertion(_ptr);
+			iterator it_pos(pos->key_val(), pos, _rbt);
 			return pair<iterator,bool>(it_pos, true);
 		}
 
 		iterator insert(iterator position, const value_type & val)
 		{
-			node * pos = _rbt.search(val.first);
+			node * pos = _rbt->search(val.first);
 			if (pos)
-				return iterator(pos->key_val(), pos, &_rbt);
+				return iterator(pos->key_val(), pos, _rbt);
 			_ptr = _alloc.allocate(1);
 			_alloc.construct(_ptr, val);
-			pos = _rbt.insertion(_ptr);
-			return iterator(pos->key_val(), pos, &_rbt);
+			pos = _rbt->insertion(_ptr);
+			return iterator(pos->key_val(), pos, _rbt);
 		}
 
 		template <class InputIterator>
@@ -262,11 +262,11 @@ namespace ft
 		{
 			while (first != last)
 			{
-				if (!_rbt.search((*first).first))
+				if (!_rbt->search((*first).first))
 				{
 					_ptr = _alloc.allocate(1);
 					_alloc.construct(_ptr, *first);
-					_rbt.insertion(_ptr);
+					_rbt->insertion(_ptr);
 				}
 				first++;
 			}
@@ -283,7 +283,8 @@ namespace ft
 
 		allocator_type			_alloc;
 		val_comp				_comp;
-		rbt						_rbt;
+		rbt						_tree;
+		rbt *					_rbt;
 		pointer					_ptr;
 		value_type				_past_start_pair;
 		value_type				_past_end_pair;
