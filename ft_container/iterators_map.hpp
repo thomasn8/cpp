@@ -40,27 +40,27 @@ namespace ft
 
 		it & operator++()
 		{
-			_node = _tree->get_next(_node);
+			_node = const_cast<Node_ptr>(_tree->get_next(_node));
 			_p = _node->key_val();
 			return *this;
 		}
 		it operator++(int) 
 		{ 
 			it tmp(*this);
-			_node = _tree->get_next(_node);	
+			_node = const_cast<Node_ptr>(_tree->get_next(_node));	
 			_p = _node->key_val();
 			return tmp;
 		}
 		it & operator--() 
 		{
-			_node = _tree->get_prev(_node);
+			_node = const_cast<Node_ptr>(_tree->get_prev(_node));
 			_p = _node->key_val();
 			return *this;
 		}
 		it operator--(int) 
 		{
 			it tmp(*this);
-			_node = _tree->get_prev(_node);	
+			_node = const_cast<Node_ptr>(_tree->get_prev(_node));
 			_p = _node->key_val();
 			return tmp;
 		}

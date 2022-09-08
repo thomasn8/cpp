@@ -53,27 +53,27 @@ namespace ft
 		typedef	unsigned int								size_type;
 		typedef	int											difference_type;
 
-		node * get_left_most(node * n) const
+		const node * get_left_most(node * n) const
 		{
 			if (!n)
-				return _past_end_ptr;
+				return &_past_end_node;
 			while (n->left())
 				n = n->left();
 			return n;
 		}
-		node * get_right_most(node * n) const
+		const node * get_right_most(node * n) const
 		{
 			if (!n)
-				return _past_end_ptr;
+				return &_past_end_node;
 			while (n->right())
 				n = n->right();
 			return n;
 		}
-		node * get_next(node *n) const
+		const node * get_next(node *n) const
 		{
 			node * parent;
 			if (!n)
-				return _past_end_ptr;
+				return &_past_end_node;
 			if (n->right())
 				return get_left_most(n->right());
 			else if (n->parent() && n == n->parent()->left())
@@ -86,19 +86,19 @@ namespace ft
 					n = parent;
 					parent = parent->parent();
 					if (!parent)
-						return _past_end_ptr;
+						return &_past_end_node;
 				}
 				return parent;
 			}
 			else
-				return _past_end_ptr;	// que 1 val dans l'arbre, pas de next
+				return &_past_end_node;	// que 1 val dans l'arbre, pas de next
 		}
-		node * get_prev(node *n) const
+		const node * get_prev(node *n) const
 		{
 			node * parent;
 			if (!n)
-				return _past_end_ptr;
-			if (n == _past_end_ptr) // on est sur le past-end qui n'est pas dans l'arbre
+				return &_past_end_node;
+			if (n == &_past_end_node) // on est sur le past-end qui n'est pas dans l'arbre
 				return get_right_most(_root);
 			if (n->left())
 				return get_right_most(n->left());
@@ -112,12 +112,12 @@ namespace ft
 					n = parent;
 					parent = parent->parent();
 					if (!parent)
-						return _past_end_ptr;	// on est sur le min, pas de prev	!!!! INSTAURER UN PAST PREV
+						return &_past_end_node;	// on est sur le min, pas de prev	!!!! INSTAURER UN PAST PREV
 				}
 				return parent;
 			}
 			else
-				return _past_end_ptr;	// que 1 val dans l'arbre, pas de next		!!!! INSTAURER UN PAST PREV
+				return &_past_end_node;	// que 1 val dans l'arbre, pas de next		!!!! INSTAURER UN PAST PREV
 		}
 
 		private:
@@ -128,11 +128,11 @@ namespace ft
 		Alloc			_alloc;
 		Alloc_p			_alloc_p;
 		Comp			_comp;
-		node *			_past_end_ptr;
+		node 			_past_end_node;
 		value_type *	_past_end_pair;
 
-		red_black_tree(val_comp comp, const allocator_type & alloc = allocator_type()) : 
-		_alloc(alloc), _comp(comp), _n(0), _root(NULL) {}
+		red_black_tree(val_comp comp, value_type *past_end, const allocator_type & alloc = allocator_type()) : 
+		_alloc(alloc), _comp(comp), _n(0), _root(NULL), _past_end_pair(past_end), _past_end_node(past_end) {}
 		
 		~red_black_tree() {}
 
@@ -163,10 +163,7 @@ namespace ft
 
 		node * insertion(value_type * pair)
 		{
-			// static int i = 0;
-			// cout << "insertion n° " << ++i << endl;
 			_ptr = _alloc.allocate(1);
-			// node tmp(pair);
 			_alloc.construct(_ptr, pair);
 			insertion_recursiv(_root, _ptr);
 			insertion_repare_tree(_ptr);
@@ -327,10 +324,6 @@ namespace ft
 			print_tree();
 			free_tree_recursiv(_root);
 			_root = NULL;
-			// _alloc_p.destroy(_past_end_ptr->key_val());
-			// _alloc_p.deallocate(_past_end_ptr->key_val(), 1);
-			// _alloc.destroy(_past_end_ptr);
-			// _alloc.deallocate(_past_end_ptr, 1);
 		}
 		void free_tree_recursiv(node * root)
 		{
