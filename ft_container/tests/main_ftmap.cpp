@@ -65,6 +65,13 @@ int main()
 	ft::map_details(ft1);
 	ft::map_details(ft2);
 
+	ft::map<char,int>::iterator a = ft1.find('m');
+	cout << a->first << endl;
+	ft::map<char,int>::iterator b = ft2.find('b');
+	cout << b->first << endl;
+	ft::map<char,int>::iterator c = ft2.find('v');
+	cout << c->first << endl;
+
 	// ft::map<char,int> ft2(ft1);
 	// ft::map_details(ft2);
 

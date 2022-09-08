@@ -272,9 +272,47 @@ namespace ft
 			}
 		}
 
+		// void erase (iterator position)
+		// {
+
+		// }
+
+		// size_type erase (const key_type & k)
+		// {
+
+		// }
+
+		// void erase (iterator first, iterator last)
+		// {
+
+		// }
+
+
 	// OBSERVERS
 		key_compare key_comp() const	{ return _comp.comp; }
 		val_comp value_comp() const		{ return _comp; }
+
+	// OPERATIONS
+	iterator find(const key_type & k)
+	{
+		node * pos = _rbt->search(k);
+		if (pos)
+			return iterator(pos->key_val(), pos, _rbt);
+		return end();
+	}
+	const_iterator find(const key_type & k) const
+	{
+		node * pos = _rbt->search(k);
+		if (pos)
+			return const_iterator(pos->key_val(), pos, _rbt);
+		return end();
+	}
+	size_type count(const key_type & k) const
+	{
+		if (_rbt->search(k))
+			return 1;
+		return 0;
+	}
 
 	// ALLOCATOR
 		allocator_type get_allocator() const { return _alloc; }

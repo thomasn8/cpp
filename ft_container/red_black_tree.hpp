@@ -1,15 +1,5 @@
 #ifndef RED_BLACK_TREE_HPP
 # define RED_BLACK_TREE_HPP
-/* 	
-	Utilisation du friend keyword dans les classes qui suivent :
-	-	toutes ces class auraient pu être nested directement dans map 
-		mais ça alourdirait beaucoup le code de map
-	-	de plus, red_black_tree peut être directement réutilisé (en friend) 
-		par d'autres class containers sans devoir être redéfini
-
-	syntaxe pour bien mettre en place des class friend :
-	https://cplusplus.com/forum/beginner/185880/
-*/
 
 #include <iostream>
 using namespace std;
@@ -27,13 +17,12 @@ using namespace std;
 
 namespace ft
 {	
-	/* pré-déclaration */
+	/* obligé de déclarer la class-template ici pour que le friend dans rbt
+	reconnaisse map (car rbt est #include dans map) */
 	template < class Key, class T, 
 	class Compare = less<Key>, 
 	class Alloc = allocator< ft::pair< const Key,T> > >
 	class map;
-	/* obligé de déclarer la class-template avant pour que le friend dans rbt
-	reconnaisse map */
 
 	template<class Key, class T, class Comp, class Alloc_p, class Alloc = allocator< red_black_node<Key,T> > >
 	class red_black_tree
@@ -112,12 +101,12 @@ namespace ft
 					n = parent;
 					parent = parent->parent();
 					if (!parent)
-						return &_past_start_node;	// on est sur le min, pas de prev	!!!! INSTAURER UN PAST PREV
+						return &_past_start_node;	// on est sur le min, pas de prev
 				}
 				return parent;
 			}
 			else
-				return &_past_start_node;	// que 1 val dans l'arbre, pas de next		!!!! INSTAURER UN PAST PREV
+				return &_past_start_node;	// que 1 val dans l'arbre, pas de next
 		}
 
 		private:
@@ -298,7 +287,6 @@ namespace ft
 
 		void print_tree()
 		{
-			// cout << endl << "[PRINT RED BLACK TREE]" << endl;
 			print_tree_recursiv(_root, 0);
 			cout << endl;
 		}
@@ -322,8 +310,6 @@ namespace ft
 
 		void free_tree()
 		{
-			cout << endl << "[FREE RED BLACK TREE]" << endl;
-			// print_tree();
 			free_tree_recursiv(_root);
 			_root = NULL;
 		}
@@ -335,7 +321,6 @@ namespace ft
 			_alloc_p.destroy(root->key_val());
 			_alloc_p.deallocate(root->key_val(), 1);
 			free_tree_recursiv(root->right());
-			// cout << "free red-black-node: " << root << endl;
 			_alloc.destroy(root);
 			_alloc.deallocate(root, 1);
 			_n--;
