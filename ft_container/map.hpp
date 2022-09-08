@@ -34,10 +34,10 @@ namespace ft
 		typedef red_black_node<Key,T>							node;
 		typedef	int												difference_type;
 		typedef	unsigned int									size_type;
-		typedef	ft::bidirectional_iterator<Key,T,node *,rbt *>	iterator;
+		typedef	ft::bidirectional_iterator<Key,T,node *,rbt *>				iterator;
 		typedef	ft::bidirectional_iterator<const Key,T,node *,const rbt *>	const_iterator;
-		// typedef	ft::reverse_iterator<iterator>				reverse_iterator;
-		// typedef	ft::reverse_iterator<const_iterator>		const_reverse_iterator;
+		typedef	ft::map_reverse_iterator<iterator>							reverse_iterator;
+		typedef	ft::map_reverse_iterator<const_iterator>					const_reverse_iterator;
 
 	// CONSTRUCTORS / DESTRUCTOR
 		explicit map(const key_compare & comp = key_compare(), 
@@ -116,26 +116,66 @@ namespace ft
 				const_cast<node *>(&(_rbt._past_end_node)),
 				&_rbt);
 		}
-		// reverse_iterator rbegin() 				
-		// {
-		// 	iterator it(_rbt.get_right_most(_rbt._root)->key_val(), _rbt.get_right_most(_rbt._root), &_rbt); 
-		// 	return reverse_iterator(it); 
-		// }
-		// const_reverse_iterator rbegin() const
-		// {
-		// 	const_iterator it(_rbt.get_right_most(_rbt._root)->key_val(), _rbt.get_right_most(_rbt._root), &_rbt); 
-		// 	return reverse_iterator(it); 
-		// }
-		// reverse_iterator rend() 				
-		// {
-		// 	iterator it(_rbt.get_left_most(_rbt._root)->key_val(), _rbt.get_left_most(_rbt._root), &_rbt); 
-		// 	return reverse_iterator(it); 
-		// }
-		// const_reverse_iterator rend() const
-		// {
-		// 	const_iterator it(_rbt.get_left_most(_rbt._root)->key_val(), _rbt.get_left_most(_rbt._root), &_rbt); 
-		// 	return reverse_iterator(it); 
-		// }
+		const_iterator cbegin() const
+		{
+			return const_iterator(_rbt.get_left_most(_rbt._root)->key_val(),
+							const_cast<node *>(_rbt.get_left_most(_rbt._root)),
+							&_rbt);
+		}
+		const_iterator cend() const 
+		{
+			return const_iterator(_rbt._past_end_node.key_val(),
+				const_cast<node *>(&(_rbt._past_end_node)),
+				&_rbt);
+		}
+		reverse_iterator rbegin() 				
+		{			
+			return reverse_iterator(iterator(
+				_rbt.get_right_most(_rbt._root)->key_val(),
+				const_cast<node *>(_rbt.get_right_most(_rbt._root)),
+				&_rbt)
+			);
+		}
+		const_reverse_iterator rbegin() const
+		{
+			return const_reverse_iterator(const_iterator(
+				_rbt.get_right_most(_rbt._root)->key_val(),
+				const_cast<node *>(_rbt.get_right_most(_rbt._root)),
+				&_rbt)
+			);
+		}
+		const_reverse_iterator crbegin() const
+		{
+			return const_reverse_iterator(const_iterator(
+				_rbt.get_right_most(_rbt._root)->key_val(),
+				const_cast<node *>(_rbt.get_right_most(_rbt._root)),
+				&_rbt)
+			);
+		}
+		reverse_iterator rend() 				
+		{
+			return reverse_iterator(iterator(
+				_rbt._past_start_node.key_val(),
+				const_cast<node *>(&(_rbt._past_start_node)),
+				&_rbt)
+			);
+		}
+		const_reverse_iterator rend() const
+		{
+			return const_reverse_iterator(const_iterator(
+				_rbt._past_start_node.key_val(),
+				const_cast<node *>(&(_rbt._past_start_node)),
+				&_rbt)
+			);
+		}
+		const_reverse_iterator crend() const
+		{
+			return const_reverse_iterator(const_iterator(
+				_rbt._past_start_node.key_val(),
+				const_cast<node *>(&(_rbt._past_start_node)),
+				&_rbt)
+			);
+		}
 
 		// // CAPACITY
 		size_type size() const { return _rbt._n; }

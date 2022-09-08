@@ -275,5 +275,15 @@ int main()
 	if (foo>=bar) std::cout << "foo is greater than or equal to bar\n";
 	if (foo>=bar) std::cout << "foo is greater than or equal to bar\n";
 
+	// ft::vector<int>::const_reverse_iterator it = foo.rbegin();
+	ft::vector<int>::reverse_iterator rit = foo.rbegin();
+	ft::vector<int>::const_reverse_iterator crit = foo.crbegin();
+	ft::vector<int>::reverse_iterator rite = foo.rend();
+	ft::vector<int>::const_reverse_iterator crite = foo.crend();
+	cout << *rit << endl;
+	cout << *crit << endl;
+	cout << *rite << endl;
+	cout << *crite << endl;
+
 	return 0;
 }

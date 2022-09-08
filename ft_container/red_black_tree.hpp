@@ -97,8 +97,8 @@ namespace ft
 		{
 			node * parent;
 			if (!n)
-				return &_past_end_node;
-			if (n == &_past_end_node) // on est sur le past-end qui n'est pas dans l'arbre
+				return &_past_start_node;
+			if (n == &_past_start_node) // on est sur le past-end qui n'est pas dans l'arbre
 				return get_right_most(_root);
 			if (n->left())
 				return get_right_most(n->left());
@@ -112,12 +112,12 @@ namespace ft
 					n = parent;
 					parent = parent->parent();
 					if (!parent)
-						return &_past_end_node;	// on est sur le min, pas de prev	!!!! INSTAURER UN PAST PREV
+						return &_past_start_node;	// on est sur le min, pas de prev	!!!! INSTAURER UN PAST PREV
 				}
 				return parent;
 			}
 			else
-				return &_past_end_node;	// que 1 val dans l'arbre, pas de next		!!!! INSTAURER UN PAST PREV
+				return &_past_start_node;	// que 1 val dans l'arbre, pas de next		!!!! INSTAURER UN PAST PREV
 		}
 
 		private:

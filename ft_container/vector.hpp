@@ -109,12 +109,12 @@ namespace ft
 		const_iterator end() const 				{ if (_n) return const_iterator(_last + 1);  return _last; }
 		const_iterator cbegin() const 			{ return const_iterator(_first); }
 		const_iterator cend() const 			{ if (_n) return const_iterator(_last + 1); return _last; }			
-		reverse_iterator rbegin() 				{ if (_n) return reverse_iterator(_last + 1); return _last; }
-		const_reverse_iterator rbegin() const 	{ if (_n) return const_reverse_iterator(_last + 1); return _last; }
-		reverse_iterator rend() 				{ return reverse_iterator(_first); }
-		const_reverse_iterator rend() const 	{ return const_reverse_iterator(_first); }
-		const_reverse_iterator crbegin() const	{ if (_n) return const_reverse_iterator(_last + 1); return _last; }
-		const_reverse_iterator crend() const	{ return const_reverse_iterator(_first); }
+		reverse_iterator rbegin() 				{ if (_n) return reverse_iterator(_last + 1); return reverse_iterator(_last); }
+		const_reverse_iterator rbegin() const 	{ if (_n) return const_reverse_iterator(_last + 1); return const_reverse_iterator(_last); }
+		reverse_iterator rend() 				{ return reverse_iterator(_first - 1); }
+		const_reverse_iterator rend() const 	{ return const_reverse_iterator(_first - 1); }
+		const_reverse_iterator crbegin() const	{ if (_n) return const_reverse_iterator(_last + 1); return const_reverse_iterator(_last); }
+		const_reverse_iterator crend() const	{ return const_reverse_iterator(_first - 1); }
 	
 	// ERRORS
 		class length_error

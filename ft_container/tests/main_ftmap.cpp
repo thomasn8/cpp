@@ -32,21 +32,29 @@ int main()
 	ft1['a'] = 1;
 
 	ft::map_details(ft1);
-	// for (ft::map<char,int>::reverse_iterator it = ft1.rbegin(); it != ft1.rend(); ++it)
+	// ft::map<char,int>::reverse_iterator it = ft1.rbegin();
+	// cout << it->first << endl;
+	// ft::map<char,int>::const_reverse_iterator it2 = ft1.rbegin();
+	// cout << it2->first << endl;
+	// ft::map<char,int>::const_reverse_iterator it3 = ft1.crbegin();
+	// cout << it3->first << endl;
+	for (ft::map<char,int>::const_reverse_iterator it = ft1.crbegin(); it != ft1.crend(); ++it)
+    	std::cout << it->first << " => " << it->second << '\n';
+
+	// ft::map<char,int> ft2(ft1);
+	// ft::map_details(ft2);
+
+	// ft::map<char,int> ft3;
+	// ft3 = ft2;
+	// ft3.insert(ft::make_pair<char,int>('u',6));
+	// ft3.insert(ft::make_pair<char,int>('r',19));
+	// ft3.insert(ft::make_pair<char,int>('r',12));
+	// ft::map_details(ft3);
+
+	// ft::map<char,int> ft4(ft3.begin(), ft3.end());
+	// ft::map_details(ft4);
+	// for (ft::map<char,int>::const_iterator it = ft4.cbegin(); it != ft4.cend(); ++it)
     // 	std::cout << it->first << " => " << it->second << '\n';
-
-	ft::map<char,int> ft2(ft1);
-	ft::map_details(ft2);
-
-	ft::map<char,int> ft3;
-	ft3 = ft2;
-	ft3.insert(ft::make_pair<char,int>('u',6));
-	ft3.insert(ft::make_pair<char,int>('r',19));
-	ft3.insert(ft::make_pair<char,int>('r',12));
-	ft::map_details(ft3);
-
-	ft::map<char,int> ft4(ft3.begin(), ft3.end());
-	ft::map_details(ft4);
 
 	// // ************************************************************
 	// // ******************* TESTS ELEMENT ACCESS *******************
