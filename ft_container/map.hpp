@@ -175,6 +175,7 @@ namespace ft
 		rbt						_rbt;
 		pointer					_ptr;
 		pointer					_past_end;
+		// value_type				_past_end_pair;
 
 		template <class InputIterator>
 		size_type _distance(InputIterator first, InputIterator last) const

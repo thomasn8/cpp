@@ -327,10 +327,10 @@ namespace ft
 			print_tree();
 			free_tree_recursiv(_root);
 			_root = NULL;
-			_alloc_p.destroy(_past_end_ptr->key_val());
-			_alloc_p.deallocate(_past_end_ptr->key_val(), 1);
-			_alloc.destroy(_past_end_ptr);
-			_alloc.deallocate(_past_end_ptr, 1);
+			// _alloc_p.destroy(_past_end_ptr->key_val());
+			// _alloc_p.deallocate(_past_end_ptr->key_val(), 1);
+			// _alloc.destroy(_past_end_ptr);
+			// _alloc.deallocate(_past_end_ptr, 1);
 		}
 		void free_tree_recursiv(node * root)
 		{
