@@ -128,7 +128,7 @@ namespace ft
 		
 		~red_black_tree() {}
 
-		node * search(Key key)
+		const node * search(const Key & key) const 
 		{
 			node * root = _root;
 			while (root)
@@ -152,31 +152,63 @@ namespace ft
 			}
 			return NULL;
 		}
-		node * search_pos(Key key)
+		const node * search_lower(const Key & key) const
 		{
 			node * root = _root;
-			node * last_biger = &_past_end_node;
+			const node * last_low = &_past_end_node;
 			while (root)
 			{
 				if (_comp.comp(key, root->key_val()->first))
 				{
-					last_biger = root;
+					last_low = root;
 					if (root->left())
 						root = root->left();
 					else
-						return last_biger;
+						return last_low;
 				}
 				else if (_comp.comp(root->key_val()->first, key))
 				{
 					if (root->right())
 						root = root->right();
 					else
-						return last_biger;
+						return last_low;
 				}
 				else
 					return root;
 			}
-			return last_biger;
+			return last_low;
+		}
+		const node * search_upper(const Key & key) const
+		{
+			node * root = _root;
+			const node * last_up = &_past_end_node;
+			Key last = get_right_most(_root)->key_val()->first;
+			while (root)
+			{
+				if (_comp.comp(key, root->key_val()->first))
+				{
+					if (root->left())
+						root = root->left();
+					else
+						return last_up;
+				}
+				else if (_comp.comp(root->key_val()->first, key))
+				{
+					last_up = root;
+					if (root->right())
+						root = root->right();
+					else
+					{
+						if (last_up->key_val()->first == last)
+							return &_past_end_node;
+						else
+							return get_next(root);
+					}
+				}
+				else
+					return get_next(root);
+			}
+			return last_up;
 		}
 
 		node * insertion(value_type * pair)

@@ -1,25 +1,10 @@
 #include <iostream>
 #include <map>
 using namespace std;
-// #include <map>
 #include "../map.hpp"
 #include "../pair.hpp"
 #include "../container_details.hpp"
 
-/* 
-Moreover, map is a node-based container, so each element goes into a distinct, 
-separate allocation (so as to permit maximal iterator and reference non-invalidation). 
-Elements are almost certainly not contiguous in memory, and probably scattered 
-about in a way that reflects how you added them.
-
-Practically, a map will be implemented as some type of balanced tree in order 
-to achieve logarithmic lookup, insertion and deletion times.
-*/
-
-struct classcomp {
-  bool operator() (const char& lhs, const char& rhs) const
-  {return lhs<rhs;}
-};
 
 int main()
 {
@@ -50,7 +35,8 @@ int main()
 	// ft::map_details(ft1);
 
 	ft1.at('x') = 77777;
-	ft1.at('q');
+	ft1.at('q');					// OUT OF RANGE
+	ft1.at('g');					// OUT OF RANGE
 	// ft::map_details(ft1);
 
 	ft1.clear();
@@ -75,17 +61,17 @@ int main()
 	ft::map<char,int> ft3(ft1);
 	ft::map_details(ft3);
 
-	// ft::map<char,int> ft4;
-	// ft4 = ft2;
-	// ft4.insert(ft::make_pair<char,int>('u',6));
-	// ft4.insert(ft::make_pair<char,int>('r',19));
-	// ft4.insert(ft::make_pair<char,int>('r',12));
-	// ft::map_details(ft4);
+	ft::map<char,int> ft4;
+	ft4 = ft2;
+	ft4.insert(ft::make_pair<char,int>('u',6));
+	ft4.insert(ft::make_pair<char,int>('r',19));
+	ft4.insert(ft::make_pair<char,int>('r',12));
+	ft::map_details(ft4);
 
-	// ft::map<char,int> ft5(ft4.begin(), ft4.end());
-	// ft::map_details(5);
-	// for (ft::map<char,int>::const_iterator it = 5.cbegin(); it != 5.cend(); ++it)
-    // 	std::cout << it->first << " => " << it->second << '\n';
+	ft::map<char,int> ft5(ft4.begin(), ft4.end());
+	ft::map_details(ft5);
+	for (ft::map<char,int>::const_iterator it = ft5.cbegin(); it != ft5.cend(); ++it)
+    	std::cout << it->first << " => " << it->second << '\n';
 
 	ft::map<char,int> ft6;
 	ft6['m'] = 17;
@@ -98,27 +84,19 @@ int main()
 	ft6['t'] = 19;
 	ft6['s'] = 19;
 	ft6['y'] = 19;
+	ft::map_details(ft6);
 	ft6.lower_bound('f');
 	ft6.lower_bound('u');
 	ft6.lower_bound('c');
 	(*ft6.lower_bound('n')).second = 1;
 	ft6.lower_bound('z');
-	ft::map_details(ft6);
-	ft::map_rev_details(ft6);
 	
-	const ft::map<char,int> ft7(ft6);
-	ft7.lower_bound('f');
-	ft7.lower_bound('u');
-	ft7.lower_bound('c');
-	(*ft7.lower_bound('n')).second = 1;
-	// ft7['g'] = 3;
-	// ft7.lower_bound('z');
-	// ft::map_details(ft7);
-
-	// ft::map<char,int>::const_iterator e1 = ft7.end();
-	// ft::map<char,int>::const_iterator e2 = ft7.cend();
-	// ft::map<char,int>::const_reverse_iterator e3 = ft7.rend();
-	// ft::map<char,int>::const_reverse_iterator e4 = ft7.crend();
+	ft6.upper_bound('f');
+	ft6.upper_bound('u');
+	ft6.upper_bound('c');
+	ft6.upper_bound('n');
+	ft6.upper_bound('z');
+	
 
 	// // ************************************************************
 	// // ******************* TESTS ELEMENT ACCESS *******************

@@ -202,7 +202,7 @@ namespace ft
 
 		mapped_type & at(const key_type & k)
 		{
-			node * pos = _rbt->search(k);
+			const node * pos = _rbt->search(k);
 			if (pos)
 				return pos->key_val()->second;
 			range_error(k);
@@ -211,7 +211,7 @@ namespace ft
 
 		const mapped_type & at(const key_type & k) const
 		{
-			node * pos = _rbt->search(k);
+			const node * pos = _rbt->search(k);
 			if (pos)
 				return pos->key_val()->second;
 			range_error(k);
@@ -224,7 +224,7 @@ namespace ft
 			_rbt->free_tree();
 		}
 
-		void swap (map & x)
+		void swap(map & x)
 		{
 			rbt * tmp = _rbt;
 			_rbt = x._rbt;
@@ -233,7 +233,7 @@ namespace ft
 
 		pair<iterator,bool> insert(const value_type & val)
 		{
-			node * pos = _rbt->search(val.first);
+			const node * pos = _rbt->search(val.first);
 			if (pos)
 			{
 				iterator it_pos(pos->key_val(), pos, _rbt);
@@ -248,7 +248,7 @@ namespace ft
 
 		iterator insert(iterator position, const value_type & val)
 		{
-			node * pos = _rbt->search(val.first);
+			const node * pos = _rbt->search(val.first);
 			if (pos)
 				return iterator(pos->key_val(), pos, _rbt);
 			_ptr = _alloc.allocate(1);
@@ -293,47 +293,62 @@ namespace ft
 		val_comp value_comp() const		{ return _comp; }
 
 	// OPERATIONS
-	iterator find(const key_type & k)
-	{
-		node * pos = _rbt->search(k);
-		if (pos)
-			return iterator(pos->key_val(), pos, _rbt);
-		return end();
-	}
-	const_iterator find(const key_type & k) const
-	{
-		node * pos = _rbt->search(k);
-		if (pos)
-			return const_iterator(pos->key_val(), pos, _rbt);
-		return end();
-	}
-	size_type count(const key_type & k) const
-	{
-		if (_rbt->search(k))
-			return 1;
-		return 0;
-	}
-	// The function uses its internal comparison object (key_comp)
-	// to determine this, returning an iterator to the first element 
-	// for which key_comp(element_key,k) would return false.
-
-	// An iterator to the the first element in the container
-	// whose key is not considered to go before k, or map::end 
-	// if all keys are considered to go before k
-	iterator lower_bound(const key_type & k)
-	{
-		node * lb = _rbt->search_pos(k);
-		cout << "Lower bound: " << lb->key_val()->first << endl;
-		return iterator(lb->key_val(), lb, _rbt);
-
-		// return lb;
-	}
-	const_iterator lower_bound(const key_type & k) const
-	{
-		node * lb = _rbt->search_pos(k);
-		cout << "Lower bound: " << lb->key_val()->first << endl;
-		return const_iterator(lb->key_val(), lb, _rbt);
-	}
+		iterator find(const key_type & k)
+		{
+			const node * pos = _rbt->search(k);
+			if (pos)
+				return iterator(pos->key_val(), pos, _rbt);
+			return end();
+		}
+		const_iterator find(const key_type & k) const
+		{
+			const node * pos = _rbt->search(k);
+			if (pos)
+				return const_iterator(pos->key_val(), pos, _rbt);
+			return end();
+		}
+		size_type count(const key_type & k) const
+		{
+			if (_rbt->search(k))
+				return 1;
+			return 0;
+		}
+		pair<iterator,iterator> equal_range(const key_type & k)
+		{
+			const node * pos = _rbt->search(k);
+			if (!pos)
+				return ft::make_pair<iterator,iterator>(upper_bound(k), upper_bound(k));
+			iterator up(_rbt->get_next(pos).key_val(), &_rbt->_past_end_node, _rbt);
+			return ft::make_pair<iterator,iterator>(lower_bound(k), up);
+		}
+		pair<const_iterator,const_iterator> equal_range(const key_type & k) const
+		{
+			const node * pos = _rbt->search(k);
+			if (!pos)
+				return ft::make_pair<const_iterator,const_iterator>(upper_bound(k), upper_bound(k));
+			const_iterator up(_rbt->get_next(pos).key_val(), &_rbt->_past_end_node, _rbt);
+			return ft::make_pair<const_iterator,const_iterator>(lower_bound(k), up);
+		}
+		iterator lower_bound(const key_type & k)
+		{
+			const node * low = _rbt->search_lower(k);
+			return iterator(low->key_val(), low, _rbt);
+		}
+		const_iterator lower_bound(const key_type & k) const
+		{
+			const node * low = _rbt->search_lower(k);
+			return const_iterator(low->key_val(), low, _rbt);
+		}
+		iterator upper_bound(const key_type & k)
+		{
+			const node * up = _rbt->search_upper(k);
+			return iterator(up->key_val(), up, _rbt);
+		}
+		const_iterator upper_bound(const key_type & k) const
+		{
+			const node * up = _rbt->search_upper(k);
+			return iterator(up->key_val(), up, _rbt);
+		}
 
 	// ALLOCATOR
 		allocator_type get_allocator() const { return _alloc; }
@@ -363,7 +378,7 @@ namespace ft
 		void range_error(const key_type & k)
 		{
 			try { throw map::out_of_range_error(); }
-			catch (const map::out_of_range_error & e) { cerr << RED << e.what() << k << WHI; }
+			catch (const map::out_of_range_error & e) { cerr << RED << e.what() << k << endl << WHI; }
 		}
 	};
 
