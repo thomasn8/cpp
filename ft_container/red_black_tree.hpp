@@ -43,7 +43,7 @@ namespace ft
 		typedef	unsigned int								size_type;
 		typedef	int											difference_type;
 
-		const node * get_left_most(node * n) const
+		const node * get_left_most(const node * n) const
 		{
 			if (!n)
 				return &_past_end_node;
@@ -51,7 +51,7 @@ namespace ft
 				n = n->left();
 			return n;
 		}
-		const node * get_right_most(node * n) const
+		const node * get_right_most(const node * n) const
 		{
 			if (!n)
 				return &_past_end_node;
@@ -59,7 +59,7 @@ namespace ft
 				n = n->right();
 			return n;
 		}
-		const node * get_next(node *n) const
+		const node * get_next(const node * n) const
 		{
 			node * parent;
 			if (!n)
@@ -83,7 +83,7 @@ namespace ft
 			else
 				return &_past_end_node;	// que 1 val dans l'arbre, pas de next
 		}
-		const node * get_prev(node *n) const
+		const node * get_prev(const node * n) const
 		{
 			node * parent;
 			if (!n)

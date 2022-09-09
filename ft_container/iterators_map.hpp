@@ -12,15 +12,13 @@ namespace ft
 	{
 		public:
 	// MEMBER TYPES
-		typedef ft::pair<const Key,T>		value_type;
+		typedef ft::pair<Key,T>				value_type;
 		typedef int							difference_type;
 		typedef value_type *				pointer;
 		typedef value_type &				reference;
 		typedef bidirectional_iterator	 	iterator_category;
 		typedef	iterator_category			it;
 		typedef int 						SFINAE_condition;
-		typedef ft::bidirectional_iterator<Key,T,Node_ptr,Tree_ptr> iterator;
-		typedef ft::bidirectional_iterator<const Key,T,Node_ptr,const Tree_ptr> const_iterator;
 	// CONSTRUCTEURS/DESTRUCTEUR
 		bidirectional_iterator() : _p(0) {}
 		bidirectional_iterator(pointer p, Node_ptr node, Tree_ptr tree) : _p(p), _node(node), _tree(tree) {}
@@ -42,27 +40,27 @@ namespace ft
 
 		it & operator++()
 		{
-			_node = const_cast<Node_ptr>(_tree->get_next(_node));
+			_node = _tree->get_next(_node);
 			_p = _node->key_val();
 			return *this;
 		}
 		it operator++(int) 
 		{ 
 			it tmp(*this);
-			_node = const_cast<Node_ptr>(_tree->get_next(_node));	
+			_node = _tree->get_next(_node);	
 			_p = _node->key_val();
 			return tmp;
 		}
 		it & operator--() 
 		{
-			_node = const_cast<Node_ptr>(_tree->get_prev(_node));
+			_node = _tree->get_prev(_node);
 			_p = _node->key_val();
 			return *this;
 		}
 		it operator--(int) 
 		{
 			it tmp(*this);
-			_node = const_cast<Node_ptr>(_tree->get_prev(_node));
+			_node = _tree->get_prev(_node);
 			_p = _node->key_val();
 			return tmp;
 		}
@@ -75,37 +73,6 @@ namespace ft
 		Node_ptr getNode() const { return _node; }
 		Tree_ptr getTree() const { return _tree; }
 	};
-
-	// template<typename T>
-	// struct iterator_traits
-	// {
-	// 	public :
-	// 	typedef typename	T::difference_type 		difference_type;
-	// 	typedef typename 	T::value_type			value_type;
-	// 	typedef typename	T::pointer				pointer;
-	// 	typedef typename	T::reference			reference;
-	// 	typedef typename	T::iterator_category	iterator_category;
-	// };
-	// template <typename T>
-	// struct iterator_traits<T *>
-	// {
-	// 	public :
-	// 	typedef int								difference_type;
-	// 	typedef T								value_type;
-	// 	typedef T *								pointer;
-	// 	typedef T &								reference;
-	// 	typedef ft::random_access_iterator_tag	iterator_category;
-	// };
-	// template <typename T>
-	// struct iterator_traits<const T *>
-	// {
-	// 	public :
-	// 	typedef int								difference_type;
-	// 	typedef T								value_type;
-	// 	typedef const T *						pointer;
-	// 	typedef const T &						reference;
-	// 	typedef ft::random_access_iterator_tag	iterator_category;
-	// };
 
 	template <typename Iterator>
 	class map_reverse_iterator : public ft::iterator_traits<Iterator>
