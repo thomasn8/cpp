@@ -26,51 +26,51 @@ int main()
 	// ************************************************************
 	// ******************** TESTS CONSTRUCTORS ********************
 	// #1
-	ft::map<char,int> ft1;
-	ft1['c'] = 3;
-	ft1['b'] = 2;
-	ft1['a'] = 1;
+	// ft::map<char,int> ft1;
+	// ft1['c'] = 3;
+	// ft1['b'] = 2;
+	// ft1['a'] = 1;
+	// // ft::map_details(ft1);
+
+	// ft::map<char,int> ft2;
+	// ft2['a'] = 17;
+	// ft2['x'] = 7;
+	// ft2['y'] = 8;
+	// ft2['c'] = 5;
+	// ft2['z'] = 9;
+	// ft2['b'] = 19;
+	// ft2['m'];
+	// ft::pair<char,int> p1;
+	// ft::pair<char,int> p2;
+	// ft2.insert(p1);
+	// ft2.insert(p2);
+	// // ft::map_details(ft2);
+
+	// ft1.insert(ft2.begin(), ft2.end());
+	// // ft::map_details(ft1);
+
+	// ft1.at('x') = 77777;
+	// ft1.at('q');
+	// // ft::map_details(ft1);
+
+	// ft1.clear();
+	// ft1['c'] = 3;
+	// ft1['b'] = 2;
+	// ft1['a'] = 1;
 	// ft::map_details(ft1);
 
-	ft::map<char,int> ft2;
-	ft2['a'] = 17;
-	ft2['x'] = 7;
-	ft2['y'] = 8;
-	ft2['c'] = 5;
-	ft2['z'] = 9;
-	ft2['b'] = 19;
-	ft2['m'];
-	ft::pair<char,int> p1;
-	ft::pair<char,int> p2;
-	ft2.insert(p1);
-	ft2.insert(p2);
+	// ft::map_details(ft1);
+	// ft::map_details(ft2);
+	// ft1.swap(ft2);
+	// ft::map_details(ft1);
 	// ft::map_details(ft2);
 
-	ft1.insert(ft2.begin(), ft2.end());
-	// ft::map_details(ft1);
-
-	ft1.at('x') = 77777;
-	ft1.at('q');
-	// ft::map_details(ft1);
-
-	ft1.clear();
-	ft1['c'] = 3;
-	ft1['b'] = 2;
-	ft1['a'] = 1;
-	// ft::map_details(ft1);
-
-	ft::map_details(ft1);
-	ft::map_details(ft2);
-	ft1.swap(ft2);
-	ft::map_details(ft1);
-	ft::map_details(ft2);
-
-	ft::map<char,int>::iterator a = ft1.find('m');
-	cout << a->first << endl;
-	ft::map<char,int>::iterator b = ft2.find('b');
-	cout << b->first << endl;
-	ft::map<char,int>::iterator c = ft2.find('v');
-	cout << c->first << endl;
+	// ft::map<char,int>::iterator a = ft1.find('m');
+	// cout << a->first << endl;
+	// ft::map<char,int>::iterator b = ft2.find('b');
+	// cout << b->first << endl;
+	// ft::map<char,int>::iterator c = ft2.find('v');
+	// cout << c->first << endl;
 
 	// ft::map<char,int> ft2(ft1);
 	// ft::map_details(ft2);
@@ -86,6 +86,35 @@ int main()
 	// ft::map_details(ft4);
 	// for (ft::map<char,int>::const_iterator it = ft4.cbegin(); it != ft4.cend(); ++it)
     // 	std::cout << it->first << " => " << it->second << '\n';
+
+	ft::map<char,int> ft5;
+	ft5['m'] = 17;
+	ft5['c'] = 7;
+	ft5['p'] = 8;
+	ft5['a'] = 5;
+	ft5['h'] = 9;
+	ft5['e'] = 19;
+	ft5['n'] = 19;
+	ft5['t'] = 19;
+	ft5['s'] = 19;
+	ft5['y'] = 19;
+	ft5.lower_bound('f');
+	ft5.lower_bound('u');
+	ft5.lower_bound('c');
+	// ft5.lower_bound('n');
+	(*ft5.lower_bound('n')).second = 1;
+	ft5.lower_bound('z');
+	ft::map_details(ft5);
+	
+	const ft::map<char,int> ft6(ft5);
+	ft6.lower_bound('f');
+	ft6.lower_bound('u');
+	ft6.lower_bound('c');
+	(*ft6.lower_bound('n')).second = 1;
+	// cout << (ft6.lower_bound('n'))->second << endl;
+	// *(ft6.lower_bound('n')).second = 1;
+	ft6.lower_bound('z');
+	ft::map_details(ft6);
 
 	// // ************************************************************
 	// // ******************* TESTS ELEMENT ACCESS *******************

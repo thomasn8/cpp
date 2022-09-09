@@ -12,6 +12,7 @@ using namespace std;
 # define LEAF 0
 
 # define COUNT 8
+
 # define RED "\033[0;31m"
 # define WHI "\033[0m"
 
@@ -150,6 +151,32 @@ namespace ft
 					return root;
 			}
 			return NULL;
+		}
+		node * search_pos(Key key)
+		{
+			node * root = _root;
+			node * last_biger = &_past_end_node;
+			while (root)
+			{
+				if (_comp.comp(key, root->key_val()->first))
+				{
+					last_biger = root;
+					if (root->left())
+						root = root->left();
+					else
+						return last_biger;
+				}
+				else if (_comp.comp(root->key_val()->first, key))
+				{
+					if (root->right())
+						root = root->right();
+					else
+						return last_biger;
+				}
+				else
+					return root;
+			}
+			return last_biger;
 		}
 
 		node * insertion(value_type * pair)

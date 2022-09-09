@@ -313,6 +313,27 @@ namespace ft
 			return 1;
 		return 0;
 	}
+	// The function uses its internal comparison object (key_comp)
+	// to determine this, returning an iterator to the first element 
+	// for which key_comp(element_key,k) would return false.
+
+	// An iterator to the the first element in the container
+	// whose key is not considered to go before k, or map::end 
+	// if all keys are considered to go before k
+	iterator lower_bound(const key_type & k)
+	{
+		node * lb = _rbt->search_pos(k);
+		cout << "Lower bound: " << lb->key_val()->first << endl;
+		return iterator(lb->key_val(), lb, _rbt);
+
+		// return lb;
+	}
+	const_iterator lower_bound(const key_type & k) const
+	{
+		node * lb = _rbt->search_pos(k);
+		cout << "Lower bound: " << lb->key_val()->first << endl;
+		return const_iterator(lb->key_val(), lb, _rbt);
+	}
 
 	// ALLOCATOR
 		allocator_type get_allocator() const { return _alloc; }
