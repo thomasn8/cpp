@@ -37,10 +37,10 @@ namespace ft
 		typedef red_black_node<Key,T>							node;
 		typedef	int												difference_type;
 		typedef	unsigned int									size_type;
-		typedef	ft::bidirectional_iterator<const Key,T,const node *,rbt *>			iterator;
-		typedef	ft::bidirectional_iterator<const Key, T,const node *,rbt *>	const_iterator;
-		typedef	ft::map_reverse_iterator<iterator>						reverse_iterator;
-		typedef	ft::map_reverse_iterator<const_iterator>				const_reverse_iterator;
+		typedef	ft::bidirectional_iterator<const Key,T,const node *,rbt *>	iterator;
+		typedef	ft::bidirectional_iterator<const Key,T,const node *,rbt *>	const_iterator;
+		typedef	ft::map_reverse_iterator<iterator>							reverse_iterator;
+		typedef	ft::map_reverse_iterator<const_iterator>					const_reverse_iterator;
 
 	// ERRORS
 		class out_of_range_error
@@ -99,7 +99,7 @@ namespace ft
 			return *this;
 		}
 
-		~map() { _rbt->free_tree(); }
+		~map() { clear(); }
 
 	// ITERATORS
 		iterator begin() 
@@ -219,17 +219,9 @@ namespace ft
 		}
 
 	// MODIFIERS
-		void clear()
-		{
-			_rbt->free_tree();
-		}
+		void clear() { _rbt->free_tree(); }
 
-		void swap(map & x)
-		{
-			rbt * tmp = _rbt;
-			_rbt = x._rbt;
-			x._rbt = tmp;
-		}
+		void swap(map & x) { rbt * tmp = _rbt; _rbt = x._rbt; x._rbt = tmp; }
 
 		pair<iterator,bool> insert(const value_type & val)
 		{
@@ -272,10 +264,14 @@ namespace ft
 			}
 		}
 
-		// void erase (iterator position)
-		// {
-
-		// }
+		void erase(iterator position)
+		{
+			Key k = position->first;
+			const node * n = _rbt->search(k);
+			if (!n)
+				return;
+			_rbt->deletion(const_cast<node *>(n), k);
+		}
 
 		// size_type erase (const key_type & k)
 		// {

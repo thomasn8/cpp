@@ -11,10 +11,12 @@ int main()
 	// ************************************************************
 	// ******************** TESTS CONSTRUCTORS ********************
 	// #1
-	ft::map<char,int> ft1;
-	ft1['c'] = 3;
-	ft1['b'] = 2;
-	ft1['a'] = 1;
+	// ft::map<char,int> ft1;
+	// ft1['c'] = 3;
+	// ft1['b'] = 2;
+	// ft1['a'] = 1;
+	// ft::map_details(ft1);
+	// ft1.erase( (++ft1.begin()) );
 	// ft::map_details(ft1);
 
 	ft::map<char,int> ft2;
@@ -24,78 +26,88 @@ int main()
 	ft2['c'] = 5;
 	ft2['z'] = 9;
 	ft2['b'] = 19;
-	ft2['m'];
-	ft::pair<char,int> p1;
-	ft::pair<char,int> p2;
-	ft2.insert(p1);
-	ft2.insert(p2);
+	ft::map_details(ft2);
+	ft2.erase( (++ft2.begin()) );
+	ft::map_details(ft2);
+	ft2.erase( (ft2.begin()) );
+	ft::map_details(ft2);
+	ft2.erase( (++ft2.begin()) );
+	ft::map_details(ft2);
+	ft2.erase( (ft2.begin()) );
+	ft::map_details(ft2);
+
+	// ft2['m'];
+	// ft::pair<char,int> p1;
+	// ft::pair<char,int> p2;
+	// ft2.insert(p1);
+	// ft2.insert(p2);
+	// // ft::map_details(ft2);
+
+	// ft1.insert(ft2.begin(), ft2.end());
+	// // ft::map_details(ft1);
+
+	// ft1.at('x') = 77777;
+	// ft1.at('q');					// OUT OF RANGE
+	// ft1.at('g');					// OUT OF RANGE
+	// // ft::map_details(ft1);
+
+	// ft1.clear();
+	// ft1['c'] = 3;
+	// ft1['b'] = 2;
+	// ft1['a'] = 1;
+	// ft::map_details(ft1);
+
+	// ft::map_details(ft1);
+	// ft::map_details(ft2);
+	// ft1.swap(ft2);
+	// ft::map_details(ft1);
 	// ft::map_details(ft2);
 
-	ft1.insert(ft2.begin(), ft2.end());
-	// ft::map_details(ft1);
+	// ft::map<char,int>::iterator a = ft1.find('m');
+	// cout << a->first << endl;
+	// ft::map<char,int>::iterator b = ft2.find('b');
+	// cout << b->first << endl;
+	// ft::map<char,int>::iterator c = ft2.find('v');
+	// cout << c->first << endl;
 
-	ft1.at('x') = 77777;
-	ft1.at('q');					// OUT OF RANGE
-	ft1.at('g');					// OUT OF RANGE
-	// ft::map_details(ft1);
+	// ft::map<char,int> ft3(ft1);
+	// ft::map_details(ft3);
 
-	ft1.clear();
-	ft1['c'] = 3;
-	ft1['b'] = 2;
-	ft1['a'] = 1;
-	ft::map_details(ft1);
+	// ft::map<char,int> ft4;
+	// ft4 = ft2;
+	// ft4.insert(ft::make_pair<char,int>('u',6));
+	// ft4.insert(ft::make_pair<char,int>('r',19));
+	// ft4.insert(ft::make_pair<char,int>('r',12));
+	// ft::map_details(ft4);
 
-	ft::map_details(ft1);
-	ft::map_details(ft2);
-	ft1.swap(ft2);
-	ft::map_details(ft1);
-	ft::map_details(ft2);
+	// ft::map<char,int> ft5(ft4.begin(), ft4.end());
+	// ft::map_details(ft5);
+	// for (ft::map<char,int>::const_iterator it = ft5.cbegin(); it != ft5.cend(); ++it)
+    // 	std::cout << it->first << " => " << it->second << '\n';
 
-	ft::map<char,int>::iterator a = ft1.find('m');
-	cout << a->first << endl;
-	ft::map<char,int>::iterator b = ft2.find('b');
-	cout << b->first << endl;
-	ft::map<char,int>::iterator c = ft2.find('v');
-	cout << c->first << endl;
-
-	ft::map<char,int> ft3(ft1);
-	ft::map_details(ft3);
-
-	ft::map<char,int> ft4;
-	ft4 = ft2;
-	ft4.insert(ft::make_pair<char,int>('u',6));
-	ft4.insert(ft::make_pair<char,int>('r',19));
-	ft4.insert(ft::make_pair<char,int>('r',12));
-	ft::map_details(ft4);
-
-	ft::map<char,int> ft5(ft4.begin(), ft4.end());
-	ft::map_details(ft5);
-	for (ft::map<char,int>::const_iterator it = ft5.cbegin(); it != ft5.cend(); ++it)
-    	std::cout << it->first << " => " << it->second << '\n';
-
-	ft::map<char,int> ft6;
-	ft6['m'] = 17;
-	ft6['c'] = 7;
-	ft6['p'] = 8;
-	ft6['a'] = 5;
-	ft6['h'] = 9;
-	ft6['e'] = 19;
-	ft6['n'] = 19;
-	ft6['t'] = 19;
-	ft6['s'] = 19;
-	ft6['y'] = 19;
-	ft::map_details(ft6);
-	ft6.lower_bound('f');
-	ft6.lower_bound('u');
-	ft6.lower_bound('c');
-	(*ft6.lower_bound('n')).second = 1;
-	ft6.lower_bound('z');
+	// ft::map<char,int> ft6;
+	// ft6['m'] = 17;
+	// ft6['c'] = 7;
+	// ft6['p'] = 8;
+	// ft6['a'] = 5;
+	// ft6['h'] = 9;
+	// ft6['e'] = 19;
+	// ft6['n'] = 19;
+	// ft6['t'] = 19;
+	// ft6['s'] = 19;
+	// ft6['y'] = 19;
+	// ft::map_details(ft6);
+	// ft6.lower_bound('f');
+	// ft6.lower_bound('u');
+	// ft6.lower_bound('c');
+	// (*ft6.lower_bound('n')).second = 1;
+	// ft6.lower_bound('z');
 	
-	ft6.upper_bound('f');
-	ft6.upper_bound('u');
-	ft6.upper_bound('c');
-	ft6.upper_bound('n');
-	ft6.upper_bound('z');
+	// ft6.upper_bound('f');
+	// ft6.upper_bound('u');
+	// ft6.upper_bound('c');
+	// ft6.upper_bound('n');
+	// ft6.upper_bound('z');
 	
 
 	// // ************************************************************

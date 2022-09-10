@@ -20,10 +20,17 @@ namespace ft
 		red_black_node(pointer pair) :
 		_key_val(pair), _color(LEAF), _left(NULL), _right(NULL), _parent(NULL) { _parent = parent(); }
 
-		void setLeft(node * n)		{ _left = n; }
-		void setRight(node * n)		{ _right = n; }
-		void setParent(node * n)	{ _parent = n; }
-		void setColor(int c)		{ _color = c; }
+		void setLeft(node * n)			{ _left = n; }
+		void setRight(node * n)			{ _right = n; }
+		void setParent(node * n)		{ _parent = n; }
+		void setColor(int c)			{ _color = c; }
+		void setKeyVal(pointer pr)	{ _key_val = pr; }
+		void swapKeyVal(node * other)
+		{
+			pointer tmp = other->key_val();
+			other->setKeyVal(_key_val);
+			setKeyVal(tmp);
+		}
 
 		int color() const			{ return _color; }
 		pointer key_val() const		{ return _key_val; }

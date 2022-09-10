@@ -128,6 +128,7 @@ namespace ft
 		
 		~red_black_tree() {}
 
+	// SEARCH
 		const node * search(const Key & key) const 
 		{
 			node * root = _root;
@@ -211,6 +212,7 @@ namespace ft
 			return last_up;
 		}
 
+	// INSERTION
 		node * insertion(value_type * pair)
 		{
 			_ptr = _alloc.allocate(1);
@@ -343,7 +345,168 @@ namespace ft
 			y->setRight(x);
 			x->setParent(y);
 		}
+	
+	// DELETION
+		void deletion(node *n, Key key)
+		{
+			print_tree();
+			node * y;
+			node * x;
+			int color;
+			if(n->left() == NULL || n->right() == NULL)
+				y = n;
+			else
+				y = const_cast<node *>(get_next(n));
+				// y = const_cast<node *>(get_prev(n));
 
+			if(y->left() != NULL)
+			{
+				// cout << "Cas 1" << endl;
+				x = y->left();
+			}
+			else
+			{
+				// cout << "Cas 2" << endl;
+				if(y->right() != NULL)
+					x = y->right();
+				else
+					x = NULL;
+			}
+
+			if(x != NULL)
+			{
+				// cout << "Cas 3" << endl;
+				// cout << "perte: " << x->parent()->key_val()->first << endl;
+				x->setParent(y->parent());		// possiblement une perte ici
+			}
+			if(y->parent() == NULL)
+			{
+				// cout << "Cas 4" << endl;
+				// cout << "perte: " << _root->key_val()->first << endl;
+				_root = x;						// possiblement une perte ici
+			}
+			else
+			{
+				// cout << "Cas 5" << endl;
+				if(y == y->parent()->left())
+				{
+					// cout << "perte: " << y->parent()->left()->key_val()->first << endl;
+					y->parent()->setLeft(x);	// possiblement une perte ici
+				}
+				else
+				{
+					// cout << "perte: " << y->parent()->right()->key_val()->first << endl;
+					y->parent()->setRight(x);	// possiblement une perte ici
+				}
+			}
+			if(y != n)
+			{
+				cout << "Cas 6" << endl;
+				// cout << "perte: " << n->key_val()->first << ", color " << print_color(n->color()) << endl;
+				cout << "perte: " << n->key_val()->first << ", color " << print_color(y->color()) << endl;
+				// cout << "remove : " << n->key_val()->first << endl;
+				// cout << "replace by : " << y->key_val()->first << endl;
+				// color = n->color();
+				color = y->color();
+				n->swapKeyVal(y);
+				_alloc_p.destroy(y->key_val());
+				_alloc_p.deallocate(y->key_val(), 1);
+				_alloc.destroy(y);
+				_alloc.deallocate(y, 1);
+				_n--;
+			}
+			else
+			{
+				cout << "Cas 7" << endl;
+				cout << "perte: " << n->key_val()->first << ", color " << print_color(n->color()) << endl;
+				color = n->color();
+				_alloc_p.destroy(n->key_val());
+				_alloc_p.deallocate(n->key_val(), 1);
+				_alloc.destroy(n);
+				_alloc.deallocate(n, 1);
+				_n--;
+			}
+
+			print_tree();
+			// if(y->color() == B)
+			if(color == B)
+				delfix(x);
+		}
+		void delfix(node *p)
+		{
+			cout << "Rééquilibrage des couleurs de l'arbre" << endl;
+			node *s;
+			while(p!=_root && p->color()==B)
+			{
+				if(p->parent()->left()==p)
+				{
+						s=p->parent()->right();
+						if(s->color()==R)
+						{
+								s->setColor(B);
+								p->parent()->setColor(R);
+								rotation_left(p->parent());
+								s=p->parent()->right();
+						}
+						if(s->right()->color()==B && s->left()->color()==B)
+						{
+								s->setColor(R);
+								p=p->parent();
+						}
+						else
+						{
+							if(s->right()->color()==B)
+							{
+									s->left()->setColor(B);
+									s->setColor(R);
+									rotation_right(s);
+									s=p->parent()->right();
+							}
+							s->setColor(p->parent()->color());
+							p->parent()->setColor(B);
+							s->right()->setColor(B);
+							rotation_left(p->parent());
+							p=_root;
+						}
+				}
+				else
+				{
+						s=p->parent()->left();
+						if(s->color()==R)
+						{
+								s->setColor(B);
+								p->parent()->setColor(R);
+								rotation_right(p->parent());
+								s=p->parent()->left();
+						}
+						if(s->left()->color()==B && s->right()->color()==B)
+						{
+								s->setColor(R);
+								p=p->parent();
+						}
+						else
+						{
+								if(s->left()->color()==B)
+								{
+									s->right()->setColor(B);
+									s->setColor(R);
+									rotation_left(s);
+									s=p->parent()->left();
+								}
+								s->setColor(p->parent()->color());
+								p->parent()->setColor(B);
+								s->left()->setColor(B);
+								rotation_right(p->parent());
+								p=_root;
+						}
+				}
+			p->setColor(B);
+			_root->setColor(B);
+			}
+			// print_tree();
+		}
+
+	// PRINT-FREE
 		void print_tree()
 		{
 			print_tree_recursiv(_root, 0);
@@ -383,6 +546,11 @@ namespace ft
 			_alloc.destroy(root);
 			_alloc.deallocate(root, 1);
 			_n--;
+		}
+
+		char *print_color(int c)
+		{
+			if(c == 1) return ("rouge"); else return ("noir");
 		}
 	};
 }
