@@ -40,28 +40,60 @@ namespace ft
 
 		it & operator++()
 		{
-			_node = _tree->get_next(_node);
-			_p = _node->key_val();
+			if (_node == _tree->get_past_start())
+			{
+				_node = _tree->get_left_most(_tree->get_root());
+				_p = _node->key_val();
+			}
+			else
+			{
+				_node = _tree->get_next(_node);
+				_p = _node->key_val();
+			}
 			return *this;
 		}
 		it operator++(int) 
 		{ 
 			it tmp(*this);
-			_node = _tree->get_next(_node);	
-			_p = _node->key_val();
+			if (_node == _tree->get_past_start())
+			{
+				_node = _tree->get_left_most(_tree->get_root());
+				_p = _node->key_val();
+			}
+			else
+			{
+				_node = _tree->get_next(_node);
+				_p = _node->key_val();
+			}
 			return tmp;
 		}
 		it & operator--() 
 		{
-			_node = _tree->get_prev(_node);
-			_p = _node->key_val();
+			if (_node == _tree->get_past_end())
+			{
+				_node = _tree->get_right_most(_tree->get_root());
+				_p = _node->key_val();
+			}
+			else
+			{
+				_node = _tree->get_prev(_node);
+				_p = _node->key_val();
+			}
 			return *this;
 		}
 		it operator--(int) 
 		{
 			it tmp(*this);
-			_node = _tree->get_prev(_node);
-			_p = _node->key_val();
+			if (_node == _tree->get_past_end())
+			{
+				_node = _tree->get_right_most(_tree->get_root());
+				_p = _node->key_val();
+			}
+			else
+			{
+				_node = _tree->get_prev(_node);
+				_p = _node->key_val();
+			}
 			return tmp;
 		}
 	

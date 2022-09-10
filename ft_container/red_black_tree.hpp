@@ -43,6 +43,11 @@ namespace ft
 		typedef	unsigned int								size_type;
 		typedef	int											difference_type;
 
+		void print_tree()
+		{
+			print_tree_recursiv(_root, 0);
+			cout << endl;
+		}
 		const node * get_left_most(const node * n) const
 		{
 			if (!n)
@@ -58,6 +63,18 @@ namespace ft
 			while (n->right())
 				n = n->right();
 			return n;
+		}
+		const node * get_root() const
+		{
+			return _root;
+		}
+		const node * get_past_start() const
+		{
+			return &_past_start_node;
+		}
+		const node * get_past_end() const
+		{
+			return &_past_end_node;
 		}
 		const node * get_next(const node * n) const
 		{
@@ -403,7 +420,8 @@ namespace ft
 			{
 				cout << "Cas 6" << endl;
 				// cout << "perte: " << n->key_val()->first << ", color " << print_color(n->color()) << endl;
-				cout << "perte: " << n->key_val()->first << ", color " << print_color(y->color()) << endl;
+				cout << "perte: " << n->key_val()->first << ", color " << y->color() << endl;
+				// cout << "perte: " << n->key_val()->first << ", color " << print_color(y->color()) << endl;
 				// cout << "remove : " << n->key_val()->first << endl;
 				// cout << "replace by : " << y->key_val()->first << endl;
 				// color = n->color();
@@ -418,7 +436,8 @@ namespace ft
 			else
 			{
 				cout << "Cas 7" << endl;
-				cout << "perte: " << n->key_val()->first << ", color " << print_color(n->color()) << endl;
+				cout << "perte: " << n->key_val()->first << ", color " << n->color() << endl;
+				// cout << "perte: " << n->key_val()->first << ", color " << print_color(n->color()) << endl;
 				color = n->color();
 				_alloc_p.destroy(n->key_val());
 				_alloc_p.deallocate(n->key_val(), 1);
@@ -427,16 +446,21 @@ namespace ft
 				_n--;
 			}
 
-			print_tree();
+			// print_tree();
 			// if(y->color() == B)
 			if(color == B)
 				delfix(x);
 		}
+
 		void delfix(node *p)
 		{
-			cout << "Rééquilibrage des couleurs de l'arbre" << endl;
+			cout << "Rééquilibrage des couleurs de l'arbre";
+			// cout << p->key_val()->first ;
+			// cout << &*p ;
+			cout << endl;
 			node *s;
-			while(p!=_root && p->color()==B)
+			// while(p!=_root && p->color()==B)
+			while(p && p!=_root && p->color()==B)
 			{
 				if(p->parent()->left()==p)
 				{
@@ -448,7 +472,7 @@ namespace ft
 								rotation_left(p->parent());
 								s=p->parent()->right();
 						}
-						if(s->right()->color()==B && s->left()->color()==B)
+						if(s->left()->color()==B && s->right()->color()==B)
 						{
 								s->setColor(R);
 								p=p->parent();
@@ -479,7 +503,7 @@ namespace ft
 								rotation_right(p->parent());
 								s=p->parent()->left();
 						}
-						if(s->left()->color()==B && s->right()->color()==B)
+						if(s->right()->color()==B && s->left()->color()==B)
 						{
 								s->setColor(R);
 								p=p->parent();
@@ -500,18 +524,14 @@ namespace ft
 								p=_root;
 						}
 				}
-			p->setColor(B);
-			_root->setColor(B);
 			}
-			// print_tree();
+			if (p)
+				p->setColor(B);
+			// _root->setColor(B);
+			print_tree();
 		}
 
 	// PRINT-FREE
-		void print_tree()
-		{
-			print_tree_recursiv(_root, 0);
-			cout << endl;
-		}
 		void print_tree_recursiv(node *root, int space)
 		{
 			if (root == NULL)
@@ -548,10 +568,10 @@ namespace ft
 			_n--;
 		}
 
-		char *print_color(int c)
-		{
-			if(c == 1) return ("rouge"); else return ("noir");
-		}
+		// char *print_color(int c)
+		// {
+		// 	if(c == 1) return ("rouge"); else return ("noir");
+		// }
 	};
 }
 

@@ -41,6 +41,7 @@ namespace ft
 		typedef	ft::bidirectional_iterator<const Key,T,const node *,rbt *>	const_iterator;
 		typedef	ft::map_reverse_iterator<iterator>							reverse_iterator;
 		typedef	ft::map_reverse_iterator<const_iterator>					const_reverse_iterator;
+		rbt *					_rbt;
 
 	// ERRORS
 		class out_of_range_error
@@ -354,7 +355,7 @@ namespace ft
 		allocator_type			_alloc;
 		val_comp				_comp;
 		rbt						_tree;
-		rbt *					_rbt;
+		// rbt *					_rbt;
 		pointer					_ptr;
 		value_type				_past_start_pair;
 		value_type				_past_end_pair;
