@@ -44,10 +44,19 @@ int main()
 	ft3['e'] = 9;
 	ft3['f'] = 9;
 	ft3['g'] = 9;
-	// ft3['h'] = 9;
-	// ft3['i'] = 9;
-	// ft3['j'] = 9;
-	// ft3['k'] = 9;
+	ft3['h'] = 9;
+	ft3['i'] = 9;
+	ft3['j'] = 9;
+	ft3['k'] = 9;
+	ft3['l'] = 9;
+	ft3['m'] = 9;
+	ft3['n'] = 9;
+	ft3['o'] = 9;
+	ft3['p'] = 9;
+	ft3['q'] = 9;
+	ft3['r'] = 9;
+	ft3['s'] = 9;
+
 	ft3._rbt->print_tree();
 	ft::map_details(ft3);
 	ft3.erase(ft3.find('a'));
@@ -55,6 +64,12 @@ int main()
 	ft3.erase(ft3.find('c'));
 	ft::map_details(ft3);
 	ft3.erase(ft3.find('g'));
+	ft::map_details(ft3);
+	ft3.erase(ft3.find('r'));
+	ft::map_details(ft3);
+	ft3.erase(ft3.find('n'));
+	ft::map_details(ft3);
+	ft3.erase(ft3.find('e'));
 
 	// ft2['m'];
 	// ft::pair<char,int> p1;

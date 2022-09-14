@@ -368,8 +368,8 @@ namespace ft
 		{
             if (curr == NULL)
 				return;
-            // if (curr->key_val()->first == k) 
-			// {
+            if (curr->key_val()->first == k) 
+			{
                 //CASE 1
                 if (curr->left() == NULL && curr->right() == NULL) 
 				{
@@ -377,13 +377,11 @@ namespace ft
 						_root = NULL;
                     else if (parent->right() == curr) 
 					{
-						cout << "repare tree: " << curr->key_val()->first << endl;
                         deletion_repare_tree(curr);
                         parent->setRight(NULL);
                     } 
                     else 
-					{
-						cout << "repare tree: " << curr->key_val()->first << endl;
+					{ 
                         deletion_repare_tree(curr);
                         parent->setLeft(NULL);
                     }
@@ -414,40 +412,44 @@ namespace ft
 						flag = true; parent = temp; temp = temp->left();
                     if (!flag)
 						parent = curr;
-					// Key swap = curr->key_val()->first;
+					Key swap = curr->key_val()->first;
                     // Key swap = curr->key_val()->first;
                     // curr->key_val()->first = temp->key_val()->first;
                     // temp->key_val()->first = swap;
 					curr->swapKeyVal(temp);
-                    remove_node(parent, temp, temp->key_val()->first);
+                    remove_node(parent, temp, swap);
                 }
-            // }
+            }
         }
 
         void deletion(Key k) 
 		{
             node * temp = _root;
             node * parent = temp;
+            bool flag = false;
             if (!temp)
-				return;
+				remove_node(NULL, NULL, k);
             while(temp)
 			{
-                if (_comp.comp(k, temp->key_val()->first))
+                if (k == temp->key_val()->first)
+				{	
+					flag = true;
+					remove_node(parent, temp, k);
+					break;
+				}
+                else if (k < temp->key_val()->first)
 				{
 					parent = temp;
 					temp = temp->left();
 				}
-                else if (_comp.comp(temp->key_val()->first, k))
+                else
 				{
 					parent = temp;
 					temp = temp->right();
 				}
-				else
-				{
-					remove_node(parent, temp, k);
-					break;
-				}
             }
+            // if (!flag)
+			// { cout << "\nElement doesn't exist in the table"; }
 			print_tree();
         }
 
