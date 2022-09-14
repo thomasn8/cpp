@@ -268,10 +268,6 @@ namespace ft
 		void erase(iterator position)
 		{
 			Key k = position->first;
-			// const node * n = _rbt->search(k);
-			// if (!n)
-			// 	return;
-			// _rbt->deletion(const_cast<node *>(n), k);
 			_rbt->deletion(k);
 		}
 
