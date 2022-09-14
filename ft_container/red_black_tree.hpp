@@ -364,174 +364,195 @@ namespace ft
 		}
 	
 	// DELETION
-		void deletion(node *n, Key key)
+		void remove_node(node * parent, node * curr, Key k) 
 		{
-			print_tree();
-			node * y;
-			node * x;
-			int color;
-			if(n->left() == NULL || n->right() == NULL)
-				y = n;
-			else
-				y = const_cast<node *>(get_next(n));
-				// y = const_cast<node *>(get_prev(n));
-
-			if(y->left() != NULL)
+            if (curr == NULL)
+				return;
+            if (curr->key_val()->first == k) 
 			{
-				cout << "Cas 1" << endl;
-				x = y->left();
-			}
-			else
-			{
-				cout << "Cas 2" << endl;
-				if(y->right() != NULL)
-					x = y->right();
-				else
-					x = NULL;
-			}
-
-			if(x != NULL)
-			{
-				cout << "Cas 3" << endl;
-				// cout << "perte: " << x->parent()->key_val()->first << endl;
-				x->setParent(y->parent());		// possiblement une perte ici
-			}
-			if(y->parent() == NULL)
-			{
-				// cout << "Cas 4" << endl;
-				// cout << "perte: " << _root->key_val()->first << endl;
-				_root = x;						// possiblement une perte ici
-			}
-			else
-			{
-				cout << "Cas 5" << endl;
-				if(y == y->parent()->left())
+                //CASE 1
+                if (curr->left() == NULL && curr->right() == NULL) 
 				{
-					// cout << "perte: " << y->parent()->left()->key_val()->first << endl;
-					y->parent()->setLeft(x);	// possiblement une perte ici
-				}
-				else
+                    if (parent->key_val()->first == curr->key_val()->first)
+						_root = NULL;
+                    else if (parent->right() == curr) 
+					{
+                        deletion_repare_tree(curr);
+                        parent->setRight(NULL);
+                    } 
+                    else 
+					{ 
+                        deletion_repare_tree(curr);
+                        parent->setLeft(NULL);
+                    }
+                }
+                //CASE 2
+                else if (curr->left() != NULL && curr->right() == NULL)
 				{
-					// cout << "perte: " << y->parent()->right()->key_val()->first << endl;
-					y->parent()->setRight(x);	// possiblement une perte ici
-				}
-			}
-			if(y != n)
-			{
-				cout << "Cas 6" << endl;
-				// cout << "perte: " << n->key_val()->first << ", color " << print_color(n->color()) << endl;
-				cout << "perte: " << n->key_val()->first << ", color " << y->color() << endl;
-				// cout << "perte: " << n->key_val()->first << ", color " << print_color(y->color()) << endl;
-				// cout << "remove : " << n->key_val()->first << endl;
-				// cout << "replace by : " << y->key_val()->first << endl;
-				// color = n->color();
-				color = y->color();
-				n->swapKeyVal(y);
-				_alloc_p.destroy(y->key_val());
-				_alloc_p.deallocate(y->key_val(), 1);
-				_alloc.destroy(y);
-				_alloc.deallocate(y, 1);
-				_n--;
-			}
-			else
-			{
-				cout << "Cas 7" << endl;
-				cout << "perte: " << n->key_val()->first << ", color " << n->color() << endl;
-				// cout << "perte: " << n->key_val()->first << ", color " << print_color(n->color()) << endl;
-				color = n->color();
-				_alloc_p.destroy(n->key_val());
-				_alloc_p.deallocate(n->key_val(), 1);
-				_alloc.destroy(n);
-				_alloc.deallocate(n, 1);
-				_n--;
-			}
+                    // Key swap = curr->key_val()->first;
+                    // curr->key_val()->first = curr->left()->key_val()->first;
+                    // curr->left()->key_val()->first = swap;
+					curr->swapKeyVal(curr->left());
+                    remove_node(curr, curr->right(), k);
+                }
+                else if (curr->left() == NULL && curr->right() != NULL)
+				{
+                    // Key swap = curr->key_val()->first;
+                    // curr->key_val()->first = curr->right->key_val()->first;
+                    // curr->right->key_val()->first = swap;
+					curr->swapKeyVal(curr->right());
+                    remove_node(curr, curr->left(), k);
+                }
+                //CASE 3
+                else
+				{
+                    bool flag = false;
+                    node * temp = curr->right();
+                    while(temp->left())
+						flag = true; parent = temp; temp = temp->left();
+                    if (!flag)
+						parent = curr;
+					Key swap = curr->key_val()->first;
+                    // Key swap = curr->key_val()->first;
+                    // curr->key_val()->first = temp->key_val()->first;
+                    // temp->key_val()->first = swap;
+					curr->swapKeyVal(temp);
+                    remove_node(parent, temp, swap);
+                }
+            }
+        }
 
-			// print_tree();
-			// if(y->color() == B)
-			// if(x && color == B)
-			if(color == B)
-				delfix(x);
-			print_tree();
-		}
-
-		void delfix(node *p)
+        void deletion(Key k) 
 		{
-			cout << "Rééquilibrage des couleurs de l'arbre" << endl;
-			// cout << &*p << endl;;
-			// cout << p->key_val()->first ;
-			node *s;
-			// while(p!=_root && p->color()==B)
-			while(p && p!=_root && p->color()==B)
+            node * temp = _root;
+            node * parent = temp;
+            bool flag = false;
+            if (!temp)
+				remove_node(NULL, NULL, k);
+            while(temp)
 			{
-				if(p->parent()->left()==p)
+                if (k == temp->key_val()->first)
+				{	
+					flag = true;
+					remove_node(parent, temp, k);
+					break;
+				}
+                else if (k < temp->key_val()->first)
 				{
-						s=p->parent()->right();
-						if(s->color()==R)
+					parent = temp;
+					temp = temp->left();
+				}
+                else
+				{
+					parent = temp;
+					temp = temp->right();
+				}
+            }
+            // if (!flag)
+			// { cout << "\nElement doesn't exist in the table"; }
+			print_tree();
+        }
+
+        void deletion_repare_tree(node * n) 
+		{
+            while(n->key_val()->first != _root->key_val()->first && n->color() == B)
+			{
+                node * sibling = _root;
+                if (n->parent()->left() == n) 
+				{
+                    if (n->parent()->right())
+						sibling = n->parent()->right();
+                    if (sibling)
+					{
+                        //CASE 1
+                        if (sibling->color() == R)
 						{
-								s->setColor(B);
-								p->parent()->setColor(R);
-								rotation_left(p->parent());
-								s=p->parent()->right();
-						}
-						if(s->left()->color()==B && s->right()->color()==B)
+                            sibling->setColor(B);
+                            n->parent()->setColor(R);
+                            rotation_left(n->parent());
+                            sibling = n->parent()->right();
+                        }
+                         //CASE 2
+                        if (sibling->left() == NULL && sibling->right() == NULL)
 						{
-								s->setColor(R);
-								p=p->parent();
-						}
+                            sibling->setColor(R);
+                            n = n->parent();
+                        }
+                        else if (sibling->left()->color() == B && sibling->right()->color() == B)
+						{
+                            sibling->setColor(R);
+                            n = n->parent();
+                        }
+                        //CASE 3
+                        else if (sibling->right()->color() == B)
+						{
+                            sibling->left()->setColor(B);
+                            sibling->setColor(R);
+                            rotation_right(sibling);
+                            sibling = n->parent()->right();
+                        }
 						else
 						{
-							if(s->right()->color()==B)
+                            sibling->setColor(n->parent()->color());
+                            n->parent()->setColor(B);
+                            if (sibling->right())
+								sibling->right()->setColor(B);
+                            rotation_left(n->parent());
+                            n = _root;
+                        }
+                    } 
+                } 
+				else
+				{
+                    if (n->parent()->right() == n)
+					{
+                        if (n->parent()->left())
+							sibling = n->parent()->left();
+                        if (sibling)
+						{
+                            //CASE 1
+                            if (sibling->color() == R)
 							{
-									s->left()->setColor(B);
-									s->setColor(R);
-									rotation_right(s);
-									s=p->parent()->right();
-							}
-							s->setColor(p->parent()->color());
-							p->parent()->setColor(B);
-							s->right()->setColor(B);
-							rotation_left(p->parent());
-							p=_root;
-						}
-				}
-				else
-				{
-						s=p->parent()->left();
-						if(s->color()==R)
-						{
-								s->setColor(B);
-								p->parent()->setColor(R);
-								rotation_right(p->parent());
-								s=p->parent()->left();
-						}
-						if(s->right()->color()==B && s->left()->color()==B)
-						{
-								s->setColor(R);
-								p=p->parent();
-						}
-						else
-						{
-								if(s->left()->color()==B)
-								{
-									s->right()->setColor(B);
-									s->setColor(R);
-									rotation_left(s);
-									s=p->parent()->left();
-								}
-								s->setColor(p->parent()->color());
-								p->parent()->setColor(B);
-								s->left()->setColor(B);
-								rotation_right(p->parent());
-								p=_root;
-						}
-				}
-			}
-			// p->setColor(B);
-			// _root->setColor(B);
-			if (p)
-				p->setColor(B);
-			// _root->setColor(B);
-		}
+                                sibling->setColor(B);
+                                n->parent()->setColor(R);
+                                rotation_right(n->parent());
+                                sibling = n->parent()->left();
+                            }
+                            //CASE 2
+                             if (sibling->left() == NULL && sibling->right() == NULL)
+							 {
+                                sibling->setColor(R);
+                                n = n->parent();
+                            }
+                            else if (sibling->left()->color() == B && sibling->right()->color() == B)
+							{
+                                sibling->setColor(R);
+                                n = n->parent();
+                            }
+                            //CASE 3 
+                            else if (sibling->left()->color() == B)
+							{
+                                sibling->right()->setColor(B);
+                                sibling->setColor(R);
+                                rotation_right(sibling);
+                                sibling = n->parent()->left();
+                            } 
+							else
+							{
+                                sibling->setColor(n->parent()->color());
+                                n->parent()->setColor(B);
+                                if (sibling->left())
+									sibling->left()->setColor(B);
+                                rotation_left(n->parent());
+                                n = _root;
+                            }
+                        } 
+                    }
+                }
+            }
+            n->setColor(B);
+        }
+
 
 	// PRINT-FREE
 		void print_tree_recursiv(node *root, int space)
@@ -572,7 +593,7 @@ namespace ft
 
 		// char *print_color(int c)
 		// {
-		// 	if(c == 1) return ("rouge"); else return ("noir");
+		// 	if (c == 1) return ("rouge"); else return ("noir");
 		// }
 	};
 }
