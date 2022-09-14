@@ -82,8 +82,6 @@ namespace ft
 		cout << "--------------------------------------------------------" << endl;
 	}
 
-	// for (ft::map<char,int>::const_reverse_iterator it = ft1.crbegin(); it != ft1.crend(); ++it)
-    // 	std::cout << it->first << " => " << it->second << '\n';
 	template<class T1, class T2>
 	void map_rev_details(const ft::map<T1,T2> & m)
 	{

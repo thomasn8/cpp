@@ -59,17 +59,18 @@ int main()
 
 	ft3._rbt->print_tree();
 	ft::map_details(ft3);
-	ft3.erase(ft3.find('a'));
+	ft3.erase(ft3.find('d'));
 	ft::map_details(ft3);
-	ft3.erase(ft3.find('c'));
+	ft3.erase(ft3.find('i'));
 	ft::map_details(ft3);
-	ft3.erase(ft3.find('g'));
+	ft3.erase(ft3.find('q'));
 	ft::map_details(ft3);
-	ft3.erase(ft3.find('r'));
+	ft3.erase(ft3.find('p'));
 	ft::map_details(ft3);
-	ft3.erase(ft3.find('n'));
+	ft3.erase(ft3.find('l'));
 	ft::map_details(ft3);
-	ft3.erase(ft3.find('e'));
+	ft3.erase(ft3.find('h'));
+	ft::map_details(ft3);
 
 	// ft2['m'];
 	// ft::pair<char,int> p1;
