@@ -378,12 +378,12 @@ namespace ft
 
 			if(y->left() != NULL)
 			{
-				// cout << "Cas 1" << endl;
+				cout << "Cas 1" << endl;
 				x = y->left();
 			}
 			else
 			{
-				// cout << "Cas 2" << endl;
+				cout << "Cas 2" << endl;
 				if(y->right() != NULL)
 					x = y->right();
 				else
@@ -392,7 +392,7 @@ namespace ft
 
 			if(x != NULL)
 			{
-				// cout << "Cas 3" << endl;
+				cout << "Cas 3" << endl;
 				// cout << "perte: " << x->parent()->key_val()->first << endl;
 				x->setParent(y->parent());		// possiblement une perte ici
 			}
@@ -404,7 +404,7 @@ namespace ft
 			}
 			else
 			{
-				// cout << "Cas 5" << endl;
+				cout << "Cas 5" << endl;
 				if(y == y->parent()->left())
 				{
 					// cout << "perte: " << y->parent()->left()->key_val()->first << endl;
@@ -448,16 +448,17 @@ namespace ft
 
 			// print_tree();
 			// if(y->color() == B)
+			// if(x && color == B)
 			if(color == B)
 				delfix(x);
+			print_tree();
 		}
 
 		void delfix(node *p)
 		{
-			cout << "Rééquilibrage des couleurs de l'arbre";
+			cout << "Rééquilibrage des couleurs de l'arbre" << endl;
+			// cout << &*p << endl;;
 			// cout << p->key_val()->first ;
-			// cout << &*p ;
-			cout << endl;
 			node *s;
 			// while(p!=_root && p->color()==B)
 			while(p && p!=_root && p->color()==B)
@@ -525,10 +526,11 @@ namespace ft
 						}
 				}
 			}
+			// p->setColor(B);
+			// _root->setColor(B);
 			if (p)
 				p->setColor(B);
 			// _root->setColor(B);
-			print_tree();
 		}
 
 	// PRINT-FREE
