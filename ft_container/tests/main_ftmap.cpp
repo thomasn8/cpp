@@ -11,30 +11,18 @@ int main()
 	// ************************************************************
 	// ******************** TESTS CONSTRUCTORS ********************
 	// #1
-	// ft::map<char,int> ft1;
-	// ft1['c'] = 3;
-	// ft1['b'] = 2;
-	// ft1['a'] = 1;
-	// ft::map_details(ft1);
-	// ft1.erase( (++ft1.begin()) );
-	// ft::map_details(ft1);
-
-	// ft::map<char,int> ft2;
-	// ft2['a'] = 17;
-	// ft2['x'] = 7;
-	// ft2['y'] = 8;
-	// ft2['c'] = 5;
-	// ft2['z'] = 9;
-	// ft2['b'] = 19;
-	// ft::map_details(ft2);
-	// ft2.erase( (++ft2.begin()) );
-	// ft::map_details(ft2);
-	// ft2.erase( (ft2.begin()) );
-	// ft::map_details(ft2);
-	// ft2.erase( (++ft2.begin()) );
-	// ft::map_details(ft2);
-	// ft2.erase( (ft2.begin()) );
-	// ft::map_details(ft2);
+	ft::map<char,int> ft1;
+	ft1['c'] = 3;
+	ft1['b'] = 2;
+	ft1['a'] = 1;
+	ft1._rbt->print_tree();
+	ft::map_details(ft1);
+	ft1.erase(ft1.find('b'));
+	ft::map_details(ft1);
+	ft1.erase(ft1.find('c'));
+	ft::map_details(ft1);
+	ft1.erase(ft1.find('a'));
+	ft::map_details(ft1);
 
 	ft::map<char,int> ft3;
 	ft3['a'] = 17;
@@ -56,21 +44,19 @@ int main()
 	ft3['q'] = 9;
 	ft3['r'] = 9;
 	ft3['s'] = 9;
-
 	ft3._rbt->print_tree();
 	ft::map_details(ft3);
+	ft3.erase(ft3.find('a'));
+	ft::map_details(ft3);
+	ft3.erase(ft3.find('c'));
+	ft::map_details(ft3);
+	ft3.erase(ft3.find('g'));
+	ft::map_details(ft3);
+	ft3.erase(ft3.find('r'));
+	ft::map_details(ft3);
+	ft3.erase(ft3.find('n'));
+	ft::map_details(ft3);
 	ft3.erase(ft3.find('d'));
-	ft::map_details(ft3);
-	ft3.erase(ft3.find('i'));
-	ft::map_details(ft3);
-	ft3.erase(ft3.find('q'));
-	ft::map_details(ft3);
-	ft3.erase(ft3.find('p'));
-	ft::map_details(ft3);
-	ft3.erase(ft3.find('l'));
-	ft::map_details(ft3);
-	ft3.erase(ft3.find('h'));
-	ft::map_details(ft3);
 
 	// ft2['m'];
 	// ft::pair<char,int> p1;

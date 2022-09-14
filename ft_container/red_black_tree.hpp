@@ -43,11 +43,17 @@ namespace ft
 		typedef	unsigned int								size_type;
 		typedef	int											difference_type;
 
+	// PRINT
 		void print_tree()
 		{
 			print_tree_recursiv(_root, 0);
 			cout << endl;
 		}
+	
+	// GETTERS
+		const node * get_root() const		{ return _root; }
+		const node * get_past_start() const	{ return &_past_start_node; }
+		const node * get_past_end() const	{ return &_past_end_node; }
 		const node * get_left_most(const node * n) const
 		{
 			if (!n)
@@ -63,18 +69,6 @@ namespace ft
 			while (n->right())
 				n = n->right();
 			return n;
-		}
-		const node * get_root() const
-		{
-			return _root;
-		}
-		const node * get_past_start() const
-		{
-			return &_past_start_node;
-		}
-		const node * get_past_end() const
-		{
-			return &_past_end_node;
 		}
 		const node * get_next(const node * n) const
 		{
@@ -140,9 +134,13 @@ namespace ft
 		node 			_past_end_node;
 		value_type *	_past_end_pair;
 
-		red_black_tree(val_comp comp, value_type *past_start, value_type *past_end, const allocator_type & alloc = allocator_type()) : 
-		_alloc(alloc), _comp(comp), _n(0), _root(NULL), _past_end_pair(past_end), _past_start_node(past_start), _past_end_node(past_end) {}
-		
+	// CONSTR/DESTR
+		red_black_tree(val_comp comp, value_type *past_start, value_type *past_end,
+			const allocator_type & alloc = allocator_type()) : 
+		_alloc(alloc), _comp(comp), _n(0), _root(NULL),
+		_past_end_pair(past_end),
+		_past_start_node(past_start),
+		_past_end_node(past_end) {}
 		~red_black_tree() {}
 
 	// SEARCH
@@ -322,134 +320,92 @@ namespace ft
 			p->setColor(B);
 			g->setColor(R);
 		}
-
-		void rotation_left(node * x) 
-		{
-			node * y = x->right();
-			x->setRight(y->left());
-			if (y->left() != LEAF)
-				y->left()->setParent(x);
-			y->setParent(x->parent());
-			if (x->parent() == NULL)
-				_root = y;
-			else
-			{
-				if (x->parent()->left() == x)
-					x->parent()->setLeft(y);
-				else
-					x->parent()->setRight(y);
-			}
-			y->setLeft(x);
-			x->setParent(y);
-		}
-		void rotation_right(node * x) 
-		{
-			node * y = x->left();
-			x->setLeft(y->right());
-			if (y->right() != LEAF)
-				y->right()->setParent(x);
-			y->setParent(x->parent());
-
-			if (x->parent() == NULL)
-				_root = y;
-			else
-			{
-				if (x->parent()->right() == x)
-					x->parent()->setRight(y);
-				else
-					x->parent()->setLeft(y);
-			}
-			y->setRight(x);
-			x->setParent(y);
-		}
 	
 	// DELETION
 		void deletion(Key k) 
 		{
-            node * temp = _root;
-            node * parent = temp;
-            if (!temp)
-				remove_node(NULL, NULL, k);
-            while(temp)
+            node * n = _root;
+            node * parent = n;
+            if (!n)
+				return ;
+            while(n)
 			{
-                if (_comp.comp(k, temp->key_val()->first))
+                if (_comp.comp(k, n->key_val()->first))
 				{
-					parent = temp;
-					temp = temp->left();
+					parent = n;
+					n = n->left();
 				}
-                else if (_comp.comp(temp->key_val()->first, k))
+                else if (_comp.comp(n->key_val()->first, k))
 				{
-					parent = temp;
-					temp = temp->right();
+					parent = n;
+					n = n->right();
 				}
 				else
 				{
-					remove_node(parent, temp, k);
-					break;
+					remove_node(parent, n, k);
+					break ;
 				}
             }
 			print_tree();
         }
-		void remove_node(node * parent, node * curr, Key k) 
+		void remove_node(node * parent, node * n, Key k) 
 		{
-            if (curr == NULL)
-				return;
-            if (curr->key_val()->first == k) 
+            if (n == NULL)
+				return ;
+            if (n->key_val()->first == k) 
 			{
-                if (curr->left() == NULL && curr->right() == NULL)	// CAS 1
+                if (n->left() == NULL && n->right() == NULL)	// CAS 1
 				{
-                    if (parent->key_val()->first == curr->key_val()->first)
-						_root = NULL;
-                    else if (parent->right() == curr) 
+                    if (parent->key_val()->first == n->key_val()->first)
 					{
-                        deletion_repare_tree(curr);
+						free_node(_root);
+						_root = NULL;
+					}
+                    else if (parent->right() == n) 
+					{
+						// cout << "deletion : " << n->key_val()->first << endl;
+                        deletion_repare_tree(n);
+						free_node(n);
                         parent->setRight(NULL);
                     } 
                     else 
 					{
-                        deletion_repare_tree(curr);
+						// cout << "deletion : " << n->key_val()->first << endl;
+                        deletion_repare_tree(n);
+						free_node(n);
                         parent->setLeft(NULL);
                     }
                 }
-                else if (curr->left() != NULL && curr->right() == NULL)	// CAS 2
+                else if (n->left() != NULL && n->right() == NULL)	// CAS 2
 				{
-					curr->swapKeyVal(curr->left());												// CORRECTION
-                    remove_node(curr, curr->left(), k);
+					n->swapKeyVal(n->left());												// CORRECTION
+                    remove_node(n, n->left(), k);
                 }
-                else if (curr->left() == NULL && curr->right() != NULL)	// CAS 2
+                else if (n->left() == NULL && n->right() != NULL)	// CAS 2
 				{
-					curr->swapKeyVal(curr->right());
-                    remove_node(curr, curr->right(), k);
+					n->swapKeyVal(n->right());
+                    remove_node(n, n->right(), k);
                 }
                 else // CAS 3
 				{
                     bool flag = false;
-                    // node * temp = curr->right();
-					// cout << curr->right()->key_val()->first << endl;
-                    // while(temp->left())
-					// {
-					// 	flag = true;
-					// 	parent = temp;
-					// 	temp = temp->left();
-					// }
-                    node * temp = curr->left();
-                    while(temp->right())
+                    node * tmp = n->left();
+                    while (tmp->right())
 					{
 						flag = true;
-						parent = temp;
-						temp = temp->right();
+						parent = tmp;
+						tmp = tmp->right();
 					}
                     if (!flag)
-						parent = curr;
-					Key swap = curr->key_val()->first;
-					curr->swapKeyVal(temp);
-                    remove_node(parent, temp, swap);
+						parent = n;
+					n->swapKeyVal(tmp);
+                    remove_node(parent, tmp, tmp->key_val()->first);
                 }
             }
         }
         void deletion_repare_tree(node * n) 
 		{
-            while(n->key_val()->first != _root->key_val()->first && n->color() == B)
+            while (n->key_val()->first != _root->key_val()->first && n->color() == B)
 			{
                 node * sibling = _root;
                 if (n->parent()->left() == n) 
@@ -532,10 +488,58 @@ namespace ft
             }
             n->setColor(B);
         }
+		void free_node(node * n)
+		{
+			_alloc_p.destroy(n->key_val());
+			_alloc_p.deallocate(n->key_val(), 1);
+			_alloc.destroy(n);
+			_alloc.deallocate(n, 1);
+			_n--;
+		}
 
+	// ROTATIONS
+		void rotation_left(node * x) 
+		{
+			node * y = x->right();
+			x->setRight(y->left());
+			if (y->left() != LEAF)
+				y->left()->setParent(x);
+			y->setParent(x->parent());
+			if (x->parent() == NULL)
+				_root = y;
+			else
+			{
+				if (x->parent()->left() == x)
+					x->parent()->setLeft(y);
+				else
+					x->parent()->setRight(y);
+			}
+			y->setLeft(x);
+			x->setParent(y);
+		}
+		void rotation_right(node * x) 
+		{
+			node * y = x->left();
+			x->setLeft(y->right());
+			if (y->right() != LEAF)
+				y->right()->setParent(x);
+			y->setParent(x->parent());
+
+			if (x->parent() == NULL)
+				_root = y;
+			else
+			{
+				if (x->parent()->right() == x)
+					x->parent()->setRight(y);
+				else
+					x->parent()->setLeft(y);
+			}
+			y->setRight(x);
+			x->setParent(y);
+		}
 
 	// PRINT-FREE
-		void print_tree_recursiv(node *root, int space)
+		void print_tree_recursiv(node * root, int space)
 		{
 			if (root == NULL)
 				return;
