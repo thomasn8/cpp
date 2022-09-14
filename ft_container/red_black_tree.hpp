@@ -322,12 +322,12 @@ namespace ft
 		}
 	
 	// DELETION
-		void deletion(Key k) 
+		int deletion(Key k) 
 		{
             node * n = _root;
             node * parent = n;
             if (!n)
-				return ;
+				return 0;
             while(n)
 			{
                 if (_comp.comp(k, n->key_val()->first))
@@ -343,10 +343,11 @@ namespace ft
 				else
 				{
 					remove_node(parent, n, k);
-					break ;
+					print_tree();
+					return 1;
 				}
             }
-			print_tree();
+			return 0;
         }
 		void remove_node(node * parent, node * n, Key k) 
 		{

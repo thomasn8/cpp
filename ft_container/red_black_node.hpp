@@ -18,13 +18,13 @@ namespace ft
 		typedef	value_type &				reference;
 
 		red_black_node(pointer pair) :
-		_key_val(pair), _color(LEAF), _left(NULL), _right(NULL), _parent(NULL) { _parent = parent(); }
+		_key_val(pair), _color(LEAF), _left(NULL), _right(NULL), _parent(NULL) {}
 
 		void setLeft(node * n)			{ _left = n; }
 		void setRight(node * n)			{ _right = n; }
 		void setParent(node * n)		{ _parent = n; }
 		void setColor(int c)			{ _color = c; }
-		void setKeyVal(pointer pr)	{ _key_val = pr; }
+		void setKeyVal(pointer pr)		{ _key_val = pr; }
 		void swapKeyVal(node * other)
 		{
 			pointer tmp = other->key_val();

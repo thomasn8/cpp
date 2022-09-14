@@ -41,7 +41,6 @@ namespace ft
 		typedef	ft::bidirectional_iterator<const Key,T,const node *,rbt *>	const_iterator;
 		typedef	ft::map_reverse_iterator<iterator>							reverse_iterator;
 		typedef	ft::map_reverse_iterator<const_iterator>					const_reverse_iterator;
-		rbt *					_rbt;
 
 	// ERRORS
 		class out_of_range_error
@@ -57,7 +56,8 @@ namespace ft
 		
 		template <class InputIterator>
 		map(InputIterator first, InputIterator last, 
-		const key_compare & comp = key_compare(), const allocator_type & alloc = allocator_type()) :
+		const key_compare & comp = key_compare(),
+		const allocator_type & alloc = allocator_type()) :
 		_alloc(alloc), _comp(comp), _tree(_comp, &_past_start_pair, &_past_end_pair), _rbt(&_tree)
 		{
 			size_type n = _distance<InputIterator>(first, last);
@@ -73,7 +73,8 @@ namespace ft
 		}
 
 		map(const map & x) :
-		_alloc(x.get_allocator()), _comp(x.key_comp()), _tree(x.key_comp(), &_past_start_pair, &_past_end_pair), _rbt(&_tree)
+		_alloc(x.get_allocator()), _comp(x.key_comp()),
+		_tree(x.key_comp(), &_past_start_pair, &_past_end_pair), _rbt(&_tree)
 		{
 			const_iterator it = x.begin();
 			const_iterator ite = x.end();
@@ -144,48 +145,42 @@ namespace ft
 			return reverse_iterator(iterator(
 				_rbt->get_right_most(_rbt->_root)->key_val(),
 				_rbt->get_right_most(_rbt->_root),
-				_rbt)
-			);
+				_rbt));
 		}
 		const_reverse_iterator rbegin() const
 		{
 			return const_reverse_iterator(const_iterator(
 				_rbt->get_right_most(_rbt->_root)->key_val(),
 				_rbt->get_right_most(_rbt->_root),
-				_rbt)
-			);
+				_rbt));
 		}
 		const_reverse_iterator crbegin() const
 		{
 			return const_reverse_iterator(const_iterator(
 				_rbt->get_right_most(_rbt->_root)->key_val(),
 				_rbt->get_right_most(_rbt->_root),
-				_rbt)
-			);
+				_rbt));
 		}
 		reverse_iterator rend() 				
 		{
 			return reverse_iterator(iterator(
 				_rbt->_past_start_node.key_val(),
 				&_rbt->_past_start_node,
-				_rbt)
-			);
+				_rbt));
 		}
 		const_reverse_iterator rend() const
 		{
 			return const_reverse_iterator(const_iterator(
 				_rbt->_past_start_node.key_val(),
 				&_rbt->_past_start_node,
-				_rbt)
-			);
+				_rbt));
 		}
 		const_reverse_iterator crend() const
 		{
 			return const_reverse_iterator(const_iterator(
 				_rbt->_past_start_node.key_val(),
 				&_rbt->_past_start_node,
-				_rbt)
-			);
+				_rbt));
 		}
 
 	// CAPACITY
@@ -209,7 +204,6 @@ namespace ft
 			range_error(k);
 			return _rbt->_past_start_pair->second;
 		}
-
 		const mapped_type & at(const key_type & k) const
 		{
 			const node * pos = _rbt->search(k);
@@ -238,7 +232,6 @@ namespace ft
 			iterator it_pos(pos->key_val(), pos, _rbt);
 			return pair<iterator,bool>(it_pos, true);
 		}
-
 		iterator insert(iterator position, const value_type & val)
 		{
 			const node * pos = _rbt->search(val.first);
@@ -249,7 +242,6 @@ namespace ft
 			pos = _rbt->insertion(_ptr);
 			return iterator(pos->key_val(), pos, _rbt);
 		}
-
 		template <class InputIterator>
 		void insert(InputIterator first, InputIterator last)
 		{
@@ -267,20 +259,17 @@ namespace ft
 
 		void erase(iterator position)
 		{
-			Key k = position->first;
-			_rbt->deletion(k);
+			_rbt->deletion(position->first);
 		}
-
-		// size_type erase (const key_type & k)
-		// {
-
-		// }
-
-		// void erase (iterator first, iterator last)
-		// {
-
-		// }
-
+		size_type erase(const key_type & k)
+		{
+			return _rbt->deletion(k);
+		}
+		void erase(iterator first, iterator last)
+		{
+			while (first != last)
+				erase(first++);
+		}
 
 	// OBSERVERS
 		key_compare key_comp() const	{ return _comp.comp; }
@@ -352,7 +341,7 @@ namespace ft
 		allocator_type			_alloc;
 		val_comp				_comp;
 		rbt						_tree;
-		// rbt *					_rbt;
+		rbt *					_rbt;
 		pointer					_ptr;
 		value_type				_past_start_pair;
 		value_type				_past_end_pair;
