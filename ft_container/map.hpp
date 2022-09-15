@@ -2,7 +2,6 @@
 # define MAP_HPP
 
 #include <iostream>
-using namespace std;
 #include <memory>
 #include <functional>
 #include "red_black_tree.hpp"
@@ -363,7 +362,7 @@ namespace ft
 		void range_error(const key_type & k)
 		{
 			try { throw map::out_of_range_error(); }
-			catch (const map::out_of_range_error & e) { cerr << RED << e.what() << k << endl << WHI; }
+			catch (const map::out_of_range_error & e) { std::cerr << RED << e.what() << k << std::endl << WHI; }
 		}
 	};
 

@@ -1,8 +1,12 @@
 # SRCS		=		tests/main_ftvector.cpp
 # SRCS		=		tests/main_stdvector.cpp
 
-SRCS		=		tests/main_ftmap.cpp
+# SRCS		=		tests/main_ftmap.cpp
 # SRCS		=		tests/main_stdmap.cpp
+
+SRCS		=		tests/main_stack.cpp
+
+# SRCS		=		tests/main_intranet.cpp
 
 OBJS		= ${SRCS:.cpp=.o}
 CC			= c++

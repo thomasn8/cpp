@@ -1,6 +1,7 @@
 #ifndef VECTOR_HPP
 # define VECTOR_HPP
 
+#include <iostream>
 #include <memory>
 #include "iterators.hpp"
 #include "utils.hpp"
@@ -563,7 +564,7 @@ namespace ft
 			}
 			catch (const vector::length_error & e) 
 			{ 
-				cerr << RED << e.what() << WHI << endl; 
+				std::cerr << RED << e.what() << WHI << std::endl; 
 				return true;
 			}
 			return false;
@@ -572,7 +573,7 @@ namespace ft
 		void	range_error()
 		{
 			try { throw vector::out_of_range_error(); }
-			catch (const vector::out_of_range_error & e) { cerr << RED << e.what() << WHI; }
+			catch (const vector::out_of_range_error & e) { std::cerr << RED << e.what() << WHI; }
 		}
 	};
 
