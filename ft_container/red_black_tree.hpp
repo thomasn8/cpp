@@ -322,6 +322,15 @@ namespace ft
 		}
 	
 	// DELETION
+		void deletion(node * n)
+		{
+			if (!n || !_root)
+				return ;
+			node * parent = n->parent();
+			if (n == _root)
+				parent = _root;
+			remove_node(parent, n, n->key_val()->first);
+        }
 		int deletion(Key k) 
 		{
             node * n = _root;
@@ -343,7 +352,6 @@ namespace ft
 				else
 				{
 					remove_node(parent, n, k);
-					print_tree();
 					return 1;
 				}
             }
@@ -364,14 +372,12 @@ namespace ft
 					}
                     else if (parent->right() == n) 
 					{
-						// cout << "deletion : " << n->key_val()->first << endl;
                         deletion_repare_tree(n);
 						free_node(n);
                         parent->setRight(NULL);
                     } 
                     else 
 					{
-						// cout << "deletion : " << n->key_val()->first << endl;
                         deletion_repare_tree(n);
 						free_node(n);
                         parent->setLeft(NULL);
@@ -379,7 +385,7 @@ namespace ft
                 }
                 else if (n->left() != NULL && n->right() == NULL)	// CAS 2
 				{
-					n->swapKeyVal(n->left());												// CORRECTION
+					n->swapKeyVal(n->left());
                     remove_node(n, n->left(), k);
                 }
                 else if (n->left() == NULL && n->right() != NULL)	// CAS 2

@@ -214,7 +214,7 @@ namespace ft
 		}
 
 	// MODIFIERS
-		void clear() { _rbt->free_tree(); }
+		void clear() { _rbt->free_tree();}
 
 		void swap(map & x) { rbt * tmp = _rbt; _rbt = x._rbt; x._rbt = tmp; }
 
@@ -259,7 +259,9 @@ namespace ft
 
 		void erase(iterator position)
 		{
-			_rbt->deletion(position->first);
+			node * n = const_cast<node *>(_rbt->search(position->first));
+			if (n && position.getPair() == n->key_val())
+				_rbt->deletion(position->first);
 		}
 		size_type erase(const key_type & k)
 		{

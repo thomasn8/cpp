@@ -96,14 +96,15 @@ namespace ft
 			}
 			return tmp;
 		}
-	
+
+		pointer getPair() const		{ return _p; }
+
 		protected:
 		pointer 	_p;
 		Node_ptr	_node;
 		Tree_ptr	_tree;
-		pointer getPair() const { return _p; }
-		Node_ptr getNode() const { return _node; }
-		Tree_ptr getTree() const { return _tree; }
+		Node_ptr getNode() const	{ return _node; }
+		Tree_ptr getTree() const	{ return _tree; }
 	};
 
 	template <typename Iterator>
