@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <memory>
+#include <stdexcept>
 #include "iterators.hpp"
 #include "utils.hpp"
 
@@ -28,18 +29,6 @@ namespace ft
 		typedef	ft::random_access_iterator<const value_type>	const_iterator;
 		typedef	ft::reverse_iterator<iterator>					reverse_iterator;
 		typedef	ft::reverse_iterator<const_iterator>			const_reverse_iterator;
-		
-	// ERRORS
-		class length_error
-		{
-			public:
-				virtual const char* what() const throw() { return ("Allocation impossible: capacity exceeded"); }
-		};
-		class out_of_range_error
-		{
-			public:
-				virtual const char* what() const throw() { return ("Out of range: "); }
-		};
 		
 	// CONSTRUCTEURS/DESTRUCTEUR
 		explicit vector(const allocator_type & alloc = allocator_type()) :
@@ -141,13 +130,13 @@ namespace ft
 		reference at(size_type n)
 		{
 			if (n >= _n)
-				range_error();
+				throw std::out_of_range("Out of range error");
 			return *(_first + n);
 		}
 		const_reference at(size_type n) const
 		{
 			if (n >= _n)
-				range_error();
+				throw std::out_of_range("Out of range error");
 			return *(_first + n);
 		}
 
@@ -557,23 +546,12 @@ namespace ft
 		
 		bool	capacity_error(size_type c)
 		{
-			try
+			if (c + 1 > max_size())
 			{
-				if (c + 1 > max_size()) 
-					throw vector::length_error(); 
-			}
-			catch (const vector::length_error & e) 
-			{ 
-				std::cerr << RED << e.what() << WHI << std::endl; 
+				throw bad_alloc();
 				return true;
 			}
 			return false;
-		}
-
-		void	range_error()
-		{
-			try { throw vector::out_of_range_error(); }
-			catch (const vector::out_of_range_error & e) { std::cerr << RED << e.what() << WHI; }
 		}
 	};
 

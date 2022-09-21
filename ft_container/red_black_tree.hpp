@@ -11,7 +11,7 @@ using namespace std;
 # define R 1
 # define LEAF 0
 
-# define COUNT 8
+# define MARGIN 8
 
 # define RED "\033[0;31m"
 # define WHI "\033[0m"
@@ -550,10 +550,10 @@ namespace ft
 		{
 			if (root == NULL)
 				return;
-			space += COUNT;
+			space += MARGIN;
 			print_tree_recursiv(root->right(), space);
 			cout<<endl;
-			for (int i = COUNT; i < space; i++)
+			for (int i = MARGIN; i < space; i++)
 				cout<<" ";
 			if (root->color() == 1)
 			cout << RED;

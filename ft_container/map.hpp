@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <memory>
+#include <stdexcept>
 #include <functional>
 #include "red_black_tree.hpp"
 #include "iterators_map.hpp"
@@ -40,13 +41,6 @@ namespace ft
 		typedef	ft::bidirectional_iterator<const Key,T,const node *,rbt *>	const_iterator;
 		typedef	ft::map_reverse_iterator<iterator>							reverse_iterator;
 		typedef	ft::map_reverse_iterator<const_iterator>					const_reverse_iterator;
-
-	// ERRORS
-		class out_of_range_error
-		{
-			public:
-				virtual const char* what() const throw() { return ("Out of range: "); }
-		};
 
 	// CONSTRUCTORS / DESTRUCTOR
 		explicit map(const key_compare & comp = key_compare(), 
@@ -200,7 +194,7 @@ namespace ft
 			const node * pos = _rbt->search(k);
 			if (pos)
 				return pos->key_val()->second;
-			range_error(k);
+			throw std::out_of_range("Out of range error");
 			return _rbt->_past_start_pair->second;
 		}
 		const mapped_type & at(const key_type & k) const
@@ -208,7 +202,7 @@ namespace ft
 			const node * pos = _rbt->search(k);
 			if (pos)
 				return pos->key_val()->second;
-			range_error(k);
+			throw std::out_of_range("Out of range error");
 			return _rbt->_past_start_pair->second;
 		}
 
@@ -357,12 +351,6 @@ namespace ft
 				n++;
 			}
 			return n;
-		}
-
-		void range_error(const key_type & k)
-		{
-			try { throw map::out_of_range_error(); }
-			catch (const map::out_of_range_error & e) { std::cerr << RED << e.what() << k << std::endl << WHI; }
 		}
 	};
 

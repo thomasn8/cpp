@@ -121,8 +121,8 @@ int main()
 	ft4.insert(ft::make_pair<char,int>('z',1000));
 	ft::map_details(ft4);
 	ft4.at('z') = 77777;
-	ft4.at('w');					// OUT OF RANGE
-	ft4.at('v');					// OUT OF RANGE
+	// ft4.at('w');					// OUT OF RANGE
+	// ft4.at('v');					// OUT OF RANGE
 	ft::map_details(ft4);
 	ft4.clear();
 	ft4.swap(ft2);
