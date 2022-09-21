@@ -75,7 +75,7 @@ namespace ft
 			node * parent;
 			if (!n)
 				return &_past_end_node;
-			if (n->right())
+			if (n->right() && n->right()->key_val())
 				return get_left_most(n->right());
 			else if (n->parent() && n == n->parent()->left())
 				return n->parent();
@@ -101,7 +101,7 @@ namespace ft
 				return &_past_start_node;
 			if (n == &_past_start_node) // on est sur le past-end qui n'est pas dans l'arbre
 				return get_right_most(_root);
-			if (n->left())
+			if (n->left() && n->left()->key_val())
 				return get_right_most(n->left());
 			else if (n->parent() && n == n->parent()->right())
 				return n->parent();
