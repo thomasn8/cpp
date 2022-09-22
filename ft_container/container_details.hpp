@@ -81,7 +81,6 @@ namespace ft
 			cout << "map container is empty" << endl << endl;
 		cout << "--------------------------------------------------------" << endl;
 	}
-
 	template<class T1, class T2>
 	void map_rev_details(const ft::map<T1,T2> & m)
 	{

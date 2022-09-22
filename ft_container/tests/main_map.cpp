@@ -131,7 +131,7 @@ int main()
 	ft::map<char,int>::iterator a = ft4.find('a');
 	cout << a->first << endl;
 	for (ft::map<char,int>::const_reverse_iterator it = ft4.crbegin(); it != ft4.crend(); ++it)
-    	std::cout << it->first << " => " << it->second << '\n';
+    	std::cout << it->first << " => " << it->second << endl;
 
 	ft::map<char,int> ft5;
 	ft5['m'] = 17;

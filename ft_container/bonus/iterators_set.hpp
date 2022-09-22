@@ -1,7 +1,7 @@
-#ifndef ITERATORS_MAP_HPP
-# define ITERATORS_MAP_HPP
+#ifndef ITERATORS_SET_HPP
+# define ITERATORS_SET_HPP
 
-#include "iterators.hpp"
+#include "../iterators.hpp"
 
 namespace ft
 {
@@ -98,12 +98,12 @@ namespace ft
 		}
 
 		pointer getPair() const		{ return _p; }
+		Node_ptr getNode() const	{ return _node; }
 
 		protected:
 		pointer 	_p;
 		Node_ptr	_node;
 		Tree_ptr	_tree;
-		Node_ptr getNode() const	{ return _node; }
 		Tree_ptr getTree() const	{ return _tree; }
 	};
 

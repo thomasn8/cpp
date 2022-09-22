@@ -6,7 +6,8 @@
 #include <stdexcept>
 #include <functional>
 #include "red_black_tree.hpp"
-#include "iterators_map.hpp"
+#include "iterators_set.hpp"
+#include "../pair.hpp"
 #include "../utils.hpp"
 
 namespace ft
@@ -38,12 +39,12 @@ namespace ft
 		typedef	ft::set_reverse_iterator<const_iterator>					const_reverse_iterator;
 
 	// CONSTRUCTORS / DESTRUCTOR
-		explicit map(const key_compare & comp = key_compare(), 
+		explicit set(const key_compare & comp = key_compare(), 
 		const allocator_type & alloc = allocator_type()) :
 		_alloc(alloc), _comp(comp), _tree(_comp, &_past_start_pair, &_past_end_pair), _rbt(&_tree) {}
 		
 		template <class InputIterator>
-		map(InputIterator first, InputIterator last, 
+		set(InputIterator first, InputIterator last, 
 		const key_compare & comp = key_compare(),
 		const allocator_type & alloc = allocator_type()) :
 		_alloc(alloc), _comp(comp), _tree(_comp, &_past_start_pair, &_past_end_pair), _rbt(&_tree)
@@ -60,12 +61,12 @@ namespace ft
 			}
 		}
 
-		map(const map & x) :
+		set(const set & x) :
 		_alloc(x.get_allocator()), _comp(x.key_comp()),
 		_tree(x.key_comp(), &_past_start_pair, &_past_end_pair), _rbt(&_tree)
 		{
-			const_iterator it = x.begin();
-			const_iterator ite = x.end();
+			const_iterator it = x.cbegin();
+			const_iterator ite = x.cend();
 			while (it != ite)
 			{
 				_ptr = _alloc.allocate(1);
@@ -74,7 +75,7 @@ namespace ft
 			}
 		}
 
-		map & operator=(const map & x)
+		set & operator=(const set & x)
 		{
 			if (size())
 				_rbt->free_tree();
@@ -89,7 +90,7 @@ namespace ft
 			return *this;
 		}
 
-		~map() { clear(); }
+		~set() { clear(); }
 
 	// ITERATORS
 		iterator begin() 
@@ -101,18 +102,6 @@ namespace ft
 		iterator end()
 		{
 			return iterator(_rbt->_past_end_node.key(),
-				&_rbt->_past_end_node,
-				_rbt);
-		}
-		const_iterator begin() const
-		{
-			return const_iterator(_rbt->get_left_most(_rbt->_root)->key(),
-				_rbt->get_left_most(_rbt->_root),
-				_rbt);
-		}
-		const_iterator end() const
-		{
-			return const_iterator(_rbt->_past_end_node.key(),
 				&_rbt->_past_end_node,
 				_rbt);
 		}
@@ -135,13 +124,6 @@ namespace ft
 				_rbt->get_right_most(_rbt->_root),
 				_rbt));
 		}
-		const_reverse_iterator rbegin() const
-		{
-			return const_reverse_iterator(const_iterator(
-				_rbt->get_right_most(_rbt->_root)->key(),
-				_rbt->get_right_most(_rbt->_root),
-				_rbt));
-		}
 		const_reverse_iterator crbegin() const
 		{
 			return const_reverse_iterator(const_iterator(
@@ -152,13 +134,6 @@ namespace ft
 		reverse_iterator rend() 				
 		{
 			return reverse_iterator(iterator(
-				_rbt->_past_start_node.key(),
-				&_rbt->_past_start_node,
-				_rbt));
-		}
-		const_reverse_iterator rend() const
-		{
-			return const_reverse_iterator(const_iterator(
 				_rbt->_past_start_node.key(),
 				&_rbt->_past_start_node,
 				_rbt));
@@ -176,39 +151,14 @@ namespace ft
 		bool empty() const 				{ return bool(!_rbt->_n); }
 		unsigned long max_size() const	{ return _alloc.max_size(); }
 
-	// ELEMENT ACCESS
-		// mapped_type & operator[](const key_type & k)
-		// {
-		// 	value_type new_pr = ft::make_pair(k, mapped_type());
-		// 	pair<iterator,bool> checked = insert(new_pr);
-		// 	return (*checked.first);
-		// }
-
-		// mapped_type & at(const key_type & k)
-		// {
-		// 	const node * pos = _rbt->search(k);
-		// 	if (pos)
-		// 		return pos->key();
-		// 	throw std::out_of_range("Out of range error");
-		// 	return _rbt->_past_start_pair;
-		// }
-		// const mapped_type & at(const key_type & k) const
-		// {
-		// 	const node * pos = _rbt->search(k);
-		// 	if (pos)
-		// 		return pos->key();
-		// 	throw std::out_of_range("Out of range error");
-		// 	return _rbt->_past_start_pair;
-		// }
-
 	// MODIFIERS
 		void clear() { _rbt->free_tree();}
 
-		void swap(map & x) { rbt * tmp = _rbt; _rbt = x._rbt; x._rbt = tmp; }
+		void swap(set & x) { rbt * tmp = _rbt; _rbt = x._rbt; x._rbt = tmp; }
 
 		pair<iterator,bool> insert(const value_type & val)
 		{
-			const node * pos = _rbt->search(val.first);
+			const node * pos = _rbt->search(val);
 			if (pos)
 			{
 				iterator it_pos(pos->key(), pos, _rbt);
@@ -222,7 +172,7 @@ namespace ft
 		}
 		iterator insert(iterator position, const value_type & val)
 		{
-			const node * pos = _rbt->search(val.first);
+			const node * pos = _rbt->search(val);
 			if (pos)
 				return iterator(pos->key(), pos, _rbt);
 			_ptr = _alloc.allocate(1);
@@ -235,7 +185,7 @@ namespace ft
 		{
 			while (first != last)
 			{
-				if (!_rbt->search((*first).first))
+				if (!_rbt->search(*first))
 				{
 					_ptr = _alloc.allocate(1);
 					_alloc.construct(_ptr, *first);
@@ -247,9 +197,9 @@ namespace ft
 
 		void erase(iterator position)
 		{
-			node * n = const_cast<node *>(_rbt->search(position->first));
+			node * n = const_cast<node *>(_rbt->search(*position));
 			if (n && position.getPair() == n->key())
-				_rbt->deletion(position->first);
+				_rbt->deletion(*position);
 		}
 		size_type erase(const key_type & k)
 		{
@@ -273,13 +223,6 @@ namespace ft
 				return iterator(pos->key(), pos, _rbt);
 			return end();
 		}
-		const_iterator find(const key_type & k) const
-		{
-			const node * pos = _rbt->search(k);
-			if (pos)
-				return const_iterator(pos->key(), pos, _rbt);
-			return end();
-		}
 		size_type count(const key_type & k) const
 		{
 			if (_rbt->search(k))
@@ -294,30 +237,12 @@ namespace ft
 			iterator up(_rbt->get_next(pos).key(), &_rbt->_past_end_node, _rbt);
 			return ft::make_pair<iterator,iterator>(lower_bound(k), up);
 		}
-		pair<const_iterator,const_iterator> equal_range(const key_type & k) const
-		{
-			const node * pos = _rbt->search(k);
-			if (!pos)
-				return ft::make_pair<const_iterator,const_iterator>(upper_bound(k), upper_bound(k));
-			const_iterator up(_rbt->get_next(pos).key(), &_rbt->_past_end_node, _rbt);
-			return ft::make_pair<const_iterator,const_iterator>(lower_bound(k), up);
-		}
 		iterator lower_bound(const key_type & k)
 		{
 			const node * low = _rbt->search_lower(k);
 			return iterator(low->key(), low, _rbt);
 		}
-		const_iterator lower_bound(const key_type & k) const
-		{
-			const node * low = _rbt->search_lower(k);
-			return const_iterator(low->key(), low, _rbt);
-		}
 		iterator upper_bound(const key_type & k)
-		{
-			const node * up = _rbt->search_upper(k);
-			return iterator(up->key(), up, _rbt);
-		}
-		const_iterator upper_bound(const key_type & k) const
 		{
 			const node * up = _rbt->search_upper(k);
 			return iterator(up->key(), up, _rbt);
@@ -355,15 +280,14 @@ namespace ft
 		friend class set;
 		
 		public:
-		typedef bool		result_type;
 		Compare comp;
-		bool operator()(const Key & x, const Key & y) const
+		bool operator()(const value_type & x, const value_type & y) const
 		{
 			return comp(x, y);
 		}
 
 		protected:
-		value_compare (Compare c) : comp(c) {}
+		value_compare(Compare c) : comp(c) {}
 	};
 }
 

@@ -4,7 +4,6 @@
 #include <iostream>
 using namespace std;
 #include <memory>
-#include "pair.hpp"
 #include "red_black_node.hpp"
 
 # define B 0
@@ -21,7 +20,7 @@ namespace ft
 	template < class Key, 
 	class Compare = less<Key>, 
 	class Alloc = allocator< Key > >
-	class map;
+	class set;
 
 	template<class Key, class Comp, class Alloc_p, class Alloc = allocator< red_black_node<Key> > >
 	class red_black_tree
@@ -147,14 +146,14 @@ namespace ft
 			node * root = _root;
 			while (root)
 			{
-				if (_comp.comp(key, root->key()))
+				if (_comp.comp(key, *root->key()))
 				{
 					if (root->left())
 						root = root->left();
 					else
 						return NULL;
 				}
-				else if (_comp.comp(root->key(), key))
+				else if (_comp.comp(*root->key(), key))
 				{
 					if (root->right())
 						root = root->right();
@@ -172,7 +171,7 @@ namespace ft
 			const node * last_low = &_past_end_node;
 			while (root)
 			{
-				if (_comp.comp(key, root->key()))
+				if (_comp.comp(key, *root->key()))
 				{
 					last_low = root;
 					if (root->left())
@@ -180,7 +179,7 @@ namespace ft
 					else
 						return last_low;
 				}
-				else if (_comp.comp(root->key(), key))
+				else if (_comp.comp(*root->key(), key))
 				{
 					if (root->right())
 						root = root->right();
@@ -196,24 +195,24 @@ namespace ft
 		{
 			node * root = _root;
 			const node * last_up = &_past_end_node;
-			Key last = get_right_most(_root)->key();
+			Key last = *(get_right_most(_root)->key());
 			while (root)
 			{
-				if (_comp.comp(key, root->key()))
+				if (_comp.comp(key, *root->key()))
 				{
 					if (root->left())
 						root = root->left();
 					else
 						return last_up;
 				}
-				else if (_comp.comp(root->key(), key))
+				else if (_comp.comp(*root->key(), key))
 				{
 					last_up = root;
 					if (root->right())
 						root = root->right();
 					else
 					{
-						if (last_up->key() == last)
+						if (*last_up->key() == last)
 							return &_past_end_node;
 						else
 							return get_next(root);
@@ -240,7 +239,7 @@ namespace ft
 		}
 		void insertion_recursiv(node * root, node * n) 
 		{
-			if (root != NULL && _comp.comp(n->key(), root->key())) 
+			if (root != NULL && _comp.comp(*n->key(), *root->key())) 
 			{
 				if (root->left() != LEAF) 
 				{
@@ -327,7 +326,7 @@ namespace ft
 			node * parent = n->parent();
 			if (n == _root)
 				parent = _root;
-			remove_node(parent, n, n->key());
+			remove_node(parent, n, *n->key());
         }
 		int deletion(Key k) 
 		{
@@ -337,12 +336,12 @@ namespace ft
 				return 0;
             while(n)
 			{
-                if (_comp.comp(k, n->key()))
+                if (_comp.comp(k, *n->key()))
 				{
 					parent = n;
 					n = n->left();
 				}
-                else if (_comp.comp(n->key(), k))
+                else if (_comp.comp(*n->key(), k))
 				{
 					parent = n;
 					n = n->right();
@@ -359,11 +358,13 @@ namespace ft
 		{
             if (n == NULL)
 				return ;
-            if (n->key() == k) 
+            // if (*n->key() == k) 
+            if (!_comp.comp(*n->key(), k) && !_comp.comp(k, *n->key())) 
 			{
                 if (n->left() == NULL && n->right() == NULL)	// CAS 1
 				{
-                    if (parent->key() == n->key())
+                    // if (*parent->key() == *n->key())
+            		if (!_comp.comp(*parent->key(), *n->key()) && !_comp.comp(*n->key(), *parent->key())) 
 					{
 						free_node(_root);
 						_root = NULL;
@@ -404,13 +405,14 @@ namespace ft
                     if (!flag)
 						parent = n;
 					n->swapKey(tmp);
-                    remove_node(parent, tmp, tmp->key());
+                    remove_node(parent, tmp, *tmp->key());
                 }
             }
         }
         void deletion_repare_tree(node * n) 
 		{
-            while (n->key() != _root->key() && n->color() == B)
+            while ((_comp.comp(*n->key(),*_root->key()) || _comp.comp(*_root->key(), *n->key())) 
+				&& n->color() == B)
 			{
                 node * sibling = _root;
                 if (n->parent()->left() == n) 
@@ -557,7 +559,7 @@ namespace ft
 			cout << RED;
 			cout << root->key() << WHI;
 			if (root->parent())
-				cout << " ("<< root->parent()->key() << ")";
+				cout << " ("<< *root->parent()->key() << ")";
 			cout << endl;
 			print_tree_recursiv(root->left(), space);
 		}
