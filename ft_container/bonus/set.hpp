@@ -1,5 +1,5 @@
-#ifndef MAP_HPP
-# define MAP_HPP
+#ifndef SET_HPP
+# define SET_HPP
 
 #include <iostream>
 #include <memory>
@@ -7,13 +7,12 @@
 #include <functional>
 #include "red_black_tree.hpp"
 #include "iterators_map.hpp"
-#include "pair.hpp"
-#include "utils.hpp"
+#include "../utils.hpp"
 
 namespace ft
 {	
-	template<class Key, class T, class Compare, class Alloc >
-	class map
+	template<class Key, class Compare, class Alloc >
+	class set
 	{
 		class value_compare;
 		
@@ -21,23 +20,22 @@ namespace ft
 		
 	// MEMBER TYPES
 		typedef	Key												key_type;
-		typedef	T												mapped_type;
-		typedef	ft::pair<const key_type, mapped_type>			value_type;
+		typedef	key_type										value_type;
 		typedef	Compare											key_compare;
-		typedef map::value_compare								val_comp;
+		typedef set::value_compare								val_comp;
 		typedef	Alloc											allocator_type;
 		typedef	typename allocator_type::reference				reference;
 		typedef	typename allocator_type::const_reference		const_reference;
 		typedef	typename allocator_type::pointer				pointer;
 		typedef	typename allocator_type::const_pointer			const_pointer;
-		typedef red_black_tree<Key,T,val_comp,Alloc>			rbt;
-		typedef red_black_node<Key,T>							node;
+		typedef red_black_tree<Key,val_comp,Alloc>				rbt;
+		typedef red_black_node<Key>								node;
 		typedef	int												difference_type;
 		typedef	unsigned int									size_type;
-		typedef	ft::bidirectional_iterator<const Key,T,const node *,rbt *>	iterator;
-		typedef	ft::bidirectional_iterator<const Key,T,const node *,rbt *>	const_iterator;
-		typedef	ft::map_reverse_iterator<iterator>							reverse_iterator;
-		typedef	ft::map_reverse_iterator<const_iterator>					const_reverse_iterator;
+		typedef	ft::bidirectional_iterator<const Key,const node *,rbt *>	iterator;
+		typedef	ft::bidirectional_iterator<const Key,const node *,rbt *>	const_iterator;
+		typedef	ft::set_reverse_iterator<iterator>							reverse_iterator;
+		typedef	ft::set_reverse_iterator<const_iterator>					const_reverse_iterator;
 
 	// CONSTRUCTORS / DESTRUCTOR
 		explicit map(const key_compare & comp = key_compare(), 
@@ -96,79 +94,79 @@ namespace ft
 	// ITERATORS
 		iterator begin() 
 		{
-			return iterator(_rbt->get_left_most(_rbt->_root)->key_val(),
+			return iterator(_rbt->get_left_most(_rbt->_root)->key(),
 				_rbt->get_left_most(_rbt->_root),
 				_rbt);
 		}
 		iterator end()
 		{
-			return iterator(_rbt->_past_end_node.key_val(),
+			return iterator(_rbt->_past_end_node.key(),
 				&_rbt->_past_end_node,
 				_rbt);
 		}
 		const_iterator begin() const
 		{
-			return const_iterator(_rbt->get_left_most(_rbt->_root)->key_val(),
+			return const_iterator(_rbt->get_left_most(_rbt->_root)->key(),
 				_rbt->get_left_most(_rbt->_root),
 				_rbt);
 		}
 		const_iterator end() const
 		{
-			return const_iterator(_rbt->_past_end_node.key_val(),
+			return const_iterator(_rbt->_past_end_node.key(),
 				&_rbt->_past_end_node,
 				_rbt);
 		}
 		const_iterator cbegin() const
 		{
-			return const_iterator(_rbt->get_left_most(_rbt->_root)->key_val(),
+			return const_iterator(_rbt->get_left_most(_rbt->_root)->key(),
 				_rbt->get_left_most(_rbt->_root),
 				_rbt);
 		}
 		const_iterator cend() const 
 		{
-			return const_iterator(_rbt->_past_end_node.key_val(),
+			return const_iterator(_rbt->_past_end_node.key(),
 				&_rbt->_past_end_node,
 				_rbt);
 		}
 		reverse_iterator rbegin() 				
 		{			
 			return reverse_iterator(iterator(
-				_rbt->get_right_most(_rbt->_root)->key_val(),
+				_rbt->get_right_most(_rbt->_root)->key(),
 				_rbt->get_right_most(_rbt->_root),
 				_rbt));
 		}
 		const_reverse_iterator rbegin() const
 		{
 			return const_reverse_iterator(const_iterator(
-				_rbt->get_right_most(_rbt->_root)->key_val(),
+				_rbt->get_right_most(_rbt->_root)->key(),
 				_rbt->get_right_most(_rbt->_root),
 				_rbt));
 		}
 		const_reverse_iterator crbegin() const
 		{
 			return const_reverse_iterator(const_iterator(
-				_rbt->get_right_most(_rbt->_root)->key_val(),
+				_rbt->get_right_most(_rbt->_root)->key(),
 				_rbt->get_right_most(_rbt->_root),
 				_rbt));
 		}
 		reverse_iterator rend() 				
 		{
 			return reverse_iterator(iterator(
-				_rbt->_past_start_node.key_val(),
+				_rbt->_past_start_node.key(),
 				&_rbt->_past_start_node,
 				_rbt));
 		}
 		const_reverse_iterator rend() const
 		{
 			return const_reverse_iterator(const_iterator(
-				_rbt->_past_start_node.key_val(),
+				_rbt->_past_start_node.key(),
 				&_rbt->_past_start_node,
 				_rbt));
 		}
 		const_reverse_iterator crend() const
 		{
 			return const_reverse_iterator(const_iterator(
-				_rbt->_past_start_node.key_val(),
+				_rbt->_past_start_node.key(),
 				&_rbt->_past_start_node,
 				_rbt));
 		}
@@ -179,29 +177,29 @@ namespace ft
 		unsigned long max_size() const	{ return _alloc.max_size(); }
 
 	// ELEMENT ACCESS
-		mapped_type & operator[](const key_type & k)
-		{
-			value_type new_pr = ft::make_pair(k, mapped_type());
-			pair<iterator,bool> checked = insert(new_pr);
-			return (*checked.first).second;
-		}
+		// mapped_type & operator[](const key_type & k)
+		// {
+		// 	value_type new_pr = ft::make_pair(k, mapped_type());
+		// 	pair<iterator,bool> checked = insert(new_pr);
+		// 	return (*checked.first);
+		// }
 
-		mapped_type & at(const key_type & k)
-		{
-			const node * pos = _rbt->search(k);
-			if (pos)
-				return pos->key_val()->second;
-			throw std::out_of_range("Out of range error");
-			return _rbt->_past_start_pair->second;
-		}
-		const mapped_type & at(const key_type & k) const
-		{
-			const node * pos = _rbt->search(k);
-			if (pos)
-				return pos->key_val()->second;
-			throw std::out_of_range("Out of range error");
-			return _rbt->_past_start_pair->second;
-		}
+		// mapped_type & at(const key_type & k)
+		// {
+		// 	const node * pos = _rbt->search(k);
+		// 	if (pos)
+		// 		return pos->key();
+		// 	throw std::out_of_range("Out of range error");
+		// 	return _rbt->_past_start_pair;
+		// }
+		// const mapped_type & at(const key_type & k) const
+		// {
+		// 	const node * pos = _rbt->search(k);
+		// 	if (pos)
+		// 		return pos->key();
+		// 	throw std::out_of_range("Out of range error");
+		// 	return _rbt->_past_start_pair;
+		// }
 
 	// MODIFIERS
 		void clear() { _rbt->free_tree();}
@@ -213,24 +211,24 @@ namespace ft
 			const node * pos = _rbt->search(val.first);
 			if (pos)
 			{
-				iterator it_pos(pos->key_val(), pos, _rbt);
+				iterator it_pos(pos->key(), pos, _rbt);
 				return pair<iterator,bool>(it_pos, false);
 			}
 			_ptr = _alloc.allocate(1);
 			_alloc.construct(_ptr, val);
 			pos = _rbt->insertion(_ptr);
-			iterator it_pos(pos->key_val(), pos, _rbt);
+			iterator it_pos(pos->key(), pos, _rbt);
 			return pair<iterator,bool>(it_pos, true);
 		}
 		iterator insert(iterator position, const value_type & val)
 		{
 			const node * pos = _rbt->search(val.first);
 			if (pos)
-				return iterator(pos->key_val(), pos, _rbt);
+				return iterator(pos->key(), pos, _rbt);
 			_ptr = _alloc.allocate(1);
 			_alloc.construct(_ptr, val);
 			pos = _rbt->insertion(_ptr);
-			return iterator(pos->key_val(), pos, _rbt);
+			return iterator(pos->key(), pos, _rbt);
 		}
 		template <class InputIterator>
 		void insert(InputIterator first, InputIterator last)
@@ -250,7 +248,7 @@ namespace ft
 		void erase(iterator position)
 		{
 			node * n = const_cast<node *>(_rbt->search(position->first));
-			if (n && position.getPair() == n->key_val())
+			if (n && position.getPair() == n->key())
 				_rbt->deletion(position->first);
 		}
 		size_type erase(const key_type & k)
@@ -272,14 +270,14 @@ namespace ft
 		{
 			const node * pos = _rbt->search(k);
 			if (pos)
-				return iterator(pos->key_val(), pos, _rbt);
+				return iterator(pos->key(), pos, _rbt);
 			return end();
 		}
 		const_iterator find(const key_type & k) const
 		{
 			const node * pos = _rbt->search(k);
 			if (pos)
-				return const_iterator(pos->key_val(), pos, _rbt);
+				return const_iterator(pos->key(), pos, _rbt);
 			return end();
 		}
 		size_type count(const key_type & k) const
@@ -293,7 +291,7 @@ namespace ft
 			const node * pos = _rbt->search(k);
 			if (!pos)
 				return ft::make_pair<iterator,iterator>(upper_bound(k), upper_bound(k));
-			iterator up(_rbt->get_next(pos).key_val(), &_rbt->_past_end_node, _rbt);
+			iterator up(_rbt->get_next(pos).key(), &_rbt->_past_end_node, _rbt);
 			return ft::make_pair<iterator,iterator>(lower_bound(k), up);
 		}
 		pair<const_iterator,const_iterator> equal_range(const key_type & k) const
@@ -301,28 +299,28 @@ namespace ft
 			const node * pos = _rbt->search(k);
 			if (!pos)
 				return ft::make_pair<const_iterator,const_iterator>(upper_bound(k), upper_bound(k));
-			const_iterator up(_rbt->get_next(pos).key_val(), &_rbt->_past_end_node, _rbt);
+			const_iterator up(_rbt->get_next(pos).key(), &_rbt->_past_end_node, _rbt);
 			return ft::make_pair<const_iterator,const_iterator>(lower_bound(k), up);
 		}
 		iterator lower_bound(const key_type & k)
 		{
 			const node * low = _rbt->search_lower(k);
-			return iterator(low->key_val(), low, _rbt);
+			return iterator(low->key(), low, _rbt);
 		}
 		const_iterator lower_bound(const key_type & k) const
 		{
 			const node * low = _rbt->search_lower(k);
-			return const_iterator(low->key_val(), low, _rbt);
+			return const_iterator(low->key(), low, _rbt);
 		}
 		iterator upper_bound(const key_type & k)
 		{
 			const node * up = _rbt->search_upper(k);
-			return iterator(up->key_val(), up, _rbt);
+			return iterator(up->key(), up, _rbt);
 		}
 		const_iterator upper_bound(const key_type & k) const
 		{
 			const node * up = _rbt->search_upper(k);
-			return iterator(up->key_val(), up, _rbt);
+			return iterator(up->key(), up, _rbt);
 		}
 
 	// ALLOCATOR
@@ -351,21 +349,17 @@ namespace ft
 		}
 	};
 
-	// Class qui génère un objet pour stocker dans 'Compare comp' 
-	// la fonction de comparaison binaire de deux pairs
-	template <class Key, class T, class Compare, class Alloc>
-	class map<Key,T,Compare,Alloc>::value_compare
+	template <class Key, class Compare, class Alloc>
+	class set<Key,Compare,Alloc>::value_compare
 	{
-		friend class map;
+		friend class set;
 		
 		public:
 		typedef bool		result_type;
-		typedef value_type	first_argument_type;
-		typedef value_type	second_argument_type;
 		Compare comp;
-		bool operator()(const value_type & x, const value_type & y) const
+		bool operator()(const Key & x, const Key & y) const
 		{
-			return comp(x.first, y.first);
+			return comp(x, y);
 		}
 
 		protected:

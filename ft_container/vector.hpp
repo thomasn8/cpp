@@ -7,9 +7,6 @@
 #include "iterators.hpp"
 #include "utils.hpp"
 
-# define RED "\033[0;31m"
-# define WHI "\033[0m"
-
 namespace ft
 {
 	template <typename T, typename Alloc = allocator<T> >
