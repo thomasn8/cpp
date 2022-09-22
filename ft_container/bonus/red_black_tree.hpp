@@ -358,12 +358,10 @@ namespace ft
 		{
             if (n == NULL)
 				return ;
-            // if (*n->key() == k) 
             if (!_comp.comp(*n->key(), k) && !_comp.comp(k, *n->key())) 
 			{
-                if (n->left() == NULL && n->right() == NULL)	// CAS 1
+                if (n->left() == NULL && n->right() == NULL)
 				{
-                    // if (*parent->key() == *n->key())
             		if (!_comp.comp(*parent->key(), *n->key()) && !_comp.comp(*n->key(), *parent->key())) 
 					{
 						free_node(_root);
@@ -382,17 +380,17 @@ namespace ft
                         parent->setLeft(NULL);
                     }
                 }
-                else if (n->left() != NULL && n->right() == NULL)	// CAS 2
+                else if (n->left() != NULL && n->right() == NULL)
 				{
 					n->swapKey(n->left());
                     remove_node(n, n->left(), k);
                 }
-                else if (n->left() == NULL && n->right() != NULL)	// CAS 2
+                else if (n->left() == NULL && n->right() != NULL)
 				{
 					n->swapKey(n->right());
                     remove_node(n, n->right(), k);
                 }
-                else // CAS 3
+                else
 				{
                     bool flag = false;
                     node * tmp = n->left();
@@ -421,27 +419,27 @@ namespace ft
 						sibling = n->parent()->right();
                     if (sibling)
 					{
-                        if (sibling->color() == R)  //CAS 1
+                        if (sibling->color() == R)
 						{
                             sibling->setColor(B);
                             n->parent()->setColor(R);
                             rotation_left(n->parent());
                             sibling = n->parent()->right();
                         }
-						if ((sibling->left() == NULL  || sibling->left()->color() == B)	//  CAS 2
+						if ((sibling->left() == NULL  || sibling->left()->color() == B)
 						&&  (sibling->right() == NULL || sibling->right()->color() == B))
 						{
                             sibling->setColor(R);
                             n = n->parent();
                         }
-                        else if (sibling->right() && sibling->right()->color() == B)	// CAS 3
+                        else if (sibling->right() && sibling->right()->color() == B)
 						{
                             sibling->left()->setColor(B);
                             sibling->setColor(R);
                             rotation_right(sibling);
                             sibling = n->parent()->right();
                         }
-						else	//CASE 4
+						else
 						{
                             sibling->setColor(n->parent()->color());
                             n->parent()->setColor(B);
@@ -460,27 +458,27 @@ namespace ft
 							sibling = n->parent()->left();
                         if (sibling)
 						{
-                            if (sibling->color() == R)	// CAS 1
+                            if (sibling->color() == R)
 							{
                                 sibling->setColor(B);
                                 n->parent()->setColor(R);
                                 rotation_right(n->parent());
                                 sibling = n->parent()->left();
                             }
-							if ((sibling->left() == NULL  || sibling->left()->color() == B)	// CAS 2
+							if ((sibling->left() == NULL  || sibling->left()->color() == B)
 							&&  (sibling->right() == NULL || sibling->right()->color() == B))
 							{
 								sibling->setColor(R);
 								n = n->parent();
 							}
-                            else if (sibling->left() && sibling->left()->color() == B)	// CAS 3
+                            else if (sibling->left() && sibling->left()->color() == B)
 							{
                                 sibling->right()->setColor(B);
                                 sibling->setColor(R);
                                 rotation_right(sibling);
                                 sibling = n->parent()->left();
                             }
-							else	// CAS 4
+							else
 							{
                                 sibling->setColor(n->parent()->color());
                                 n->parent()->setColor(B);

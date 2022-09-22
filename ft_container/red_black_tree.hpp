@@ -361,11 +361,12 @@ namespace ft
 		{
             if (n == NULL)
 				return ;
-            if (n->key_val()->first == k) 
+			if (!_comp.comp(n->key_val()->first, k) && !_comp.comp(k, n->key_val()->first)) 
 			{
                 if (n->left() == NULL && n->right() == NULL)	// CAS 1
 				{
-                    if (parent->key_val()->first == n->key_val()->first)
+					if (!_comp.comp(parent->key_val()->first, n->key_val()->first) && 
+						!_comp.comp(n->key_val()->first, parent->key_val()->first)) 
 					{
 						free_node(_root);
 						_root = NULL;
@@ -412,7 +413,9 @@ namespace ft
         }
         void deletion_repare_tree(node * n) 
 		{
-            while (n->key_val()->first != _root->key_val()->first && n->color() == B)
+			while ((_comp.comp(n->key_val()->first,_root->key_val()->first) ||
+					_comp.comp(_root->key_val()->first, n->key_val()->first)) 
+				&& n->color() == B)
 			{
                 node * sibling = _root;
                 if (n->parent()->left() == n) 
@@ -441,7 +444,7 @@ namespace ft
                             rotation_right(sibling);
                             sibling = n->parent()->right();
                         }
-						else	//CASE 4
+						else	//CAS 4
 						{
                             sibling->setColor(n->parent()->color());
                             n->parent()->setColor(B);
