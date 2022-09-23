@@ -1,9 +1,6 @@
 #ifndef UTILS_HPP
 # define UTILS_HPP
 
-#include <iostream>
-using namespace std;
-
 namespace ft
 {
 // ENABLE_IF

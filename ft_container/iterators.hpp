@@ -51,43 +51,6 @@ namespace ft
 		difference_type getDiff() const { return sizeof(value_type); }
 	};
 
-	// class bidirectional_iterator_tag {};
-
-	// template <typename T>
-	// class bidirectional_iterator
-	// {
-	// 	public:
-	// // MEMBER TYPES
-	// 	typedef T							value_type;
-	// 	typedef int							difference_type;
-	// 	typedef T *							pointer;
-	// 	typedef T &							reference;
-	// 	typedef bidirectional_iterator	 	iterator_category;
-	// 	typedef	iterator_category			it;
-	// 	typedef int 						SFINAE_condition;	// pour le constructeur de vector avec iterateur
-	// // CONSTRUCTEURS/DESTRUCTEUR
-	// 	bidirectional_iterator() : _p(0) {}											// default
-	// 	bidirectional_iterator(pointer p) : _p(p) {}								// special
-	// 	bidirectional_iterator(reference src) : _p(src.getP()) {}					// copy
-	// 	virtual ~bidirectional_iterator() {}
-	// // SURCHARGES
-	// 	it & operator=(it const & src) { _p = src.getP(); return *this; }		// assign 
-	// 	bool operator==(const it & rhs) const { return _p == rhs._p; }
-	// 	bool operator!=(const it & rhs) const { return _p != rhs._p; }
-	// 	reference operator*() { return *_p; }
-	// 	reference operator*() const { return *_p; }
-	// 	pointer operator->() { return _p;  }
-	// 	it & operator++() { ++_p; return *this; }
-	// 	it operator++(int) { it tmp(*this); _p++; return tmp; }
-	// 	it & operator--() { --_p; return *this; }
-	// 	it operator--(int) { it tmp(*this); _p--; return tmp; }
-	
-	// 	protected:
-	// 	pointer _p;
-	// 	pointer getP() const { return _p; }
-	// 	difference_type getDiff() const { return sizeof(value_type); }
-	// };
-
 	template<typename T>
 	struct iterator_traits
 	{

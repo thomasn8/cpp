@@ -2,7 +2,6 @@
 // -------------------------------- FT TESTS -------------------------------- 
 
 #include <iostream>
-using namespace std;
 #include "../vector.hpp"
 #include "../container_details.hpp"
 
@@ -35,31 +34,31 @@ int main()
 	for (int i = 0; i < 10; i++)
 		v10.push_back(i);
 	ft::vector_details(v10);
-	cout << "v10[0] = " << v10[0] << endl;
-	cout << "v10[9] = " << v10[9] << endl;
-	cout << "v10[10] = " << v10[10] << endl;
-	cout << "front() = " << v10.front() << endl;
-	cout << "back() = " << v10.back() << endl;
-	cout << "data() = " << &*v10.data() << " = " << *v10.data() << endl;
-	cout << "at(0) = " << v10.at(0) << endl;
-	cout << "at(1) = " << v10.at(1) << endl;
+	std::cout << "v10[0] = " << v10[0] << std::endl;
+	std::cout << "v10[9] = " << v10[9] << std::endl;
+	std::cout << "v10[10] = " << v10[10] << std::endl;
+	std::cout << "front() = " << v10.front() << std::endl;
+	std::cout << "back() = " << v10.back() << std::endl;
+	std::cout << "data() = " << &*v10.data() << " = " << *v10.data() << std::endl;
+	std::cout << "at(0) = " << v10.at(0) << std::endl;
+	std::cout << "at(1) = " << v10.at(1) << std::endl;
 
 	// ************************************************************
 	// ************************* CAPACITY *************************
 	ft::vector<int> v20;
 	ft::vector_details(v20);
-	cout << "size = " << v20.size() << endl;
-	cout << "empty ? " << v20.empty() << endl;
-	cout << "capacity = " << v20.capacity() << endl;
-	cout << "max size = " << v20.max_size() << endl;
+	std::cout << "size = " << v20.size() << std::endl;
+	std::cout << "empty ? " << v20.empty() << std::endl;
+	std::cout << "capacity = " << v20.capacity() << std::endl;
+	std::cout << "max size = " << v20.max_size() << std::endl;
 	ft::vector<int> v21;
 	for (int i = 0; i < 10; i++)
 		v21.push_back(i);
 	ft::vector_details(v21);
-	cout << "size = " << v21.size() << endl;
-	cout << "empty ? " << v21.empty() << endl;
-	cout << "capacity = " << v21.capacity() << endl;
-	cout << "max size = " << v21.max_size() << endl;
+	std::cout << "size = " << v21.size() << std::endl;
+	std::cout << "empty ? " << v21.empty() << std::endl;
+	std::cout << "capacity = " << v21.capacity() << std::endl;
+	std::cout << "max size = " << v21.max_size() << std::endl;
 	
 	v20.shrink_to_fit();
 	ft::vector_details(v20);
@@ -153,11 +152,11 @@ int main()
 	v300.erase(v300.begin()+1, v300.end()-1);
 	ft::vector_details(v300);
 	v300.assign(5,5);
-	cout << &*(v300.erase(v300.begin()+2, v300.end()-2)) << endl;
+	std::cout << &*(v300.erase(v300.begin()+2, v300.end()-2)) << std::endl;
 	ft::vector_details(v300);
-	cout << &*(v300.erase(v300.begin(), v300.end()))<< endl;
+	std::cout << &*(v300.erase(v300.begin(), v300.end()))<< std::endl;
 	ft::vector_details(v300);
-	cout << &*(v300.erase(v300.begin(), v300.end()))<< endl;
+	std::cout << &*(v300.erase(v300.begin(), v300.end()))<< std::endl;
 	ft::vector_details(v300);
 
 	// 4. insert (used in resize)

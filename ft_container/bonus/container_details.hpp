@@ -2,7 +2,6 @@
 # define CONTAINER_DETAILS_HPP
 
 #include <iostream>
-using namespace std;
 #include "set.hpp"
 
 namespace ft
@@ -11,42 +10,42 @@ namespace ft
 	template<class T>
 	void set_details(const ft::set<T> & s)
 	{
-		cout << endl << "----------------------- DETAILS ------------------------" << endl;
-		cout << "Size = " << s.size() << endl << endl;
+		std::cout << std::endl << "----------------------- DETAILS ------------------------" << std::endl;
+		std::cout << "Size = " << s.size() << std::endl << std::endl;
 		if (s.size())
 		{
 			typename ft::set<T>::const_iterator it = s.cbegin();
 			typename ft::set<T>::const_iterator ite = s.cend();
 			while (it != ite)
 			{
-				cout << "It  " << it.getNode() << ": " << *it << endl;
+				std::cout << "It  " << it.getNode() << ": " << *it << std::endl;
 				it++;
 			}
-			cout << "Ite " << ite.getNode() << endl;
+			std::cout << "Ite " << ite.getNode() << std::endl;
 		}
 		else
-			cout << "set container is empty" << endl << endl;
-		cout << "--------------------------------------------------------" << endl;
+			std::cout << "set container is empty" << std::endl << std::endl;
+		std::cout << "--------------------------------------------------------" << std::endl;
 	}
 	template<class T>
 	void set_rev_details(const ft::set<T> & s)
 	{
-		cout << endl << "----------------------- DETAILS ------------------------" << endl;
-		cout << "Size = " << s.size() << endl << endl;
+		std::cout << std::endl << "----------------------- DETAILS ------------------------" << std::endl;
+		std::cout << "Size = " << s.size() << std::endl << std::endl;
 		if (s.size())
 		{
 			typename ft::set<T>::const_reverse_iterator it = s.crbegin();
 			typename ft::set<T>::const_reverse_iterator ite = s.crend();
 			while (it != ite)
 			{
-				cout << "It  " << it.base().getNode() << ": " << *it << endl;
+				std::cout << "It  " << it.base().getNode() << ": " << *it << std::endl;
 				it++;
 			}
-			cout << "Its " << ite.base().getNode() << endl;
+			std::cout << "Its " << ite.base().getNode() << std::endl;
 		}
 		else
-			cout << "set container is empty" << endl << endl;
-		cout << "--------------------------------------------------------" << endl;
+			std::cout << "set container is empty" << std::endl << std::endl;
+		std::cout << "--------------------------------------------------------" << std::endl;
 	}
 }
 

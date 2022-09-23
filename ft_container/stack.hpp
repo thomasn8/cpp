@@ -2,8 +2,6 @@
 # define STACK_HPP
 
 #include "vector.hpp"
-#include <iostream>
-using namespace std;
 
 namespace ft
 {

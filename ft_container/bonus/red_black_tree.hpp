@@ -2,7 +2,6 @@
 # define RED_BLACK_TREE_HPP
 
 #include <iostream>
-using namespace std;
 #include <memory>
 #include "red_black_node.hpp"
 
@@ -44,7 +43,7 @@ namespace ft
 		void print_tree()
 		{
 			print_tree_recursiv(_root, 0);
-			cout << endl;
+			std::cout << std::endl;
 		}
 	
 	// GETTERS
@@ -550,15 +549,15 @@ namespace ft
 				return;
 			space += MARGIN;
 			print_tree_recursiv(root->right(), space);
-			cout<<endl;
+			std::cout<<std::endl;
 			for (int i = MARGIN; i < space; i++)
-				cout<<" ";
+				std::cout<<" ";
 			if (root->color() == 1)
-			cout << RED;
-			cout << root->key() << WHI;
+			std::cout << RED;
+			std::cout << root->key() << WHI;
 			if (root->parent())
-				cout << " ("<< *root->parent()->key() << ")";
-			cout << endl;
+				std::cout << " ("<< *root->parent()->key() << ")";
+			std::cout << std::endl;
 			print_tree_recursiv(root->left(), space);
 		}
 

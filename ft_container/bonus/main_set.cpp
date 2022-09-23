@@ -1,6 +1,5 @@
 #include <iostream>
 #include "set.hpp"
-using namespace std;
 #include "container_details.hpp"
 
 int main()
@@ -62,9 +61,9 @@ int main()
 	ft::set_details(ft2);
 	ft::set_details(ft4);
 	ft::set<char>::iterator a = ft4.find('a');
-	cout << *a << endl;
+	std::cout << *a << std::endl;
 	for (ft::set<char>::const_reverse_iterator it = ft4.crbegin(); it != ft4.crend(); ++it)
-    	std::cout << *it << endl;
+    	std::cout << *it << std::endl;
 
 	ft::set<char> ft5;
 	ft5.insert('m');
@@ -78,8 +77,8 @@ int main()
 	ft5.insert('s');
 	ft5.insert('y');
 	ft::set_details(ft5);
-	cout << "upper_bound: " << *ft5.upper_bound('f') << endl;
-	cout << "lower_bound: " << *ft5.lower_bound('n') << endl;
+	std::cout << "upper_bound: " << *ft5.upper_bound('f') << std::endl;
+	std::cout << "lower_bound: " << *ft5.lower_bound('n') << std::endl;
 
 	return 0;
 }

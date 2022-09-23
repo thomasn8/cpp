@@ -1,7 +1,6 @@
 #ifndef MAP_HPP
 # define MAP_HPP
 
-#include <iostream>
 #include <memory>
 #include <stdexcept>
 #include <functional>
