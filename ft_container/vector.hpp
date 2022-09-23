@@ -528,7 +528,7 @@ namespace ft
 	// ALLOCATOR
 		allocator_type get_allocator() const { return _alloc; }
 
-		private :
+		protected:
 		Alloc			_alloc;				// the default allocator
 		size_type		_n;					// size: number of elements in container
 		size_type		_c;					// capacity: storage space expressed in terms of elements
