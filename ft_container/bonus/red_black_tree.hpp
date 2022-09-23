@@ -17,11 +17,11 @@
 namespace ft
 {
 	template < class Key, 
-	class Compare = less<Key>, 
-	class Alloc = allocator< Key > >
+	class Compare = std::less<Key>, 
+	class Alloc = std::allocator< Key > >
 	class set;
 
-	template<class Key, class Comp, class Alloc_p, class Alloc = allocator< red_black_node<Key> > >
+	template<class Key, class Comp, class Alloc_p, class Alloc = std::allocator< red_black_node<Key> > >
 	class red_black_tree
 	{
 		friend class set<Key>;

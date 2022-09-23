@@ -8,14 +8,14 @@
 
 namespace ft
 {
-	template <typename T, typename Alloc = allocator<T> >
+	template <typename T, typename Alloc = std::allocator<T> >
 	class vector
 	{
 		public :
 	// MEMBER TYPES
 		typedef T 												value_type;
 		typedef unsigned int 									size_type;
-		typedef allocator<value_type> 							allocator_type;
+		typedef std::allocator<value_type> 						allocator_type;
 		typedef typename allocator_type::reference 				reference;			// T &
 		typedef typename allocator_type::const_reference 		const_reference;	// const T &
 		typedef	typename allocator_type::pointer 				pointer;			// T *
@@ -544,7 +544,7 @@ namespace ft
 		{
 			if (c + 1 > max_size())
 			{
-				throw bad_alloc();
+				throw std::bad_alloc();
 				return true;
 			}
 			return false;

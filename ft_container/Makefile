@@ -36,4 +36,7 @@ re:			fclean all
 run:		
 			./${NAME}
 
-.PHONY:		all clean fclean re run bonus
+runbonus:		
+			./${NAME_BONUS}
+
+.PHONY:		all clean fclean re run bonus runbonus
