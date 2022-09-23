@@ -16,19 +16,10 @@
 # define WHI "\033[0m"
 
 namespace ft
-{	
-	/* obligé de déclarer la class-template ici pour que le friend dans rbt
-	reconnaisse map (car rbt est #include dans map) */
-	template < class Key, class T, 
-	class Compare = std::less<Key>, 
-	class Alloc = std::allocator< ft::pair< const Key,T> > >
-	class map;
-
+{
 	template<class Key, class T, class Comp, class Alloc_p, class Alloc = std::allocator< red_black_node<Key,T> > >
 	class red_black_tree
 	{
-		friend class map<Key,T>;
-
 		public:
 
 		typedef	ft::pair<const Key,T>						value_type;
@@ -120,8 +111,7 @@ namespace ft
 				return &_past_start_node;	// que 1 val dans l'arbre, pas de next
 		}
 
-		private:
-
+	// VARIABLES
 		size_type		_n;
 		node *			_root;
 		node *			_ptr;

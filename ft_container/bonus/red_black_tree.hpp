@@ -16,16 +16,9 @@
 
 namespace ft
 {
-	template < class Key, 
-	class Compare = std::less<Key>, 
-	class Alloc = std::allocator< Key > >
-	class set;
-
 	template<class Key, class Comp, class Alloc_p, class Alloc = std::allocator< red_black_node<Key> > >
 	class red_black_tree
 	{
-		friend class set<Key>;
-
 		public:
 
 		typedef	Key											value_type;
@@ -117,7 +110,7 @@ namespace ft
 				return &_past_start_node;
 		}
 
-		private:
+	// VARIABLES
 
 		size_type		_n;
 		node *			_root;
