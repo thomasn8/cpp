@@ -45,11 +45,49 @@ namespace ft
 		it & operator+=(difference_type n) { it tmp(_p + n); _p = tmp.getP(); return *this; }
 		it & operator-=(difference_type n) { it tmp(_p - n); _p = tmp.getP(); return *this; }
 
+		pointer getP() const { return _p; }
+
 		protected :
 		pointer _p;
-		pointer getP() const { return _p; }
-		difference_type getDiff() const { return sizeof(value_type); }
 	};
+
+// COMPARISONS BETWEEN CONST AND NON-CONST
+	template <class T>
+	bool operator==(const random_access_iterator<T> & lhs, const random_access_iterator<const T> & rhs)
+	{ return lhs.getP() == rhs.getP(); }
+	template <class T>
+	bool operator==(const random_access_iterator<const T> & lhs, const random_access_iterator<T> & rhs)
+	{ return lhs.getP() == rhs.getP(); }
+	template <class T>
+	bool operator!=(const random_access_iterator<T> & lhs, const random_access_iterator<const T> & rhs)
+	{ return lhs.getP() != rhs.getP(); }
+	template <class T>
+	bool operator!=(const random_access_iterator<const T> & lhs, const random_access_iterator<T> & rhs)
+	{ return lhs.getP() != rhs.getP(); }
+	template <class T>
+	bool operator<(const random_access_iterator<T> & lhs, const random_access_iterator<const T> & rhs)
+	{ return lhs.getP() < rhs.getP(); }
+	template <class T>
+	bool operator<(const random_access_iterator<const T> & lhs, const random_access_iterator<T> & rhs)
+	{ return lhs.getP() < rhs.getP(); }
+	template <class T>
+	bool operator<=(const random_access_iterator<T> & lhs, const random_access_iterator<const T> & rhs)
+	{ return lhs.getP() <= rhs.getP(); }
+	template <class T>
+	bool operator<=(const random_access_iterator<const T> & lhs, const random_access_iterator<T> & rhs)
+	{ return lhs.getP() <= rhs.getP(); }
+	template <class T>
+	bool operator>(const random_access_iterator<T> & lhs, const random_access_iterator<const T> & rhs)
+	{ return lhs.getP() > rhs.getP(); }
+	template <class T>
+	bool operator>(const random_access_iterator<const T> & lhs, const random_access_iterator<T> & rhs)
+	{ return lhs.getP() > rhs.getP(); }
+	template <class T>
+	bool operator>=(const random_access_iterator<T> & lhs, const random_access_iterator<const T> & rhs)
+	{ return lhs.getP() >= rhs.getP(); }
+	template <class T>
+	bool operator>=(const random_access_iterator<const T> & lhs, const random_access_iterator<T> & rhs)
+	{ return lhs.getP() >= rhs.getP(); }
 
 	template<typename T>
 	struct iterator_traits

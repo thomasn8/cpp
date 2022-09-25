@@ -1,6 +1,6 @@
-# SRCS		=		tests/main_ftvector.cpp
+SRCS		=		tests/main_ftvector.cpp
 # SRCS		=		tests/main_stdvector.cpp
-SRCS		=		tests/main_map.cpp
+# SRCS		=		tests/main_map.cpp
 # SRCS		=		tests/main_stack.cpp
 # SRCS		=		tests/main_intranet.cpp
 

@@ -272,5 +272,16 @@ int main()
 	if (foo<=bar) std::cout << "foo is less than or equal to bar\n";
 	if (foo>=bar) std::cout << "foo is greater than or equal to bar\n";
 
+	// ************************************************************
+	// ****************** VECTOR ADVANCED (EVAL) ******************
+	const ft::vector<int> bar2 (2,200);
+	ft::vector<int>::iterator comp1 = foo.begin();
+	ft::vector<int>::const_iterator comp2 = bar2.begin();
+	// if (comp1 > comp2)
+	if (comp2 > comp1)
+		std::cout << "yes" << std::endl;
+	else
+		std::cout << "no" << std::endl;
+
 	return 0;
 }
