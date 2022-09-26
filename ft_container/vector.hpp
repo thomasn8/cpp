@@ -28,13 +28,13 @@ namespace ft
 		
 	// CONSTRUCTEURS/DESTRUCTEUR
 		explicit vector(const allocator_type & alloc = allocator_type()) :
-			_n(0), _c(0), _capacityFactor(2), _alloc(alloc), _first(NULL), _last(NULL) {}
+			_alloc(alloc), _n(0), _c(0), _capacityFactor(2), _first(NULL), _last(NULL) {}
 
 		explicit vector(size_type n, const value_type & val = value_type(),
 			const allocator_type & alloc = allocator_type()) :
-			_n(n), _c(n), _capacityFactor(2), _alloc(alloc), _first(NULL), _last(NULL)
+			_alloc(alloc), _n(n), _c(n), _capacityFactor(2), _first(NULL), _last(NULL)
 		{
-			if (capacity_error(_n))
+			if (capacity_error(n))
 				return;
 			if (_n)
 			{
@@ -48,9 +48,9 @@ namespace ft
 		
 		template <typename InputIterator>
 		vector(InputIterator first, InputIterator last, 
-			const allocator_type & alloc = allocator_type(), 
-			typename InputIterator::SFINAE_condition = 0) : 
-			_n(0), _c(0), _capacityFactor(2), _alloc(alloc), _first(NULL), _last(NULL)
+			const allocator_type & alloc = allocator_type(),
+			typename std::enable_if<!ft::is_integral<InputIterator>::value >::type* = 0) : 
+			_alloc(alloc), _n(0), _c(0), _capacityFactor(2), _first(NULL), _last(NULL)
 		{
 			_n = last - first;
 			_c = _n;
@@ -67,8 +67,8 @@ namespace ft
 		}
 
 		vector(const vector & x) :
-			_n(x.size()), _c(x.size()), _capacityFactor(2), 
-			_alloc(x.get_allocator()), _first(NULL), _last(NULL)
+			_alloc(x.get_allocator()), _n(x.size()), _c(x.size()),
+			_capacityFactor(2), _first(NULL), _last(NULL)
 		{
 			if (_n)
 			{
@@ -92,10 +92,11 @@ namespace ft
 
 		virtual ~vector()
 		{
+			// if (_c)
 			if (_n)
 			{
-				for (size_type i = 0; i < _n; i++)
-					_alloc.destroy(_first + i);
+				// for (size_type i = 0; i < _n; i++)
+				// 	_alloc.destroy(_first + i);
 				_alloc.deallocate(_first, _c + 1);
 			}
 		}
@@ -110,9 +111,9 @@ namespace ft
 		reverse_iterator rbegin() 				{ return reverse_iterator(_last); }
 		const_reverse_iterator rbegin() const 	{ return const_reverse_iterator(_last); }
 		const_reverse_iterator crbegin() const	{ return const_reverse_iterator(_last); }
-		reverse_iterator rend() 				{ return reverse_iterator(_first - 1); }
-		const_reverse_iterator rend() const 	{ return const_reverse_iterator(_first - 1); }
-		const_reverse_iterator crend() const	{ return const_reverse_iterator(_first - 1); }
+		reverse_iterator rend() 				{ return reverse_iterator(_first); }
+		const_reverse_iterator rend() const 	{ return const_reverse_iterator(_first); }
+		const_reverse_iterator crend() const	{ return const_reverse_iterator(_first); }
 
 	// ELEMENT ACCESS
 		reference operator[](size_type index)				{ return _first[index]; }
@@ -140,7 +141,7 @@ namespace ft
 		size_type size() const 			{ return _n; }
 		bool empty() const 				{ return bool(!_n); }
 		size_type capacity() const		{ return _c; }
-		unsigned long max_size() const	{ return _alloc.max_size(); }
+		size_type max_size() const		{ return _alloc.max_size(); }
 		
 		void shrink_to_fit()
 		{
@@ -193,8 +194,7 @@ namespace ft
 			else if (n < _n)
 			{
 				iterator first(_first + n);
-				iterator last = end();
-				erase(first, last);
+				erase(first, end());
 			}
 			else if (n > _n)
 				insert(end(),n - _n, val);
@@ -202,8 +202,8 @@ namespace ft
 
 	// MODIFIERS
 		template <class InputIterator>
-		void assign(InputIterator first, InputIterator last, 
-			typename InputIterator::SFINAE_condition = 0)
+		void assign(InputIterator first, InputIterator last,
+		typename std::enable_if<!ft::is_integral<InputIterator>::value >::type* = 0)
 		{
 			size_type size = last - first;
 			if (!size)
@@ -363,8 +363,8 @@ namespace ft
 				assign(n, val);
 			else if (_n + n > _c)
 			{
-				value_type c;
-				_n + n < _c ? c = _n * _capacityFactor : c = _n + n;
+				size_type c = _n + n;
+				// size_type c = _c * _capacityFactor;
 				if (capacity_error(c))
 					return;
 				_ptr = _alloc.allocate(c + 1);
@@ -409,15 +409,15 @@ namespace ft
 
 		template <class InputIterator>
 		void insert(iterator position, InputIterator first, InputIterator last,
-		typename InputIterator::SFINAE_condition = 0)
+		typename std::enable_if<!ft::is_integral<InputIterator>::value >::type* = 0)
 		{
 			size_type n = last - first;
 			if (!_n && position == _first)
 				assign(first, last);
 			else if (_n + n > _c)
 			{
-				value_type c;
-				_n + n < _c ? c = _n * _capacityFactor : c = _n + n;
+				// size_type c = _n + n;
+				size_type c = _c * _capacityFactor;
 				if (capacity_error(c))
 					return;
 				_ptr = _alloc.allocate(c + 1);
@@ -512,17 +512,23 @@ namespace ft
 			x._last = l;
 		}
 
+		// A reallocation is not guaranteed to happen, and the vector capacity is not guaranteed 
+		// to change due to calling this function. 
+		// A typical alternative that forces a reallocation is to use swap
 		void clear()
 		{
-			if (_n != 0)
-			{
-				for (size_type i = 0; i < _n; i++)
-					_alloc.destroy(_first + i);
-				_alloc.deallocate(_first, _c + 1);
-				_last = _first;
-				_n = 0;
-				_c = 0;
-			}
+			vector<T> x;
+			swap(x);
+			
+			// if (_n != 0)
+			// {
+			// 	for (size_type i = 0; i < _n; i++)
+			// 		_alloc.destroy(_first + i);
+			// 	_alloc.deallocate(_first, _c + 1);
+			// 	_last = _first;
+			// 	_n = 0;
+			// 	_c = 0;
+			// }
 		}
 
 	// ALLOCATOR
@@ -540,7 +546,7 @@ namespace ft
 		size_type get_index(pointer p) const	{ return p - _first; }
 		size_type get_index(iterator it)		{ return it - begin(); }
 		
-		bool	capacity_error(size_type c)
+		bool	capacity_error(unsigned long c)
 		{
 			if (c + 1 > max_size())
 			{
@@ -576,17 +582,17 @@ namespace ft
 	template <class T, class Alloc>
 	bool operator<=(const vector<T, Alloc> & lhs, const vector<T, Alloc> & rhs)
 	{
-		return ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end(), std::less_equal<T>());
+		return (!(rhs < lhs));
 	}
 	template <class T, class Alloc>
 	bool operator>(const vector<T, Alloc> & lhs, const vector<T, Alloc> & rhs)
 	{
-		return ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end(), std::greater<T>());
+		return (rhs < lhs);
 	}
 	template <class T, class Alloc>
 	bool operator>=(const vector<T, Alloc> & lhs, const vector<T, Alloc> & rhs)
 	{
-		return ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end(), std::greater_equal<T>());
+		return (!(lhs < rhs));
 	}
 }
 

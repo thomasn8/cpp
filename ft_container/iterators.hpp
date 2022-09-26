@@ -16,7 +16,6 @@ namespace ft
 		typedef T &							reference;
 		typedef random_access_iterator	 	iterator_category;
 		typedef	iterator_category			it;
-		typedef int 						SFINAE_condition;	// pour le constructeur de vector avec iterateur
 	// CONSTRUCTEURS/DESTRUCTEUR
 		random_access_iterator() : _p(0) {}
 		random_access_iterator(pointer p) : _p(p) {}

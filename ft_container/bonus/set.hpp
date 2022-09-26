@@ -172,6 +172,7 @@ namespace ft
 		}
 		iterator insert(iterator position, const value_type & val)
 		{
+			(void) position;
 			const node * pos = _rbt->search(val);
 			if (pos)
 				return iterator(pos->key(), pos, _rbt);

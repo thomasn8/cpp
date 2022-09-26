@@ -258,7 +258,6 @@ namespace ft
 		}
 		void insertion_repare_tree(node * n) 
 		{
-			static int x = 0;
 			if (n->parent() == NULL)
 				insertion_case1(n);
 			else if (n->parent() && n->parent()->color() == B)
@@ -273,7 +272,7 @@ namespace ft
 			if (n->parent() == NULL)
 				n->setColor(B);
 		}
-		void insertion_case2(node * n) { return; }
+		void insertion_case2(node * n) { (void) n; return; }
 		void insertion_case3(node * n)
 		{
 			n->parent()->setColor(B);

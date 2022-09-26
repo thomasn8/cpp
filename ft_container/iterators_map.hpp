@@ -18,7 +18,6 @@ namespace ft
 		typedef value_type &				reference;
 		typedef bidirectional_iterator	 	iterator_category;
 		typedef	iterator_category			it;
-		typedef int 						SFINAE_condition;
 	// CONSTRUCTEURS/DESTRUCTEUR
 		bidirectional_iterator() : _p(0) {}
 		bidirectional_iterator(pointer p, Node_ptr node, Tree_ptr tree) : _p(p), _node(node), _tree(tree) {}
