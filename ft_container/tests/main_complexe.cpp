@@ -1,4 +1,5 @@
 #include <iostream>
+#include <vector>
 #include "../vector.hpp"
 #include "../container_details.hpp"
 
@@ -31,15 +32,41 @@ public:
     };
 };
 
+// int main()
+// {
+// 	ft::vector<int> v;
+
+//  	std::unique_ptr<BClass> k2(new BClass(3));
+//     std::unique_ptr<BClass> k3(new BClass(4));
+//     std::unique_ptr<BClass> k4(new BClass(-1));
+//     ft::vector<AClass> vv;
+//     ft::vector<BClass*> v1;
+
+//     v1.push_back(&(*k2));
+//     v1.push_back(&(*k3));
+//     v1.push_back(&(*k4));
+//     try { vv.insert(vv.begin(), v1.begin(), v1.end()); }
+//     catch (...) {
+//         v.push_back(vv.size());
+//         v.push_back(vv.capacity());
+//     }	
+
+// 	std::cout << "FT: ";
+// 	for (ft::vector<int>::iterator it = v.begin(); it != v.end(); it++)
+// 		std::cout << ' ' << *it;
+// 	std::cout << std::endl;
+
+// 	return 0;
+// }
 int main()
 {
-	ft::vector<int> v;
+	std::vector<int> v;
 
  	std::unique_ptr<BClass> k2(new BClass(3));
     std::unique_ptr<BClass> k3(new BClass(4));
     std::unique_ptr<BClass> k4(new BClass(-1));
-    ft::vector<AClass> vv;
-    ft::vector<BClass*> v1;
+    std::vector<AClass> vv;
+    std::vector<BClass*> v1;
 
     v1.push_back(&(*k2));
     v1.push_back(&(*k3));
@@ -49,5 +76,11 @@ int main()
         v.push_back(vv.size());
         v.push_back(vv.capacity());
     }	
+
+	std::cout << "std: ";
+	for (std::vector<int>::iterator it = v.begin(); it != v.end(); it++)
+		std::cout << ' ' << *it;
+	std::cout << std::endl;
+
 	return 0;
 }
