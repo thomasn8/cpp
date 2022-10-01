@@ -19,18 +19,20 @@ namespace ft
 		{
 			typename ft::vector<T>::const_iterator it = v.begin();
 			typename ft::vector<T>::const_iterator ite = v.end();
+			int i = 0;
 			while (it != ite)
 			{
-				std::cout << "It  " << &*it << ": " << *it << std::endl;
+				std::cout << i << ": " << *it << std::endl;
 				it++;
+				i++;
 			}
-			std::cout << "Ite " << &*ite << std::endl;
+			// std::cout << "Ite " << &*ite << std::endl;
 		}
 		else
 		{
 			std::cout << "vector container is empty" << std::endl;
-			std::cout << "_first  " << &v.front() << std::endl;
-			std::cout << "_last   " << &v.back() << std::endl << std::endl;
+			// std::cout << "_first  " << &v.front() << std::endl;
+			// std::cout << "_last   " << &v.back() << std::endl << std::endl;
 		}
 		std::cout << "--------------------------------------------------------" << std::endl;
 	}
@@ -113,18 +115,20 @@ void vector_details(const std::vector<T> & v)
 	{
 		typename std::vector<T>::const_iterator it = v.begin();
 		typename std::vector<T>::const_iterator ite = v.end();
+		int i = 0;
 		while (it != ite)
 		{
-			std::cout << "It  " << &*it << ": " << *it << std::endl;
+			std::cout << i << ": " << *it << std::endl;
 			it++;
+			i++;
 		}
-		std::cout << "Ite " << &*ite << std::endl;
+		// std::cout << "Ite " << &*ite << std::endl;
 	}
 	else
 	{
 		std::cout << "vector container is empty" << std::endl;
-		std::cout << "_first  " << &v.front() << std::endl;
-		std::cout << "_last   " << &v.back() << std::endl << std::endl;
+		// std::cout << "_first  " << &v.front() << std::endl;
+		// std::cout << "_last   " << &v.back() << std::endl << std::endl;
 	}
 	std::cout << "--------------------------------------------------------" << std::endl;
 }

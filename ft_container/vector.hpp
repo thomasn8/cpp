@@ -5,6 +5,7 @@
 #include <stdexcept>
 #include "iterators.hpp"
 #include "utils.hpp"
+#include <iostream>
 
 namespace ft
 {
@@ -97,6 +98,7 @@ namespace ft
 			{
 				// for (size_type i = 0; i < _n; i++)
 				// 	_alloc.destroy(_first + i);
+				std::cout << "Deallocate " << _c << std::endl;
 				_alloc.deallocate(_first, _c + 1);
 			}
 		}
@@ -207,11 +209,15 @@ namespace ft
 		{
 			size_type size = last - first;
 			if (!size)
+			{
+				std::cout << "ASSIGN 1" << std::endl;
 				clear();
+			}
 			else
 			{
 				if (size <= _c)
 				{
+					std::cout << "ASSIGN 2" << std::endl;
 					_ptr = _first;
 					while (first != last)
 						_alloc.construct(_ptr++, *first++);
@@ -223,13 +229,19 @@ namespace ft
 				}
 				else
 				{
+					std::cout << "ASSIGN 3: " << size << std::endl;
 					if (capacity_error(_n))
 						return;
 					clear();
 					_first = _alloc.allocate(size + 1);
+					std::cout << "Allocate " << size + 1 << std::endl;
 					_ptr = _first;
 					while (first != last)
+					{
 						_alloc.construct(_ptr++, *first++);
+						std::cout << &*first << " vs " << &*last << std::endl;
+						std::cout << *first << std::endl;
+					}
 					_last = --_ptr;
 					_n = size;
 					_c = size;
@@ -413,9 +425,13 @@ namespace ft
 		{
 			size_type n = last - first;
 			if (!_n && position == _first)
-				assign(first, last);
+			{
+				std::cout << "INSTERT 1" << std::endl;
+				assign(first, last);			// GENERE UN LEAK
+			}
 			else if (_n + n > _c)
 			{
+				std::cout << "INSTERT 2" << std::endl;
 				// size_type c = _n + n;
 				size_type c = _c * _capacityFactor;
 				if (capacity_error(c))
@@ -438,6 +454,7 @@ namespace ft
 			}
 			else
 			{
+				std::cout << "INSTERT 3" << std::endl;
 				iterator it = begin();
 				vector<T> cpy(it, end());
 				iterator it_cpy = cpy.begin();
