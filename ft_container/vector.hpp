@@ -98,7 +98,10 @@ namespace ft
 			{
 				// for (size_type i = 0; i < _n; i++)
 				// 	_alloc.destroy(_first + i);
-				std::cout << "Deallocate " << _c << std::endl;
+
+				std::cout << "size = " << _n << std::endl;
+				std::cout << "capacity = " << _c << std::endl;
+				std::cout << "Deallocate " << _c  + 1<< std::endl;
 				_alloc.deallocate(_first, _c + 1);
 			}
 		}
@@ -207,6 +210,7 @@ namespace ft
 		void assign(InputIterator first, InputIterator last,
 		typename std::enable_if<!ft::is_integral<InputIterator>::value >::type* = 0)
 		{
+			std::cout << "capacity = " << _c << std::endl;
 			size_type size = last - first;
 			if (!size)
 			{
@@ -235,12 +239,13 @@ namespace ft
 					clear();
 					_first = _alloc.allocate(size + 1);
 					std::cout << "Allocate " << size + 1 << std::endl;
+					// _n = size;
+					// _c = size;
 					_ptr = _first;
 					while (first != last)
 					{
+						std::cout << "capacity = " << _c << std::endl;
 						_alloc.construct(_ptr++, *first++);
-						std::cout << &*first << " vs " << &*last << std::endl;
-						std::cout << *first << std::endl;
 					}
 					_last = --_ptr;
 					_n = size;
@@ -426,8 +431,10 @@ namespace ft
 			size_type n = last - first;
 			if (!_n && position == _first)
 			{
+				std::cout << "capacity = " << _c << std::endl;
 				std::cout << "INSTERT 1" << std::endl;
 				assign(first, last);			// GENERE UN LEAK
+				std::cout << "capacity = " << _c << std::endl;
 			}
 			else if (_n + n > _c)
 			{
