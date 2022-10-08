@@ -23,7 +23,6 @@ namespace ft
 			while (it != ite)
 			{
 				std::cout << i << ": " << *it << std::endl;
-				// std::cout << i << ": " << *it << " (" << &*it << ")" << std::endl;
 				it++;
 				i++;
 			}
