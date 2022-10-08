@@ -93,13 +93,11 @@ namespace ft
 
 		virtual ~vector()
 		{
-			// if (_c)
-			if (_n)
+			if (_c)
 			{
-				// for (size_type i = 0; i < _n; i++)
-				// 	_alloc.destroy(_first + i);
+				for (size_type i = 0; i < _n; i++)
+					_alloc.destroy(_first + i);
 				_alloc.deallocate(_first, _c + 1);
-				// _alloc.deallocate(_first, _n + 1);
 			}
 		}
 
@@ -157,7 +155,7 @@ namespace ft
 				while (old_first != old_last)
 					_alloc.construct(_ptr++, *old_first++);
 				size_type n = _n;
-				clear();
+				clear_dealloc();
 				_first = new_first;
 				_last = --_ptr;
 				_n = n;
@@ -181,7 +179,7 @@ namespace ft
 					_alloc.destroy(&*old_first++);
 				}
 				size_type size = _n;
-				clear();
+				clear_dealloc();
 				_first = new_first;
 				_last = --_ptr;
 				_n = size;
@@ -192,7 +190,7 @@ namespace ft
 		void resize(size_type n, value_type val = value_type())
 		{
 			if (n == 0)
-				clear();
+				clear_dealloc();
 			else if (n < _n)
 			{
 				iterator first(_first + n);
@@ -209,7 +207,7 @@ namespace ft
 		{
 			size_type size = last - first;
 			if (!size)
-				clear();
+				clear_dealloc();
 			else
 			{
 				if (size <= _c)
@@ -227,7 +225,7 @@ namespace ft
 				{
 					if (capacity_error(_n))
 						return;
-					clear();
+					clear_dealloc();
 					_first = _alloc.allocate(size + 1);
 					_ptr = _first;
 					while (first != last)
@@ -242,7 +240,7 @@ namespace ft
 		void assign(size_type n, const value_type & val)
 		{
 			if (!n)
-				clear();
+				clear_dealloc();
 			else
 			{
 				if (n <= _c)
@@ -263,7 +261,7 @@ namespace ft
 				{
 					if (capacity_error(_n))
 						return;
-					clear();
+					clear_dealloc();
 					_first = _alloc.allocate(n + 1);
 					_ptr = _first;
 					for (size_type i = 0; i < n; i++)
@@ -278,7 +276,12 @@ namespace ft
 		void push_back(const value_type & val)
 		{
 			if (_n + 1 <= _c)
-				_alloc.construct(++_last, val);
+			{
+				if (!_n)
+					_alloc.construct(_last, val);
+				else
+					_alloc.construct(++_last, val);
+			}
 			else
 			{
 				size_type n = _n * _capacityFactor;
@@ -292,7 +295,7 @@ namespace ft
 					_alloc.destroy(&*old_first++);
 				}
 				size_type size = _n;
-				clear();
+				clear_dealloc();
 				_first = new_first;
 				_last = --_ptr;
 				_n = size;
@@ -333,7 +336,7 @@ namespace ft
 				while (it != _last + 1)
 					_alloc.construct(_ptr++, *it++);
 				size_type n = _n;
-				clear();
+				clear_dealloc();
 				_c = n * _capacityFactor;
 				_n = n + 1;
 				_last = _ptr - 1;
@@ -365,7 +368,8 @@ namespace ft
 				assign(n, val);
 			else if (_n + n > _c)
 			{
-				size_type c = _n + n;
+				size_type c;
+				_n + n > _c * _capacityFactor ? c = _n + n : c = _c * _capacityFactor;
 				if (capacity_error(c))
 					return;
 				_ptr = _alloc.allocate(c + 1);
@@ -378,7 +382,7 @@ namespace ft
 				while (it != _last + 1)
 					_alloc.construct(_ptr++, *it++);
 				size_type s = _n;
-				clear();
+				clear_dealloc();
 				_c = c;
 				_n = s + n;
 				_last = _ptr - 1;
@@ -392,18 +396,25 @@ namespace ft
 				size_type index = get_index(position);
 				size_type dist = _last - position + 1;
 				size_type new_index;
+				pointer shift;
 				for (size_type i = 0; i < dist; i++)
 				{
 					new_index = index + n + i;
-					_alloc.destroy(_first + new_index);
-					_alloc.construct(_first + new_index, *(it_cpy + new_index - n));
+					shift = _first + new_index;
+					_alloc.destroy(shift);
+					_alloc.construct(shift, *(it_cpy + new_index - n));
 				}
+				if (dist)
+					_last = shift;
 				for (size_type i = 0; i < n; i++)
 				{
-					_alloc.destroy(&_first[get_index(position)]);
-					_alloc.construct(&_first[get_index(position++)], val);
+					shift = &_first[get_index(position)];
+					_alloc.destroy(shift);
+					_alloc.construct(shift, val);
+					position++;
 				}
-				_last = _first + new_index;
+				if (!dist)
+					_last = shift;
 				_n += n;
 			}
 		}
@@ -414,10 +425,11 @@ namespace ft
 		{
 			size_type n = last - first;
 			if (!_n && position == _first)
-				assign(first, last);			// GENERE UN LEAK
+				assign(first, last);
 			else if (_n + n > _c)
 			{
-				size_type c = _c * _capacityFactor;
+				size_type c;
+				_n + n > _c * _capacityFactor ? c = _n + n : c = _c * _capacityFactor;
 				if (capacity_error(c))
 					return;
 				_ptr = _alloc.allocate(c + 1);
@@ -430,8 +442,8 @@ namespace ft
 				while (it != _last + 1)
 					_alloc.construct(_ptr++, *it++);
 				size_type s = _n;
-				clear();
-				_c += c;
+				clear_dealloc();
+				_c = c;
 				_n = s + n;
 				_last = _ptr - 1;
 				_first = f;
@@ -444,18 +456,25 @@ namespace ft
 				size_type index = get_index(position);
 				size_type dist = _last - position + 1;
 				size_type new_index;
+				pointer shift;
 				for (size_type i = 0; i < dist; i++)
 				{
 					new_index = index + n + i;
-					_alloc.destroy(_first + new_index);
-					_alloc.construct(_first + new_index, *(it_cpy + new_index - n));
+					shift = _first + new_index;
+					_alloc.destroy(shift);
+					_alloc.construct(shift, *(it_cpy + new_index - n));
 				}
+				if (dist)
+					_last = shift;
 				for (size_type i = 0; i < n; i++)
 				{
-					_alloc.destroy(&_first[get_index(position)]);
-					_alloc.construct(&_first[get_index(position++)], *first++);
+					shift = &_first[get_index(position)];
+					_alloc.destroy(shift);
+					_alloc.construct(shift, *first++);
+					position++;
 				}
-				_last = _first + new_index;
+				if (!dist)
+					_last = shift;
 				_n += n;
 			}
 		}
@@ -502,10 +521,10 @@ namespace ft
 			size_type c = _c;
 			pointer f = _first;
 			pointer l = _last;
-			_n = x.size();
-			_c = x.capacity();
-			_first = x.data();
-			_last = &x.back();
+			_n = x._n;
+			_c = x._c;
+			_first = x._first;
+			_last = x._last;
 			x._n = n;
 			x._c = c;
 			x._first = f;
@@ -514,16 +533,12 @@ namespace ft
 
 		void clear()
 		{
-			// vector<T> x;
-			// swap(x);
 			if (_n != 0)
 			{
 				for (size_type i = 0; i < _n; i++)
 					_alloc.destroy(_first + i);
-				_alloc.deallocate(_first, _c + 1);
 				_last = _first;
 				_n = 0;
-				_c = 0;
 			}
 		}
 
@@ -550,6 +565,19 @@ namespace ft
 				return true;
 			}
 			return false;
+		}
+
+		void clear_dealloc()
+		{
+			if (_n != 0)
+			{
+				for (size_type i = 0; i < _n; i++)
+					_alloc.destroy(_first + i);
+				_alloc.deallocate(_first, _c + 1);
+				_last = _first;
+				_n = 0;
+				_c = 0;
+			}
 		}
 	};
 

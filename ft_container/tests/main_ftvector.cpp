@@ -24,7 +24,7 @@ int main()
 	v5 = v6;
 	ft::vector_details(v5);
 	v5 = v1;
-	ft::vector_details(v5);
+	ft::vector_details(v5);												// NE COPIE PAS LA CAPACITE
 	v1 = v6;
 	ft::vector_details(v1);
 
@@ -177,15 +177,15 @@ int main()
 	v401.insert(v401.begin(),3,1);
 	v401.insert(v401.end(),3,3);
 	v401.insert(v401.end(),4,4);
-	ft::vector_details(v401);
+	vector_details(v401);
 	v401.clear();
 	v401.insert(v401.begin(),3,1);
 	v401.insert(v401.end(),3,2);
-	ft::vector_details(v401);
+	vector_details(v401);
 	v401.insert(v401.begin()+3,3,5);
-	ft::vector_details(v401);
+	vector_details(v401);
 	v401.insert(v401.end() - 1,3,2);
-	ft::vector_details(v401);
+	vector_details(v401); 
 	// #3
 	ft::vector<int> v402;
 	ft::vector<int> v403;
