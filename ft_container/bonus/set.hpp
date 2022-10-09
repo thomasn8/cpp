@@ -79,8 +79,8 @@ namespace ft
 		{
 			if (size())
 				_rbt->free_tree();
-			const_iterator it = x.begin();
-			const_iterator ite = x.end();
+			const_iterator it = x.cbegin();
+			const_iterator ite = x.cend();
 			while (it != ite)
 			{
 				_ptr = _alloc.allocate(1);
@@ -235,17 +235,17 @@ namespace ft
 			const node * pos = _rbt->search(k);
 			if (!pos)
 				return ft::make_pair<iterator,iterator>(upper_bound(k), upper_bound(k));
-			iterator up(_rbt->get_next(pos).key(), &_rbt->_past_end_node, _rbt);
+			iterator up(_rbt->get_next(pos)->key(), &_rbt->_past_end_node, _rbt);
 			return ft::make_pair<iterator,iterator>(lower_bound(k), up);
 		}
 		iterator lower_bound(const key_type & k)
 		{
-			const node * low = _rbt->search_lower(k);
+			const node * low = _rbt->search_bound(k, 'l');
 			return iterator(low->key(), low, _rbt);
 		}
 		iterator upper_bound(const key_type & k)
 		{
-			const node * up = _rbt->search_upper(k);
+			const node * up = _rbt->search_bound(k, 'u');
 			return iterator(up->key(), up, _rbt);
 		}
 

@@ -207,7 +207,12 @@ namespace ft
 	// MODIFIERS
 		void clear() { _rbt->free_tree();}
 
-		void swap(map & x) { rbt * tmp = _rbt; _rbt = x._rbt; x._rbt = tmp; }
+		void swap(map & x) 
+		{ 
+			rbt * tmp = _rbt;
+			_rbt = x._rbt;
+			x._rbt = tmp;
+		}
 
 		pair<iterator,bool> insert(const value_type & val)
 		{
@@ -295,7 +300,7 @@ namespace ft
 			const node * pos = _rbt->search(k);
 			if (!pos)
 				return ft::make_pair<iterator,iterator>(upper_bound(k), upper_bound(k));
-			iterator up(_rbt->get_next(pos).key_val(), &_rbt->_past_end_node, _rbt);
+			iterator up(_rbt->get_next(pos)->key_val(), &_rbt->_past_end_node, _rbt);
 			return ft::make_pair<iterator,iterator>(lower_bound(k), up);
 		}
 		pair<const_iterator,const_iterator> equal_range(const key_type & k) const
@@ -308,22 +313,22 @@ namespace ft
 		}
 		iterator lower_bound(const key_type & k)
 		{
-			const node * low = _rbt->search_lower(k);
+			const node * low = _rbt->search_bound(k, 'l');
 			return iterator(low->key_val(), low, _rbt);
 		}
 		const_iterator lower_bound(const key_type & k) const
 		{
-			const node * low = _rbt->search_lower(k);
+			const node * low = _rbt->search_bound(k, 'l');
 			return const_iterator(low->key_val(), low, _rbt);
 		}
 		iterator upper_bound(const key_type & k)
 		{
-			const node * up = _rbt->search_upper(k);
+			const node * up = _rbt->search_bound(k, 'u');
 			return iterator(up->key_val(), up, _rbt);
 		}
 		const_iterator upper_bound(const key_type & k) const
 		{
-			const node * up = _rbt->search_upper(k);
+			const node * up = _rbt->search_bound(k, 'u');
 			return iterator(up->key_val(), up, _rbt);
 		}
 

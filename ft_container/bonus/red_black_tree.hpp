@@ -157,7 +157,7 @@ namespace ft
 			}
 			return NULL;
 		}
-		const node * search_lower(const Key & key) const
+		const node * search_bound(const Key & key, const char type) const
 		{
 			node * root = _root;
 			const node * last_low = &_past_end_node;
@@ -178,42 +178,12 @@ namespace ft
 					else
 						return last_low;
 				}
-				else
+				else if (type == 'l')
 					return root;
+				else if (type == 'u')
+					return last_low;
 			}
 			return last_low;
-		}
-		const node * search_upper(const Key & key) const
-		{
-			node * root = _root;
-			const node * last_up = &_past_end_node;
-			Key last = *(get_right_most(_root)->key());
-			while (root)
-			{
-				if (_comp.comp(key, *root->key()))
-				{
-					if (root->left())
-						root = root->left();
-					else
-						return last_up;
-				}
-				else if (_comp.comp(*root->key(), key))
-				{
-					last_up = root;
-					if (root->right())
-						root = root->right();
-					else
-					{
-						if (*last_up->key() == last)
-							return &_past_end_node;
-						else
-							return get_next(root);
-					}
-				}
-				else
-					return get_next(root);
-			}
-			return last_up;
 		}
 
 	// INSERTION
