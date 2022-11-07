@@ -1,4 +1,5 @@
 SRCS		=		main.cpp \
+					Num.cpp
 
 OBJS		= ${SRCS:.cpp=.o}
 CC			= c++

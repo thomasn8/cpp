@@ -15,23 +15,7 @@ class Array
 
 		unsigned int size() const { return this->_n; }
 
-		T getFirst() const
-		{
-			if (this->_n > 0)
-				return this->_array[0];
-			return 0;
-		}
-
-		class InaccessibleIndex : public std::exception
-		{
-			public:
-				virtual const char* what() const throw()
-				{
-					return ("index out of array");
-				}
-		};
-
-		T & operator[](unsigned int index)
+		T & operator[](unsigned int index) const
 		{
 			try
 			{
@@ -55,6 +39,8 @@ class Array
 		{
 			this->_n = src.size();
 			this->_array = new T[src.size()];
+			for (unsigned int i = 0; i < src.size(); i++)
+				this->_array[i] = src[i];
 			std::cout << "(" << this << " - assign.) Array (" << &src << ") copied" << std::endl;
 			return *this;
 		}
@@ -63,6 +49,8 @@ class Array
 		_n(src.size())
 		{
 			this->_array = new T[src.size()];
+			for (unsigned int i = 0; i < src.size(); i++)
+				this->_array[i] = src[i];
 			std::cout << "(" << this << " - copy) Array created" << std::endl;
 		}
 
@@ -89,6 +77,11 @@ class Array
 	private:
 		T *_array;
 		unsigned int _n;
+		class InaccessibleIndex : public std::exception
+		{
+			public:
+				virtual const char* what() const throw() { return ("index out of array"); }
+		};
 };
 
 template<typename T>

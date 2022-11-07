@@ -2,6 +2,7 @@
 
 int main()
 {
+	std::cout << std::endl;
 	Array<> empty_array;	// (fonctionne que si on précise un default type dans le template)
 	std::cout << empty_array << std::endl;
 	// empty_array[0] = 1;											// Tentative d'accès à de la mémoire non-attribuée
@@ -18,6 +19,22 @@ int main()
 	std::cout << "int_array[2] = " << int_array[2] << std::endl;
 	int_array[2] = 3;
 	std::cout << "int_array[2] = " << int_array[2] << std::endl;
+	std::cout << std::endl;
+
+	Array<int> int_array_cpy(int_array);
+	for (unsigned int i = 0; i < int_array_cpy.size(); i++)
+		std::cout << "int_array_cpy[" << i << "] = " << int_array_cpy[i] << std::endl;
+	Array<int> int_array_cpy_2 = int_array;
+	for (unsigned int i = 0; i < int_array_cpy_2.size(); i++)
+		std::cout << "int_array_cpy_2[" << i << "] = " << int_array_cpy_2[i] << std::endl;
+	std::cout << std::endl;
+
+	std::cout << "int_array[1] = " << int_array[1] << std::endl;
+	int_array[1] = 10;
+	std::cout << "Index 1 modified in original int_array: 2 -> 10 " << std::endl;
+	std::cout << "int_array[1] = " << int_array[1] << std::endl;
+	std::cout << "Shouldn't affect int_array_cpy: " << std::endl;
+	std::cout << "int_array_cpy[1] = " << int_array_cpy[1] << std::endl;
 	std::cout << std::endl;
 	
 	Array<float> float_array = Array<float>(2);
@@ -38,9 +55,9 @@ int main()
 	std::cout << "char_array[3] = " << char_array[2] << std::endl;
 	char_array[2] = 'c';
 	std::cout << "char_array[3] = " << char_array[2] << std::endl;
-	std::cout << "char_array[5] = " << char_array[5] << std::endl;	// Tentative d'accès à de la mémoire non-attribuée
-	char_array[5] = 'f';
-	std::cout << "char_array[5] = " << char_array[5] << std::endl;
+	// std::cout << "char_array[5] = " << char_array[5] << std::endl;	// Tentative d'accès à de la mémoire non-attribuée
+	// char_array[5] = 'f';												// Tentative d'accès à de la mémoire non-attribuée
+	// std::cout << "char_array[5] = " << char_array[5] << std::endl;	// Tentative d'accès à de la mémoire non-attribuée
 	std::cout << std::endl;
 	
 	return 0;
