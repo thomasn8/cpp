@@ -140,7 +140,7 @@ namespace ft
 		size_type size() const 			{ return _n; }
 		bool empty() const 				{ return bool(!_n); }
 		size_type capacity() const		{ return _c; }
-		size_type max_size() const		{ return _alloc.max_size(); }
+		long unsigned max_size() const	{ return _alloc.max_size(); }
 		
 		void shrink_to_fit()
 		{
