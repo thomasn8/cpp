@@ -5,7 +5,7 @@
 #include <stdexcept>
 #include "iterators.hpp"
 #include "utils.hpp"
-
+#include <iostream>
 namespace ft
 {
 	template <typename T, typename Alloc = std::allocator<T> >
@@ -15,6 +15,7 @@ namespace ft
 	// MEMBER TYPES
 		typedef T 												value_type;
 		typedef unsigned int 									size_type;
+		typedef long int 										size_type2;
 		typedef std::allocator<value_type> 						allocator_type;
 		typedef typename allocator_type::reference 				reference;			// T &
 		typedef typename allocator_type::const_reference 		const_reference;	// const T &
@@ -30,10 +31,15 @@ namespace ft
 		explicit vector(const allocator_type & alloc = allocator_type()) :
 			_alloc(alloc), _n(0), _c(0), _capacityFactor(2), _first(NULL), _last(NULL) {}
 
-		explicit vector(size_type n, const value_type & val = value_type(),
+		explicit vector(size_type2 n, const value_type & val = value_type(),
 			const allocator_type & alloc = allocator_type()) :
 			_alloc(alloc), _n(n), _c(n), _capacityFactor(2), _first(NULL), _last(NULL)
 		{
+			if (n < 0)
+			{
+				throw std::exception();
+				return;
+			}
 			if (capacity_error(n))
 				return;
 			if (_n)
@@ -54,6 +60,11 @@ namespace ft
 		{
 			_n = last - first;
 			_c = _n;
+			if (last - first < 0)
+			{
+				throw std::exception();
+				return;
+			}
 			if (capacity_error(_c))
 				return;
 			if (_n)
