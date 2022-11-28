@@ -92,11 +92,9 @@ namespace ft
 			return *this;
 		}
 
-		~map()
-		{ 
-			// _rbt->print_tree();
-			clear();
-		}
+		~map() { clear(); }
+
+		void print_tree() const { _rbt->print_tree(); }
 
 	// ITERATORS
 		iterator begin() 
