@@ -36,7 +36,6 @@ int main()
 	ft::vector_details(v10);
 	std::cout << "v10[0] = " << v10[0] << std::endl;
 	std::cout << "v10[9] = " << v10[9] << std::endl;
-	std::cout << "v10[10] = " << v10[10] << std::endl;
 	std::cout << "front() = " << v10.front() << std::endl;
 	std::cout << "back() = " << v10.back() << std::endl;
 	std::cout << "data() = " << &*v10.data() << " = " << *v10.data() << std::endl;

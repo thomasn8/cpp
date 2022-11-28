@@ -268,8 +268,14 @@ namespace ft
 		}
 		void erase(iterator first, iterator last)
 		{
+			iterator next;
 			while (first != last)
-				erase(first++);
+			{
+				next = ++first;
+				--first;
+				erase(first);
+				first = next;
+			}
 		}
 
 	// OBSERVERS
