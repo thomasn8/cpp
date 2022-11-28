@@ -24,7 +24,7 @@ int main()
 	v5 = v6;
 	ft::vector_details(v5);
 	v5 = v1;
-	ft::vector_details(v5);												// NE COPIE PAS LA CAPACITE
+	ft::vector_details(v5);
 	v1 = v6;
 	ft::vector_details(v1);
 
@@ -274,14 +274,26 @@ int main()
 
 	// ************************************************************
 	// ****************** VECTOR ADVANCED (EVAL) ******************
+	
 	const ft::vector<int> bar2 (2,200);
 	ft::vector<int>::iterator comp1 = foo.begin();
 	ft::vector<int>::const_iterator comp2 = bar2.begin();
-	// if (comp1 > comp2)
+	
 	if (comp2 > comp1)
 		std::cout << "yes" << std::endl;
 	else
 		std::cout << "no" << std::endl;
+	
+	ft::vector<int> container1(5,5);
+	ft::vector<int> container2(10,10);
+	ft::vector<int>::iterator it1 = container1.begin();
+	ft::vector<int>::iterator it2 = container2.begin();
+	std::cout << "CONTAINER 1: " << &*container1.begin() << "->" << *container1.begin() << " = " << &*it1 << "->" << *it1 << std::endl;
+	std::cout << "CONTAINER 2: "  << &*container2.begin() << "->" << *container2.begin() << " = " << &*it2 << "->" << *it2 << std::endl;
+	std::cout << "swap " << std::endl;
+	ft::swap(container1,container2);
+	std::cout << "CONTAINER 1: " << &*container1.begin() << "->" << *container1.begin() << " = " << &*it2 << "->" << *it2 << std::endl;
+	std::cout << "CONTAINER 2: " << &*container2.begin() << "->" << *container2.begin() << " = " << &*it1 << "->" << *it1 << std::endl;
 
 	return 0;
 }
