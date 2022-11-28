@@ -10,61 +10,33 @@ int main()
 	// ************************************************************
 	// ********************** TESTS FT::PAIR **********************
 
-	// 	ft::pair<int, char> p1;
-	// 	std::cout << "Paire1: ";
-	// 	std::cout << "	#1 = " << p1._first << "	";
-	// 	std::cout << "	#2 = " << p1._second << std::endl;
-	// 	ft::pair<int, Test> p2(p1);
-	// 	std::cout << "Paire2 ";
-	// 	std::cout << "	#1 = " << p2._first << "	";
-	// 	std::cout << "	#2 = " << p2._second << std::endl;
-	// 	ft::pair<int, float> p3(1, 4.31f);
-	// 	std::cout << "Paire3 ";
-	// 	std::cout << "	#1 = " << p3._first << "	";
-	// 	std::cout << "	#2 = " << p3._second << std::endl;
-	// 	ft::pair<int, Test> p4(p3);
-	// 	std::cout << "Paire4 ";
-	// 	std::cout << "	#1 = " << p4._first << "	";
-	// 	std::cout << "	#2 = " << p4._second << std::endl;
-	// 	ft::pair<char, Test> p5;
-	// 	std::cout << "Paire5 ";
-	// 	std::cout << "	#1 = " << p5._first << "	";
-	// 	std::cout << "	#2 = " << p5._second << std::endl;
-	// 	ft::pair<float, char> p6 = p3;
-	// 	std::cout << "Paire6 ";
-	// 	std::cout << "	#1 = " << p6._first << "	";
-	// 	std::cout << "	#2 = " << p6._second << std::endl;
-	// 	ft::pair<float, float> p7 = ft::make_pair<float,float>(1.1f,2.2f);
-	// 	std::cout << "Paire7 ";
-	// 	std::cout << "	#1 = " << p7._first << "	";
-	// 	std::cout << "	#2 = " << p7._second << std::endl;
-	// 	ft::make_pair<float,float>(1.1f,2.2f);
-		
-	// 	std::cout << std::endl;
-	// 	p2.swap(p4);
-	// 	std::cout << "Paire2 ";
-	// 	std::cout << "	#1 = " << p2._first << "	";
-	// 	std::cout << "	#2 = " << p2._second << std::endl;
-	// 	std::cout << "Paire4 ";
-	// 	std::cout << "	#1 = " << p4._first << "	";
-	// 	std::cout << "	#2 = " << p4._second << std::endl;
-	// 	ft::swap(p2, p4);
-	// 	std::cout << "Paire2 ";
-	// 	std::cout << "	#1 = " << p2._first << "	";
-	// 	std::cout << "	#2 = " << p2._second << std::endl;
-	// 	std::cout << "Paire4 ";
-	// 	std::cout << "	#1 = " << p4._first << "	";
-	// 	std::cout << "	#2 = " << p4._second << std::endl;
+	ft::pair<int, char> p1;
+	std::cout << "Paire1 ";
+	std::cout << "	#1 = " << p1.first << "	";
+	std::cout << "	#2 = " << p1.second << std::endl;
+	ft::pair<int, float> p3(1, 4.31f);
+	std::cout << "Paire3 ";
+	std::cout << "	#1 = " << p3.first << "	";
+	std::cout << "	#2 = " << p3.second << std::endl;
+	ft::pair<float, char> p6 = p3;
+	std::cout << "Paire6 ";
+	std::cout << "	#1 = " << p6.first << "	";
+	std::cout << "	#2 = " << p6.second << std::endl;
+	ft::pair<float, float> p7 = ft::make_pair<float,float>(1.1f,2.2f);
+	std::cout << "Paire7 ";
+	std::cout << "	#1 = " << p7.first << "	";
+	std::cout << "#2 = " << p7.second << std::endl;
+	ft::make_pair<float,float>(1.1f,2.2f);
 
-	// 	std::cout << std::endl;
-	// 	ft::pair<int,char> foo2(10,'z');
-	// 	ft::pair<int,char> bar2(90,'a');
-	// 	if (foo2==bar2) std::std::cout << "foo and bar are equal\n";
-	// 	if (foo2!=bar2) std::std::cout << "foo and bar are not equal\n";
-	// 	if (foo2< bar2) std::std::cout << "foo is less than bar\n";
-	// 	if (foo2> bar2) std::std::cout << "foo is greater than bar\n";
-	// 	if (foo2<=bar2) std::std::cout << "foo is less than or equal to bar\n";
-	// 	if (foo2>=bar2) std::std::cout << "foo is greater than or equal to bar\n";
+	std::cout << std::endl;
+	ft::pair<int,char> foo2(10,'z');
+	ft::pair<int,char> bar2(90,'a');
+	if (foo2==bar2) std::cout << "foo and bar are equal\n";
+	if (foo2!=bar2) std::cout << "foo and bar are not equal\n";
+	if (foo2< bar2) std::cout << "foo is less than bar\n";
+	if (foo2> bar2) std::cout << "foo is greater than bar\n";
+	if (foo2<=bar2) std::cout << "foo is less than or equal to bar\n";
+	if (foo2>=bar2) std::cout << "foo is greater than or equal to bar\n";
 
 	// ************************************************************
 	// ********************** TESTS FT::MAP ***********************
@@ -112,10 +84,10 @@ int main()
 
 	ft::map<char,int> ft4 = ft2;
 	ft::map_details(ft4);
-	ft::pair<char,int> p1;
-	ft::pair<char,int> p2;
-	ft4.insert(p1);
-	ft4.insert(p2);
+	ft::pair<char,int> pr1;
+	ft::pair<char,int> pr2;
+	ft4.insert(pr1);
+	ft4.insert(pr2);
 	ft4.insert(ft::make_pair<char,int>('y',1));
 	ft4.insert(ft::make_pair<char,int>('z',1000));
 	ft::map_details(ft4);
